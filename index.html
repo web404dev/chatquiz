@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>채팅 퀴즈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=101" />
+</head>
+<body>
+  <div class="stage">
+    <div id="broadcastCropGuide" class="broadcast-crop-guide">
+      <div class="broadcast-crop-frame" aria-hidden="true"></div>
+      <p class="broadcast-crop-label">---- 방송에 노출 되어야 하는곳 ----</p>
+    </div>
+    <section class="broadcast">
+      <button type="button" id="quitRoundBtn" class="broadcast-quit" hidden aria-label="한 판 종료">×</button>
+      <div class="broadcast-hud" id="broadcastHud">
+        <div class="hud-round" title="라운드">
+          <svg class="hud-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h10v2H4v-2z"/></svg>
+          <span id="roundLabel">0/10</span>
+        </div>
+        <div class="hud-timer" title="남은 시간">
+          <svg class="hud-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm.5-13H11v6l5.2 3.1.8-1.3-4.5-2.7z"/></svg>
+          <div class="timer-track" aria-hidden="true"><div id="timerBar" class="timer-bar"></div></div>
+          <span id="timerSec" class="timer-sec">0</span>
+        </div>
+        <p id="winner" class="hud-winner"></p>
+      </div>
+      <div id="drawHintBar" class="draw-hint-bar" hidden>
+        <div id="drawHintSlots" class="draw-hint-slots" aria-label="그림 힌트"></div>
+      </div>
+      <p id="genreHintLine" class="genre-hint-line" hidden></p>
+      <p id="countdown" class="countdown" hidden aria-live="assertive"></p>
+      <div id="broadcastLobby" class="broadcast-lobby">
+        <div class="broadcast-lobby-card">
+          <div id="lobbyAuthBlock" class="setup-block lobby-auth">
+            <h2 class="panel-title">치지직 연결</h2>
+            <p class="lobby-auth-desc">로그인하면 내 채널 채팅이 연결됩니다.</p>
+            <button id="loginBtn" type="button" class="lobby-login-btn">치지직 로그인</button>
+          </div>
+          <div id="roundSettingsBlock" class="setup-block" hidden>
+            <h2 class="panel-title">한 판 설정</h2>
+            <div class="setup-steppers">
+              <div class="stepper">
+                <span class="stepper-label">제한시간</span>
+                <div class="stepper-controls">
+                  <button type="button" id="secondsMinus" aria-label="시간 감소">−</button>
+                  <strong id="secondsLabel">30초</strong>
+                  <button type="button" id="secondsPlus" aria-label="시간 증가">+</button>
+                </div>
+              </div>
+              <div class="stepper">
+                <span class="stepper-label">문제 수</span>
+                <div class="stepper-controls">
+                  <button type="button" id="questionsMinus" aria-label="문제 수 감소">−</button>
+                  <strong id="questionsLabel">10문제</strong>
+                  <button type="button" id="questionsPlus" aria-label="문제 수 증가">+</button>
+                </div>
+              </div>
+            </div>
+            <input id="seconds" type="hidden" value="30" />
+            <input id="questionCount" type="hidden" value="10" />
+          </div>
+          <div id="questionSettingsBlock" class="setup-block" hidden>
+            <h2 class="panel-title">이번 문제</h2>
+            <div class="row row-compact quiz-axes">
+              <div class="axis">
+                <span class="axis-label">유형</span>
+                <div class="seg" id="formatSeg" role="group" aria-label="유형">
+                  <button type="button" class="seg-btn active" data-format="chosung">초성</button>
+                  <button type="button" class="seg-btn" data-format="draw">그림</button>
+                </div>
+              </div>
+              <div class="axis">
+                <span class="axis-label">주제</span>
+                <div class="seg" id="topicSeg" role="group" aria-label="주제">
+                  <button type="button" class="seg-btn active" data-topic="auto">자동</button>
+                  <button type="button" class="seg-btn" data-topic="manual">수동</button>
+                </div>
+              </div>
+              <div class="hint-opt">
+                <label class="check">
+                  <input id="hintEnabled" type="checkbox" />
+                  시간 힌트
+                </label>
+                <span class="hint-info" id="hintInfo" tabindex="0" aria-label="시간 힌트 설명" aria-describedby="hintInfoPop">
+                  <span class="hint-info-btn" aria-hidden="true">i</span>
+                </span>
+              </div>
+            </div>
+            <p id="manualAnswerHint" class="manual-answer-hint" hidden>조작창에 정답을 입력해 주세요</p>
+            <div id="autoWordFields" class="auto-word-fields">
+              <div class="auto-word-row">
+                <div class="auto-word-block auto-word-len">
+                  <div class="auto-word-label">글자 수 <span id="wordLenSummary">2–4</span></div>
+                  <div class="len-range" aria-label="글자 수 범위">
+                    <strong id="wordMinLabel" class="len-num">2</strong>
+                    <div id="wordLenSlider" class="len-slider" role="group">
+                      <div class="len-rail" aria-hidden="true"></div>
+                      <div id="wordLenFill" class="len-fill" aria-hidden="true"></div>
+                      <button type="button" id="wordMinThumb" class="len-thumb" role="slider" aria-label="최소 글자" aria-valuemin="1" aria-valuemax="8" aria-valuenow="2"></button>
+                      <button type="button" id="wordMaxThumb" class="len-thumb" role="slider" aria-label="최대 글자" aria-valuemin="1" aria-valuemax="8" aria-valuenow="4"></button>
+                    </div>
+                    <strong id="wordMaxLabel" class="len-num">4</strong>
+                  </div>
+                </div>
+                <div class="auto-word-block auto-word-genre">
+                  <div class="auto-word-label">
+                    장르
+                    <label class="genre-reveal-check">
+                      <input id="hintGenreEnabled" type="checkbox" />
+                      공개
+                    </label>
+                    <span class="hint-info" id="genreInfo" tabindex="0" aria-label="장르 공개 설명" aria-describedby="genreInfoPop">
+                      <span class="hint-info-btn" aria-hidden="true">i</span>
+                    </span>
+                  </div>
+                  <div id="wordGenreMenu" class="genre-menu">
+                    <button id="wordGenreToggle" type="button" class="genre-toggle" aria-expanded="false" aria-haspopup="dialog">
+                      <span id="wordGenreSummary">🎲 전체</span>
+                      <span class="genre-caret" aria-hidden="true">▾</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="streamerJoinOpt" class="streamer-join-opt" hidden>
+              <label class="check">
+                <input id="streamerJoin" type="checkbox" />
+                스트리머 참여
+              </label>
+              <span class="hint-info" id="streamerJoinInfo" tabindex="0" aria-label="스트리머 참여 설명" aria-describedby="streamerJoinInfoPop">
+                <span class="hint-info-btn" aria-hidden="true">i</span>
+              </span>
+            </div>
+          </div>
+          <div id="setupStartRow" class="actions setup-start" hidden>
+            <button id="startBtn" type="button">게임 시작</button>
+          </div>
+        </div>
+      </div>
+      <div id="genreModal" class="genre-modal" hidden>
+        <div class="genre-modal-backdrop" data-genre-close="1"></div>
+        <div class="genre-modal-card" role="dialog" aria-modal="true" aria-labelledby="genreModalTitle">
+          <div class="genre-modal-head">
+            <h3 id="genreModalTitle">장르 선택</h3>
+            <button type="button" id="genreModalClose" class="genre-modal-x" aria-label="닫기">×</button>
+          </div>
+          <div id="wordGenrePanel" class="genre-modal-list" role="listbox" aria-multiselectable="true"></div>
+          <button type="button" id="genreModalApply" class="genre-modal-apply">등록</button>
+        </div>
+      </div>
+
+      <div id="endConfirmModal" class="end-confirm-modal" hidden>
+        <div class="end-confirm-backdrop" data-end-close="1"></div>
+        <div class="end-confirm-card" role="dialog" aria-modal="true" aria-labelledby="endConfirmTitle">
+          <p id="endConfirmTitle" class="end-confirm-msg">게임을 종료 하시겠습니까?</p>
+          <div class="end-confirm-actions">
+            <button type="button" id="endConfirmCancel">취소</button>
+            <button type="button" id="endConfirmOk" class="danger">종료</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="prompt" class="caption" hidden></p>
+      <div id="podium" class="podium" hidden>
+        <p class="podium-title">최종 순위</p>
+        <div class="podium-row" aria-label="시상 단">
+          <div class="podium-slot" data-place="5">
+            <p class="podium-name">—</p>
+            <p class="podium-score"></p>
+            <div class="podium-block"><span class="podium-rank">5</span></div>
+          </div>
+          <div class="podium-slot" data-place="3">
+            <p class="podium-name">—</p>
+            <p class="podium-score"></p>
+            <div class="podium-block"><span class="podium-rank">3</span></div>
+          </div>
+          <div class="podium-slot" data-place="1">
+            <p class="podium-name">—</p>
+            <p class="podium-score"></p>
+            <div class="podium-block"><span class="podium-rank">1</span></div>
+          </div>
+          <div class="podium-slot" data-place="2">
+            <p class="podium-name">—</p>
+            <p class="podium-score"></p>
+            <div class="podium-block"><span class="podium-rank">2</span></div>
+          </div>
+          <div class="podium-slot" data-place="4">
+            <p class="podium-name">—</p>
+            <p class="podium-score"></p>
+            <div class="podium-block"><span class="podium-rank">4</span></div>
+          </div>
+        </div>
+        <button type="button" id="podiumConfirm" class="podium-confirm">확인</button>
+      </div>
+      <div id="revealActions" class="reveal-actions" hidden>
+        <button type="button" id="continueOverlay" class="continue-overlay">계속</button>
+        <button type="button" id="nextSetupOverlay" class="next-setup-overlay">다음 문제</button>
+      </div>
+      <div id="paintWrap" class="paint-wrap" hidden>
+        <div class="paint-stage">
+          <canvas id="draw" width="1280" height="720"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side-rail" aria-label="방송 사이드">
+      <section class="side-panel side-rank" aria-label="점수 상위 5명">
+        <ol id="board" class="board-list">
+          <li data-rank="1"><span class="rank-num">1</span><span class="rank-name">—</span><span class="rank-score"></span></li>
+          <li data-rank="2"><span class="rank-num">2</span><span class="rank-name">—</span><span class="rank-score"></span></li>
+          <li data-rank="3"><span class="rank-num">3</span><span class="rank-name">—</span><span class="rank-score"></span></li>
+          <li data-rank="4"><span class="rank-num">4</span><span class="rank-name">—</span><span class="rank-score"></span></li>
+          <li data-rank="5"><span class="rank-num">5</span><span class="rank-name">—</span><span class="rank-score"></span></li>
+        </ol>
+      </section>
+      <section class="side-panel side-chat" aria-label="채팅창">
+        <p id="chatConnStatus" class="chat-conn-status">연결되지 않았습니다</p>
+        <ul id="chatList" class="chat-list" aria-live="polite"></ul>
+      </section>
+      <section id="sideCam" class="side-panel side-cam" aria-label="스트리머 캠">
+        <div class="side-placeholder">스트리머 캠</div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="desk">
+    <div id="deskTopBar" class="desk-top-bar" hidden>
+      <button id="skipBtn" type="button" hidden>스킵</button>
+      <p id="answerPlayingText" class="answer-playing-text" hidden>이번 정답 :</p>
+    </div>
+
+    <div id="answerPanel" class="panel panel-answer" hidden>
+      <div id="answerEditor" class="answer-editor">
+        <span class="answer-inline-label">이번 정답</span>
+        <input id="answer" autocomplete="off" placeholder="시청자에게 안 보이는 정답" />
+        <button type="button" id="answerActionBtn">제출</button>
+      </div>
+    </div>
+
+    <div id="drawPanel" class="panel panel-paint" hidden>
+      <h2 class="panel-title">그림 도구</h2>
+      <div class="paint-dock">
+        <div class="paint-cluster" aria-label="브러시">
+          <span class="paint-cluster-label">브러시</span>
+          <div class="paint-cluster-body">
+            <div class="tool-slot">
+              <button id="penBtn" type="button" class="tool-btn icon-btn active" title="펜" aria-label="펜">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92L5.92 19.58zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+              </button>
+              <span class="tool-key">B</span>
+            </div>
+            <div class="tool-slot">
+              <button id="eraser" type="button" class="tool-btn icon-btn" title="지우개" aria-label="지우개">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <g transform="rotate(-40 12 12)">
+                    <rect x="7" y="4" width="10" height="14" rx="2" fill="currentColor"/>
+                    <rect x="7" y="14" width="10" height="4" rx="1" fill="currentColor" opacity=".4"/>
+                    <path fill="none" stroke="currentColor" stroke-width="1.4" opacity=".7" d="M7 14h10"/>
+                  </g>
+                </svg>
+              </button>
+              <span class="tool-key">E</span>
+            </div>
+            <div class="tool-slot">
+              <button id="fillBtn" type="button" class="tool-btn icon-btn" title="페인트통" aria-label="페인트통">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.35 11.72 12.07 4.44a1.5 1.5 0 0 0-2.12 0L3.5 10.9a1.5 1.5 0 0 0 0 2.12l7.28 7.28a1.5 1.5 0 0 0 2.12 0l6.45-6.45a1.5 1.5 0 0 0 0-2.13zM10.9 6.56l6.45 6.45-1.41 1.41-6.45-6.45 1.41-1.41zM5 19c0 1.66 1.79 3 4 3s4-1.34 4-3c0-1.54-1.81-3.53-4-5.5C6.81 15.47 5 17.46 5 19z"/></svg>
+              </button>
+              <span class="tool-key">G</span>
+            </div>
+          </div>
+        </div>
+        <div class="paint-cluster" aria-label="도형">
+          <span class="paint-cluster-label">도형</span>
+          <div class="paint-cluster-body">
+            <div class="tool-slot">
+              <button id="lineBtn" type="button" class="tool-btn icon-btn" title="직선" aria-label="직선">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 18 20 6"/></svg>
+              </button>
+              <span class="tool-key">L</span>
+            </div>
+            <div class="tool-slot tool-slot-stack">
+              <button id="rectBtn" type="button" class="shape-style-toggle" title="사각형 · 다시 누르면 채우기/테두리" aria-label="사각형">
+                <span class="shape-face is-stroke is-front" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><rect x="5" y="6" width="14" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+                </span>
+                <span class="shape-face is-fill" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><rect x="5" y="6" width="14" height="12" rx="1.5" fill="currentColor"/></svg>
+                </span>
+              </button>
+              <span class="tool-key">R</span>
+            </div>
+            <div class="tool-slot tool-slot-stack">
+              <button id="ellipseBtn" type="button" class="shape-style-toggle" title="원 · 다시 누르면 채우기/테두리" aria-label="원">
+                <span class="shape-face is-stroke is-front" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+                </span>
+                <span class="shape-face is-fill" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6" fill="currentColor"/></svg>
+                </span>
+              </button>
+              <span class="tool-key">O</span>
+            </div>
+          </div>
+        </div>
+        <div class="paint-group paint-palette-wrap" aria-label="색">
+          <div id="color" class="paint-palette"></div>
+          <label class="custom-color" title="직접 고르기">
+            <input id="customColor" type="color" value="#1a1208" aria-label="직접 고르기" />
+          </label>
+        </div>
+        <div class="paint-group paint-brush" aria-label="굵기·불투명도">
+          <canvas id="brushPreview" class="brush-preview" width="48" height="48" title="붓 미리보기"></canvas>
+          <div class="paint-sliders">
+            <label class="paint-slider" title="굵기">
+              <svg class="slider-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              <input id="sizeRange" type="range" min="1" max="64" value="14" />
+              <strong id="sizeValue">14</strong>
+            </label>
+            <label class="paint-slider" title="불투명도">
+              <svg class="slider-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9h-9V3zm0-2v11h11a11 11 0 1 1-11-11z" opacity=".95"/><path fill="currentColor" d="M12 3a9 9 0 0 1 9 9h-9V3z" opacity=".35"/></svg>
+              <input id="opacityRange" type="range" min="10" max="100" value="100" />
+              <strong id="opacityValue">100%</strong>
+            </label>
+          </div>
+        </div>
+        <div class="paint-cluster paint-actions-cluster" aria-label="편집">
+          <span class="paint-cluster-label">편집</span>
+          <div class="paint-cluster-body">
+            <div class="tool-slot">
+              <button id="undo" type="button" class="tool-btn icon-btn" title="되돌리기" aria-label="되돌리기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.46 7.46 0 0 1 12.5 11c3.31 0 6.1 2.12 7.16 5.05l2.37-.79C20.53 11.14 16.85 8 12.5 8z"/></svg>
+              </button>
+              <span class="tool-key">Z</span>
+            </div>
+            <div class="tool-slot">
+              <button id="clear" type="button" class="tool-btn icon-btn danger" title="전체 지우기" aria-label="전체 지우기">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+              </button>
+              <span class="tool-key tool-key-empty" aria-hidden="true">&nbsp;</span>
+            </div>
+            <div class="tool-slot">
+              <button id="saveBtn" type="button" class="tool-btn icon-btn" title="그림 저장" aria-label="그림 저장">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 3-3 3 3 0 0 1-3 3zM15 9H5V5h10v4z"/></svg>
+              </button>
+              <span class="tool-key">S</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p id="status" class="status">개발 모드로 열려면 ?dev=1 을 붙여 주세요</p>
+
+    <div id="devBox" class="panel panel-dev" hidden>
+      <h2 class="panel-title">테스트용</h2>
+      <div class="row">
+        <label class="grow">남 채널 URL/ID
+          <input id="channelInput" />
+        </label>
+        <button id="connectBtn" type="button">채널 연결</button>
+      </div>
+      <div class="row fake-chat">
+        <label>닉
+          <input id="fakeNick" value="테스트" />
+        </label>
+        <label class="grow">가짜 채팅
+          <input id="fakeText" placeholder="정답 입력 후 Enter" />
+        </label>
+        <button id="fakeSend" type="button">전송</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="hintInfoPop" class="hint-info-pop" role="tooltip" hidden>
+    남은 시간에 맞춰 글자를 자동으로 공개합니다.<br />
+    1~2글자: 없음<br />
+    3~4글자: 30% 남았을 때 1회<br />
+    5~6글자: 50%·25%에 총 2회<br />
+    7글자+: 60%·35%·15%에 총 3회
+  </div>
+
+  <div id="genreInfoPop" class="hint-info-pop" role="tooltip" hidden>
+    켜 두면 초성·그림 문제가 시작될 때<br />
+    정답 단어의 장르를 먼저 보여 줍니다.
+  </div>
+
+  <div id="streamerJoinInfoPop" class="hint-info-pop" role="tooltip" hidden>
+    스트리머도 치지직 채팅창에 직접 입력해서 참여할 수 있습니다.<br />
+    조작칸에는 정답이 보이지 않습니다.
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+  <script type="module" src="./boot.js?v=101"></script>
+</body>
+</html>
