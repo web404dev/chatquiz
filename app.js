@@ -3,18 +3,20 @@ import {
   parseChannelId,
   toChosung,
   timeHintTargetCount,
-} from "./quiz.js?v=101";
-import { createChzzkChat } from "./chzzk-chat.js?v=101";
-import { createOfficialChzzkChat } from "./chzzk-session.js?v=101";
+} from "./quiz.js?v=106";
+import { createChzzkChat } from "./chzzk-chat.js?v=106";
+import { createOfficialChzzkChat } from "./chzzk-session.js?v=106";
 import {
   getWordBankStats,
   initWordBank,
   pickWordFromBank,
   pickWordEntryFromBank,
-} from "./word-bank.js?v=101";
+} from "./word-bank.js?v=106";
+import { createDeskBridge, normFromEvent } from "./desk-bridge.js?v=106";
 
 const params = new URLSearchParams(location.search);
 const isDev = params.get("dev") === "1";
+const isDeskMode = params.get("desk") === "1";
 const WORKER_BASE = "https://chzzk-chat-quiz.web404dev.workers.dev";
 
 const els = {
@@ -119,6 +121,15 @@ const els = {
   undo: document.getElementById("undo"),
   clear: document.getElementById("clear"),
   saveBtn: document.getElementById("saveBtn"),
+  detachDeskBtn: document.getElementById("detachDeskBtn"),
+  focusDeskBtn: document.getElementById("focusDeskBtn"),
+  deskLinkStatus: document.getElementById("deskLinkStatus"),
+  deskHud: document.getElementById("deskHud"),
+  deskRoundLabel: document.getElementById("deskRoundLabel"),
+  deskTimerSec: document.getElementById("deskTimerSec"),
+  deskTimerBar: document.getElementById("deskTimerBar"),
+  deskPaint: document.getElementById("deskPaint"),
+  deskPaintWrap: document.getElementById("deskPaintWrap"),
 };
 
 const COLORS = [
@@ -159,9 +170,624 @@ const shapeFillByTool = { rect: false, ellipse: false };
 let penColor = COLORS[0];
 let penSize = 14;
 let penOpacity = 1;
+let deskBridge = null;
+let deskPopup = null;
+let deskPollId = 0;
+let deskConnected = false;
+let remoteDrawing = false;
+let paintPointerDown = () => {};
+let paintPointerMove = () => {};
+let paintPointerUp = () => {};
 
 function publishObs() {}
 function publishObsPaint() {}
+
+function deskUrl() {
+  const u = new URL(location.href);
+  u.searchParams.set("desk", "1");
+  if (isDev) u.searchParams.set("dev", "1");
+  else u.searchParams.delete("dev");
+  return u.toString();
+}
+
+function setDeskDetachedUi(on) {
+  document.body.classList.toggle("desk-detached", on);
+  if (els.detachDeskBtn) els.detachDeskBtn.hidden = on;
+  if (els.focusDeskBtn) {
+    els.focusDeskBtn.hidden = !on;
+    els.focusDeskBtn.toggleAttribute("hidden", !on);
+  }
+}
+
+function clearDeskPoll() {
+  if (deskPollId) {
+    clearInterval(deskPollId);
+    deskPollId = 0;
+  }
+}
+
+function onDeskPopupClosed() {
+  clearDeskPoll();
+  deskPopup = null;
+  deskConnected = false;
+  setDeskDetachedUi(false);
+  if (els.deskLinkStatus) {
+    els.deskLinkStatus.hidden = true;
+    els.deskLinkStatus.textContent = "";
+  }
+  setStatus("조작창이 닫혀 아래 조작칸을 다시 켰습니다");
+}
+
+function openDeskPopup() {
+  if (deskPopup && !deskPopup.closed) {
+    try {
+      deskPopup.focus();
+    } catch (_) {}
+    return;
+  }
+  deskPopup = window.open(deskUrl(), "chatquiz-desk", "width=960,height=820");
+  if (!deskPopup) {
+    setStatus("팝업이 차단되었습니다. 브라우저에서 팝업을 허용해 주세요");
+    return;
+  }
+  setDeskDetachedUi(true);
+  clearDeskPoll();
+  deskPollId = setInterval(() => {
+    if (!deskPopup || deskPopup.closed) onDeskPopupClosed();
+  }, 500);
+  setStatus("조작창으로 분리했습니다");
+  publishDeskState();
+}
+
+function buildDeskState() {
+  const manual = !isAutoTopic();
+  const playing = isAnswerPlayPhase();
+  const showAnswerEditor = manual && !playing;
+  const showAnswerPlaying = playing && Boolean(current.answer) && !shouldBlindDeskAnswer();
+  const showSkip = phase === "accepting";
+  const showHud =
+    phase === "accepting" ||
+    phase === "countdown" ||
+    phase === "reveal" ||
+    (roundActive && phase === "ready");
+  const timerSec = Number(els.timerSec?.textContent) || 0;
+  const timerPct = Number.parseFloat(String(els.timerBar?.style.width || "0")) || 0;
+  return {
+    phase,
+    statusText: els.status?.textContent || "",
+    authed: isAuthed(),
+    quizFormat,
+    quizTopic,
+    answer: els.answer?.value || "",
+    answerBlind: shouldBlindDeskAnswer() || !!(els.answerEditor?.classList.contains("is-locked")),
+    answerPlayingText: els.answerPlayingText?.textContent || "이번 정답 :",
+    answerBtnText: els.answerActionBtn?.textContent || "제출",
+    answerReadOnly: !!els.answer?.readOnly,
+    showAnswerEditor,
+    showAnswerPlaying,
+    showDeskTopBar: showSkip || showAnswerPlaying,
+    showHud,
+    roundLabel: `${roundNow}/${roundTotal}`,
+    timerSec,
+    timerPct,
+    startBtnText: els.startBtn?.textContent || "게임 시작",
+    drawPanel: !els.drawPanel?.hidden,
+    paintLive: isDrawFormat() && phase === "accepting",
+    hidden: {
+      skipBtn: !!els.skipBtn?.hidden,
+      answerPanel: !showAnswerEditor,
+      answerPlayingText: !showAnswerPlaying,
+      deskTopBar: !(showSkip || showAnswerPlaying),
+      drawPanel: !!els.drawPanel?.hidden,
+      devBox: !!els.devBox?.hidden,
+    },
+  };
+}
+
+function publishDeskState() {
+  if (isDeskMode || !deskBridge) return;
+  deskBridge.post("state", buildDeskState());
+}
+
+function publishPaintPreview() {
+  if (isDeskMode || !deskBridge || !els.canvas) return;
+  try {
+    // jpeg가 png보다 훨씬 가벼움 (미리보기용)
+    deskBridge.post("paint.preview", {
+      dataUrl: els.canvas.toDataURL("image/jpeg", 0.82),
+    });
+  } catch (_) {}
+}
+
+let deskStrokeActive = false;
+let deskPendingPreview = "";
+let remoteMovePoint = null;
+let remoteMoveRaf = 0;
+
+function applyPaintPreview(dataUrl) {
+  if (!dataUrl) return;
+  if (deskStrokeActive) {
+    deskPendingPreview = dataUrl;
+    return;
+  }
+  const canvas = els.deskPaint;
+  if (!canvas) return;
+  const img = new Image();
+  img.onload = () => {
+    if (deskStrokeActive) {
+      deskPendingPreview = dataUrl;
+      return;
+    }
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff8e8";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  };
+  img.src = dataUrl;
+}
+
+function applyHiddenMap(map) {
+  if (!map) return;
+  const pairs = [
+    ["skipBtn", els.skipBtn],
+    ["answerPanel", els.answerPanel],
+    ["answerPlayingText", els.answerPlayingText],
+    ["deskTopBar", els.deskTopBar],
+    ["drawPanel", els.drawPanel],
+    ["devBox", els.devBox],
+  ];
+  for (const [key, el] of pairs) {
+    if (!el || map[key] === undefined) continue;
+    el.hidden = !!map[key];
+    el.toggleAttribute("hidden", !!map[key]);
+  }
+}
+
+function applyDeskState(s) {
+  if (!s) return;
+  if (typeof s.phase === "string") phase = s.phase;
+  if (typeof s.statusText === "string") els.status.textContent = s.statusText;
+  if (s.quizFormat === "chosung" || s.quizFormat === "draw") quizFormat = s.quizFormat;
+  if (s.quizTopic === "auto" || s.quizTopic === "manual") quizTopic = s.quizTopic;
+  if (els.startBtn && s.startBtnText) els.startBtn.textContent = s.startBtnText;
+  if (!s.answerBlind && els.answer && typeof s.answer === "string") {
+    // 입력 중이면 덮지 않음
+    if (document.activeElement !== els.answer) els.answer.value = s.answer;
+  }
+  if (els.answerEditor) els.answerEditor.classList.toggle("is-locked", !!s.answerBlind);
+  if (els.answerPlayingText && typeof s.answerPlayingText === "string") {
+    els.answerPlayingText.textContent = s.answerPlayingText;
+  }
+  applyHiddenMap(s.hidden);
+  // desk는 syncModeUi/syncManualAnswerUi 호출 금지 — host 스냅샷만 적용
+  if (els.deskPaintWrap) {
+    const showPaint = !!s.paintLive || (!!s.drawPanel && quizFormat === "draw");
+    els.deskPaintWrap.hidden = !showPaint;
+    els.deskPaintWrap.toggleAttribute("hidden", !showPaint);
+    if (showPaint) requestAnimationFrame(updateDrawCursor);
+  }
+  if (els.deskLinkStatus) {
+    els.deskLinkStatus.hidden = false;
+    els.deskLinkStatus.textContent = "방송창과 연결됨";
+  }
+  if (typeof s.showAnswerEditor === "boolean" && els.answerPanel) {
+    els.answerPanel.hidden = !s.showAnswerEditor;
+    els.answerPanel.toggleAttribute("hidden", !s.showAnswerEditor);
+  }
+  if (typeof s.showAnswerPlaying === "boolean" && els.answerPlayingText) {
+    els.answerPlayingText.hidden = !s.showAnswerPlaying;
+    els.answerPlayingText.toggleAttribute("hidden", !s.showAnswerPlaying);
+  }
+  if (typeof s.showDeskTopBar === "boolean" && els.deskTopBar) {
+    els.deskTopBar.hidden = !s.showDeskTopBar;
+    els.deskTopBar.toggleAttribute("hidden", !s.showDeskTopBar);
+  }
+  if (els.answerActionBtn && s.answerBtnText) {
+    els.answerActionBtn.textContent = s.answerBtnText;
+  }
+  if (els.answer && typeof s.answerReadOnly === "boolean") {
+    els.answer.readOnly = s.answerReadOnly;
+    if (s.answerReadOnly) els.answer.setAttribute("readonly", "readonly");
+    else els.answer.removeAttribute("readonly");
+  }
+  if (els.deskRoundLabel && typeof s.roundLabel === "string") {
+    els.deskRoundLabel.textContent = s.roundLabel;
+  }
+  if (els.deskTimerSec && s.timerSec != null) {
+    els.deskTimerSec.textContent = String(Math.max(0, Number(s.timerSec) || 0));
+  }
+  if (els.deskTimerBar && s.timerPct != null) {
+    els.deskTimerBar.style.width = `${Math.max(0, Math.min(100, Number(s.timerPct) || 0))}%`;
+  }
+  if (els.deskHud && typeof s.showHud === "boolean") {
+    els.deskHud.hidden = !s.showHud;
+    els.deskHud.toggleAttribute("hidden", !s.showHud);
+  }
+}
+
+function pointFromNorm(nx, ny) {
+  return {
+    x: Math.max(0, Math.min(els.canvas.width, nx * els.canvas.width)),
+    y: Math.max(0, Math.min(els.canvas.height, ny * els.canvas.height)),
+  };
+}
+
+function handleHostDeskMessage(msg) {
+  const p = msg.payload || {};
+  switch (msg.type) {
+    case "desk.hello":
+      deskConnected = true;
+      if (els.deskLinkStatus) {
+        els.deskLinkStatus.hidden = false;
+        els.deskLinkStatus.textContent = "조작창 연결됨";
+      }
+      publishDeskState();
+      publishPaintPreview();
+      break;
+    case "desk.bye":
+      onDeskPopupClosed();
+      break;
+    case "auth.start":
+      login();
+      break;
+    case "ui.click":
+      if (p.id) document.getElementById(p.id)?.click();
+      break;
+    case "ui.seg":
+      if (p.axis === "format" && (p.value === "chosung" || p.value === "draw")) {
+        quizFormat = p.value;
+        saveQuizModePrefs();
+        syncModeUi();
+        syncDeskFlow();
+      }
+      if (p.axis === "topic" && (p.value === "auto" || p.value === "manual")) {
+        quizTopic = p.value;
+        saveQuizModePrefs();
+        syncModeUi();
+        syncDeskFlow();
+      }
+      break;
+    case "ui.toggle": {
+      const el = document.getElementById(p.id);
+      if (el && el.type === "checkbox") {
+        el.checked = !!p.checked;
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      break;
+    }
+    case "ui.input": {
+      const el = document.getElementById(p.id);
+      if (!el) break;
+      el.value = p.value ?? "";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      if (p.id === "sizeRange" || p.id === "opacityRange" || p.id === "customColor") {
+        el.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      break;
+    }
+    case "ui.wordPick":
+      if (Number.isFinite(p.minLen) && Number.isFinite(p.maxLen)) {
+        setWordLenRange(p.minLen, p.maxLen, "min");
+      }
+      if (Array.isArray(p.genres)) commitGenreSelection(p.genres);
+      else {
+        saveWordPickPrefs();
+        reportWordPickStats();
+      }
+      publishDeskState();
+      break;
+    case "ui.genre":
+      if (p.action === "toggle" && p.id) toggleDraftGenre(p.id);
+      if (p.action === "apply") {
+        commitGenreSelection(draftGenres);
+        setGenreMenuOpen(false);
+      }
+      if (p.action === "close") setGenreMenuOpen(false);
+      if (p.action === "open") setGenreMenuOpen(true);
+      publishDeskState();
+      break;
+    case "paint.tool":
+      if (p.tool === "rect" || p.tool === "ellipse") selectShapeTool(p.tool);
+      else if (p.tool) setDrawTool(p.tool);
+      break;
+    case "paint.style":
+      if (p.color) selectPenColor(p.color, true);
+      if (Number.isFinite(p.size)) {
+        penSize = p.size;
+        if (els.sizeRange) els.sizeRange.value = String(p.size);
+        if (els.sizeValue) els.sizeValue.textContent = String(p.size);
+        updateDrawCursor();
+      }
+      if (Number.isFinite(p.opacity)) {
+        penOpacity = Math.max(0.1, Math.min(1, p.opacity));
+        if (els.opacityRange) els.opacityRange.value = String(Math.round(penOpacity * 100));
+        if (els.opacityValue) els.opacityValue.textContent = `${Math.round(penOpacity * 100)}%`;
+        updateDrawCursor();
+      }
+      break;
+    case "paint.action":
+      if (p.action === "undo") undoStroke();
+      if (p.action === "clear") clearStrokes();
+      if (p.action === "save") saveDrawingPng();
+      publishPaintPreview();
+      break;
+    case "paint.pointer":
+      handleRemotePaintPointer(p);
+      break;
+    default:
+      break;
+  }
+}
+
+function handleRemotePaintPointer(p) {
+  if (!els.canvas || !isDrawFormat() || els.paintWrap?.hidden) return;
+  const point = pointFromNorm(Number(p.x) || 0, Number(p.y) || 0);
+  if (p.phase === "down") {
+    if (remoteMoveRaf) {
+      cancelAnimationFrame(remoteMoveRaf);
+      remoteMoveRaf = 0;
+    }
+    remoteMovePoint = null;
+    paintPointerDown(point);
+    return;
+  }
+  if (p.phase === "move") {
+    remoteMovePoint = point;
+    if (!remoteMoveRaf) {
+      remoteMoveRaf = requestAnimationFrame(() => {
+        remoteMoveRaf = 0;
+        if (remoteMovePoint) {
+          paintPointerMove(remoteMovePoint);
+          remoteMovePoint = null;
+        }
+      });
+    }
+    return;
+  }
+  if (remoteMoveRaf) {
+    cancelAnimationFrame(remoteMoveRaf);
+    remoteMoveRaf = 0;
+  }
+  if (remoteMovePoint) {
+    paintPointerMove(remoteMovePoint);
+    remoteMovePoint = null;
+  }
+  paintPointerUp();
+  publishPaintPreview();
+}
+
+function handleDeskClientMessage(msg) {
+  if (msg.type === "state") applyDeskState(msg.payload);
+  if (msg.type === "paint.preview") applyPaintPreview(msg.payload?.dataUrl);
+  if (msg.type === "host.welcome") {
+    deskConnected = true;
+    if (els.deskLinkStatus) {
+      els.deskLinkStatus.hidden = false;
+      els.deskLinkStatus.textContent = "방송창과 연결됨";
+    }
+  }
+}
+
+function bindDeskHost() {
+  deskBridge = createDeskBridge("host");
+  deskBridge.on(handleHostDeskMessage);
+  els.detachDeskBtn?.addEventListener("click", openDeskPopup);
+  els.focusDeskBtn?.addEventListener("click", () => {
+    if (deskPopup && !deskPopup.closed) {
+      try {
+        deskPopup.focus();
+      } catch (_) {}
+    } else openDeskPopup();
+  });
+  window.addEventListener("beforeunload", () => {
+    deskBridge?.post("host.bye");
+  });
+}
+
+function bindDeskClient() {
+  document.body.classList.add("mode-desk");
+  deskBridge = createDeskBridge("desk");
+  deskBridge.on(handleDeskClientMessage);
+  deskBridge.post("desk.hello");
+  if (els.deskLinkStatus) {
+    els.deskLinkStatus.hidden = false;
+    els.deskLinkStatus.textContent = "방송창 연결 중…";
+  }
+  setStatus("방송창과 연결되면 여기서 조작합니다");
+
+  document.body.addEventListener(
+    "click",
+    (event) => {
+      const t = event.target.closest("button, .swatch");
+      if (!t) return;
+      if (t.id === "detachDeskBtn" || t.id === "focusDeskBtn") return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (t.classList.contains("swatch") && t.dataset.color) {
+        deskBridge.post("paint.style", { color: t.dataset.color });
+        selectPenColor(t.dataset.color);
+        return;
+      }
+      if (t.id === "penBtn") {
+        deskBridge.post("paint.tool", { tool: "pen" });
+        setDrawTool("pen");
+      } else if (t.id === "eraser") {
+        deskBridge.post("paint.tool", { tool: "eraser" });
+        setDrawTool("eraser");
+      } else if (t.id === "fillBtn") {
+        deskBridge.post("paint.tool", { tool: "fill" });
+        setDrawTool("fill");
+      } else if (t.id === "lineBtn") {
+        deskBridge.post("paint.tool", { tool: "line" });
+        setDrawTool("line");
+      } else if (t.id === "rectBtn") {
+        deskBridge.post("paint.tool", { tool: "rect" });
+        selectShapeTool("rect");
+      } else if (t.id === "ellipseBtn") {
+        deskBridge.post("paint.tool", { tool: "ellipse" });
+        selectShapeTool("ellipse");
+      } else if (t.id === "undo") deskBridge.post("paint.action", { action: "undo" });
+      else if (t.id === "clear") deskBridge.post("paint.action", { action: "clear" });
+      else if (t.id === "saveBtn") deskBridge.post("paint.action", { action: "save" });
+      else if (t.id === "answerActionBtn") {
+        deskBridge.post("ui.input", { id: "answer", value: els.answer?.value || "" });
+        deskBridge.post("ui.click", { id: "answerActionBtn" });
+      } else if (
+        t.id === "skipBtn" ||
+        t.id === "connectBtn" ||
+        t.id === "fakeSend"
+      ) {
+        deskBridge.post("ui.click", { id: t.id });
+      }
+    },
+    true,
+  );
+
+  document.body.addEventListener(
+    "input",
+    (event) => {
+      const t = event.target;
+      if (!(t instanceof HTMLInputElement)) return;
+      if (t.id === "sizeRange") {
+        penSize = Number(t.value) || 14;
+        deskBridge.post("paint.style", { size: penSize });
+        if (els.sizeValue) els.sizeValue.textContent = String(t.value);
+        updateDrawCursor();
+        return;
+      }
+      if (t.id === "opacityRange") {
+        penOpacity = Math.max(0.1, Math.min(1, (Number(t.value) || 100) / 100));
+        deskBridge.post("paint.style", { opacity: penOpacity });
+        if (els.opacityValue) els.opacityValue.textContent = `${t.value}%`;
+        updateDrawCursor();
+        return;
+      }
+      if (t.id === "customColor") {
+        deskBridge.post("paint.style", { color: t.value });
+        selectPenColor(t.value, true);
+        return;
+      }
+      if (t.id === "answer" || t.id === "fakeText" || t.id === "fakeNick" || t.id === "channelInput") {
+        deskBridge.post("ui.input", { id: t.id, value: t.value });
+      }
+    },
+    true,
+  );
+
+  bindDeskPaintInput();
+
+  window.addEventListener("pagehide", () => {
+    deskBridge?.post("desk.bye");
+  });
+  setInterval(() => deskBridge?.post("desk.hello"), 4000);
+}
+
+function bindDeskPaintInput() {
+  const canvas = els.deskPaint;
+  if (!canvas) return;
+  let down = false;
+  let localLast = null;
+  let pendingNorm = null;
+  let sendRaf = 0;
+  const hostW = 1280;
+
+  const flushSend = (phase) => {
+    if (!pendingNorm) return;
+    const n = pendingNorm;
+    if (phase !== "move") pendingNorm = null;
+    deskBridge.post("paint.pointer", {
+      phase,
+      x: n.x,
+      y: n.y,
+    });
+  };
+
+  const scheduleMoveSend = () => {
+    if (sendRaf) return;
+    sendRaf = requestAnimationFrame(() => {
+      sendRaf = 0;
+      flushSend("move");
+    });
+  };
+
+  const localPoint = (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const w = rect.width || 1;
+    const h = rect.height || 1;
+    return {
+      x: ((event.clientX - rect.left) / w) * canvas.width,
+      y: ((event.clientY - rect.top) / h) * canvas.height,
+    };
+  };
+
+  const paintLocalSegment = (from, to) => {
+    if (drawTool === "fill" || SHAPE_TOOLS.has(drawTool)) return;
+    const ctx = canvas.getContext("2d");
+    const scale = canvas.width / hostW;
+    const size = Math.max(1, penSize * scale);
+    ctx.save();
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.lineWidth = size;
+    if (drawTool === "eraser") {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.strokeStyle = "rgba(0,0,0,1)";
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.globalCompositeOperation = "source-over";
+      ctx.strokeStyle = colorWithAlpha(penColor || COLORS[0], penOpacity);
+      ctx.globalAlpha = 1;
+    }
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
+    ctx.stroke();
+    ctx.restore();
+  };
+
+  const paintLocalDot = (pt) => paintLocalSegment(pt, pt);
+
+  const endStroke = (phase, event) => {
+    if (!down) return;
+    down = false;
+    deskStrokeActive = false;
+    if (sendRaf) {
+      cancelAnimationFrame(sendRaf);
+      sendRaf = 0;
+    }
+    pendingNorm = normFromEvent(canvas, event);
+    flushSend(phase);
+    localLast = null;
+    if (deskPendingPreview) {
+      const url = deskPendingPreview;
+      deskPendingPreview = "";
+      applyPaintPreview(url);
+    }
+  };
+
+  canvas.addEventListener("pointerdown", (event) => {
+    down = true;
+    deskStrokeActive = true;
+    deskPendingPreview = "";
+    canvas.setPointerCapture?.(event.pointerId);
+    const n = normFromEvent(canvas, event);
+    pendingNorm = n;
+    flushSend("down");
+    localLast = localPoint(event);
+    paintLocalDot(localLast);
+  });
+  canvas.addEventListener("pointermove", (event) => {
+    if (!down) return;
+    event.preventDefault();
+    pendingNorm = normFromEvent(canvas, event);
+    scheduleMoveSend();
+    const pt = localPoint(event);
+    if (localLast) paintLocalSegment(localLast, pt);
+    localLast = pt;
+  });
+  canvas.addEventListener("pointerup", (event) => endStroke("up", event));
+  canvas.addEventListener("pointercancel", (event) => endStroke("cancel", event));
+}
 
 function cleanReturnPath() {
   const q = new URLSearchParams();
@@ -281,56 +907,61 @@ function updateShapeStyleUi() {
 }
 
 function updateDrawCursor() {
-  if (!els.canvas) return;
   updateBrushPreview();
   updateShapeStyleUi();
-  if (drawTool === "fill") {
-    els.canvas.style.cursor = "cell";
-    return;
-  }
-  if (SHAPE_TOOLS.has(drawTool)) {
-    els.canvas.style.cursor = "crosshair";
-    return;
-  }
-  const rect = els.canvas.getBoundingClientRect();
-  const scaleX = rect.width > 0 ? rect.width / els.canvas.width : 1;
-  const scaleY = rect.height > 0 ? rect.height / els.canvas.height : 1;
-  const scale = Math.min(scaleX, scaleY);
-  let radius = Math.round((penSize * scale) / 2);
-  radius = Math.max(2, Math.min(radius, 48));
-  const pad = 2;
-  const size = radius * 2 + pad * 2;
-  const tip = document.createElement("canvas");
-  tip.width = size;
-  tip.height = size;
-  const ctx = tip.getContext("2d");
-  const cx = size / 2;
-  const cy = size / 2;
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-  if (drawTool === "eraser") {
-    ctx.fillStyle = "rgba(255,255,255,0.9)";
-    ctx.fill();
-    ctx.strokeStyle = "#222";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
+  const hostW = els.canvas?.width || 1280;
+  const hostH = els.canvas?.height || 720;
+  const targets = [els.canvas, els.deskPaint].filter(Boolean);
+
+  for (const target of targets) {
+    if (drawTool === "fill") {
+      target.style.cursor = "cell";
+      continue;
+    }
+    if (SHAPE_TOOLS.has(drawTool)) {
+      target.style.cursor = "crosshair";
+      continue;
+    }
+    const rect = target.getBoundingClientRect();
+    const scaleX = rect.width > 0 ? rect.width / hostW : 1;
+    const scaleY = rect.height > 0 ? rect.height / hostH : 1;
+    const scale = Math.min(scaleX, scaleY);
+    let radius = Math.round((penSize * scale) / 2);
+    radius = Math.max(2, Math.min(radius, 48));
+    const pad = 2;
+    const size = radius * 2 + pad * 2;
+    const tip = document.createElement("canvas");
+    tip.width = size;
+    tip.height = size;
+    const ctx = tip.getContext("2d");
+    const cx = size / 2;
+    const cy = size / 2;
     ctx.beginPath();
-    ctx.moveTo(cx - radius * 0.45, cy - radius * 0.45);
-    ctx.lineTo(cx + radius * 0.45, cy + radius * 0.45);
-    ctx.moveTo(cx + radius * 0.45, cy - radius * 0.45);
-    ctx.lineTo(cx - radius * 0.45, cy + radius * 0.45);
-    ctx.strokeStyle = "#c0392b";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-  } else {
-    ctx.fillStyle = colorWithAlpha(penColor || COLORS[0], penOpacity);
-    ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,0.95)";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    if (drawTool === "eraser") {
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.fill();
+      ctx.strokeStyle = "#222";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - radius * 0.45, cy - radius * 0.45);
+      ctx.lineTo(cx + radius * 0.45, cy + radius * 0.45);
+      ctx.moveTo(cx + radius * 0.45, cy - radius * 0.45);
+      ctx.lineTo(cx - radius * 0.45, cy + radius * 0.45);
+      ctx.strokeStyle = "#c0392b";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = colorWithAlpha(penColor || COLORS[0], penOpacity);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.95)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+    const hot = Math.floor(size / 2);
+    target.style.cursor = `url(${tip.toDataURL("image/png")}) ${hot} ${hot}, crosshair`;
   }
-  const hot = Math.floor(size / 2);
-  els.canvas.style.cursor = `url(${tip.toDataURL("image/png")}) ${hot} ${hot}, crosshair`;
 }
 
 function selectPenColor(hex, fromCustom = false) {
@@ -669,6 +1300,7 @@ function syncDeskFlow() {
   }
   if (!inPlay && !revealing && !onPodium) requestAnimationFrame(() => syncLenUi());
   publishObs();
+  publishDeskState();
 }
 
 function hideDrawHintBar() {
@@ -780,6 +1412,7 @@ function syncManualAnswerUi() {
     els.deskTopBar.hidden = !showBar;
     els.deskTopBar.toggleAttribute("hidden", !showBar);
   }
+  publishDeskState();
 }
 
 function answerEls() {
@@ -1357,6 +1990,7 @@ function syncModeUi() {
 
 function setStatus(text) {
   els.status.textContent = text;
+  publishDeskState();
 }
 
 function renderBoard() {
@@ -1405,11 +2039,13 @@ function updateTimerHud(leftSec, pct) {
   if (els.timerSec) els.timerSec.textContent = String(Math.max(0, leftSec));
   if (els.timerBar) els.timerBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
   publishObs();
+  publishDeskState();
 }
 
 function updateRoundHud() {
   if (els.roundLabel) els.roundLabel.textContent = `${roundNow}/${roundTotal}`;
   publishObs();
+  publishDeskState();
 }
 
 function tick() {
@@ -1863,6 +2499,7 @@ function undoStroke() {
   strokes.pop();
   draftShape = null;
   redraw();
+  publishPaintPreview();
 }
 
 
@@ -1913,6 +2550,7 @@ function clearStrokes() {
   strokes = [];
   draftShape = null;
   redraw();
+  publishPaintPreview();
 }
 
 function bindDraw() {
@@ -1949,9 +2587,8 @@ function bindDraw() {
 
   const canDraw = () => isDrawFormat() && !els.paintWrap?.hidden;
 
-  const start = (event) => {
+  paintPointerDown = (point) => {
     if (!canDraw()) return;
-    const point = getCanvasPoint(event);
     if (drawTool === "fill") {
       strokes.push({
         type: "fill",
@@ -1961,10 +2598,11 @@ function bindDraw() {
         alpha: penOpacity,
       });
       redraw();
+      publishPaintPreview();
       return;
     }
     drawing = true;
-    els.canvas.setPointerCapture?.(event.pointerId);
+    remoteDrawing = true;
     if (SHAPE_TOOLS.has(drawTool)) {
       draftShape = {
         type: "shape",
@@ -1990,10 +2628,8 @@ function bindDraw() {
     });
     redraw();
   };
-  const move = (event) => {
+  paintPointerMove = (point) => {
     if (!drawing) return;
-    event.preventDefault();
-    const point = getCanvasPoint(event);
     if (draftShape) {
       draftShape.x2 = point.x;
       draftShape.y2 = point.y;
@@ -2003,18 +2639,37 @@ function bindDraw() {
     strokes[strokes.length - 1].points.push(point);
     redraw();
   };
-  const end = (event) => {
+  paintPointerUp = () => {
     if (drawing && draftShape) {
       strokes.push({ ...draftShape });
       draftShape = null;
       redraw();
     }
+    drawing = false;
+    remoteDrawing = false;
+  };
+
+  const start = (event) => {
+    if (!canDraw()) return;
+    const point = getCanvasPoint(event);
+    els.canvas.setPointerCapture?.(event.pointerId);
+    paintPointerDown(point);
+  };
+  const move = (event) => {
+    if (!drawing) return;
+    event.preventDefault();
+    paintPointerMove(getCanvasPoint(event));
+  };
+  const end = (event) => {
     if (drawing && event?.pointerId != null) {
       try {
         els.canvas.releasePointerCapture?.(event.pointerId);
       } catch (_) {}
     }
-    drawing = false;
+    if (drawing) {
+      paintPointerUp();
+      publishPaintPreview();
+    }
   };
   els.canvas.addEventListener("pointerdown", start);
   els.canvas.addEventListener("pointermove", move);
@@ -2370,6 +3025,17 @@ function bind() {
 }
 
 async function main() {
+  if (isDeskMode) {
+    try {
+      bindDraw();
+    } catch (err) {
+      console.error(err);
+    }
+    if (isDev && els.devBox) els.devBox.hidden = false;
+    bindDeskClient();
+    return;
+  }
+
   bindAnswerActions();
   try {
     bindDraw();
@@ -2383,6 +3049,7 @@ async function main() {
     console.error(err);
     setStatus(String(err.message || err || "조작 연결에 실패했습니다"));
   }
+  bindDeskHost();
   try {
     wordBank = await initWordBank();
     const stats = getWordBankStats(wordBank, wordPickOptions());

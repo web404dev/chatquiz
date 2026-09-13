@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=101" />
+  <link rel="stylesheet" href="./styles.css?v=106" />
 </head>
 <body>
   <div class="stage">
@@ -229,6 +229,18 @@
   </div>
 
   <section class="desk">
+    <div class="desk-window-bar">
+      <button id="detachDeskBtn" type="button" class="detach-desk-btn">조작 새창으로 분리</button>
+      <button id="focusDeskBtn" type="button" class="detach-desk-btn" hidden>조작창 포커스</button>
+      <div id="deskHud" class="desk-hud" hidden>
+        <span class="desk-hud-round">라운드 <strong id="deskRoundLabel">0/10</strong></span>
+        <div class="desk-hud-timer" title="남은 시간">
+          <div class="desk-timer-track" aria-hidden="true"><div id="deskTimerBar" class="desk-timer-bar"></div></div>
+          <strong id="deskTimerSec">0</strong><span class="desk-hud-sec-unit">초</span>
+        </div>
+      </div>
+      <span id="deskLinkStatus" class="desk-link-status" hidden></span>
+    </div>
     <div id="deskTopBar" class="desk-top-bar" hidden>
       <button id="skipBtn" type="button" hidden>스킵</button>
       <p id="answerPlayingText" class="answer-playing-text" hidden>이번 정답 :</p>
@@ -244,6 +256,9 @@
 
     <div id="drawPanel" class="panel panel-paint" hidden>
       <h2 class="panel-title">그림 도구</h2>
+      <div id="deskPaintWrap" class="desk-paint-wrap" hidden>
+        <canvas id="deskPaint" width="960" height="540" aria-label="그림 입력"></canvas>
+      </div>
       <div class="paint-dock">
         <div class="paint-cluster" aria-label="브러시">
           <span class="paint-cluster-label">브러시</span>
@@ -396,6 +411,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=101"></script>
+  <script type="module" src="./boot.js?v=106"></script>
 </body>
 </html>
