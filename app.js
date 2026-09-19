@@ -27,10 +27,17 @@ import {
   clueImageKey,
   clueImageCandidates,
 } from "./genshin-bank.js?v=155";
-import { CLUE_PACKS, MANGA_GENRES, MOVIE_GENRES, gamePacks, getCluePack } from "./clue-registry.js?v=167";
+import { CLUE_PACKS, MANGA_GENRES, MOVIE_GENRES, gamePacks, getCluePack, allGamePack } from "./clue-registry.js?v=180";
 import { createDeskBridge, normFromEvent } from "./desk-bridge.js?v=107";
 import { createGuestHostController } from "./guest-host.js?v=114";
 import { createAuthKeep } from "./auth-keep.js?v=137";
+import {
+  syncQuizBgm,
+  playQuizSting,
+  playQuizSfx,
+  isQuizBgmMuted,
+  setQuizBgmMuted,
+} from "./audio.js?v=192";
 
 const params = new URLSearchParams(location.search);
 const isDev = params.get("dev") === "1";
@@ -42,6 +49,7 @@ const els = {
   chosungMissLayer: document.getElementById("chosungMissLayer"),
   hitFlyLayer: document.getElementById("hitFlyLayer"),
   hitFlyChip: document.getElementById("hitFlyChip"),
+  hitFireworks: document.getElementById("hitFireworks"),
   guestAuthorTag: document.getElementById("guestAuthorTag"),
   autoPickCountLabel: document.getElementById("autoPickCountLabel"),
   autoPickMinus: document.getElementById("autoPickMinus"),
@@ -68,6 +76,7 @@ const els = {
   questionsLabel: document.getElementById("questionsLabel"),
   questionsMinus: document.getElementById("questionsMinus"),
   questionsPlus: document.getElementById("questionsPlus"),
+  chatDelayOpt: document.getElementById("chatDelayOpt"),
   chatDelay: document.getElementById("chatDelay"),
   chatDelayLabel: document.getElementById("chatDelayLabel"),
   chatDelayMinus: document.getElementById("chatDelayMinus"),
@@ -127,6 +136,15 @@ const els = {
   streamerJoin: document.getElementById("streamerJoin"),
   streamerJoinInfo: document.getElementById("streamerJoinInfo"),
   streamerJoinInfoPop: document.getElementById("streamerJoinInfoPop"),
+  deskChatDelayOpt: document.getElementById("deskChatDelayOpt"),
+  deskChatDelayLabel: document.getElementById("deskChatDelayLabel"),
+  deskChatDelayMinus: document.getElementById("deskChatDelayMinus"),
+  deskChatDelayPlus: document.getElementById("deskChatDelayPlus"),
+  deskChatDelayProbeBtn: document.getElementById("deskChatDelayProbeBtn"),
+  deskChatDelayInfo: document.getElementById("deskChatDelayInfo"),
+  streamerGuessPanel: document.getElementById("streamerGuessPanel"),
+  streamerGuess: document.getElementById("streamerGuess"),
+  streamerGuessBtn: document.getElementById("streamerGuessBtn"),
   wordMinLabel: document.getElementById("wordMinLabel"),
   wordMaxLabel: document.getElementById("wordMaxLabel"),
   wordLenSummary: document.getElementById("wordLenSummary"),
@@ -148,6 +166,17 @@ const els = {
   setupStartRow: document.getElementById("setupStartRow"),
   drawPanel: document.getElementById("drawPanel"),
   startBtn: document.getElementById("startBtn"),
+  hostTutorial: document.getElementById("hostTutorial"),
+  hostTutorialArt: document.getElementById("hostTutorialArt"),
+  hostTutorialKicker: document.getElementById("hostTutorialKicker"),
+  hostTutorialTitle: document.getElementById("hostTutorialTitle"),
+  hostTutorialText: document.getElementById("hostTutorialText"),
+  hostTutorialDots: document.getElementById("hostTutorialDots"),
+  hostTutorialNext: document.getElementById("hostTutorialNext"),
+  hostTutorialPrev: document.getElementById("hostTutorialPrev"),
+  hostTutorialSkip: document.getElementById("hostTutorialSkip"),
+  deskHelpBtn: document.getElementById("deskHelpBtn"),
+  deskBgmBtn: document.getElementById("deskBgmBtn"),
   hintEnabled: document.getElementById("hintEnabled"),
   hintGenreEnabled: document.getElementById("hintGenreEnabled"),
   genreHintLine: document.getElementById("genreHintLine"),
@@ -163,6 +192,7 @@ const els = {
   nextSetupOverlay: document.getElementById("nextSetupOverlay"),
   revealActions: document.getElementById("revealActions"),
   podium: document.getElementById("podium"),
+  podiumConfetti: document.getElementById("podiumConfetti"),
   podiumConfirm: document.getElementById("podiumConfirm"),
   quitRoundBtn: document.getElementById("quitRoundBtn"),
   endConfirmModal: document.getElementById("endConfirmModal"),
@@ -845,6 +875,7 @@ function buildDeskState() {
     timerSec,
     timerPct,
     startBtnText: els.startBtn?.textContent || "게임 시작",
+    bgmMuted: isQuizBgmMuted(),
     drawPanel: !els.drawPanel?.hidden,
     paintLive: isDrawFormat() && phase === "accepting",
     pickChoices: autoPickChoices.map((e) => ({
@@ -858,14 +889,20 @@ function buildDeskState() {
     clueChosungHint: isClueChosungHintOn(),
     clueImageHint: isClueImageHintOn(),
     quizTts: isQuizTtsOn(),
-    showClueChosungOpt: true,
+    showClueChosungOpt: quizTtsAvailable() || isClueFormat(),
     showClueHintToggles: isClueFormat(),
+    showDeskChatDelay: streamerDeskToolsOn(),
+    showStreamerGuess: streamerGuessOpen(),
+    chatDelaySec: getChatDelaySec(),
+    chatDelayProbe: Boolean(delayProbe),
     hidden: {
       skipBtn: !!els.skipBtn?.hidden,
       answerPanel: !showAnswerEditor,
       answerPlayingText: !showAnswerPlaying,
       deskTopBar: !(showSkip || showAnswerPlaying),
-      clueChosungOpt: false,
+      clueChosungOpt: !(quizTtsAvailable() || isClueFormat()),
+      deskChatDelayOpt: !streamerDeskToolsOn(),
+      streamerGuessPanel: !streamerGuessOpen(),
       drawPanel: !!els.drawPanel?.hidden,
       devBox: !!els.devBox?.hidden,
     },
@@ -922,6 +959,8 @@ function applyHiddenMap(map) {
     ["answerPlayingText", els.answerPlayingText],
     ["deskTopBar", els.deskTopBar],
     ["clueChosungOpt", els.clueChosungOpt],
+    ["deskChatDelayOpt", els.deskChatDelayOpt],
+    ["streamerGuessPanel", els.streamerGuessPanel],
     ["drawPanel", els.drawPanel],
     ["devBox", els.devBox],
   ];
@@ -968,6 +1007,7 @@ function applyDeskState(s) {
     els.deskLinkStatus.hidden = false;
     els.deskLinkStatus.textContent = "방송창과 연결됨";
   }
+  if (typeof s.bgmMuted === "boolean") syncBgmMuteBtn(s.bgmMuted);
   if (typeof s.showAnswerEditor === "boolean" && els.answerPanel) {
     setHidden(els.answerPanel, !s.showAnswerEditor);
   }
@@ -977,7 +1017,9 @@ function applyDeskState(s) {
   if (typeof s.showDeskTopBar === "boolean" && els.deskTopBar) {
     setHidden(els.deskTopBar, !s.showDeskTopBar);
   }
-  if (els.clueChosungOpt) setHidden(els.clueChosungOpt, false);
+  if (els.clueChosungOpt && typeof s.showClueChosungOpt === "boolean") {
+    setHidden(els.clueChosungOpt, !s.showClueChosungOpt);
+  }
   if (typeof s.showClueHintToggles === "boolean") syncClueOnlyDeskOpts(s.showClueHintToggles);
   if (typeof s.clueChosungHint === "boolean" && els.clueChosungHint) {
     els.clueChosungHint.checked = s.clueChosungHint;
@@ -987,6 +1029,22 @@ function applyDeskState(s) {
   }
   if (typeof s.quizTts === "boolean" && els.quizTts) {
     els.quizTts.checked = s.quizTts;
+  }
+  if (typeof s.showDeskChatDelay === "boolean") setHidden(els.deskChatDelayOpt, !s.showDeskChatDelay);
+  if (typeof s.showStreamerGuess === "boolean") setHidden(els.streamerGuessPanel, !s.showStreamerGuess);
+  if (Number.isFinite(Number(s.chatDelaySec))) {
+    const sec = Math.max(0, Math.min(20, Math.floor(Number(s.chatDelaySec))));
+    if (els.chatDelay) els.chatDelay.value = String(sec);
+    const label = sec ? `${sec}초` : "끔";
+    if (els.chatDelayLabel) els.chatDelayLabel.textContent = label;
+    if (els.deskChatDelayLabel) els.deskChatDelayLabel.textContent = label;
+  }
+  if (typeof s.chatDelayProbe === "boolean") {
+    const probeBtn = els.deskChatDelayProbeBtn;
+    if (probeBtn) {
+      probeBtn.textContent = s.chatDelayProbe ? "취소" : "재기";
+      probeBtn.setAttribute("aria-pressed", s.chatDelayProbe ? "true" : "false");
+    }
   }
   if (Array.isArray(s.pickChoices)) {
     autoPickChoices = s.pickChoices;
@@ -1045,6 +1103,20 @@ function handleHostDeskMessage(msg) {
       break;
     case "ui.click":
       if (p.id) document.getElementById(p.id)?.click();
+      break;
+    case "ui.delay":
+      if (p.action === "bump") bumpChatDelay(Number(p.delta) || 0);
+      if (p.action === "probe") startChatDelayProbe();
+      publishDeskState();
+      break;
+    case "ui.guess":
+      submitStreamerGuess(p.text);
+      break;
+    case "ui.tutorial":
+      replayHostTutorial();
+      break;
+    case "ui.bgm":
+      toggleQuizBgmMute();
       break;
     case "ui.seg":
       if (p.axis === "format" && (p.value === "chosung" || p.value === "draw" || p.value === "clue")) {
@@ -1245,8 +1317,22 @@ function bindDeskClient() {
       else if (t.id === "answerActionBtn") {
         deskBridge.post("ui.input", { id: "answer", value: els.answer?.value || "" });
         deskBridge.post("ui.click", { id: "answerActionBtn" });
+      } else if (t.id === "deskHelpBtn") {
+        deskBridge.post("ui.tutorial");
+      } else if (t.id === "deskBgmBtn") {
+        deskBridge.post("ui.bgm");
       } else if (t.id === "loginBtn") {
         deskBridge.post("auth.start");
+      } else if (t.id === "deskChatDelayMinus") {
+        deskBridge.post("ui.delay", { action: "bump", delta: -1 });
+      } else if (t.id === "deskChatDelayPlus") {
+        deskBridge.post("ui.delay", { action: "bump", delta: 1 });
+      } else if (t.id === "deskChatDelayProbeBtn") {
+        deskBridge.post("ui.delay", { action: "probe" });
+      } else if (t.id === "streamerGuessBtn") {
+        const text = els.streamerGuess?.value || "";
+        if (els.streamerGuess) els.streamerGuess.value = "";
+        deskBridge.post("ui.guess", { text });
       } else if (
         t.id === "skipBtn" ||
         t.id === "connectBtn" ||
@@ -1785,7 +1871,9 @@ function bumpQuestions(delta) {
 
 const CHAT_DELAY_PREF = "chatDelaySec:v1";
 let holdGen = 0;
+let holdStartedAt = 0;
 let delayProbe = null;
+const sideChatQueue = [];
 
 function getChatDelaySec() {
   return Math.max(0, Math.min(20, Math.floor(Number(els.chatDelay?.value) || 0)));
@@ -1793,7 +1881,9 @@ function getChatDelaySec() {
 
 function syncChatDelayLabel() {
   const sec = getChatDelaySec();
-  if (els.chatDelayLabel) els.chatDelayLabel.textContent = sec ? `${sec}초` : "끔";
+  const label = sec ? `${sec}초` : "끔";
+  if (els.chatDelayLabel) els.chatDelayLabel.textContent = label;
+  if (els.deskChatDelayLabel) els.deskChatDelayLabel.textContent = label;
 }
 
 function setChatDelaySec(sec) {
@@ -1805,6 +1895,7 @@ function setChatDelaySec(sec) {
   } catch {
     // ignore
   }
+  publishDeskState();
 }
 
 function bumpChatDelay(delta) {
@@ -1819,6 +1910,8 @@ function restoreChatDelayPref() {
 
 function cancelHolds() {
   holdGen += 1;
+  holdStartedAt = 0;
+  flushSideChatQueue();
 }
 
 function startChatDelayProbe() {
@@ -1838,11 +1931,13 @@ function startChatDelayProbe() {
   };
   els.countdown?.classList.add("is-probe");
   setCountdownVisible(token);
-  if (els.chatDelayProbeBtn) {
-    els.chatDelayProbeBtn.textContent = "취소";
-    els.chatDelayProbeBtn.setAttribute("aria-pressed", "true");
+  for (const btn of [els.chatDelayProbeBtn, els.deskChatDelayProbeBtn]) {
+    if (!btn) continue;
+    btn.textContent = "취소";
+    btn.setAttribute("aria-pressed", "true");
   }
   setStatus(`방송에 뜬 ${token} 을 채팅에 치세요. 미리보기가 아니라 송출 화면을 보고 쳐 주세요`);
+  publishDeskState();
 }
 
 function stopChatDelayProbe(msg) {
@@ -1850,11 +1945,13 @@ function stopChatDelayProbe(msg) {
   delayProbe = null;
   els.countdown?.classList.remove("is-probe");
   if (phase !== "countdown") setCountdownVisible(null);
-  if (els.chatDelayProbeBtn) {
-    els.chatDelayProbeBtn.textContent = "재기";
-    els.chatDelayProbeBtn.setAttribute("aria-pressed", "false");
+  for (const btn of [els.chatDelayProbeBtn, els.deskChatDelayProbeBtn]) {
+    if (!btn) continue;
+    btn.textContent = "재기";
+    btn.setAttribute("aria-pressed", "false");
   }
   if (msg) setStatus(msg);
+  else publishDeskState();
 }
 
 function noteChatDelayProbe(chat) {
@@ -1941,6 +2038,7 @@ function bindHintInfoTip() {
   bindInfoTip(els.streamerJoinInfo, els.streamerJoinInfoPop);
   bindInfoTip(els.clueChosungInfo, els.clueChosungInfoPop);
   bindInfoTip(els.chatDelayInfo, els.chatDelayInfoPop);
+  bindInfoTip(els.deskChatDelayInfo, els.chatDelayInfoPop);
 }
 
 function bindRoundSteppers() {
@@ -1953,6 +2051,34 @@ function bindRoundSteppers() {
   els.chatDelayMinus?.addEventListener("click", () => bumpChatDelay(-1));
   els.chatDelayPlus?.addEventListener("click", () => bumpChatDelay(1));
   els.chatDelayProbeBtn?.addEventListener("click", startChatDelayProbe);
+  els.deskChatDelayMinus?.addEventListener("click", () => {
+    if (isDeskMode) return;
+    bumpChatDelay(-1);
+  });
+  els.deskChatDelayPlus?.addEventListener("click", () => {
+    if (isDeskMode) return;
+    bumpChatDelay(1);
+  });
+  els.deskChatDelayProbeBtn?.addEventListener("click", () => {
+    if (isDeskMode) return;
+    startChatDelayProbe();
+  });
+  els.streamerGuessBtn?.addEventListener("click", () => {
+    if (isDeskMode) return;
+    submitStreamerGuess();
+  });
+  els.streamerGuess?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    if (event.isComposing || event.keyCode === 229) return;
+    event.preventDefault();
+    if (isDeskMode) {
+      const text = els.streamerGuess?.value || "";
+      if (els.streamerGuess) els.streamerGuess.value = "";
+      deskBridge?.post("ui.guess", { text });
+      return;
+    }
+    submitStreamerGuess();
+  });
   restoreChatDelayPref();
   syncRoundSettingLabels();
   syncAutoPickCountUi();
@@ -1969,6 +2095,7 @@ function applyTimeHints(remainingRatio) {
   const target = timeHintTargetCount(total, remainingRatio);
   if (target <= hintCount) return;
   hintCount = target;
+  playQuizSfx("hint");
   renderQuestionView();
   syncGenreHintUi();
   setStatus(`시간 힌트 ${hintCount}/${total}`);
@@ -1976,6 +2103,175 @@ function applyTimeHints(remainingRatio) {
 
 function isAuthed() {
   return Boolean(session?.channelId);
+}
+
+const HOST_TUTORIAL_STEPS = [
+  {
+    id: "crop",
+    title: "OBS에는 점선 안만",
+    text: "위쪽 퀴즈·점수·채팅만 캡처하세요. 아래 조작창은 방송에 넣지 않습니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="14" width="248" height="132" rx="12" fill="#0e1528" stroke="#3de7ff" stroke-width="3"/><rect x="28" y="24" width="228" height="112" rx="8" stroke="#ffe14a" stroke-width="2" stroke-dasharray="7 5"/><text x="142" y="78" text-anchor="middle" fill="#f4f7ff" font-size="22" font-weight="800">ㄱ ㅇ ㅇ</text><text x="142" y="102" text-anchor="middle" fill="#ffe14a" font-size="11" font-weight="800">방송에 나감</text><rect x="18" y="154" width="248" height="32" rx="8" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="142" y="175" text-anchor="middle" fill="#8b9bc4" font-size="12" font-weight="800">조작창 · 캡처 안 함</text><path d="M278 80 H318" stroke="#ffe14a" stroke-width="3"/><path d="M308 70 L322 80 L308 90" fill="#ffe14a"/><text x="328" y="86" fill="#ffe14a" font-size="13" font-weight="800">OBS</text></svg>`,
+  },
+  {
+    id: "format",
+    title: "유형을 고르세요",
+    text: "초성: 첫소리만 보여 줍니다. 그림: 직접 그립니다. 단서: 작품·캐릭터 힌트로 맞춥니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="46" width="100" height="108" rx="14" fill="#ffe14a"/><text x="66" y="92" text-anchor="middle" fill="#060912" font-size="20" font-weight="900">초성</text><text x="66" y="118" text-anchor="middle" fill="#060912" font-size="13">ㄱ ㅇ ㅇ</text><rect x="130" y="46" width="100" height="108" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="180" y="92" text-anchor="middle" fill="#f4f7ff" font-size="20" font-weight="900">그림</text><rect x="154" y="108" width="52" height="28" rx="6" fill="#3de7ff"/><rect x="244" y="46" width="100" height="108" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="294" y="92" text-anchor="middle" fill="#f4f7ff" font-size="20" font-weight="900">단서</text><text x="294" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">원신 · 영화</text></svg>`,
+  },
+  {
+    id: "auto",
+    title: "자동이면 조건만 고르면 됨",
+    text: "글자 수·장르·고를 문제 개수를 정하면 단어가 자동으로 나옵니다. 수동은 조작창에 정답을 직접 넣습니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="36" width="150" height="128" rx="14" fill="#0e1528" stroke="#3de7ff" stroke-width="2"/><text x="95" y="64" text-anchor="middle" fill="#3de7ff" font-size="13" font-weight="800">자동</text><text x="95" y="92" text-anchor="middle" fill="#f4f7ff" font-size="14" font-weight="800">글자 2–4</text><text x="95" y="116" text-anchor="middle" fill="#f4f7ff" font-size="14" font-weight="800">장르 전체</text><text x="95" y="140" text-anchor="middle" fill="#9eb0d8" font-size="12">고를 문제 1개</text><rect x="190" y="36" width="150" height="128" rx="14" fill="#121a30" stroke="#6b82b0" stroke-width="2"/><text x="265" y="64" text-anchor="middle" fill="#8b9bc4" font-size="13" font-weight="800">수동</text><rect x="208" y="86" width="114" height="36" rx="8" fill="#1b2744" stroke="#ffe14a" stroke-width="2"/><text x="265" y="110" text-anchor="middle" fill="#ffe14a" font-size="13" font-weight="800">정답 입력</text></svg>`,
+  },
+  {
+    id: "delay",
+    title: "채팅이 늦으면 딜레이",
+    text: "방송이 몇 초 늦으면 그 시간만큼 기다린 뒤 정답을 받습니다. 재기: 송출 화면에 뜬 글자를 채팅에 치세요.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="110" cy="100" r="54" stroke="#3de7ff" stroke-width="6"/><path d="M110 64 V100 L136 116" stroke="#ffe14a" stroke-width="6" stroke-linecap="round"/><text x="240" y="88" text-anchor="middle" fill="#f4f7ff" font-size="28" font-weight="900">3초</text><text x="240" y="120" text-anchor="middle" fill="#9eb0d8" font-size="13" font-weight="800">재기로 맞출 수 있음</text></svg>`,
+  },
+  {
+    id: "streamer",
+    title: "스트리머도 맞출 수 있음",
+    text: "스트리머 참여를 켜면 채팅으로도, 조작창 「내 정답」으로도 맞출 수 있습니다. 조작칸에는 정답이 안 보입니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="40" width="150" height="120" rx="14" fill="#0e1528" stroke="#3de7ff" stroke-width="2"/><text x="97" y="78" text-anchor="middle" fill="#f4f7ff" font-size="16" font-weight="800">채팅</text><rect x="42" y="96" width="110" height="28" rx="8" fill="#ffe14a"/><text x="97" y="115" text-anchor="middle" fill="#060912" font-size="13" font-weight="800">고양이</text><rect x="188" y="40" width="150" height="120" rx="14" fill="#121a30" stroke="#6b82b0" stroke-width="2"/><text x="263" y="78" text-anchor="middle" fill="#f4f7ff" font-size="16" font-weight="800">조작창</text><rect x="208" y="96" width="110" height="28" rx="8" fill="#1b2744" stroke="#ffe14a" stroke-width="2"/><text x="263" y="115" text-anchor="middle" fill="#ffe14a" font-size="13" font-weight="800">맞추기</text></svg>`,
+  },
+  {
+    id: "guest",
+    title: "시청자가 문제를 낼 수도",
+    text: "시청자 참여를 켜면 채팅에 !참여. 룰렛이나 지정으로 출제자를 고릅니다. 초대 링크로도 들어올 수 있습니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="180" cy="78" r="36" fill="#ffe14a"/><text x="180" y="86" text-anchor="middle" fill="#060912" font-size="18" font-weight="900">!</text><text x="180" y="132" text-anchor="middle" fill="#f4f7ff" font-size="20" font-weight="900">!참여</text><text x="180" y="158" text-anchor="middle" fill="#9eb0d8" font-size="13" font-weight="800">모집 → 룰렛/지정 → 출제</text></svg>`,
+  },
+  {
+    id: "chat",
+    title: "정답은 채팅",
+    text: "초성·단서는 이름 전체를 채팅에 칩니다. 맞으면 점수가 올라가고, 시간 힌트를 켜면 글자가 조금씩 열립니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="18" width="200" height="120" rx="12" fill="#0e1528" stroke="#3de7ff" stroke-width="3"/><text x="124" y="78" text-anchor="middle" fill="#f4f7ff" font-size="28" font-weight="800">ㄱ ㅇ ㅇ</text><rect x="236" y="36" width="104" height="132" rx="12" fill="#121a30" stroke="#6b82b0" stroke-width="2"/><text x="288" y="58" text-anchor="middle" fill="#8b9bc4" font-size="11" font-weight="800">채팅</text><rect x="248" y="70" width="80" height="22" rx="6" fill="#1b2744"/><text x="288" y="85" text-anchor="middle" fill="#9eb0d8" font-size="10">사과</text><rect x="248" y="98" width="80" height="22" rx="6" fill="#ffe14a"/><text x="288" y="113" text-anchor="middle" fill="#060912" font-size="10" font-weight="800">고양이</text><rect x="248" y="126" width="80" height="22" rx="6" fill="#1b2744"/><text x="288" y="141" text-anchor="middle" fill="#9eb0d8" font-size="10">강아지</text><path d="M196 88 H236" stroke="#ffe14a" stroke-width="3"/><path d="M226 78 L240 88 L226 98" fill="#ffe14a"/></svg>`,
+  },
+  {
+    id: "tools",
+    title: "힌트 · 읽어주기 · 점수",
+    text: "시간 힌트를 켜면 글자가 조금씩 열립니다. 자동일 때 읽어주기(TTS)로 초성을 들을 수 있고, 참가자 점수 채점으로 랭킹을 켭니다. 스킵은 다음 문제로 넘깁니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="50" width="104" height="100" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="68" y="96" text-anchor="middle" fill="#ffe14a" font-size="16" font-weight="900">힌트</text><text x="68" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">글자 공개</text><rect x="128" y="50" width="104" height="100" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="180" y="96" text-anchor="middle" fill="#3de7ff" font-size="16" font-weight="900">TTS</text><text x="180" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">읽어주기</text><rect x="240" y="50" width="104" height="100" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="292" y="96" text-anchor="middle" fill="#f4f7ff" font-size="16" font-weight="900">점수</text><text x="292" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">랭킹</text></svg>`,
+  },
+  {
+    id: "start",
+    title: "게임 시작을 누르세요",
+    text: "준비가 되면 시작. 3·2·1 뒤에 문제가 나갑니다. 조작창 도움말로 이 설명을 다시 볼 수 있습니다.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="70" y="48" width="220" height="72" rx="16" fill="#ffe14a" stroke="#060912" stroke-width="3"/><text x="180" y="92" text-anchor="middle" fill="#060912" font-size="22" font-weight="900">게임 시작</text><path d="M180 128 V158" stroke="#3de7ff" stroke-width="3"/><path d="M170 148 L180 162 L190 148" fill="#3de7ff"/><text x="180" y="184" text-anchor="middle" fill="#9eb0d8" font-size="12" font-weight="800">3 · 2 · 1 다음 문제</text></svg>`,
+  },
+];
+
+let hostTutorialStep = -1;
+let hostTutorialDismissed = false;
+
+function hideHostTutorialUi() {
+  setHidden(els.hostTutorial, true);
+}
+
+function hostTutorialLobbyOk() {
+  if (isDeskMode) return false;
+  if (!isAuthed()) return false;
+  if (els.broadcastLobby?.hidden) return false;
+  if (phase === "accepting" || phase === "holding" || phase === "countdown" || phase === "picking") return false;
+  if (phase === "reveal" || phase === "result") return false;
+  return true;
+}
+
+function renderHostTutorial() {
+  const step = HOST_TUTORIAL_STEPS[hostTutorialStep];
+  if (!step || !els.hostTutorial) return;
+  if (els.hostTutorialArt) els.hostTutorialArt.innerHTML = step.art;
+  if (els.hostTutorialKicker) els.hostTutorialKicker.textContent = `${hostTutorialStep + 1} / ${HOST_TUTORIAL_STEPS.length}`;
+  if (els.hostTutorialTitle) els.hostTutorialTitle.textContent = step.title;
+  if (els.hostTutorialText) els.hostTutorialText.textContent = step.text;
+  if (els.hostTutorialNext) {
+    els.hostTutorialNext.textContent = hostTutorialStep >= HOST_TUTORIAL_STEPS.length - 1 ? "확인" : "다음";
+  }
+  setHidden(els.hostTutorialPrev, hostTutorialStep <= 0);
+  if (els.hostTutorialDots) {
+    els.hostTutorialDots.innerHTML = HOST_TUTORIAL_STEPS.map((_, i) =>
+      `<button type="button" class="host-tutorial-dot${i === hostTutorialStep ? " is-on" : ""}" data-tutorial-dot="${i}" aria-label="${i + 1}번째 설명"></button>`,
+    ).join("");
+  }
+}
+
+function openHostTutorial(step = 0) {
+  if (isDeskMode || !els.hostTutorial) return;
+  if (!hostTutorialLobbyOk()) return;
+  hostTutorialStep = Math.max(0, Math.min(step, HOST_TUTORIAL_STEPS.length - 1));
+  setHidden(els.hostTutorial, false);
+  renderHostTutorial();
+}
+
+function dismissHostTutorial() {
+  hostTutorialDismissed = true;
+  hostTutorialStep = -1;
+  hideHostTutorialUi();
+}
+
+function replayHostTutorial() {
+  if (isDeskMode) {
+    deskBridge?.post("ui.tutorial");
+    return;
+  }
+  if (!hostTutorialLobbyOk()) {
+    setStatus("로비에서 도움말을 볼 수 있습니다");
+    return;
+  }
+  hostTutorialDismissed = false;
+  openHostTutorial(0);
+}
+
+function syncBgmMuteBtn(muted = isQuizBgmMuted()) {
+  if (!els.deskBgmBtn) return;
+  els.deskBgmBtn.setAttribute("aria-pressed", muted ? "true" : "false");
+  els.deskBgmBtn.setAttribute("aria-label", muted ? "음소거 해제" : "음소거");
+}
+
+function toggleQuizBgmMute() {
+  setQuizBgmMuted(!isQuizBgmMuted());
+  syncBgmMuteBtn();
+  syncQuizBgm(phase, { desk: isDeskMode });
+  publishDeskState();
+}
+
+function bindQuizBgm() {
+  syncBgmMuteBtn();
+  els.deskBgmBtn?.addEventListener("click", () => {
+    toggleQuizBgmMute();
+  });
+  syncQuizBgm(phase, { desk: isDeskMode });
+}
+
+function maybeStartHostTutorial() {
+  if (isDeskMode) {
+    hideHostTutorialUi();
+    return;
+  }
+  if (hostTutorialStep >= 0) {
+    if (!hostTutorialLobbyOk()) hideHostTutorialUi();
+    return;
+  }
+  if (hostTutorialDismissed || !hostTutorialLobbyOk()) return;
+  openHostTutorial(0);
+}
+
+function bindHostTutorial() {
+  els.hostTutorialSkip?.addEventListener("click", dismissHostTutorial);
+  els.hostTutorialPrev?.addEventListener("click", () => {
+    if (hostTutorialStep > 0) openHostTutorial(hostTutorialStep - 1);
+  });
+  els.hostTutorialNext?.addEventListener("click", () => {
+    if (hostTutorialStep < HOST_TUTORIAL_STEPS.length - 1) openHostTutorial(hostTutorialStep + 1);
+    else dismissHostTutorial();
+  });
+  els.hostTutorialDots?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-tutorial-dot]");
+    if (!btn) return;
+    openHostTutorial(Number(btn.dataset.tutorialDot) || 0);
+  });
+  els.deskHelpBtn?.addEventListener("click", replayHostTutorial);
 }
 
 function syncDeskFlow() {
@@ -2019,6 +2315,11 @@ function syncDeskFlow() {
   if (els.broadcastLobby?.classList) {
     els.broadcastLobby.classList.toggle("mid-round", authed && !newGame && showLobbyChrome);
   }
+  if (showLobbyChrome && authed && newGame && !els.autoWordFields?.hidden) {
+    requestAnimationFrame(() => {
+      els.autoWordFields?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+  }
   if (els.skipBtn) setHidden(els.skipBtn, phase !== "accepting");
   const hasMoreQuestions = revealing && remaining > 0;
   if (els.revealActions) setHidden(els.revealActions, !revealing);
@@ -2049,8 +2350,11 @@ function syncDeskFlow() {
   }
   if (!inPlay && !revealing && !onPodium) requestAnimationFrame(() => syncLenUi());
   setDeskLocked(!authed);
+  syncDeskStreamerTools();
   publishObs();
   publishDeskState();
+  maybeStartHostTutorial();
+  syncQuizBgm(phase, { desk: isDeskMode });
 }
 
 function hideDrawHintBar() {
@@ -2079,6 +2383,10 @@ function renderDrawHintSlots(answer, revealed) {
     })
     .join("");
   setHidden(els.drawHintBar, false);
+}
+
+function formatChosungDisplay(text) {
+  return [...toChosung(String(text ?? "").replace(/\s+/g, ""))].join(" ");
 }
 
 function setPromptText(text) {
@@ -2228,7 +2536,7 @@ function renderQuestionView() {
   if (mode === "draw") {
     if (els.paintWrap) els.paintWrap.hidden = false;
     els.prompt.hidden = true;
-    els.prompt.classList.remove("is-clue");
+    els.prompt.classList.remove("is-clue", "is-chosung");
     hideClueArt({ forget: true });
     clearCluePromptFit();
     syncClueChosungLine("");
@@ -2246,6 +2554,7 @@ function renderQuestionView() {
   setHidden(els.prompt, false);
   els.prompt.classList.remove("hit", "miss");
   if (mode === "clue") {
+    els.prompt.classList.remove("is-chosung");
     els.prompt.classList.add("is-clue");
     setPromptText(clueHintBody(current.hint) || current.hint || "");
     syncClueSheet();
@@ -2256,11 +2565,12 @@ function renderQuestionView() {
     return;
   }
   els.prompt.classList.remove("is-clue", "has-art");
+  els.prompt.classList.add("is-chosung");
   hideClueArt({ forget: true });
   syncClueSheet();
   clearCluePromptFit();
   syncClueChosungLine("");
-  const base = toChosung(answer);
+  const base = formatChosungDisplay(answer);
   setPromptText(masked ? `${base}\n${masked}` : base);
   syncGenreHintUi();
 }
@@ -2278,9 +2588,14 @@ function isClueFormat(format = quizFormat) {
   return format === "clue";
 }
 
+function isGamePackId(id) {
+  return id === "all" || (CLUE_PACKS[id] && CLUE_PACKS[id].field === "game");
+}
+
 function activeCluePack() {
   if (clueField === "manga") return CLUE_PACKS.manga;
   if (clueField === "movie") return CLUE_PACKS.movie;
+  if (cluePack === "all") return allGamePack();
   return getCluePack(cluePack);
 }
 
@@ -2324,7 +2639,8 @@ function clueOptionMarkup(attrs, label) {
 function renderCluePackButtons() {
   if (!els.cluePackSeg) return;
   const byId = Object.fromEntries(gamePacks().map((pack) => [pack.id, pack]));
-  els.cluePackSeg.innerHTML = CLUE_PACK_GROUPS.map((group) => {
+  const allChip = `<div class="clue-sheet-group">${clueOptionMarkup(`data-clue-pack="all" role="option"`, "전체")}</div>`;
+  els.cluePackSeg.innerHTML = allChip + CLUE_PACK_GROUPS.map((group) => {
     const packs = group.ids.map((id) => byId[id]).filter(Boolean);
     if (!packs.length) return "";
     return `<div class="clue-sheet-group"><p class="clue-sheet-group-label">${group.label}</p>${packs
@@ -2464,8 +2780,12 @@ function isClueImageHintOn() {
   return Boolean(els.clueImageHint?.checked);
 }
 
+function quizTtsAvailable() {
+  return isClueFormat() || isAutoTopic();
+}
+
 function isQuizTtsOn() {
-  return Boolean(els.quizTts?.checked);
+  return quizTtsAvailable() && Boolean(els.quizTts?.checked);
 }
 
 function syncClueOnlyDeskOpts(show = isClueFormat()) {
@@ -2495,7 +2815,7 @@ function questionTtsText() {
       .trim();
   }
   if (current.mode === "chosung") {
-    return toChosung(String(current.answer || "").replace(/\s+/g, ""));
+    return formatChosungDisplay(current.answer);
   }
   return "";
 }
@@ -2577,7 +2897,7 @@ function restoreCluePrefs() {
   try {
     const prefs = JSON.parse(localStorage.getItem(CLUE_PREF_KEY) || localStorage.getItem("cluePrefs:v1") || "{}");
     if (prefs.field === "manga" || prefs.field === "movie" || prefs.field === "game") clueField = prefs.field;
-    if (prefs.pack && CLUE_PACKS[prefs.pack] && CLUE_PACKS[prefs.pack].field === "game") cluePack = prefs.pack;
+    if (prefs.pack && isGamePackId(prefs.pack)) cluePack = prefs.pack;
     if (Array.isArray(prefs.mangaGenres) && prefs.mangaGenres.length) mangaGenres = prefs.mangaGenres;
     if (prefs.mangaYear) mangaYear = prefs.mangaYear;
     if (Array.isArray(prefs.movieGenres) && prefs.movieGenres.length) movieGenres = prefs.movieGenres;
@@ -2649,7 +2969,7 @@ function setClueField(field) {
 }
 
 function setCluePack(id) {
-  if (!CLUE_PACKS[id] || CLUE_PACKS[id].field !== "game") return;
+  if (!isGamePackId(id)) return;
   cluePack = id;
   closeClueSheet();
   selectedClueKinds = ["all"];
@@ -2753,7 +3073,7 @@ function syncClueChosungLine(answer, { force = false } = {}) {
   const show =
     force ||
     (phase === "accepting" && isClueFormat(current.format) && isClueChosungHintOn() && answer);
-  line.textContent = show ? toChosung(String(answer || "").replace(/\s+/g, "")) : "";
+  line.textContent = show ? formatChosungDisplay(answer) : "";
   setHidden(line, !show);
 }
 
@@ -2904,6 +3224,7 @@ function bindAnswerActions() {
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
     if (event.target?.id !== "answer") return;
+    if (event.isComposing || event.keyCode === 229) return;
     event.preventDefault();
     if (getManualAnswer()) return;
     submitManualAnswer();
@@ -2926,6 +3247,58 @@ function syncAxisButtons() {
 
 function isStreamerJoinEnabled() {
   return Boolean(els.streamerJoin?.checked);
+}
+
+function streamerDeskToolsOn() {
+  return (quizFormat === "chosung" || isClueFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+}
+
+function streamerGuessOpen() {
+  return streamerDeskToolsOn() && (phase === "accepting" || phase === "holding");
+}
+
+function syncDeskStreamerTools() {
+  const on = streamerDeskToolsOn();
+  setHidden(els.chatDelayOpt, true);
+  setHidden(els.deskChatDelayOpt, !on);
+  setHidden(els.streamerGuessPanel, !streamerGuessOpen());
+}
+
+function submitStreamerGuess(raw) {
+  const text = String(raw ?? els.streamerGuess?.value ?? "").trim();
+  if (els.streamerGuess) els.streamerGuess.value = "";
+  if (!text) {
+    setStatus("정답을 입력해 주세요");
+    els.streamerGuess?.focus();
+    return;
+  }
+  if (!streamerGuessOpen()) {
+    setStatus("지금은 정답을 받을 때가 아닙니다");
+    return;
+  }
+  const chat = {
+    type: "chat",
+    text,
+    nickname: streamerNickname(),
+    userId: session?.userId || session?.channelId || "streamer-desk",
+    host: true,
+    hidden: false,
+  };
+  if (phase === "holding") {
+    const deskJudge = judge || createJudge({ answer: current.answer });
+    enqueueSideChat(chat);
+    const result = deskJudge(chat);
+    if (result.hit) {
+      cancelHolds();
+      judge = deskJudge;
+      phase = "accepting";
+      finishQuestion(result.winner);
+    } else {
+      noteChosungMiss(chat);
+    }
+    return;
+  }
+  onChat(chat);
 }
 
 function saveQuizModePrefs() {
@@ -3396,7 +3769,7 @@ function renderAutoPickUi(choices = autoPickChoices) {
     const genre = document.createElement("strong");
     genre.textContent = entry.genre && entry.genre !== "전체" ? entry.genre : "주제";
     const word = document.createElement("span");
-    word.textContent = shouldBlindDeskAnswer() ? toChosung(entry.word) : entry.word;
+    word.textContent = shouldBlindDeskAnswer() ? formatChosungDisplay(entry.word) : entry.word;
     btn.append(genre, word);
     if (isClueFormat()) {
       const tease = document.createElement("em");
@@ -3582,8 +3955,9 @@ function syncModeUi() {
   if (els.topicAxis) setHidden(els.topicAxis, isClue);
   if (els.timeHintOpt) setHidden(els.timeHintOpt, isClue);
   if (els.clueFields) setHidden(els.clueFields, !isClue);
-  if (els.clueChosungOpt) setHidden(els.clueChosungOpt, false);
+  if (els.clueChosungOpt) setHidden(els.clueChosungOpt, !(isClue || isAuto));
   syncClueOnlyDeskOpts(isClue);
+  syncDeskStreamerTools();
   if (els.manualAnswerHint) setHidden(els.manualAnswerHint, !needsAnswer);
   if (els.autoWordFields) {
     setHidden(els.autoWordFields, !isAuto);
@@ -3732,18 +4106,19 @@ function showFinalResult(lastAnswer = "") {
   hideDrawHintBar();
   clearChosungMisses();
   clearHitFly();
+  clearHitFireworks();
   clearAutoPickUi();
   syncGuestAuthorTag();
   clearRevealPaintThumb();
   if (els.paintWrap) els.paintWrap.hidden = true;
-  if (els.broadcastHud) els.broadcastHud.hidden = false;
+  if (els.broadcastHud) els.broadcastHud.hidden = true;
   els.prompt.hidden = true;
-  els.prompt.classList.remove("hit", "miss", "is-clue");
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung");
   hideClueArt({ forget: true });
   clearCluePromptFit();
   setPromptText("");
   syncClueChosungLine("");
-  els.winner.textContent = "한 판 종료";
+  if (els.winner) els.winner.textContent = "";
   renderPodiumFromScores();
   renderBoard();
   setStatus(
@@ -3777,9 +4152,45 @@ function renderPodiumFromScores() {
     slot.classList.toggle("is-empty", !row);
   });
   setHidden(podium, false);
+  startPodiumConfetti();
+}
+
+const PODIUM_PETAL_COLORS = ["#ffe14a", "#ff7ae6", "#3de7ff", "#ff6b7a", "#5dffb0", "#fff4c8"];
+
+function startPodiumConfetti() {
+  const layer = els.podiumConfetti;
+  if (!layer) return;
+  layer.replaceChildren();
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+    setHidden(layer, true);
+    return;
+  }
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < 28; i += 1) {
+    const petal = document.createElement("i");
+    petal.className = "podium-petal";
+    petal.style.setProperty("--x", `${Math.round(Math.random() * 100)}%`);
+    petal.style.setProperty("--delay", `${(-Math.random() * 5).toFixed(2)}s`);
+    petal.style.setProperty("--dur", `${(5 + Math.random() * 4).toFixed(2)}s`);
+    petal.style.setProperty("--rot", `${Math.round(Math.random() * 360)}deg`);
+    petal.style.setProperty("--sway", `${Math.round(-22 + Math.random() * 44)}px`);
+    petal.style.setProperty("--size", `${Math.round(8 + Math.random() * 11)}px`);
+    petal.style.background = PODIUM_PETAL_COLORS[i % PODIUM_PETAL_COLORS.length];
+    frag.appendChild(petal);
+  }
+  layer.appendChild(frag);
+  setHidden(layer, false);
+}
+
+function stopPodiumConfetti() {
+  const layer = els.podiumConfetti;
+  if (!layer) return;
+  layer.replaceChildren();
+  setHidden(layer, true);
 }
 
 function dismissPodium() {
+  stopPodiumConfetti();
   if (els.podium) {
     setHidden(els.podium, true);
   }
@@ -3839,6 +4250,59 @@ function prefersReducedMotion() {
   return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
 }
 
+const HIT_FW_COLORS = ["#ffe14a", "#ff7ae6", "#3de7ff", "#ff6b7a", "#5dffb0", "#fff4c8"];
+let hitFwTimer = 0;
+let hitFwLoop = false;
+
+function clearHitFireworks() {
+  hitFwLoop = false;
+  clearTimeout(hitFwTimer);
+  const layer = els.hitFireworks;
+  if (!layer) return;
+  layer.replaceChildren();
+  setHidden(layer, true);
+}
+
+function spawnHitFireworkBurst() {
+  const layer = els.hitFireworks;
+  if (!layer) return;
+  for (const side of ["seven", "five"]) {
+    const burst = document.createElement("div");
+    burst.className = `hit-fw-burst is-${side}`;
+    const flash = document.createElement("i");
+    flash.className = "hit-fw-flash";
+    burst.appendChild(flash);
+    for (let i = 0; i < 18; i += 1) {
+      const spark = document.createElement("i");
+      spark.className = "hit-fw-spark";
+      const angle = (i / 18) * 360 + (Math.random() * 14 - 7);
+      const dist = 72 + Math.random() * 96;
+      const rad = (angle * Math.PI) / 180;
+      spark.style.setProperty("--dx", `${Math.round(Math.cos(rad) * dist)}px`);
+      spark.style.setProperty("--dy", `${Math.round(Math.sin(rad) * dist)}px`);
+      spark.style.setProperty("--delay", `${(Math.random() * 0.07).toFixed(2)}s`);
+      spark.style.setProperty("--dur", `${(0.72 + Math.random() * 0.4).toFixed(2)}s`);
+      spark.style.background = HIT_FW_COLORS[i % HIT_FW_COLORS.length];
+      burst.appendChild(spark);
+    }
+    layer.appendChild(burst);
+    window.setTimeout(() => burst.remove(), 1400);
+  }
+}
+
+function playHitFireworks() {
+  const layer = els.hitFireworks;
+  if (!layer || prefersReducedMotion()) return;
+  hitFwLoop = true;
+  setHidden(layer, false);
+  const tick = () => {
+    if (!hitFwLoop || phase !== "reveal") return;
+    spawnHitFireworkBurst();
+    hitFwTimer = window.setTimeout(tick, 820);
+  };
+  tick();
+}
+
 function clearHitFly() {
   const layer = els.hitFlyLayer;
   const chip = els.hitFlyChip;
@@ -3887,6 +4351,7 @@ function finishQuestion(winner) {
   judge = null;
   clearChosungMisses();
   clearHitFly();
+  clearHitFireworks();
   const answerText = current.answer || "";
   const wasDraw = current.mode === "draw" || isDrawFormat(current.format);
   const wasClue = current.mode === "clue" || isClueFormat(current.format);
@@ -3895,6 +4360,7 @@ function finishQuestion(winner) {
   syncClueChosungLine("");
   els.prompt.classList.remove("hit", "miss");
   els.prompt.classList.toggle("is-clue", wasClue);
+  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue);
   if (wasClue) {
     syncClueSheet();
     syncClueArt({ reveal: true });
@@ -3915,7 +4381,8 @@ function finishQuestion(winner) {
     addScore(winner.nickname);
     els.winner.textContent = "";
     setStatus(`${winner.nickname} 님이 맞히셨습니다 · 정답 ${answerText}`);
-    if (!wasDraw && !wasClue) setPromptText(toChosung(answerText));
+    if (!wasDraw && !wasClue) setPromptText(formatChosungDisplay(answerText));
+    playHitFireworks();
     playHitFly({ nickname: winner.nickname, answer: answerText }, showHitPrompt);
   } else {
     els.winner.textContent = "";
@@ -3926,6 +4393,8 @@ function finishQuestion(winner) {
   }
   remaining -= 1;
   updateRoundHud();
+  playQuizSfx(winner ? "hit" : "miss");
+  playQuizSting(winner ? "hit" : "miss");
   // 마지막 문제도 정답 공개(reveal)를 먼저 보여 주고, 「결과보기」로 시상 진입
   syncGuestAuthorTag();
   syncDeskFlow();
@@ -3941,6 +4410,36 @@ function setChatConnStatus(text, kind = "") {
   el.classList.toggle("is-bad", kind === "bad");
 }
 
+function chatRevealDelayMs() {
+  const sec = getChatDelaySec();
+  if (sec <= 0 || !holdStartedAt) return 0;
+  return Math.max(0, sec * 1000 - (Date.now() - holdStartedAt));
+}
+
+function flushSideChatQueue() {
+  const items = sideChatQueue.splice(0);
+  for (const item of items) {
+    clearTimeout(item.timer);
+    appendSideChat(item.chat, item.opts);
+  }
+}
+
+function enqueueSideChat(chat, opts = {}) {
+  const wait = chatRevealDelayMs();
+  const item = { chat: { ...chat }, opts, timer: 0 };
+  const show = () => {
+    const i = sideChatQueue.indexOf(item);
+    if (i >= 0) sideChatQueue.splice(i, 1);
+    appendSideChat(item.chat, item.opts);
+  };
+  if (wait <= 0) {
+    show();
+    return;
+  }
+  item.timer = window.setTimeout(show, wait);
+  sideChatQueue.push(item);
+}
+
 function appendSideChat(chat, { fake = false } = {}) {
   const list = els.chatList;
   if (!list) return;
@@ -3950,10 +4449,13 @@ function appendSideChat(chat, { fake = false } = {}) {
   if (chat?.type === "donation") li.classList.add("is-donation");
   if (fake) li.classList.add("is-fake");
   if (chat?.hidden) li.classList.add("is-hidden");
+  const hostChat = isStreamerChat(chat);
+  if (hostChat) li.classList.add("is-streamer");
 
   const nick = document.createElement("span");
   nick.className = "chat-nick";
-  nick.textContent = chat?.nickname || "익명";
+  const hostNick = streamerNickname();
+  nick.textContent = hostChat && hostNick !== "스트리머" ? hostNick : chat?.nickname || "익명";
 
   const body = document.createElement("span");
   body.className = "chat-text";
@@ -4046,8 +4548,77 @@ function noteChosungMiss(chat) {
   }
 }
 
+function streamerNickname() {
+  const nick = String(session?.nickname || "").trim();
+  return nick || "스트리머";
+}
+
+function isStreamerChat(chat) {
+  if (chat?.host) return true;
+  const uid = String(chat?.userId || "");
+  if (!uid) return false;
+  if (uid === "streamer-desk") return true;
+  if (session?.userId && uid === session.userId) return true;
+  if (session?.channelId && uid === session.channelId) return true;
+  return false;
+}
+
+function applyStreamerNickname(name) {
+  const nick = String(name || "").trim();
+  if (!nick || nick === "(알 수 없음)" || nick === "스트리머") return false;
+  const prev = String(session?.nickname || "").trim();
+  if (prev === nick) return true;
+  saveSession({ ...session, nickname: nick });
+  if (scores.has("스트리머")) {
+    scores.set(nick, (scores.get(nick) || 0) + scores.get("스트리머"));
+    scores.delete("스트리머");
+    renderBoard();
+  }
+  if (prev && prev !== nick && scores.has(prev)) {
+    scores.set(nick, (scores.get(nick) || 0) + scores.get(prev));
+    scores.delete(prev);
+    renderBoard();
+  }
+  return true;
+}
+
+function rememberStreamerNick(chat) {
+  if (!isStreamerChat(chat)) return;
+  const nick = String(chat?.nickname || "").trim();
+  if (!nick || nick === "익명" || nick === "스트리머") return;
+  applyStreamerNickname(nick);
+}
+
+async function ensureStreamerNickname() {
+  if (streamerNickname() !== "스트리머") return;
+  const channelId = String(session?.channelId || "").trim();
+  const token = String(session?.accessToken || "").trim();
+  if (token) {
+    try {
+      const res = await fetch(`${workerBase()}/auth/me`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ accessToken: token }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && applyStreamerNickname(data.nickname)) return;
+    } catch {
+      // ignore
+    }
+  }
+  if (!channelId) return;
+  try {
+    const res = await fetch(`${workerBase()}/channel/profile?channelId=${encodeURIComponent(channelId)}`);
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && applyStreamerNickname(data.nickname)) return;
+  } catch {
+    // ignore
+  }
+}
+
 function onChat(chat, opts = {}) {
-  appendSideChat(chat, opts);
+  rememberStreamerNick(chat);
+  enqueueSideChat(chat, opts);
   if (noteChatDelayProbe(chat)) return;
   if (guestHost?.noteCandidate(chat)) {
     renderGuestHostUi();
@@ -4113,13 +4684,14 @@ async function runStartCountdown() {
   els.prompt.hidden = true;
   setPromptText("");
   hideClueArt({ forget: true });
-  els.prompt.classList.remove("hit", "miss", "is-clue");
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung");
   clearCluePromptFit();
   syncClueChosungLine("");
   if (els.paintWrap) els.paintWrap.hidden = true;
   hideDrawHintBar();
   clearChosungMisses();
   clearHitFly();
+  clearHitFireworks();
   if (els.broadcastHud) els.broadcastHud.hidden = true;
   els.winner.textContent = "";
   if (els.roundLabel) els.roundLabel.textContent = "";
@@ -4127,6 +4699,7 @@ async function runStartCountdown() {
   setStatus("시작 준비…");
   for (const n of [3, 2, 1]) {
     setCountdownVisible(n);
+    playQuizSfx("count");
     await sleep(1000);
   }
   setCountdownVisible(null);
@@ -4256,6 +4829,7 @@ function beginQuestion() {
   pendingGuestAuthor = null;
   clearChosungMisses();
   clearHitFly();
+  clearHitFireworks();
   hintCount = 0;
   resetHintRevealOrder(answer);
   if (
@@ -4275,9 +4849,10 @@ function beginQuestion() {
   clearManualAnswerLock();
   void guestHost?.pushHostMode(format === "draw" ? "draw" : "chosung");
   stopChatDelayProbe();
-  const delay = getChatDelaySec();
+  const delay = streamerDeskToolsOn() ? getChatDelaySec() : 0;
   if (delay > 0) {
     phase = "holding";
+    holdStartedAt = Date.now();
     renderQuestionView();
     syncDeskFlow();
     speakQuestion();
@@ -4293,6 +4868,7 @@ function beginQuestion() {
 }
 
 function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, format, topicKey, streamerJoin, genre, replayVoice = true }) {
+  holdStartedAt = 0;
   judge = createJudge({ answer, excludeUserId });
   phase = "accepting";
   renderQuestionView();
@@ -4889,6 +5465,7 @@ async function attachOfficialChat(accessToken, { skipSlotCheck = false } = {}) {
   startAuthKeep();
   claimHostLock();
   if (phase === "lobby") phase = "ready";
+  await ensureStreamerNickname();
   syncDeskFlow();
 }
 
@@ -5009,6 +5586,7 @@ async function handleAuthRedirect() {
       saveSession({
         channelId: claimed.channelId || channelId,
         userId: claimed.userId || userId || channelId,
+        nickname: claimed.nickname || "",
         accessToken: claimed.accessToken,
         refreshToken: claimed.refreshToken || "",
         mode: "official",
@@ -5059,6 +5637,8 @@ function bind() {
   window.addEventListener("resize", () => {
     if (els.prompt?.classList.contains("is-clue") && !els.prompt.hidden) fitCluePrompt();
   });
+  bindHostTutorial();
+  bindQuizBgm();
   bindRoundSteppers();
   bindHintInfoTip();
   restoreQuizModePrefs();
@@ -5083,6 +5663,8 @@ function bind() {
   els.streamerJoin?.addEventListener("change", () => {
     saveQuizModePrefs();
     syncManualAnswerUi();
+    syncDeskStreamerTools();
+    publishDeskState();
   });
   els.hintEnabled.addEventListener("change", () => {
     localStorage.setItem("hintEnabled", els.hintEnabled.checked ? "1" : "0");
@@ -5103,6 +5685,7 @@ function bind() {
       setStatus("먼저 치지직에 로그인해 주세요");
       return;
     }
+    dismissHostTutorial();
     if (phase === "result") {
       dismissPodium();
       phase = "ready";
@@ -5172,6 +5755,11 @@ function bind() {
       return;
     }
     if (event.key !== "Escape") return;
+    if (hostTutorialStep >= 0 && els.hostTutorial && !els.hostTutorial.hidden) {
+      event.preventDefault();
+      dismissHostTutorial();
+      return;
+    }
     if (delayProbe) {
       event.preventDefault();
       stopChatDelayProbe("재기를 취소했습니다");
@@ -5183,7 +5771,7 @@ function bind() {
     if (openTip) {
       event.preventDefault();
       openTip.hidden = true;
-      [els.hintInfo, els.genreInfo, els.streamerJoinInfo, els.chatDelayInfo].forEach((btn) => {
+      [els.hintInfo, els.genreInfo, els.streamerJoinInfo, els.chatDelayInfo, els.deskChatDelayInfo].forEach((btn) => {
         if (btn?.getAttribute("aria-describedby") === openTip.id) {
           btn.setAttribute("aria-expanded", "false");
         }

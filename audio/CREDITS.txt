@@ -1,0 +1,23 @@
+Pixabay Content License. Do not re-upload as standalone music.
+
+bgm-start.mp3   Retro Arcade Game Music — HitsLab
+                https://pixabay.com/music/video-games-retro-arcade-game-music-396890/
+bgm-lobby.mp3   Chiptune Video Game Games Music — HitsLab
+                https://pixabay.com/music/video-games-chiptune-arcade-game-music-457939/
+bgm-play.mp3    Chill/Calming Chiptune Loop — Reganati
+                https://pixabay.com/music/electronic-chillcalming-chiptune-loop-527182/
+bgm-hit.mp3     So Happy With My 8-bit Game — DJARTMUSIC (first 7s)
+                https://pixabay.com/music/video-games-so-happy-with-my-8-bit-game-301275/
+bgm-miss.mp3    Game over 2 - short music — Kuzu420 (first 6s)
+                https://pixabay.com/music/video-games-game-over-2-short-music-351102/
+bgm-podium.mp3  Victory Game - Classic Arcade Game — Dream-Protocol
+                https://pixabay.com/music/video-games-victory-game-classic-arcade-game-116830/
+
+sfx-hit.mp3     Collect Points — Liecio / Pixabay
+                https://pixabay.com/sound-effects/film-special-effects-collect-points-190037/
+sfx-miss.mp3    8-Bit Wrong 2 — freesound_community
+                https://pixabay.com/sound-effects/film-special-effects-8-bit-wrong-2-84407/
+sfx-count.mp3   one_beep — freesound_community (trimmed)
+                https://pixabay.com/sound-effects/film-special-effects-one-beep-99630/
+sfx-hint.mp3    8-Bit Chime — freesound_community (trimmed)
+                https://pixabay.com/sound-effects/film-special-effects-8-bit-chime-67232/

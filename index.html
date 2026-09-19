@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=167" />
+  <link rel="stylesheet" href="./styles.css?v=192" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -94,7 +94,7 @@
                   <button type="button" id="questionsPlus" aria-label="문제 수 증가">+</button>
                 </div>
               </div>
-              <div class="stepper chat-delay-stepper">
+              <div id="chatDelayOpt" class="stepper chat-delay-stepper" hidden>
                 <span class="stepper-label">
                   채팅 딜레이
                   <button type="button" class="hint-info" id="chatDelayInfo" aria-label="채팅 딜레이 설명" aria-describedby="chatDelayInfoPop">
@@ -407,6 +407,7 @@
       <div id="hitFlyLayer" class="hit-fly-layer" hidden aria-hidden="true">
         <p id="hitFlyChip" class="hit-fly-chip"></p>
       </div>
+      <div id="hitFireworks" class="hit-fireworks" hidden aria-hidden="true"></div>
       <div id="prompt" class="caption" hidden role="status" aria-live="polite">
         <div class="clue-exhibit-head">
           <p id="clueKindBadge" class="clue-kind-badge" hidden></p>
@@ -418,6 +419,7 @@
         <p id="clueMeta" class="clue-meta" hidden></p>
         <span id="promptText"></span>
       </div>
+      <div id="podiumConfetti" class="podium-confetti" hidden aria-hidden="true"></div>
       <div id="podium" class="podium" hidden role="region" aria-labelledby="podiumTitle">
         <p class="podium-title" id="podiumTitle">최종 순위</p>
         <div class="podium-row" aria-label="시상 단">
@@ -483,6 +485,7 @@
   <section class="desk arena-deck" aria-label="조작">
     <div class="desk-window-bar">
       <button id="detachDeskBtn" type="button" class="detach-desk-btn">조작 새창으로 분리</button>
+      <button id="deskHelpBtn" type="button" class="detach-desk-btn">도움말</button>
       <button id="focusDeskBtn" type="button" class="detach-desk-btn" hidden>조작창 포커스</button>
       <div id="deskHud" class="desk-hud" hidden>
         <span class="desk-hud-round">라운드 <strong id="deskRoundLabel">0/10</strong></span>
@@ -492,6 +495,14 @@
         </div>
       </div>
       <span id="deskLinkStatus" class="desk-link-status" hidden></span>
+      <button id="deskBgmBtn" type="button" class="desk-vol-btn" aria-pressed="false" aria-label="음소거">
+        <svg class="desk-vol-on" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3zm13.5 3c0-1.77-1-3.29-2.5-4.03v8.06c1.5-.74 2.5-2.26 2.5-4.03zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <svg class="desk-vol-off" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M16.5 12c0-1.77-1-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 4v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 4 9.91 6.09 12 8.18V4z"/>
+        </svg>
+      </button>
     </div>
     <div id="clueChosungOpt" class="clue-chosung-opt">
       <p class="desk-hint-kicker">방송에 나갈 것</p>
@@ -503,13 +514,32 @@
         <input id="clueChosungHint" type="checkbox" />
         초성
       </label>
-      <label class="check clue-dock-toggle">
+      <label class="check clue-dock-toggle" id="quizTtsOpt">
         <input id="quizTts" type="checkbox" />
-        읽어주기
+        읽어주기(TTS)
       </label>
       <button type="button" class="hint-info" id="clueChosungInfo" data-clue-only aria-label="단서 힌트 설명" aria-describedby="clueChosungInfoPop">
         <span class="hint-info-btn" aria-hidden="true">i</span>
       </button>
+    </div>
+    <div id="deskChatDelayOpt" class="desk-chat-delay-opt" hidden>
+      <p class="desk-hint-kicker">채팅 딜레이</p>
+      <div class="stepper-controls desk-chat-delay-stepper">
+        <button type="button" id="deskChatDelayMinus" aria-label="채팅 딜레이 감소">−</button>
+        <strong id="deskChatDelayLabel" aria-live="polite">끔</strong>
+        <button type="button" id="deskChatDelayPlus" aria-label="채팅 딜레이 증가">+</button>
+        <button type="button" id="deskChatDelayProbeBtn" class="chat-delay-probe-btn">재기</button>
+        <button type="button" class="hint-info" id="deskChatDelayInfo" aria-label="채팅 딜레이 설명" aria-describedby="chatDelayInfoPop">
+          <span class="hint-info-btn" aria-hidden="true">i</span>
+        </button>
+      </div>
+    </div>
+    <div id="streamerGuessPanel" class="panel panel-answer streamer-guess-panel" hidden>
+      <div class="answer-editor streamer-guess-editor">
+        <label class="answer-inline-label" for="streamerGuess">내 정답</label>
+        <input id="streamerGuess" autocomplete="off" aria-autocomplete="none" placeholder="채팅 대신 여기서 맞추기" />
+        <button type="button" id="streamerGuessBtn">맞추기</button>
+      </div>
     </div>
     <div id="deskTopBar" class="desk-top-bar" hidden>
       <button id="skipBtn" type="button" hidden>스킵</button>
@@ -698,12 +728,13 @@
   <div id="chatDelayInfoPop" class="hint-info-pop" role="tooltip" hidden>
     방송·채팅이 늦게 나가면 그 시간만큼<br />
     기다린 뒤에 정답을 받습니다.<br />
+    그 동안 채팅창 줄도 늦게 올라갑니다.<br />
     재기: 화면에 뜬 글자를 <strong>송출 화면</strong>으로 보고<br />
     채팅에 그대로 치세요. 자기 미리보기로 치면 0초가 됩니다.
   </div>
 
   <div id="streamerJoinInfoPop" class="hint-info-pop" role="tooltip" hidden>
-    스트리머도 치지직 채팅창에 직접 입력해서 참여할 수 있습니다.<br />
+    스트리머도 채팅이나 조작창 입력으로 맞출 수 있습니다.<br />
     조작칸에는 정답이 보이지 않습니다.
   </div>
 
@@ -713,7 +744,22 @@
     채팅은 이름 전체를 맞춰야 합니다.
   </div>
 
+  <div id="hostTutorial" class="host-tutorial" hidden>
+    <div class="host-tutorial-card" role="dialog" aria-modal="true" aria-labelledby="hostTutorialTitle">
+      <div id="hostTutorialArt" class="host-tutorial-art" aria-hidden="true"></div>
+      <p id="hostTutorialKicker" class="host-tutorial-kicker">1 / 9</p>
+      <h2 id="hostTutorialTitle"></h2>
+      <p id="hostTutorialText"></p>
+      <div id="hostTutorialDots" class="host-tutorial-dots"></div>
+      <div class="host-tutorial-actions">
+        <button type="button" id="hostTutorialSkip">건너뛰기</button>
+        <button type="button" id="hostTutorialPrev">이전</button>
+        <button type="button" id="hostTutorialNext">다음</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=167"></script>
+  <script type="module" src="./boot.js?v=200"></script>
 </body>
 </html>
