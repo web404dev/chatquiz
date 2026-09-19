@@ -1,9 +1,10 @@
-import { createAuthKeep } from "./auth-keep.js?v=137";
+import { createAuthKeep, GUEST_SESSION_KEY, readAuthSession, writeAuthSession } from "./auth-keep.js?v=138";
 
 const WORKER_BASE = "https://chzzk-chat-quiz.web404dev.workers.dev";
 const params = new URLSearchParams(location.search);
-const roomId = params.get("room") || "";
-const invite = params.get("invite") || "";
+let roomId = params.get("room") || "";
+let invite = params.get("invite") || "";
+const inviteCode = params.get("c") || "";
 const isDev = params.get("dev") === "1";
 
 const els = {
@@ -27,12 +28,36 @@ const els = {
   clear: document.getElementById("guestClear"),
 };
 
-let session = { channelId: "", userId: "", accessToken: "", refreshToken: "" };
+let session = { channelId: "", userId: "", nickname: "", accessToken: "", refreshToken: "" };
+
+function normInviteNick(name) {
+  return String(name || "")
+    .normalize("NFC")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+}
+
+function sameInviteNick(a, b) {
+  const left = normInviteNick(a);
+  const right = normInviteNick(b);
+  return !!(left && right && left !== "익명" && left === right);
+}
+
+function isInviteSelf(meta) {
+  const uid = String(session.userId || "").trim();
+  const cid = String(session.channelId || "").trim();
+  const want = String(meta?.userId || "").trim();
+  if (want && (uid === want || cid === want)) return true;
+  return sameInviteNick(session.nickname, meta?.nickname);
+}
 let mode = "idle"; // idle | chosung | draw
 let pollAfter = 0;
 let pollTimer = 0;
 let authKeep = null;
-const GUEST_SESSION_KEY = `chatquiz-guest:${roomId}:${invite}`;
+function guestSessionKey() {
+  return GUEST_SESSION_KEY;
+}
 let strokes = [];
 let drawing = false;
 
@@ -91,36 +116,32 @@ async function handleAuthReturn() {
   const channelId = params.get("channelId") || "";
   const userId = params.get("userId") || channelId;
   if (!ticket) return false;
-  const claimed = await claimAuthTicket(ticket);
-  session = {
-    channelId: claimed.channelId || channelId,
-    userId: claimed.userId || userId,
-    accessToken: claimed.accessToken || "",
-    refreshToken: claimed.refreshToken || "",
-  };
-  saveGuestSession();
-  startGuestAuthKeep();
+  try {
+    const claimed = await claimAuthTicket(ticket);
+    session = {
+      channelId: claimed.channelId || channelId,
+      userId: claimed.userId || userId,
+      nickname: claimed.nickname || "",
+      accessToken: claimed.accessToken || "",
+      refreshToken: claimed.refreshToken || "",
+    };
+    saveGuestSession();
+    startGuestAuthKeep();
+  } catch {
+    restoreGuestSession();
+    if (session.refreshToken) startGuestAuthKeep();
+  }
   history.replaceState({}, "", cleanUrl());
-  return true;
+  return !!(session.userId || session.accessToken);
 }
 
 function saveGuestSession() {
-  try {
-    sessionStorage.setItem(GUEST_SESSION_KEY, JSON.stringify(session));
-  } catch {
-    // ignore
-  }
+  writeAuthSession(guestSessionKey(), session);
 }
 
 function restoreGuestSession() {
-  try {
-    const raw = sessionStorage.getItem(GUEST_SESSION_KEY);
-    if (!raw) return;
-    const next = JSON.parse(raw);
-    if (next?.userId) session = { ...session, ...next };
-  } catch {
-    // ignore
-  }
+  const next = readAuthSession(guestSessionKey());
+  if (next?.userId || next?.accessToken) session = { ...session, ...next };
 }
 
 function startGuestAuthKeep() {
@@ -144,22 +165,25 @@ function cleanUrl() {
 }
 
 async function checkInvite() {
-  if (!roomId || !invite) {
-    showBlocked("이 초대 링크는 만료되었습니다.");
+  if (!inviteCode && (!roomId || !invite)) {
+    showBlocked("초대 링크가 잘렸습니다. 짧은 주소를 다시 받아 주세요.");
     return null;
   }
   try {
-    const data = await api(
-      `/invite/check?room=${encodeURIComponent(roomId)}&invite=${encodeURIComponent(invite)}`,
-    );
+    const q = inviteCode
+      ? `c=${encodeURIComponent(inviteCode)}`
+      : `room=${encodeURIComponent(roomId)}&invite=${encodeURIComponent(invite)}`;
+    const data = await api(`/invite/check?${q}`);
     if (!data.ok || data.expired) {
-      showBlocked("이 초대 링크는 만료되었습니다.");
+      showBlocked(data.error || "이 초대 링크는 만료되었습니다.");
       return null;
     }
+    roomId = data.roomId || roomId;
+    invite = data.invite || invite;
     return data;
   } catch (err) {
     if (err.data?.expired) {
-      showBlocked("이 초대 링크는 만료되었습니다.");
+      showBlocked(err.data.error || "이 초대 링크는 만료되었습니다.");
       return null;
     }
     setStatus(String(err.message || err));
@@ -173,7 +197,8 @@ async function claimAsGuest(meta) {
     method: "POST",
     body: JSON.stringify({
       invite,
-      userId: session.userId,
+      userId: session.userId || session.channelId || "",
+      nickname: session.nickname || "",
     }),
   });
   show(els.login, false);
@@ -333,8 +358,8 @@ els.closeBtn?.addEventListener("click", () => {
 els.loginBtn?.addEventListener("click", login);
 
 async function main() {
-  if (!roomId || !invite) {
-    showBlocked("이 초대 링크는 만료되었습니다.");
+  if (!inviteCode && (!roomId || !invite)) {
+    showBlocked("초대 링크가 잘렸습니다. 짧은 주소를 다시 받아 주세요.");
     return;
   }
   restoreGuestSession();
@@ -352,8 +377,25 @@ async function main() {
     setStatus("로그인 후 참여할 수 있습니다");
     return;
   }
-  if (session.userId !== meta.userId) {
-    showBlocked("선정된 계정이 아닙니다.");
+  if (!session.nickname && session.accessToken) {
+    try {
+      const me = await api("/auth/me", {
+        method: "POST",
+        body: JSON.stringify({ accessToken: session.accessToken }),
+      });
+      session = {
+        ...session,
+        nickname: me.nickname || session.nickname,
+        channelId: me.channelId || session.channelId,
+        userId: session.userId || me.channelId || "",
+      };
+      saveGuestSession();
+    } catch {
+      // 닉 조회 실패해도 아래 판정으로 감
+    }
+  }
+  if (!isInviteSelf(meta)) {
+    showBlocked(`선정된 닉은 ${meta.nickname || "다른 사람"}입니다.`);
     return;
   }
   try {

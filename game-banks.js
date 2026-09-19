@@ -1,5 +1,5 @@
 import { scrubHint } from "./genshin-bank.js";
-import { fetchJson, makeCachedBank, pushClue } from "./clue-bank.js";
+import { fetchJson, makeCachedBank, packSnapshot, pushClue } from "./clue-bank.js";
 
 const HSR_CDN = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
 const HSR_INDEX = `${HSR_CDN}/index_min/kr`;
@@ -117,7 +117,7 @@ export function buildHsrBank(raw = {}, fetchedAt = Date.now()) {
       {
         word,
         genre: "캐릭터",
-        hint: meta || "스타레일 캐릭터",
+        hint: meta || "붕괴: 스타레일 캐릭터",
         image: hsrUrl(obj.icon),
         imageReveal: hsrUrl(obj.portrait || obj.preview || obj.icon),
       },
@@ -153,7 +153,7 @@ export function buildHsrBank(raw = {}, fetchedAt = Date.now()) {
       {
         word,
         genre: "광추",
-        hint: [HSR_PATH[obj.path] || obj.path, scrubHint(stripMarkup(obj.desc), word)].filter(Boolean).join("\n") || "스타레일 광추",
+        hint: [HSR_PATH[obj.path] || obj.path, scrubHint(stripMarkup(obj.desc), word)].filter(Boolean).join("\n") || "붕괴: 스타레일 광추",
         image: hsrUrl(obj.icon),
       },
       HSR_KINDS,
@@ -168,13 +168,13 @@ export function buildHsrBank(raw = {}, fetchedAt = Date.now()) {
       {
         word,
         genre: "유물",
-        hint: scrubHint(stripMarkup(desc), word) || "스타레일 유물 세트",
+        hint: scrubHint(stripMarkup(desc), word) || "붕괴: 스타레일 유물 세트",
         image: hsrUrl(obj.icon),
       },
       HSR_KINDS,
     );
   }
-  return { version: 1, title: "스타레일 단서", fetchedAt, kinds: HSR_KINDS, items };
+  return { version: 1, title: "붕괴: 스타레일 단서", fetchedAt, kinds: HSR_KINDS, items };
 }
 
 export function buildLolBank(raw = {}, fetchedAt = Date.now()) {
@@ -330,7 +330,7 @@ export function buildPokemonBank(raw = {}, fetchedAt = Date.now()) {
       POKE_KINDS,
     );
   });
-  return { version: 1, title: "포켓몬 단서", fetchedAt, kinds: POKE_KINDS, items };
+  return { version: 1, title: "포켓몬스터 단서", fetchedAt, kinds: POKE_KINDS, items };
 }
 
 export function buildBaBank(raw = {}, fetchedAt = Date.now()) {
@@ -361,10 +361,10 @@ export function buildBaBank(raw = {}, fetchedAt = Date.now()) {
       BA_KINDS,
     );
   }
-  return { version: 1, title: "블루아카 단서", fetchedAt, kinds: BA_KINDS, items };
+  return { version: 1, title: "블루 아카이브 단서", fetchedAt, kinds: BA_KINDS, items };
 }
 
-async function fetchHsrRaw() {
+export async function fetchHsrRaw() {
   const [characters, skills, lightCones, relicSets] = await Promise.all([
     fetchJson(`${HSR_INDEX}/characters.json`),
     fetchJson(`${HSR_INDEX}/character_skills.json`),
@@ -374,7 +374,7 @@ async function fetchHsrRaw() {
   return { characters, skills, lightCones, relicSets };
 }
 
-async function fetchLolRaw() {
+export async function fetchLolRaw() {
   const versions = await fetchJson(`${LOL_DDRAGON}/api/versions.json`);
   const version = versions[0];
   let champions = {};
@@ -389,7 +389,7 @@ async function fetchLolRaw() {
   return { version, champions, items: itemsJson.data || {} };
 }
 
-async function fetchValorantRaw() {
+export async function fetchValorantRaw() {
   const [agents, maps, weapons] = await Promise.all([
     fetchJson(`${VAL_API}/agents?language=ko-KR&isPlayableCharacter=true`),
     fetchJson(`${VAL_API}/maps?language=ko-KR`),
@@ -398,21 +398,22 @@ async function fetchValorantRaw() {
   return { agents: agents.data || [], maps: maps.data || [], weapons: weapons.data || [] };
 }
 
-async function fetchPokemonRaw() {
+export async function fetchPokemonRaw() {
   const [names, dex] = await Promise.all([fetchJson(POKE_KO), fetchJson(POKE_DEX)]);
   return { names, dex };
 }
 
-async function fetchBaRaw() {
+export async function fetchBaRaw() {
   return { students: await fetchJson(SCHALE, {}, 28000) };
 }
 
 const hsr = makeCachedBank({
   cacheKey: "clueHsrBank:v1",
-  title: "스타레일 단서",
+  title: "붕괴: 스타레일 단서",
   kinds: HSR_KINDS,
   fetchRaw: fetchHsrRaw,
   build: buildHsrBank,
+  snapshot: packSnapshot("hsr"),
 });
 const lol = makeCachedBank({
   cacheKey: "clueLolBank:v1",
@@ -420,6 +421,7 @@ const lol = makeCachedBank({
   kinds: LOL_KINDS,
   fetchRaw: fetchLolRaw,
   build: buildLolBank,
+  snapshot: packSnapshot("lol"),
 });
 const valorant = makeCachedBank({
   cacheKey: "clueValBank:v1",
@@ -427,20 +429,23 @@ const valorant = makeCachedBank({
   kinds: VAL_KINDS,
   fetchRaw: fetchValorantRaw,
   build: buildValorantBank,
+  snapshot: packSnapshot("valorant"),
 });
 const pokemon = makeCachedBank({
   cacheKey: "cluePokeBank:v1",
-  title: "포켓몬 단서",
+  title: "포켓몬스터 단서",
   kinds: POKE_KINDS,
   fetchRaw: fetchPokemonRaw,
   build: buildPokemonBank,
+  snapshot: packSnapshot("pokemon"),
 });
 const ba = makeCachedBank({
   cacheKey: "clueBaBank:v1",
-  title: "블루아카 단서",
+  title: "블루 아카이브 단서",
   kinds: BA_KINDS,
   fetchRaw: fetchBaRaw,
   build: buildBaBank,
+  snapshot: packSnapshot("bluearchive"),
 });
 
 export const initHsrBank = hsr.init;

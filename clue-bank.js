@@ -14,11 +14,11 @@ export async function fetchJson(url, init = {}, timeoutMs = 16000) {
   }
 }
 
-export function pushClue(items, seen, item, allowed) {
+export function pushClue(items, seen, item, allowed, options = {}) {
   const word = String(item?.word || "").trim();
   const kind = String(item?.genre || "").trim();
   const hint = String(item?.hint || "").trim();
-  if (!isPlayableName(word) || !hint) return;
+  if (!isPlayableName(word, options) || !hint) return;
   if (Array.isArray(allowed) && !allowed.includes(kind)) return;
   const key = clueEntryKey({ word, genre: kind });
   if (seen.has(key)) return;
@@ -27,10 +27,18 @@ export function pushClue(items, seen, item, allowed) {
   for (const field of ["image", "imageReveal", "year", "mediaGenres", "series"]) {
     if (item[field] != null && item[field] !== "") row[field] = item[field];
   }
+  if (Array.isArray(item.aliases)) {
+    const aliases = item.aliases.map((name) => String(name || "").trim()).filter(Boolean);
+    if (aliases.length) row.aliases = aliases;
+  }
   items.push(row);
 }
 
-export function makeCachedBank({ cacheKey, title, kinds, fetchRaw, build }) {
+export function packSnapshot(id) {
+  return new URL(`./snapshots/${id}.json`, import.meta.url);
+}
+
+export function makeCachedBank({ cacheKey, title, kinds, fetchRaw, build, snapshot }) {
   function readCache() {
     try {
       const parsed = JSON.parse(localStorage.getItem(cacheKey) || "");
@@ -55,7 +63,29 @@ export function makeCachedBank({ cacheKey, title, kinds, fetchRaw, build }) {
     }
   }
 
+  async function loadSnapshot() {
+    if (!snapshot) return null;
+    try {
+      const snap = await fetchJson(snapshot, {}, 8000);
+      if (!snap?.items?.length) return null;
+      return {
+        version: 1,
+        title: snap.title || title,
+        fetchedAt: snap.fetchedAt || 0,
+        kinds: kinds.slice(),
+        items: snap.items.filter((item) => item?.word && item?.genre && item?.hint),
+      };
+    } catch {
+      return null;
+    }
+  }
+
   async function refresh(current) {
+    const snap = await loadSnapshot();
+    if (snap && snap.fetchedAt >= (current?.fetchedAt || 0)) {
+      writeCache(snap);
+      return snap;
+    }
     const age = Date.now() - (current?.fetchedAt || 0);
     if (current?.items?.length && age < MAX_AGE_MS) return current;
     const bank = build(await fetchRaw(), Date.now());

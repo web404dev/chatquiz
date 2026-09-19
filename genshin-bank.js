@@ -1,3 +1,5 @@
+import { matchMediaTags } from "./media-filter.js";
+
 const CACHE_KEY = "clueGenshinBank:v6";
 const API_BASE = "https://genshin-db-api.vercel.app/api/v5";
 const IMAGE_PROXY = "https://chzzk-chat-quiz.web404dev.workers.dev/img";
@@ -77,6 +79,21 @@ export function isClueSilhouetteKind(kind, list = CLUE_SILHOUETTE_KINDS) {
   return (list || CLUE_SILHOUETTE_KINDS).includes(String(kind || ""));
 }
 
+export const CLUE_TITLE_ART_KINDS = ["만화이름", "게임이름"];
+
+export function isClueTitleArtKind(kind) {
+  return CLUE_TITLE_ART_KINDS.includes(String(kind || ""));
+}
+
+export function cluePlayImages(item) {
+  const image = String(item?.image || "").trim();
+  const imageReveal = String(item?.imageReveal || "").trim();
+  if (isClueTitleArtKind(item?.genre)) {
+    return { image: "", imageReveal: imageReveal || image };
+  }
+  return { image, imageReveal };
+}
+
 function pickImage(images, ...keys) {
   if (!images || typeof images !== "object") return "";
   for (const key of keys) {
@@ -101,8 +118,13 @@ function hangulCount(text) {
   }).length;
 }
 
-export function isPlayableName(word) {
-  return hangulCount(word) >= 2 && !SKIP_NAME.test(String(word || "").trim());
+export function isPlayableName(word, options = {}) {
+  const text = String(word || "").trim();
+  if (!text || SKIP_NAME.test(text)) return false;
+  if (hangulCount(text) >= 2) return true;
+  if (!options.allowLatin) return false;
+  const compact = text.replace(/[^0-9A-Za-z\uAC00-\uD7A3]/g, "");
+  return compact.length >= 2 && /[A-Za-z]/.test(compact);
 }
 
 export const YEAR_BANDS = {
@@ -299,7 +321,11 @@ export function filterClueItems(bank, options = {}) {
   items = items.filter((item) => !kinds || kinds.includes(item.genre));
   const genres = (options.mediaGenres || []).filter((g) => g && g !== "all");
   if (genres.length) {
-    items = items.filter((item) => (item.mediaGenres || []).some((g) => genres.includes(g)));
+    items = items.filter((item) =>
+      options.mediaTree
+        ? matchMediaTags(item.mediaGenres, options.mediaGenres, options.mediaTree)
+        : (item.mediaGenres || []).some((g) => genres.includes(g)),
+    );
   }
   const band = YEAR_BANDS[options.yearBand];
   if (band) {
@@ -375,7 +401,7 @@ async function fetchFolder(folder, query, extra = "") {
   return asList(data).filter((item) => item && typeof item === "object" && item.name);
 }
 
-async function fetchGenshinRaw() {
+export async function fetchGenshinRaw() {
   const [characters, talents, weapons, artifacts, foods, enemies, geographies] = await Promise.all([
     fetchFolder("characters", "names"),
     fetchFolder("talents", "names"),
@@ -388,7 +414,23 @@ async function fetchGenshinRaw() {
   return { characters, talents, weapons, artifacts, foods, enemies, geographies };
 }
 
+async function loadGenshinSnapshot() {
+  try {
+    const res = await fetch(new URL("./snapshots/genshin.json", import.meta.url));
+    if (!res.ok) return null;
+    const snap = await res.json();
+    return snap?.items?.length ? snap : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function refreshGenshinBankQuietly(current) {
+  const snap = await loadGenshinSnapshot();
+  if (snap && snap.fetchedAt >= (current?.fetchedAt || 0)) {
+    writeCache(snap);
+    return snap;
+  }
   const age = Date.now() - (current?.fetchedAt || 0);
   if (current?.items?.length && age < MAX_AGE_MS) return current;
   const bank = buildGenshinBank(await fetchGenshinRaw(), Date.now());
@@ -399,6 +441,11 @@ export async function refreshGenshinBankQuietly(current) {
 
 export async function initGenshinBank() {
   const cached = readCache();
+  const snap = await loadGenshinSnapshot();
+  if (snap && snap.fetchedAt >= (cached?.fetchedAt || 0)) {
+    writeCache(snap);
+    return snap;
+  }
   if (cached?.items?.length) {
     refreshGenshinBankQuietly(cached).catch(() => {});
     return cached;

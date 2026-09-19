@@ -1,35 +1,10 @@
 import { isPlayableName, scrubHint } from "./genshin-bank.js";
 import { fetchJson, makeCachedBank, pushClue } from "./clue-bank.js";
 import { MOVIE_CURATED } from "./movie-curated.js";
+import { MOVIE_COUNTRIES, MOVIE_GENRES, mapMovieCountries } from "./media-filter.js";
 
+export { MOVIE_GENRES };
 export const MOVIE_KINDS = ["영화이름", "배우", "감독", "캐릭터", "명대사", "장소", "시리즈"];
-export const MOVIE_GENRES = [
-  "액션",
-  "코미디",
-  "드라마",
-  "로맨스",
-  "스릴러",
-  "SF",
-  "호러",
-  "범죄",
-  "판타지",
-  "애니메이션",
-  "전쟁",
-  "음악",
-  "미스터리",
-  "모험",
-  "히어로",
-  "재난",
-  "스포츠",
-  "역사",
-  "전기",
-  "가족",
-  "서부",
-  "스파이",
-  "무협",
-  "청춘",
-  "좀비",
-];
 
 const WD_API = "https://www.wikidata.org/w/api.php";
 const WD_SPARQL = "https://query.wikidata.org/sparql";
@@ -171,11 +146,6 @@ function claimYear(entity) {
   return match ? Number(match[1]) : 0;
 }
 
-function claimFile(entity) {
-  const name = entity?.claims?.P18?.[0]?.mainsnak?.datavalue?.value;
-  return name ? `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(name)}?width=400` : "";
-}
-
 function koLabel(entity) {
   return String(entity?.labels?.ko?.value || "").trim();
 }
@@ -220,6 +190,10 @@ export function buildMovieBank(raw = {}, fetchedAt = Date.now()) {
     const title = String(film.title || "").replace(/\s*\(영화\)\s*$/, "").trim();
     const year = Number(film.year) || 0;
     const genres = Array.isArray(film.genres) ? film.genres.filter((g) => MOVIE_GENRES.includes(g)) : [];
+    const countries = Array.isArray(film.countries)
+      ? film.countries.filter((name) => MOVIE_COUNTRIES.includes(name) || name === "기타")
+      : [];
+    const tags = [...genres, ...countries];
     const director = String(film.director || "").trim();
     const extract = scrubHint(String(film.extract || film.description || ""), title, director, ...(film.cast || []));
     const meta = [year ? `${year}년` : "", genres.join(" · "), director ? `감독 ${director}` : ""].filter(Boolean).join(" · ");
@@ -233,7 +207,7 @@ export function buildMovieBank(raw = {}, fetchedAt = Date.now()) {
         hint: [meta, extract].filter(Boolean).join("\n") || "영화 제목",
         image,
         year,
-        mediaGenres: genres,
+        mediaGenres: tags,
         series: title,
       },
       MOVIE_KINDS,
@@ -246,9 +220,8 @@ export function buildMovieBank(raw = {}, fetchedAt = Date.now()) {
           word: director,
           genre: "감독",
           hint: [title ? `「${title}」 감독` : "", meta, extract].filter(Boolean).join("\n"),
-          image,
           year,
-          mediaGenres: genres,
+          mediaGenres: tags,
           series: title,
         },
         MOVIE_KINDS,
@@ -265,7 +238,7 @@ export function buildMovieBank(raw = {}, fetchedAt = Date.now()) {
           genre: "배우",
           hint: [title ? `「${title}」 출연` : "", meta, scrubHint(extract, word)].filter(Boolean).join("\n"),
           year,
-          mediaGenres: genres,
+          mediaGenres: tags,
           series: title,
         },
         MOVIE_KINDS,
@@ -282,7 +255,7 @@ export function buildMovieBank(raw = {}, fetchedAt = Date.now()) {
           genre: "캐릭터",
           hint: title ? `「${title}」 캐릭터` : "영화 캐릭터",
           year,
-          mediaGenres: genres,
+          mediaGenres: tags,
           series: title,
         },
         MOVIE_KINDS,
@@ -299,7 +272,7 @@ export function buildMovieBank(raw = {}, fetchedAt = Date.now()) {
           genre: "시리즈",
           hint: title ? `「${title}」이 속한 시리즈` : "영화 시리즈",
           year,
-          mediaGenres: genres,
+          mediaGenres: tags,
           series: word,
         },
         MOVIE_KINDS,
@@ -393,7 +366,17 @@ async function fetchSparqlWave(names) {
   return bags.flat();
 }
 
-export async function fetchMovieRaw() {
+async function fetchMovieStills() {
+  try {
+    const snap = await fetchJson(new URL("./movie-stills.json", import.meta.url), {}, 8000);
+    return snap?.stills && typeof snap.stills === "object" ? snap.stills : {};
+  } catch {
+    return {};
+  }
+}
+
+export async function fetchMovieRawLive() {
+  const stills = await fetchMovieStills();
   const ids = new Set(SEED_IDS);
   const names = Object.keys(SPARQL);
   for (const id of await fetchSparqlWave(names.slice(0, 7))) ids.add(id);
@@ -405,6 +388,7 @@ export async function fetchMovieRaw() {
     extraIds.push(...claimIds(entity, "P57"));
     extraIds.push(...claimIds(entity, "P161").slice(0, 5));
     extraIds.push(...claimIds(entity, "P136"));
+    extraIds.push(...claimIds(entity, "P495"));
     extraIds.push(...claimIds(entity, "P674").slice(0, 4));
     extraIds.push(...claimIds(entity, "P179").slice(0, 2));
   }
@@ -419,6 +403,7 @@ export async function fetchMovieRaw() {
     if (!entity || entity.missing || !isFilmEntity(entity)) continue;
     const title = koLabel(entity);
     if (!isPlayableName(title)) continue;
+    if (claimIds(entity, "P3818").some((id) => id === "Q28951022")) continue;
     const wikiPage = wiki[entity.sitelinks?.kowiki?.title] || {};
     const directors = claimIds(entity, "P57").map((id) => koLabel(byId[id])).filter(isPlayableName);
     const cast = claimIds(entity, "P161")
@@ -437,19 +422,52 @@ export async function fetchMovieRaw() {
       title,
       year: claimYear(entity),
       genres: mapGenres(claimIds(entity, "P136"), byId),
+      countries: mapMovieCountries(claimIds(entity, "P495"), byId),
       director: directors[0] || "",
       cast,
       characters,
       seriesNames,
       extract: wikiPage.extract || koDesc(entity),
-      image: wikiPage.image || claimFile(entity),
+      image: stills[title] || "",
     });
   }
-  return { films, curated: MOVIE_CURATED };
+  return {
+    films,
+    curated: MOVIE_CURATED.map((extra) => {
+      if (extra.genre !== "영화이름") return extra;
+      const image = stills[extra.word] || extra.image || "";
+      return image ? { ...extra, image } : extra;
+    }),
+  };
+}
+
+function applyMovieStills(raw, stills) {
+  return {
+    films: (raw.films || []).map((film) => ({
+      ...film,
+      image: stills[film.title] || film.image || "",
+    })),
+    curated: (raw.curated || MOVIE_CURATED).map((extra) => {
+      if (extra.genre !== "영화이름") return extra;
+      const image = stills[extra.word] || extra.image || "";
+      return image ? { ...extra, image } : extra;
+    }),
+  };
+}
+
+export async function fetchMovieRaw() {
+  const stills = await fetchMovieStills();
+  try {
+    const snap = await fetchJson(new URL("./movie-snapshot.json", import.meta.url), {}, 8000);
+    if (Array.isArray(snap?.films) && snap.films.length) return applyMovieStills(snap, stills);
+  } catch {
+    // 스냅샷 없으면 위키데이터
+  }
+  return applyMovieStills(await fetchMovieRawLive(), stills);
 }
 
 const movie = makeCachedBank({
-  cacheKey: "clueMovieBank:v3",
+  cacheKey: "clueMovieBank:v6",
   title: "영화 단서",
   kinds: MOVIE_KINDS,
   fetchRaw: fetchMovieRaw,

@@ -28,6 +28,8 @@ export function createGuestHostController({
     candidates: new Map(), // userId -> { userId, nickname, at }
     selected: null, // { userId, nickname }
     invite: "",
+    inviteCode: "",
+    shortUrl: "",
     inviteExpiresAt: 0,
     roomId: "",
     guestConn: "none", // none | waiting | connected | drawing | gone
@@ -118,19 +120,22 @@ export function createGuestHostController({
     return Date.now() - hit.at < state.consecutiveGapSec * 1000;
   }
 
+  function guestBase() {
+    return new URL(".", location.href).href;
+  }
+
   function guestLink() {
-    if (!state.invite) return "";
-    const u = new URL("guest.html", location.href);
-    u.searchParams.set("room", ensureRoomId());
-    u.searchParams.set("invite", state.invite);
-    if (isDev) u.searchParams.set("dev", "1");
-    return u.toString();
+    if (state.shortUrl) return state.shortUrl;
+    if (state.inviteCode) {
+      return `https://chzzk-chat-quiz.web404dev.workers.dev/${state.inviteCode}`;
+    }
+    return "";
   }
 
   async function api(path, init) {
     const base = String(workerBase?.() || workerBase || "").replace(/\/$/, "");
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 4000);
+    const timer = setTimeout(() => ctrl.abort(), 8000);
     try {
       const res = await fetch(`${base}${path}`, {
         ...init,
@@ -154,31 +159,23 @@ export function createGuestHostController({
       throw new Error("같은 계정 연속 출제 제한 중입니다");
     }
     const roomId = ensureRoomId();
-    const invite = randomInvite();
     const ttlSec = TTL_DEFAULT_SEC;
-    const expiresAt = Date.now() + ttlSec * 1000;
-    // Worker 응답 전에 로컬 초대 확정 (미배포/지연에도 링크 복사 가능)
+    const data = await api("/invite/create", {
+      method: "POST",
+      body: JSON.stringify({
+        roomId,
+        userId: user.userId,
+        nickname: user.nickname,
+        ttlSec,
+        guestBase: guestBase(),
+      }),
+    });
     state.selected = { userId: user.userId, nickname: user.nickname };
-    state.invite = invite;
-    state.inviteExpiresAt = expiresAt;
+    state.invite = String(data.invite || "").trim();
+    state.inviteCode = String(data.code || "").trim();
+    state.shortUrl = String(data.shortUrl || "").trim();
+    state.inviteExpiresAt = Number(data.expiresAt) || Date.now() + ttlSec * 1000;
     state.guestConn = "waiting";
-    try {
-      await api("/invite/create", {
-        method: "POST",
-        body: JSON.stringify({
-          roomId,
-          invite,
-          userId: user.userId,
-          nickname: user.nickname,
-          ttlSec,
-        }),
-      });
-    } catch (err) {
-      console.warn("[guest-host] invite create", err);
-      onStatus?.(
-        "초대는 만들었지만 Worker 저장 실패(미배포일 수 있음). 링크 복사는 가능합니다",
-      );
-    }
     startPoll();
     return guestLink();
   }
@@ -204,6 +201,8 @@ export function createGuestHostController({
       ].slice(0, 20);
     }
     state.invite = "";
+    state.inviteCode = "";
+    state.shortUrl = "";
     state.inviteExpiresAt = 0;
     state.selected = null;
     state.guestConn = "none";

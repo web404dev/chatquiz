@@ -1,6 +1,6 @@
 import { isPlayableName, scrubHint } from "./genshin-bank.js";
 import { fetchJson, makeCachedBank, pushClue } from "./clue-bank.js";
-import { MANGA_CURATED } from "./manga-curated.js?v=164";
+import { MANGA_CURATED } from "./manga-curated.js?v=169";
 
 export const MANGA_KINDS = ["만화이름", "캐릭터", "아이템", "기술", "장소", "조직"];
 export const MANGA_GENRES = [
@@ -96,7 +96,8 @@ const TITLE_KO = {
   Kubera: "쿠베라",
   "Gosu": "고수",
   "Blue Lock": "블루 록",
-  Dandadan: "단디단",
+  Dandadan: "단다단",
+  "Dan Da Dan": "단다단",
   "Sakamoto Days": "사카모토 데이즈",
   "Oshi no Ko": "최애의 아이",
   Frieren: "장송의 프리렌",
@@ -150,6 +151,9 @@ const TITLE_KO = {
   "Fruits Basket": "후르츠 바스켓",
   Nana: "나나",
   "Boys Over Flowers": "꽃보다 남자",
+  "Black Butler": "흑집사",
+  Kuroshitsuji: "흑집사",
+  黒執事: "흑집사",
 };
 
 const CHAR_KO = {
@@ -291,6 +295,8 @@ const CHAR_KO = {
   "Tenma Kenzo": "텐마 켄조",
   "Johan Liebert": "요한 리베르트",
   "Kaneda Shoutarou": "쇼타로 카네다",
+  "Sebastian Michaelis": "세바스찬 미카엘리스",
+  "Ciel Phantomhive": "시엘 팬텀하이브",
 };
 
 const WORKER = "https://chzzk-chat-quiz.web404dev.workers.dev";
@@ -341,6 +347,18 @@ function stripAnilist(text) {
     .trim();
 }
 
+function hangulCount(text) {
+  return [...String(text || "")].filter((ch) => {
+    const code = ch.codePointAt(0);
+    return code >= 0xac00 && code <= 0xd7a3;
+  }).length;
+}
+
+function koreanBlurb(text, ...secrets) {
+  const cleaned = scrubHint(stripAnilist(text), ...secrets);
+  return hangulCount(cleaned) >= 8 ? cleaned : "";
+}
+
 function mappedWord(map, ...cands) {
   for (const raw of cands.flat(2)) {
     const key = String(raw || "").trim();
@@ -374,7 +392,8 @@ function characterWord(node, title) {
 export function buildMangaBank(raw = {}, fetchedAt = Date.now()) {
   const items = [];
   const seen = new Set();
-  for (const media of raw.media || []) {
+  const mediaList = raw.media || [];
+  for (const media of mediaList) {
     const title = titleFromMedia(media);
     const year = Number(media.startDate?.year || media.year || 0) || 0;
     const mediaGenres = mapGenres(media.genres);
@@ -386,10 +405,11 @@ export function buildMangaBank(raw = {}, fetchedAt = Date.now()) {
         {
           word: title,
           genre: "만화이름",
-          hint: [mediaGenres.join(" · "), year ? `${year}년` : "", scrubHint(stripAnilist(media.description), title)]
+          hint: [mediaGenres.join(" · "), year ? `${year}년` : "", koreanBlurb(media.description, title)]
             .filter(Boolean)
             .join("\n") || "만화 제목",
-          image: cover,
+          image: "",
+          imageReveal: cover,
           year,
           mediaGenres,
           series: title,
@@ -407,7 +427,7 @@ export function buildMangaBank(raw = {}, fetchedAt = Date.now()) {
         {
           word,
           genre: "캐릭터",
-          hint: [title ? `「${title}」 캐릭터` : "", scrubHint(stripAnilist(node.description), ...names, title)]
+          hint: [title ? `「${title}」 캐릭터` : "", koreanBlurb(node.description, ...names, title)]
             .filter(Boolean)
             .join("\n") || "만화 캐릭터",
           image: node.image?.large || "",
@@ -420,12 +440,18 @@ export function buildMangaBank(raw = {}, fetchedAt = Date.now()) {
     }
   }
   for (const extra of raw.curated || MANGA_CURATED) {
+    const hint = extra.hint || extra.series || extra.genre;
+    if (extra.genre === "만화이름" && mediaList.length) {
+      const existing = items.find((item) => item.genre === "만화이름" && item.word === extra.word);
+      if (existing && hangulCount(hint) > hangulCount(existing.hint)) existing.hint = hint;
+      continue;
+    }
     pushClue(
       items,
       seen,
       {
         ...extra,
-        hint: extra.hint || extra.series || extra.genre,
+        hint,
         year: extra.year || 0,
         mediaGenres: extra.mediaGenres || [],
       },
@@ -499,7 +525,7 @@ async function fetchMangaRaw() {
 }
 
 const manga = makeCachedBank({
-  cacheKey: "clueMangaBank:v3",
+  cacheKey: "clueMangaBank:v7",
   title: "만화 단서",
   kinds: MANGA_KINDS,
   fetchRaw: fetchMangaRaw,

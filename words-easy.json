@@ -1,166 +1,166 @@
 {
-  "version": 2,
-  "title": "쉬운 초성 단어 (장르 확장)",
+  "version": 3,
+  "title": "쉬운 초성 단어 (세부 장르)",
   "words": [
     {
       "word": "바다여행",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "까마귀",
-      "genre": "동물"
+      "genre": "새"
     },
     {
       "word": "호랑이",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "도서관",
-      "genre": "장소"
+      "genre": "공공기관"
     },
     {
       "word": "아이스크림",
-      "genre": "음식"
+      "genre": "디저트"
     },
     {
       "word": "지하철",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "김치찌개",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "자전거",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "우산",
-      "genre": "생활"
+      "genre": "소지품"
     },
     {
       "word": "연필",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "초콜릿",
-      "genre": "음식"
+      "genre": "디저트"
     },
     {
       "word": "사과나무",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "해바라기",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "무지개",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "고양이",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "강아지",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "텔레비전",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "냉장고",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "세탁기",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "컴퓨터",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "핸드폰",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "카메라",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "비행기",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "자동차",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "소방차",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "구급차",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "경찰서",
-      "genre": "장소"
+      "genre": "공공기관"
     },
     {
       "word": "소방서",
-      "genre": "장소"
+      "genre": "공공기관"
     },
     {
       "word": "병원",
-      "genre": "장소"
+      "genre": "공공기관"
     },
     {
       "word": "약국",
-      "genre": "장소"
+      "genre": "공공기관"
     },
     {
       "word": "학교",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "교실",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "운동장",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "축구공",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "야구모자",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "농구대",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "피아노",
-      "genre": "물건"
+      "genre": "악기"
     },
     {
       "word": "기타",
-      "genre": "물건"
+      "genre": "악기"
     },
     {
       "word": "드럼",
-      "genre": "물건"
+      "genre": "악기"
     },
     {
       "word": "노래방",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "영화관",
@@ -168,27 +168,27 @@
     },
     {
       "word": "박물관",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "미술관",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "놀이공원",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "롤러코스터",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "회전목마",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "솜사탕",
-      "genre": "음식"
+      "genre": "디저트"
     },
     {
       "word": "팝콘",
@@ -196,279 +196,279 @@
     },
     {
       "word": "라면",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "김밥",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "떡볶이",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "순대",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "호떡",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "붕어빵",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "계란빵",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "핫도그",
-      "genre": "음식"
+      "genre": "분식"
     },
     {
       "word": "피자",
-      "genre": "음식"
+      "genre": "양식"
     },
     {
       "word": "햄버거",
-      "genre": "음식"
+      "genre": "양식"
     },
     {
       "word": "치킨",
-      "genre": "음식"
+      "genre": "양식"
     },
     {
       "word": "감자튀김",
-      "genre": "음식"
+      "genre": "양식"
     },
     {
       "word": "수박",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "참외",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "포도",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "딸기",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "바나나",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "오렌지",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "레몬",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "복숭아",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "자두",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "호두",
-      "genre": "음식"
+      "genre": "디저트"
     },
     {
       "word": "눈사람",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "눈싸움",
-      "genre": "스포츠"
+      "genre": "겨울운동"
     },
     {
       "word": "스케이트",
-      "genre": "스포츠"
+      "genre": "겨울운동"
     },
     {
       "word": "스키장",
-      "genre": "스포츠"
+      "genre": "겨울운동"
     },
     {
       "word": "수영장",
-      "genre": "스포츠"
+      "genre": "수영"
     },
     {
       "word": "해변",
-      "genre": "장소"
+      "genre": "자연명소"
     },
     {
       "word": "모래성",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "파도",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "조개껍질",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "등대",
-      "genre": "자연"
+      "genre": "자연명소"
     },
     {
       "word": "낚시",
-      "genre": "물건"
+      "genre": "스포츠"
     },
     {
       "word": "캠핑",
-      "genre": "물건"
+      "genre": "스포츠"
     },
     {
       "word": "텐트",
-      "genre": "물건"
+      "genre": "소지품"
     },
     {
       "word": "모닥불",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "별자리",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "달빛",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "해돋이",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "노을",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "산정상",
-      "genre": "자연"
+      "genre": "자연명소"
     },
     {
       "word": "계곡",
-      "genre": "장소"
+      "genre": "자연명소"
     },
     {
       "word": "폭포",
-      "genre": "장소"
+      "genre": "자연명소"
     },
     {
       "word": "동굴",
-      "genre": "장소"
+      "genre": "자연명소"
     },
     {
       "word": "숲속",
-      "genre": "장소"
+      "genre": "자연명소"
     },
     {
       "word": "단풍",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "벚꽃",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "민들레",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "장미",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "튤립",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "백합",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "국화",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "나비",
-      "genre": "동물"
+      "genre": "벌레"
     },
     {
       "word": "잠자리",
-      "genre": "동물"
+      "genre": "벌레"
     },
     {
       "word": "반딧불",
-      "genre": "동물"
+      "genre": "벌레"
     },
     {
       "word": "개미",
-      "genre": "동물"
+      "genre": "벌레"
     },
     {
       "word": "벌집",
-      "genre": "동물"
+      "genre": "벌레"
     },
     {
       "word": "거미줄",
-      "genre": "동물"
+      "genre": "벌레"
     },
     {
       "word": "거북이",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "토끼",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "다람쥐",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "햄스터",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "펭귄",
-      "genre": "동물"
+      "genre": "새"
     },
     {
       "word": "북극곰",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "기린",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "코끼리",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "하마",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "악어",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "공룡",
-      "genre": "동물"
+      "genre": "공룡"
     },
     {
       "word": "로봇",
@@ -476,311 +476,311 @@
     },
     {
       "word": "우주선",
-      "genre": "물건"
+      "genre": "탈것"
     },
     {
       "word": "로켓",
-      "genre": "물건"
+      "genre": "탈것"
     },
     {
       "word": "위성",
-      "genre": "물건"
+      "genre": "탈것"
     },
     {
       "word": "별똥별",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "은하수",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "시계탑",
-      "genre": "물건"
+      "genre": "도시"
     },
     {
       "word": "다리",
-      "genre": "물건"
+      "genre": "교통시설"
     },
     {
       "word": "터널",
-      "genre": "물건"
+      "genre": "교통시설"
     },
     {
       "word": "고속도로",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "주차장",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "신호등",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "우체통",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "초인종",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "현관문",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "창문",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "커튼",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "베개",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "이불",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "장롱",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "옷걸이",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "거울",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "치약",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "칫솔",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "비누",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "수건",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "샴푸",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "로션",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "향수",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "지갑",
-      "genre": "생활"
+      "genre": "소지품"
     },
     {
       "word": "열쇠",
-      "genre": "생활"
+      "genre": "소지품"
     },
     {
       "word": "우산꽂이",
-      "genre": "생활"
+      "genre": "가구"
     },
     {
       "word": "장화",
-      "genre": "생활"
+      "genre": "옷"
     },
     {
       "word": "운동화",
-      "genre": "생활"
+      "genre": "옷"
     },
     {
       "word": "슬리퍼",
-      "genre": "생활"
+      "genre": "옷"
     },
     {
       "word": "모자",
-      "genre": "생활"
+      "genre": "옷"
     },
     {
       "word": "목도리",
-      "genre": "생활"
+      "genre": "옷"
     },
     {
       "word": "장갑",
-      "genre": "생활"
+      "genre": "옷"
     },
     {
       "word": "안경",
-      "genre": "생활"
+      "genre": "소지품"
     },
     {
       "word": "이어폰",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "충전기",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "노트",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "지우개",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "가위",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "스테이플러",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "칠판",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "분필",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "책상",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "의자",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "사물함",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "급식실",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "매점",
-      "genre": "학교"
+      "genre": "가게"
     },
     {
       "word": "복도",
-      "genre": "학교"
+      "genre": "학교시설"
     },
     {
       "word": "계단",
-      "genre": "물건"
+      "genre": "가구"
     },
     {
       "word": "엘리베이터",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "화장실",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "사과",
-      "genre": "음식"
+      "genre": "과일"
     },
     {
       "word": "우유",
-      "genre": "음식"
+      "genre": "음료"
     },
     {
       "word": "친구",
-      "genre": "생활"
+      "genre": "친구"
     },
     {
       "word": "가족",
-      "genre": "생활"
+      "genre": "가족"
     },
     {
       "word": "엄마",
-      "genre": "생활"
+      "genre": "가족"
     },
     {
       "word": "아빠",
-      "genre": "생활"
+      "genre": "가족"
     },
     {
       "word": "동생",
-      "genre": "생활"
+      "genre": "가족"
     },
     {
       "word": "하늘",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "구름",
-      "genre": "자연"
+      "genre": "하늘"
     },
     {
       "word": "바람",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "바다",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "나무",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "돼지",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "가방",
-      "genre": "물건"
+      "genre": "소지품"
     },
     {
       "word": "버스",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "택시",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "기차",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "배고픔",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "연필심",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "축구",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "야구",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "농구",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "영화",
@@ -792,327 +792,327 @@
     },
     {
       "word": "게임",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "커피",
-      "genre": "음식"
+      "genre": "음료"
     },
     {
       "word": "주스",
-      "genre": "음식"
+      "genre": "음료"
     },
     {
       "word": "김치",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "된장",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "고추장",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "서울",
-      "genre": "장소"
+      "genre": "도시"
     },
     {
       "word": "부산",
-      "genre": "장소"
+      "genre": "도시"
     },
     {
       "word": "공원",
-      "genre": "장소"
+      "genre": "자연명소"
     },
     {
       "word": "시장",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "가게",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "카페",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "식당",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "의사",
-      "genre": "직업"
+      "genre": "의료"
     },
     {
       "word": "선생",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "학생",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "경찰",
-      "genre": "직업"
+      "genre": "공공"
     },
     {
       "word": "소방관",
-      "genre": "직업"
+      "genre": "공공"
     },
     {
       "word": "요리사",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "가수",
-      "genre": "직업"
+      "genre": "예술"
     },
     {
       "word": "배우",
-      "genre": "직업"
+      "genre": "예술"
     },
     {
       "word": "기자",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "판사",
-      "genre": "직업"
+      "genre": "공공"
     },
     {
       "word": "간호사",
-      "genre": "직업"
+      "genre": "의료"
     },
     {
       "word": "군인",
-      "genre": "직업"
+      "genre": "공공"
     },
     {
       "word": "농부",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "어부",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "화가",
-      "genre": "직업"
+      "genre": "예술"
     },
     {
       "word": "운전기사",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "프로그래머",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "디자이너",
-      "genre": "직업"
+      "genre": "예술"
     },
     {
       "word": "선생님",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "변호사",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "약사",
-      "genre": "직업"
+      "genre": "의료"
     },
     {
       "word": "우체부",
-      "genre": "직업"
+      "genre": "공공"
     },
     {
       "word": "미용사",
-      "genre": "직업"
+      "genre": "서비스"
     },
     {
       "word": "교과서",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "숙제",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "시험",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "방학",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "급식",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "책가방",
-      "genre": "학교"
+      "genre": "문구"
     },
     {
       "word": "교장",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "체육복",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "수학",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "국어",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "영어",
-      "genre": "학교"
+      "genre": "수업"
     },
     {
       "word": "배구",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "테니스",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "수영",
-      "genre": "스포츠"
+      "genre": "수영"
     },
     {
       "word": "달리기",
-      "genre": "스포츠"
+      "genre": "육상"
     },
     {
       "word": "마라톤",
-      "genre": "스포츠"
+      "genre": "육상"
     },
     {
       "word": "골프",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "볼링",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "탁구",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "배드민턴",
-      "genre": "스포츠"
+      "genre": "구기"
     },
     {
       "word": "태권도",
-      "genre": "스포츠"
+      "genre": "격투"
     },
     {
       "word": "유도",
-      "genre": "스포츠"
+      "genre": "격투"
     },
     {
       "word": "씨름",
-      "genre": "스포츠"
+      "genre": "격투"
     },
     {
       "word": "스키",
-      "genre": "스포츠"
+      "genre": "겨울운동"
     },
     {
       "word": "스노보드",
-      "genre": "스포츠"
+      "genre": "겨울운동"
     },
     {
       "word": "헬스",
-      "genre": "스포츠"
+      "genre": "육상"
     },
     {
       "word": "오토바이",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "트럭",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "배",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "여객선",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "헬기",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "전철",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "환승",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "정류장",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "티켓",
-      "genre": "교통"
+      "genre": "교통시설"
     },
     {
       "word": "여권",
-      "genre": "교통"
+      "genre": "소지품"
     },
     {
       "word": "킥보드",
-      "genre": "교통"
+      "genre": "탈것"
     },
     {
       "word": "리모컨",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "청소기",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "전자레인지",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "공기청정기",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "커피머신",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "드라이기",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "다리미",
-      "genre": "생활"
+      "genre": "가전"
     },
     {
       "word": "세탁망",
-      "genre": "생활"
+      "genre": "욕실"
     },
     {
       "word": "피카츄",
@@ -1259,7 +1259,7 @@
       "genre": "만화"
     },
     {
-      "word": "포켓몬",
+      "word": "포켓몬스터",
       "genre": "만화"
     },
     {
@@ -1296,219 +1296,219 @@
     },
     {
       "word": "여우",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "늑대",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "사자",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "치타",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "표범",
-      "genre": "동물"
+      "genre": "포유류"
     },
     {
       "word": "올빼미",
-      "genre": "동물"
+      "genre": "새"
     },
     {
       "word": "참새",
-      "genre": "동물"
+      "genre": "새"
     },
     {
       "word": "비둘기",
-      "genre": "동물"
+      "genre": "새"
     },
     {
       "word": "금붕어",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "상어",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "돌고래",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "문어",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "오징어",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "게",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "새우",
-      "genre": "동물"
+      "genre": "바다생물"
     },
     {
       "word": "짜장면",
-      "genre": "음식"
+      "genre": "중식"
     },
     {
       "word": "짬뽕",
-      "genre": "음식"
+      "genre": "중식"
     },
     {
       "word": "비빔밥",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "불고기",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "삼겹살",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "된장찌개",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "순두부",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "만두",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "떡국",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "설렁탕",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "삼계탕",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "칼국수",
-      "genre": "음식"
+      "genre": "한식"
     },
     {
       "word": "파스타",
-      "genre": "음식"
+      "genre": "양식"
     },
     {
       "word": "스테이크",
-      "genre": "음식"
+      "genre": "양식"
     },
     {
       "word": "초밥",
-      "genre": "음식"
+      "genre": "중식"
     },
     {
       "word": "백화점",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "편의점",
-      "genre": "장소"
+      "genre": "가게"
     },
     {
       "word": "공항",
-      "genre": "장소"
+      "genre": "도시"
     },
     {
       "word": "항구",
-      "genre": "장소"
+      "genre": "도시"
     },
     {
       "word": "체육관",
-      "genre": "장소"
+      "genre": "도시"
     },
     {
       "word": "경기장",
-      "genre": "장소"
+      "genre": "도시"
     },
     {
       "word": "소나기",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "장마",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "태풍",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "눈꽃",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "이슬",
-      "genre": "자연"
+      "genre": "날씨"
     },
     {
       "word": "이끼",
-      "genre": "자연"
+      "genre": "식물"
     },
     {
       "word": "연못",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "호수",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "강물",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "섬",
-      "genre": "자연"
+      "genre": "물"
     },
     {
       "word": "풍선",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "인형",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "퍼즐",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "주사위",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "보드게임",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "드론",
-      "genre": "물건"
+      "genre": "장난감"
     },
     {
       "word": "손전등",
-      "genre": "물건"
+      "genre": "소지품"
     },
     {
       "word": "배터리",
-      "genre": "물건"
+      "genre": "소지품"
     }
   ]
 }

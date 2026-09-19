@@ -110,6 +110,15 @@ export function unlockQuizAudio() {
   if (bedKey) playBed(bedKey, true);
 }
 
+export function hushQuizBed(on) {
+  if (on) {
+    bed.pause();
+    return;
+  }
+  if (!bedKey || audioOff()) return;
+  startBed();
+}
+
 export function syncQuizBgm(phase, { desk = false } = {}) {
   deskSilent = desk;
   if (desk) {

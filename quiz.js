@@ -21,9 +21,46 @@ export function toChosung(text) {
   return out;
 }
 
-export function isCorrect(guess, answer) {
-  const a = normalizeAnswer(answer);
-  return a.length > 0 && normalizeAnswer(guess) === a;
+const TITLE_SPLIT = /[:：\-–—·]/;
+
+function addAnswerKey(keys, value) {
+  const n = normalizeAnswer(value);
+  if (n.length >= 2) keys.add(n);
+  const noSequel = n.replace(/[2-9]$/, "");
+  if (noSequel.length >= 2) keys.add(noSequel);
+}
+
+function collectAnswerKeys(texts, splitTitle) {
+  const keys = new Set();
+  for (const text of texts) {
+    const raw = String(text ?? "").trim();
+    if (!raw) continue;
+    addAnswerKey(keys, raw);
+    if (!splitTitle) continue;
+    for (const part of raw.split(TITLE_SPLIT)) {
+      const piece = part.trim();
+      if (piece) addAnswerKey(keys, piece);
+    }
+  }
+  return keys;
+}
+
+export function answerKeys(answer, aliases) {
+  const texts = Array.isArray(answer) ? answer : [answer];
+  const keys = collectAnswerKeys(texts, true);
+  for (const key of collectAnswerKeys(aliases || [], false)) keys.add(key);
+  return keys;
+}
+
+export function isCorrect(guess, answer, aliases) {
+  const g = normalizeAnswer(guess);
+  if (!g) return false;
+  const answers = answerKeys(answer, aliases);
+  if (answers.has(g)) return true;
+  for (const key of answerKeys(guess)) {
+    if (answers.has(key)) return true;
+  }
+  return false;
 }
 
 export function parseChannelId(input) {
@@ -34,7 +71,7 @@ export function parseChannelId(input) {
   return parts[parts.length - 1] || "";
 }
 
-export function createJudge({ answer, excludeUserId = "" } = {}) {
+export function createJudge({ answer, aliases = [], excludeUserId = "", match } = {}) {
   let winner = null;
   return function judge(chat) {
     if (winner) return { hit: false, winner };
@@ -44,7 +81,8 @@ export function createJudge({ answer, excludeUserId = "" } = {}) {
     if (excludeUserId && chat.userId === excludeUserId) {
       return { hit: false, winner };
     }
-    if (!isCorrect(chat.text, answer)) return { hit: false, winner };
+    const hit = typeof match === "function" ? match(chat.text) : isCorrect(chat.text, answer, aliases);
+    if (!hit) return { hit: false, winner };
     winner = {
       nickname: chat.nickname || "익명",
       userId: chat.userId || "",
@@ -154,4 +192,22 @@ export function pickMissBox({
     if (forbidden.every((av) => !boxesOverlap(box, av))) return box;
   }
   return null;
+}
+
+export function rankByScore(entries) {
+  const sorted = [...(entries || [])].sort((a, b) => {
+    const as = Number(a?.[1]) || 0;
+    const bs = Number(b?.[1]) || 0;
+    if (bs !== as) return bs - as;
+    return String(a?.[0] || "").localeCompare(String(b?.[0] || ""), "ko");
+  });
+  let lastScore = null;
+  let lastRank = 0;
+  return sorted.map(([name, score], i) => {
+    const n = Number(score) || 0;
+    const rank = lastScore === n ? lastRank : i + 1;
+    lastScore = n;
+    lastRank = rank;
+    return { name: String(name ?? ""), score: n, rank };
+  });
 }

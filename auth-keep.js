@@ -1,4 +1,30 @@
 const REFRESH_EVERY_MS = 40 * 60 * 1000;
+export const HOST_SESSION_KEY = "chzzkSession";
+export const GUEST_SESSION_KEY = "chatquiz-guest-session";
+
+export function readAuthSession(key) {
+  try {
+    const raw = localStorage.getItem(key) || sessionStorage.getItem(key);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    return data && typeof data === "object" ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+export function writeAuthSession(key, data) {
+  const raw = JSON.stringify(data || {});
+  try {
+    localStorage.setItem(key, raw);
+  } catch {
+    try {
+      sessionStorage.setItem(key, raw);
+    } catch {
+      // quota / private mode
+    }
+  }
+}
 
 export function createAuthKeep({ workerBase, getSession, setSession } = {}) {
   let timer = 0;
@@ -39,7 +65,8 @@ export function createAuthKeep({ workerBase, getSession, setSession } = {}) {
     timer = setInterval(() => {
       void refresh().catch(() => {});
     }, REFRESH_EVERY_MS);
-    if (session.refreshedAt && Date.now() - Number(session.refreshedAt) > REFRESH_EVERY_MS) {
+    const age = Date.now() - Number(session.refreshedAt || 0);
+    if (!session.refreshedAt || age > REFRESH_EVERY_MS) {
       void refresh().catch(() => {});
     }
   }

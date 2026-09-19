@@ -8,36 +8,63 @@ import {
   rotatedAabb,
   pickMissBox,
   normalizeAnswer,
-} from "./quiz.js?v=143";
+  rankByScore,
+} from "./quiz.js?v=147";
 import { createChzzkChat } from "./chzzk-chat.js?v=107";
 import { createOfficialChzzkChat } from "./chzzk-session.js?v=109";
 import {
+  flattenGenreChips,
+  GENRE_ALIASES,
+  GENRE_TREE,
   getWordBankStats,
   initWordBank,
+  kidsOfGenre,
   pickWordFromBank,
   pickWordEntryFromBank,
   pickWordEntriesFromBank,
-} from "./word-bank.js?v=150";
+} from "./word-bank.js?v=152";
 import {
   pickClueEntries,
   filterClueItems,
   getClueBankStats,
   isClueSilhouetteKind,
+  cluePlayImages,
   clueEntryKey,
   clueImageKey,
   clueImageCandidates,
-} from "./genshin-bank.js?v=155";
-import { CLUE_PACKS, MANGA_GENRES, MOVIE_GENRES, gamePacks, getCluePack, allGamePack } from "./clue-registry.js?v=180";
+} from "./genshin-bank.js?v=159";
+import { CLUE_PACKS, GAME_NAME_KIND, gamePacks, getCluePack, allGamePack } from "./clue-registry.js?v=199";
+import {
+  animeGenreTree,
+  flattenMediaTree,
+  kidsOfMedia,
+  movieGenreTree,
+  webtoonGenreTree,
+} from "./media-filter.js?v=1";
 import { createDeskBridge, normFromEvent } from "./desk-bridge.js?v=107";
-import { createGuestHostController } from "./guest-host.js?v=114";
-import { createAuthKeep } from "./auth-keep.js?v=137";
+import { createGuestHostController } from "./guest-host.js?v=116";
+import { createAuthKeep, HOST_SESSION_KEY, readAuthSession, writeAuthSession } from "./auth-keep.js?v=138";
 import {
   syncQuizBgm,
   playQuizSting,
   playQuizSfx,
   isQuizBgmMuted,
   setQuizBgmMuted,
-} from "./audio.js?v=192";
+  hushQuizBed,
+} from "./audio.js?v=193";
+import { loadSongs, takeSongSync, songCount } from "./song-bank.js?v=2";
+import {
+  isSongCorrect,
+  songDisplayAnswer,
+  SONG_GENRE_TREE,
+  flattenSongGenres,
+  kidsOfSongGenre,
+  listenAnswerModeLabel,
+  listenAnswerPrompt,
+  listenAnswerStatus,
+  normalizeListenAnswerMode,
+  pickListenAnswerMode,
+} from "./song-quiz.js?v=4";
 
 const params = new URLSearchParams(location.search);
 const isDev = params.get("dev") === "1";
@@ -51,6 +78,7 @@ const els = {
   hitFlyChip: document.getElementById("hitFlyChip"),
   hitFireworks: document.getElementById("hitFireworks"),
   guestAuthorTag: document.getElementById("guestAuthorTag"),
+  autoWordPick: document.getElementById("autoWordPick"),
   autoPickCountLabel: document.getElementById("autoPickCountLabel"),
   autoPickMinus: document.getElementById("autoPickMinus"),
   autoPickPlus: document.getElementById("autoPickPlus"),
@@ -87,6 +115,8 @@ const els = {
   formatSeg: document.getElementById("formatSeg"),
   topicAxis: document.getElementById("topicAxis"),
   timeHintOpt: document.getElementById("timeHintOpt"),
+  hintGroup: document.getElementById("hintGroup"),
+  genreRevealOpt: document.getElementById("genreRevealOpt"),
   clueFields: document.getElementById("clueFields"),
   clueFieldSeg: document.getElementById("clueFieldSeg"),
   cluePackRow: document.getElementById("cluePackRow"),
@@ -100,6 +130,7 @@ const els = {
   mangaFilters: document.getElementById("mangaFilters"),
   mediaGenreLabel: document.getElementById("mediaGenreLabel"),
   mangaGenreList: document.getElementById("mangaGenreList"),
+  mangaYearBlock: document.getElementById("mangaYearBlock"),
   mangaYearList: document.getElementById("mangaYearList"),
   clueKindList: document.getElementById("clueKindList"),
   clueFilterRow: document.getElementById("clueFilterRow"),
@@ -120,6 +151,28 @@ const els = {
   clueArtFrame: document.getElementById("clueArtFrame"),
   clueKindBadge: document.getElementById("clueKindBadge"),
   clueMeta: document.getElementById("clueMeta"),
+  listenStage: document.getElementById("listenStage"),
+  listenAudio: document.getElementById("listenAudio"),
+  listenVol: document.getElementById("listenVol"),
+  listenVolOpt: document.getElementById("listenVolOpt"),
+  listenPreviewBtn: document.getElementById("listenPreviewBtn"),
+  deskListenVol: document.getElementById("deskListenVol"),
+  deskListenVolOpt: document.getElementById("deskListenVolOpt"),
+  deskListenPreviewBtn: document.getElementById("deskListenPreviewBtn"),
+  listenGenreToggle: document.getElementById("listenGenreToggle"),
+  listenGenreSummary: document.getElementById("listenGenreSummary"),
+  autoWordLen: document.getElementById("autoWordLen"),
+  listenGenreModal: document.getElementById("listenGenreModal"),
+  listenGenrePanel: document.getElementById("listenGenrePanel"),
+  listenGenreApply: document.getElementById("listenGenreApply"),
+  listenGenreClose: document.getElementById("listenGenreClose"),
+  listenAnswerBlock: document.getElementById("listenAnswerBlock"),
+  listenAnswerMenu: document.getElementById("listenAnswerMenu"),
+  listenAnswerToggle: document.getElementById("listenAnswerToggle"),
+  listenAnswerSummary: document.getElementById("listenAnswerSummary"),
+  listenAnswerList: document.getElementById("listenAnswerList"),
+  listenKicker: document.getElementById("listenKicker"),
+  listenLine: document.getElementById("listenLine"),
   clueSetupStatus: document.getElementById("clueSetupStatus"),
   clueFilterToggle: document.getElementById("clueFilterToggle"),
   promptText: document.getElementById("promptText"),
@@ -166,6 +219,7 @@ const els = {
   setupStartRow: document.getElementById("setupStartRow"),
   drawPanel: document.getElementById("drawPanel"),
   startBtn: document.getElementById("startBtn"),
+  hostToast: document.getElementById("hostToast"),
   hostTutorial: document.getElementById("hostTutorial"),
   hostTutorialArt: document.getElementById("hostTutorialArt"),
   hostTutorialKicker: document.getElementById("hostTutorialKicker"),
@@ -236,6 +290,9 @@ const els = {
   deskPaint: document.getElementById("deskPaint"),
   deskPaintWrap: document.getElementById("deskPaintWrap"),
   joinBanner: document.getElementById("joinBanner"),
+  joinRoster: document.getElementById("joinRoster"),
+  joinRosterNames: document.getElementById("joinRosterNames"),
+  joinRosterEmpty: document.getElementById("joinRosterEmpty"),
   guestHostPanel: document.getElementById("guestHostPanel"),
   guestHostEnabled: document.getElementById("guestHostEnabled"),
   guestHostBody: document.getElementById("guestHostBody"),
@@ -293,13 +350,15 @@ let wordBank = { words: [], fetchedAt: 0 };
 let clueBanks = {};
 let clueBankLoading = {};
 let clueField = "game";
-let cluePack = "genshin";
+let cluePack = "all";
 let mangaGenres = ["all"];
 let mangaYear = "all";
+let animeGenres = ["all"];
+let animeYear = "all";
 let movieGenres = ["all"];
 let movieYear = "all";
 let selectedClueKinds = ["all"];
-const CLUE_PREF_KEY = "cluePrefs:v3";
+const CLUE_PREF_KEY = "cluePrefs:v4";
 const TTS_PREF_KEY = "quizTts:v1";
 let chatHandle = null;
 let judge = null;
@@ -313,6 +372,7 @@ let timerDuration = 30;
 let roundActive = false;
 let scores = new Map();
 let session = { channelId: "", userId: "" };
+let chatLive = false;
 let current = {
   mode: "chosung",
   format: "chosung",
@@ -345,6 +405,8 @@ let deskBridge = null;
 let deskPopup = null;
 let deskPollId = 0;
 let deskConnected = false;
+let deskHelloAt = 0;
+let deskOpenWait = 0;
 let remoteDrawing = false;
 let paintPointerDown = () => {};
 let paintPointerMove = () => {};
@@ -455,6 +517,34 @@ function setGuestModalOpen(open) {
 }
 
 let guestToastTimer = 0;
+let hostToastTimer = 0;
+function showHostToast(text, ms = 1800) {
+  let el = els.hostToast || document.getElementById("hostToast");
+  if (!el) {
+    el = document.createElement("p");
+    el.id = "hostToast";
+    el.className = "host-toast";
+    el.setAttribute("role", "status");
+    document.body.appendChild(el);
+  }
+  if (el.parentElement !== document.body) document.body.appendChild(el);
+  els.hostToast = el;
+  el.textContent = text;
+  el.hidden = false;
+  el.removeAttribute("hidden");
+  el.classList.remove("is-show");
+  void el.offsetWidth;
+  el.classList.add("is-show");
+  if (hostToastTimer) clearTimeout(hostToastTimer);
+  hostToastTimer = setTimeout(() => {
+    el.classList.remove("is-show");
+    hostToastTimer = setTimeout(() => {
+      el.hidden = true;
+      el.setAttribute("hidden", "");
+    }, 180);
+  }, ms);
+}
+
 function showGuestToast(text, ms = 2200) {
   const el = els.guestToast;
   if (!el) {
@@ -504,10 +594,31 @@ function applyGuestAnswer(msg) {
 }
 
 function syncJoinBanner() {
-  if (!els.joinBanner || isDeskMode) return;
+  if (isDeskMode) return;
   const on = !!(guestHost?.state.enabled && guestHost.state.recruiting);
-  setHidden(els.joinBanner, !on);
-  els.joinBanner.setAttribute("aria-hidden", "true");
+  const names = on ? guestHost.listCandidates() : [];
+  if (els.joinBanner) {
+    setHidden(els.joinBanner, true);
+    els.joinBanner.setAttribute("aria-hidden", "true");
+  }
+  if (els.joinRoster) setHidden(els.joinRoster, !on);
+  if (els.joinRosterEmpty) setHidden(els.joinRosterEmpty, names.length > 0);
+  if (els.joinRosterNames) {
+    els.joinRosterNames.replaceChildren();
+    const shown = names.slice(0, 8);
+    for (const c of shown) {
+      const chip = document.createElement("span");
+      chip.className = "join-roster-chip";
+      chip.textContent = c.nickname;
+      els.joinRosterNames.appendChild(chip);
+    }
+    if (names.length > shown.length) {
+      const more = document.createElement("span");
+      more.className = "join-roster-chip is-more";
+      more.textContent = `+${names.length - shown.length}`;
+      els.joinRosterNames.appendChild(more);
+    }
+  }
 }
 
 function renderGuestHostUi() {
@@ -788,9 +899,22 @@ function bindGuestHostUi() {
 function deskUrl() {
   const u = new URL(location.href);
   u.searchParams.set("desk", "1");
+  u.searchParams.set("ui", "222");
   if (isDev) u.searchParams.set("dev", "1");
   else u.searchParams.delete("dev");
   return u.toString();
+}
+
+function paintAnswerPlayingText(text) {
+  const el = els.answerPlayingText;
+  if (!el) return;
+  if (text !== undefined) el.textContent = text;
+  el.style.color = "#060912";
+  el.style.background = "#ffe14a";
+  el.style.border = "2px solid #060912";
+  el.style.borderRadius = "10px";
+  el.style.padding = "6px 12px";
+  el.style.fontWeight = "900";
 }
 
 function setDeskDetachedUi(on) {
@@ -807,6 +931,41 @@ function clearDeskPoll() {
     clearInterval(deskPollId);
     deskPollId = 0;
   }
+  if (deskOpenWait) {
+    clearTimeout(deskOpenWait);
+    deskOpenWait = 0;
+  }
+}
+
+function startDeskAlivePoll() {
+  if (deskPollId) return;
+  deskPollId = setInterval(() => {
+    if (deskPopup && deskPopup.closed) {
+      onDeskPopupClosed();
+      return;
+    }
+    if (deskConnected && Date.now() - deskHelloAt > 12000) onDeskPopupClosed();
+  }, 1000);
+}
+
+function attachLiveDesk() {
+  const first = !deskConnected;
+  deskConnected = true;
+  deskHelloAt = Date.now();
+  setDeskDetachedUi(true);
+  if (els.deskLinkStatus) {
+    els.deskLinkStatus.hidden = false;
+    els.deskLinkStatus.textContent = "조작창 연결됨";
+  }
+  startDeskAlivePoll();
+  if (deskOpenWait) {
+    clearTimeout(deskOpenWait);
+    deskOpenWait = 0;
+  }
+  if (first) {
+    setStatus("조작창과 연결됐습니다");
+    syncDeskFlow();
+  }
 }
 
 function onDeskPopupClosed() {
@@ -819,27 +978,62 @@ function onDeskPopupClosed() {
     els.deskLinkStatus.textContent = "";
   }
   setStatus("조작창이 닫혀 아래 조작칸을 다시 켰습니다");
+  syncDeskFlow();
 }
 
-function openDeskPopup() {
+function isDeskDetached() {
+  if (isDeskMode) return true;
+  if (deskConnected) return true;
+  return Boolean(deskPopup && !deskPopup.closed);
+}
+
+function nudgeDetachDeskBtn() {
+  const btn = els.detachDeskBtn;
+  if (!btn || btn.hidden) return;
+  btn.classList.remove("is-shake");
+  void btn.offsetWidth;
+  btn.classList.add("is-shake");
+  const stop = () => btn.classList.remove("is-shake");
+  btn.addEventListener("animationend", stop, { once: true });
+}
+
+function requireDeskDetached() {
+  if (isDeskDetached()) return true;
+  showHostToast("조작창 분리 버튼을 눌러주세요");
+  nudgeDetachDeskBtn();
+  return false;
+}
+
+const DESK_POPUP_FEATURES = "popup=yes,width=720,height=740,left=80,top=40,resizable=yes,scrollbars=yes";
+
+function openDeskWindow() {
   if (deskPopup && !deskPopup.closed) {
     try {
       deskPopup.focus();
     } catch (_) {}
-    return;
+    if (hostTutorialStep >= 0) dismissHostTutorial();
+    return true;
   }
-  deskPopup = window.open(deskUrl(), "chatquiz-desk", "width=960,height=820");
-  if (!deskPopup) {
-    setStatus("팝업이 차단되었습니다. 브라우저에서 팝업을 허용해 주세요");
-    return;
+  if (deskConnected) {
+    if (hostTutorialStep >= 0) dismissHostTutorial();
+    return true;
   }
+  let win = null;
+  try {
+    win = window.open(deskUrl(), "chatquiz-desk", DESK_POPUP_FEATURES);
+  } catch (_) {}
+  if (!win) {
+    showHostToast("팝업이 막혔습니다. 이 사이트 팝업을 허용해 주세요");
+    return false;
+  }
+  deskPopup = win;
   setDeskDetachedUi(true);
-  clearDeskPoll();
-  deskPollId = setInterval(() => {
-    if (!deskPopup || deskPopup.closed) onDeskPopupClosed();
-  }, 500);
+  startDeskAlivePoll();
   setStatus("조작창으로 분리했습니다");
+  if (hostTutorialStep >= 0) dismissHostTutorial();
   publishDeskState();
+  syncDeskFlow();
+  return true;
 }
 
 function buildDeskState() {
@@ -876,6 +1070,8 @@ function buildDeskState() {
     timerPct,
     startBtnText: els.startBtn?.textContent || "게임 시작",
     bgmMuted: isQuizBgmMuted(),
+    listenVol: getListenVolume(),
+    listenSampleOn,
     drawPanel: !els.drawPanel?.hidden,
     paintLive: isDrawFormat() && phase === "accepting",
     pickChoices: autoPickChoices.map((e) => ({
@@ -884,6 +1080,7 @@ function buildDeskState() {
       hint: e.hint,
       image: e.image,
       imageReveal: e.imageReveal,
+      aliases: e.aliases,
     })),
     showAutoPick: phase === "picking" && autoPickChoices.length > 1,
     clueChosungHint: isClueChosungHintOn(),
@@ -905,6 +1102,9 @@ function buildDeskState() {
       streamerGuessPanel: !streamerGuessOpen(),
       drawPanel: !!els.drawPanel?.hidden,
       devBox: !!els.devBox?.hidden,
+      deskListenVolOpt: !isListenFormat(),
+      listenPreviewBtn: !isListenFormat(),
+      deskListenPreviewBtn: !isListenFormat(),
     },
   };
 }
@@ -963,6 +1163,9 @@ function applyHiddenMap(map) {
     ["streamerGuessPanel", els.streamerGuessPanel],
     ["drawPanel", els.drawPanel],
     ["devBox", els.devBox],
+    ["deskListenVolOpt", els.deskListenVolOpt],
+    ["listenPreviewBtn", els.listenPreviewBtn],
+    ["deskListenPreviewBtn", els.deskListenPreviewBtn],
   ];
   for (const [key, el] of pairs) {
     if (!el || map[key] === undefined) continue;
@@ -983,7 +1186,7 @@ function applyDeskState(s) {
   setDeskLocked(false);
   if (typeof s.phase === "string") phase = s.phase;
   if (typeof s.statusText === "string") els.status.textContent = s.statusText;
-  if (s.quizFormat === "chosung" || s.quizFormat === "draw" || s.quizFormat === "clue") {
+  if (isKnownQuizFormat(s.quizFormat)) {
     quizFormat = s.quizFormat;
   }
   if (s.quizTopic === "auto" || s.quizTopic === "manual") quizTopic = s.quizTopic;
@@ -994,7 +1197,7 @@ function applyDeskState(s) {
   }
   if (els.answerEditor) els.answerEditor.classList.toggle("is-locked", !!s.answerBlind);
   if (els.answerPlayingText && typeof s.answerPlayingText === "string") {
-    els.answerPlayingText.textContent = s.answerPlayingText;
+    paintAnswerPlayingText(s.answerPlayingText);
   }
   applyHiddenMap(s.hidden);
   // desk는 syncModeUi/syncManualAnswerUi 호출 금지 — host 스냅샷만 적용
@@ -1008,6 +1211,8 @@ function applyDeskState(s) {
     els.deskLinkStatus.textContent = "방송창과 연결됨";
   }
   if (typeof s.bgmMuted === "boolean") syncBgmMuteBtn(s.bgmMuted);
+  if (typeof s.listenVol === "number") syncListenVolUi(s.listenVol);
+  if (typeof s.listenSampleOn === "boolean") syncListenPreviewBtn(s.listenSampleOn);
   if (typeof s.showAnswerEditor === "boolean" && els.answerPanel) {
     setHidden(els.answerPanel, !s.showAnswerEditor);
   }
@@ -1084,11 +1289,7 @@ function handleHostDeskMessage(msg) {
   const p = msg.payload || {};
   switch (msg.type) {
     case "desk.hello":
-      deskConnected = true;
-      if (els.deskLinkStatus) {
-        els.deskLinkStatus.hidden = false;
-        els.deskLinkStatus.textContent = "조작창 연결됨";
-      }
+      attachLiveDesk();
       publishDeskState();
       publishPaintPreview();
       break;
@@ -1096,7 +1297,7 @@ function handleHostDeskMessage(msg) {
       onDeskPopupClosed();
       break;
     case "ui.pick":
-      chooseAutoPick(Number(p.index));
+      chooseAutoPick(Number(p.index ?? p));
       break;
     case "auth.start":
       login();
@@ -1118,8 +1319,16 @@ function handleHostDeskMessage(msg) {
     case "ui.bgm":
       toggleQuizBgmMute();
       break;
+    case "ui.listenVol":
+      setListenVolume(p.value);
+      publishDeskState();
+      break;
+    case "ui.listenPreview":
+      void toggleListenVolumeSample();
+      break;
     case "ui.seg":
-      if (p.axis === "format" && (p.value === "chosung" || p.value === "draw" || p.value === "clue")) {
+      if (p.axis === "format" && isKnownQuizFormat(p.value)) {
+        if (quizFormat === "listen" && p.value !== "listen") stopListenAudio();
         quizFormat = p.value;
         saveQuizModePrefs();
         syncModeUi();
@@ -1167,8 +1376,14 @@ function handleHostDeskMessage(msg) {
         commitGenreSelection(draftGenres);
         setGenreMenuOpen(false);
       }
-      if (p.action === "close") setGenreMenuOpen(false);
-      if (p.action === "open") setGenreMenuOpen(true);
+      if (p.action === "close") {
+        if (isListenFormat()) setListenGenreMenuOpen(false);
+        else setGenreMenuOpen(false);
+      }
+      if (p.action === "open") {
+        if (isListenFormat()) setListenGenreMenuOpen(true);
+        else setGenreMenuOpen(true);
+      }
       publishDeskState();
       break;
     case "paint.tool":
@@ -1241,36 +1456,80 @@ function handleRemotePaintPointer(p) {
   publishPaintPreview();
 }
 
+let lastHostTabId = "";
+
+function markDeskHostLinked() {
+  deskConnected = true;
+  if (els.deskLinkStatus) {
+    els.deskLinkStatus.hidden = false;
+    els.deskLinkStatus.textContent = "방송창과 연결됨";
+  }
+}
+
+function postDeskStreamerGuess() {
+  const text = String(els.streamerGuess?.value || "").trim();
+  if (els.streamerGuess) els.streamerGuess.value = "";
+  deskBridge?.post("ui.guess", { text });
+}
+
+function deskPickIndexFrom(el) {
+  if (!el) return NaN;
+  if (el.dataset?.pickIndex != null && el.dataset.pickIndex !== "") return Number(el.dataset.pickIndex);
+  if (/^autoPickBtn\d+$/.test(el.id || "")) return Number(String(el.id).replace("autoPickBtn", ""));
+  return NaN;
+}
+
+function sendDeskPick(el) {
+  const index = deskPickIndexFrom(el);
+  if (!Number.isFinite(index)) return false;
+  deskBridge?.post("ui.pick", { index });
+  return true;
+}
+
 function handleDeskClientMessage(msg) {
+  const p = msg.payload || {};
   if (msg.type === "state") applyDeskState(msg.payload);
   if (msg.type === "paint.preview") applyPaintPreview(msg.payload?.dataUrl);
-  if (msg.type === "host.welcome") {
-    deskConnected = true;
+  if (msg.type === "guess.clear" && els.streamerGuess) els.streamerGuess.value = "";
+  if (msg.type === "host.hello") {
+    lastHostTabId = String(p.tabId || "");
+    markDeskHostLinked();
+    deskBridge?.post("desk.hello");
+  }
+  if (msg.type === "host.welcome") markDeskHostLinked();
+  if (msg.type === "host.bye") {
+    const from = String(p.tabId || "");
+    if (from && lastHostTabId && from !== lastHostTabId) return;
+    deskConnected = false;
     if (els.deskLinkStatus) {
       els.deskLinkStatus.hidden = false;
-      els.deskLinkStatus.textContent = "방송창과 연결됨";
+      els.deskLinkStatus.textContent = "방송창 다시 연결 중…";
     }
+    setStatus("방송창을 다시 연결하는 중");
   }
 }
 
 function bindDeskHost() {
   deskBridge = createDeskBridge("host");
   deskBridge.on(handleHostDeskMessage);
-  els.detachDeskBtn?.addEventListener("click", openDeskPopup);
-  els.focusDeskBtn?.addEventListener("click", () => {
-    if (deskPopup && !deskPopup.closed) {
-      try {
-        deskPopup.focus();
-      } catch (_) {}
-    } else openDeskPopup();
-  });
+  els.detachDeskBtn?.addEventListener("click", openDeskWindow);
+  els.focusDeskBtn?.addEventListener("click", openDeskWindow);
   window.addEventListener("beforeunload", () => {
-    deskBridge?.post("host.bye");
+    deskBridge?.post("host.bye", { tabId });
   });
+  deskBridge.post("host.hello", { tabId });
 }
 
 function bindDeskClient() {
+  document.documentElement.classList.add("mode-desk");
   document.body.classList.add("mode-desk");
+  document.title = "게임 컨트롤러";
+  const skip = document.querySelector(".skip-link");
+  if (skip) {
+    skip.setAttribute("hidden", "");
+    skip.setAttribute("tabindex", "-1");
+    if (document.activeElement === skip) skip.blur();
+  }
   deskBridge = createDeskBridge("desk");
   deskBridge.on(handleDeskClientMessage);
   deskBridge.post("desk.hello");
@@ -1321,6 +1580,8 @@ function bindDeskClient() {
         deskBridge.post("ui.tutorial");
       } else if (t.id === "deskBgmBtn") {
         deskBridge.post("ui.bgm");
+      } else if (t.id === "listenPreviewBtn" || t.id === "deskListenPreviewBtn") {
+        deskBridge.post("ui.listenPreview");
       } else if (t.id === "loginBtn") {
         deskBridge.post("auth.start");
       } else if (t.id === "deskChatDelayMinus") {
@@ -1330,9 +1591,9 @@ function bindDeskClient() {
       } else if (t.id === "deskChatDelayProbeBtn") {
         deskBridge.post("ui.delay", { action: "probe" });
       } else if (t.id === "streamerGuessBtn") {
-        const text = els.streamerGuess?.value || "";
-        if (els.streamerGuess) els.streamerGuess.value = "";
-        deskBridge.post("ui.guess", { text });
+        postDeskStreamerGuess();
+      } else if (sendDeskPick(t) || sendDeskPick(event.target.closest("[data-pick-index], .clue-pick-card, .auto-pick-btn"))) {
+        return;
       } else if (
         t.id === "skipBtn" ||
         t.id === "connectBtn" ||
@@ -1380,12 +1641,35 @@ function bindDeskClient() {
         selectPenColor(t.value, true);
         return;
       }
+      if (t.id === "listenVol" || t.id === "deskListenVol") {
+        deskBridge.post("ui.listenVol", { value: Number(t.value) / 100 });
+        return;
+      }
       if (t.id === "answer" || t.id === "fakeText" || t.id === "fakeNick" || t.id === "channelInput") {
         deskBridge.post("ui.input", { id: t.id, value: t.value });
       }
     },
     true,
   );
+
+  els.autoPickList?.addEventListener(
+    "pointerdown",
+    (event) => {
+      const btn = event.target.closest("[data-pick-index], .clue-pick-card, .auto-pick-btn");
+      if (!btn) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      sendDeskPick(btn);
+    },
+    true,
+  );
+
+  els.streamerGuess?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    if (event.isComposing || event.keyCode === 229) return;
+    event.preventDefault();
+    postDeskStreamerGuess();
+  });
 
   bindDeskPaintInput();
 
@@ -1806,12 +2090,12 @@ function maskAnswer(answer, revealed) {
 }
 
 function hintsAllowed() {
-  if (isClueFormat() || current.mode === "clue") return false;
-  return Boolean(els.hintEnabled?.checked);
+  if (isClueFormat() || current.mode === "clue" || isListenFormat() || current.mode === "listen") return false;
+  return els.hintEnabled?.getAttribute("aria-pressed") === "true";
 }
 
 function genreHintsAllowed() {
-  return Boolean(els.hintGenreEnabled?.checked);
+  return els.hintGenreEnabled?.getAttribute("aria-pressed") === "true";
 }
 
 function syncGenreHintUi() {
@@ -2102,7 +2386,8 @@ function applyTimeHints(remainingRatio) {
 }
 
 function isAuthed() {
-  return Boolean(session?.channelId);
+  if (isDev && session?.mode === "dev") return Boolean(session?.channelId);
+  return Boolean(session?.channelId && chatLive);
 }
 
 const HOST_TUTORIAL_STEPS = [
@@ -2155,10 +2440,10 @@ const HOST_TUTORIAL_STEPS = [
     art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="50" width="104" height="100" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="68" y="96" text-anchor="middle" fill="#ffe14a" font-size="16" font-weight="900">힌트</text><text x="68" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">글자 공개</text><rect x="128" y="50" width="104" height="100" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="180" y="96" text-anchor="middle" fill="#3de7ff" font-size="16" font-weight="900">TTS</text><text x="180" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">읽어주기</text><rect x="240" y="50" width="104" height="100" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="292" y="96" text-anchor="middle" fill="#f4f7ff" font-size="16" font-weight="900">점수</text><text x="292" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">랭킹</text></svg>`,
   },
   {
-    id: "start",
-    title: "게임 시작을 누르세요",
-    text: "준비가 되면 시작. 3·2·1 뒤에 문제가 나갑니다. 조작창 도움말로 이 설명을 다시 볼 수 있습니다.",
-    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="70" y="48" width="220" height="72" rx="16" fill="#ffe14a" stroke="#060912" stroke-width="3"/><text x="180" y="92" text-anchor="middle" fill="#060912" font-size="22" font-weight="900">게임 시작</text><path d="M180 128 V158" stroke="#3de7ff" stroke-width="3"/><path d="M170 148 L180 162 L190 148" fill="#3de7ff"/><text x="180" y="184" text-anchor="middle" fill="#9eb0d8" font-size="12" font-weight="800">3 · 2 · 1 다음 문제</text></svg>`,
+    id: "desk",
+    title: "조작창을 새 창으로 분리",
+    text: "방송에는 위쪽만 나갑니다. 「조작 새창으로 분리」를 눌러야 게임을 시작할 수 있습니다. 팝업이 막히면 브라우저에서 허용해 주세요.",
+    art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="28" width="150" height="120" rx="14" fill="#0e1528" stroke="#3de7ff" stroke-width="3"/><rect x="28" y="38" width="130" height="72" rx="8" stroke="#ffe14a" stroke-width="2" stroke-dasharray="6 4"/><text x="93" y="80" text-anchor="middle" fill="#f4f7ff" font-size="16" font-weight="800">방송</text><rect x="198" y="40" width="142" height="108" rx="14" fill="#ffe14a" stroke="#060912" stroke-width="3"/><text x="269" y="88" text-anchor="middle" fill="#060912" font-size="15" font-weight="900">조작창</text><text x="269" y="114" text-anchor="middle" fill="#060912" font-size="12" font-weight="800">새 창</text><path d="M172 88 H194" stroke="#ffe14a" stroke-width="3"/><path d="M184 78 L198 88 L184 98" fill="#ffe14a"/></svg>`,
   },
 ];
 
@@ -2185,10 +2470,13 @@ function renderHostTutorial() {
   if (els.hostTutorialKicker) els.hostTutorialKicker.textContent = `${hostTutorialStep + 1} / ${HOST_TUTORIAL_STEPS.length}`;
   if (els.hostTutorialTitle) els.hostTutorialTitle.textContent = step.title;
   if (els.hostTutorialText) els.hostTutorialText.textContent = step.text;
+  const last = hostTutorialStep >= HOST_TUTORIAL_STEPS.length - 1;
   if (els.hostTutorialNext) {
-    els.hostTutorialNext.textContent = hostTutorialStep >= HOST_TUTORIAL_STEPS.length - 1 ? "확인" : "다음";
+    els.hostTutorialNext.textContent = last ? "조작 새창으로 분리" : "다음";
   }
+  setHidden(els.hostTutorialSkip, last);
   setHidden(els.hostTutorialPrev, hostTutorialStep <= 0);
+  els.detachDeskBtn?.classList.toggle("is-need", last && !isDeskDetached());
   if (els.hostTutorialDots) {
     els.hostTutorialDots.innerHTML = HOST_TUTORIAL_STEPS.map((_, i) =>
       `<button type="button" class="host-tutorial-dot${i === hostTutorialStep ? " is-on" : ""}" data-tutorial-dot="${i}" aria-label="${i + 1}번째 설명"></button>`,
@@ -2207,6 +2495,7 @@ function openHostTutorial(step = 0) {
 function dismissHostTutorial() {
   hostTutorialDismissed = true;
   hostTutorialStep = -1;
+  els.detachDeskBtn?.classList.remove("is-need");
   hideHostTutorialUi();
 }
 
@@ -2258,13 +2547,18 @@ function maybeStartHostTutorial() {
 }
 
 function bindHostTutorial() {
-  els.hostTutorialSkip?.addEventListener("click", dismissHostTutorial);
+  els.hostTutorialSkip?.addEventListener("click", () => {
+    openHostTutorial(HOST_TUTORIAL_STEPS.length - 1);
+  });
   els.hostTutorialPrev?.addEventListener("click", () => {
     if (hostTutorialStep > 0) openHostTutorial(hostTutorialStep - 1);
   });
   els.hostTutorialNext?.addEventListener("click", () => {
-    if (hostTutorialStep < HOST_TUTORIAL_STEPS.length - 1) openHostTutorial(hostTutorialStep + 1);
-    else dismissHostTutorial();
+    if (hostTutorialStep < HOST_TUTORIAL_STEPS.length - 1) {
+      openHostTutorial(hostTutorialStep + 1);
+      return;
+    }
+    openDeskWindow();
   });
   els.hostTutorialDots?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-tutorial-dot]");
@@ -2325,7 +2619,7 @@ function syncDeskFlow() {
   if (els.revealActions) setHidden(els.revealActions, !revealing);
   if (els.nextSetupOverlay) setHidden(els.nextSetupOverlay, !hasMoreQuestions);
   if (els.continueOverlay && revealing) {
-    els.continueOverlay.textContent = remaining <= 0 ? "결과보기" : "계속";
+    els.continueOverlay.textContent = remaining <= 0 ? "결과보기" : "다음문제";
   }
   syncManualAnswerUi();
   if (revealing && els.winner) {
@@ -2390,8 +2684,34 @@ function formatChosungDisplay(text) {
 }
 
 function setPromptText(text) {
+  els.prompt?.classList.remove("is-pick-wait");
   if (els.promptText) els.promptText.textContent = text ?? "";
   else if (els.prompt) els.prompt.textContent = text ?? "";
+}
+
+function setWavePrompt(text) {
+  const host = els.promptText || els.prompt;
+  if (!host) return;
+  host.replaceChildren();
+  Array.from(String(text || "")).forEach((ch, i) => {
+    const span = document.createElement("span");
+    span.className = "pick-wave";
+    span.style.animationDelay = `${i * 45}ms`;
+    span.textContent = ch === " " ? "\u00a0" : ch;
+    host.appendChild(span);
+  });
+}
+
+function showPickingWait() {
+  if (els.paintWrap) els.paintWrap.hidden = true;
+  hideDrawHintBar();
+  hideClueArt({ forget: true });
+  setHidden(els.prompt, false);
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "has-art", "is-draw-reveal");
+  els.prompt.classList.add("is-pick-wait");
+  syncClueChosungLine("");
+  clearCluePromptFit();
+  setWavePrompt(`현재 ${streamerNickname()}님이 문제를 고르고 있습니다`);
 }
 
 function hideClueArt({ forget = false } = {}) {
@@ -2528,6 +2848,363 @@ function scheduleCluePromptFit() {
   requestAnimationFrame(() => fitCluePrompt());
 }
 
+const LISTEN_VOL_KEY = "quizListenVol:v1";
+const LISTEN_GENRE_PREF = "quizListenGenres:v1";
+const LISTEN_ANSWER_PREF = "quizListenAnswer:v1";
+const LISTEN_GENRE_CHIPS = flattenSongGenres();
+let listenPlayToken = 0;
+let listenVol = 0.8;
+let listenSampleOn = false;
+let selectedListenGenres = ["all"];
+let draftListenGenres = ["all"];
+let listenAnswerMode = "title";
+
+function clampListenVolume(raw) {
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return 0.8;
+  return Math.min(1, Math.max(0, n));
+}
+
+function getListenVolume() {
+  return listenVol;
+}
+
+function syncListenVolUi(value = listenVol) {
+  const pct = String(Math.round(clampListenVolume(value) * 100));
+  if (els.listenVol && els.listenVol.value !== pct) els.listenVol.value = pct;
+  if (els.deskListenVol && els.deskListenVol.value !== pct) els.deskListenVol.value = pct;
+}
+
+function applyListenAudioVolume() {
+  if (els.listenAudio) els.listenAudio.volume = listenVol;
+}
+
+function setListenVolume(raw) {
+  listenVol = clampListenVolume(raw > 1 ? raw / 100 : raw);
+  try {
+    localStorage.setItem(LISTEN_VOL_KEY, String(listenVol));
+  } catch {
+    // ignore
+  }
+  applyListenAudioVolume();
+  syncListenVolUi();
+}
+
+function restoreListenVolume() {
+  try {
+    const stored = localStorage.getItem(LISTEN_VOL_KEY);
+    if (stored != null) listenVol = clampListenVolume(stored);
+  } catch {
+    listenVol = 0.8;
+  }
+  applyListenAudioVolume();
+  syncListenVolUi();
+}
+
+function hideListenStage() {
+  if (els.listenStage) els.listenStage.hidden = true;
+}
+
+function stopListenAudio() {
+  listenSampleOn = false;
+  listenPlayToken += 1;
+  const el = els.listenAudio;
+  if (el) {
+    el.onerror = null;
+    try {
+      el.pause();
+    } catch {
+      // ignore
+    }
+    try {
+      el.currentTime = 0;
+    } catch {
+      // ignore
+    }
+    el.removeAttribute("src");
+    el.src = "";
+    try {
+      el.load();
+    } catch {
+      // ignore
+    }
+  }
+  hushQuizBed(false);
+  syncListenPreviewBtn();
+}
+
+function syncListenPreviewBtn(on = listenSampleOn) {
+  setOnoffBtn(els.listenPreviewBtn, on);
+  setOnoffBtn(els.deskListenPreviewBtn, on);
+}
+
+function playListenPreview(url, { loop = false, sample = false } = {}) {
+  if (isDeskMode) return;
+  stopListenAudio();
+  const el = els.listenAudio;
+  if (!el || !url) return;
+  const token = ++listenPlayToken;
+  listenSampleOn = Boolean(sample);
+  syncListenPreviewBtn();
+  hushQuizBed(true);
+  applyListenAudioVolume();
+  el.loop = Boolean(loop);
+  el.src = url;
+  try {
+    el.currentTime = 0;
+  } catch {
+    // ignore
+  }
+  el.onerror = () => {
+    if (token !== listenPlayToken) return;
+    setStatus("미리듣기 주소가 만료됐습니다. 관리에서 노래를 다시 출제해 주세요");
+  };
+  el.play().catch(() => {
+    if (token !== listenPlayToken) return;
+    setStatus("미리듣기를 재생하지 못했습니다");
+  });
+}
+
+function listenQuestionLive() {
+  return current.mode === "listen" && (phase === "accepting" || phase === "holding");
+}
+
+function listenAudioActive() {
+  const el = els.listenAudio;
+  return Boolean(el && el.src && !el.paused);
+}
+
+async function toggleListenVolumeSample() {
+  if (isDeskMode) return;
+  if (listenQuestionLive() || phase === "countdown") return;
+  if (listenSampleOn && listenAudioActive()) {
+    stopListenAudio();
+    syncListenPreviewBtn();
+    publishDeskState();
+    return;
+  }
+  try {
+    await loadSongs();
+    const song = takeSongSync(new Set(), selectedListenGenres);
+    playListenPreview(song.previewUrl, { loop: true, sample: true });
+  } catch (err) {
+    setStatus(String(err.message || err || "미리들을 노래가 없습니다"));
+  }
+  publishDeskState();
+}
+
+function listenGenreChip(id) {
+  return LISTEN_GENRE_CHIPS.find((chip) => chip.id === id) || { id, label: id, icon: "" };
+}
+
+function normalizeListenGenres(next) {
+  const unique = [...new Set((next || []).filter(Boolean))];
+  if (!unique.length || unique.includes("all")) return ["all"];
+  return unique.filter((id) => LISTEN_GENRE_CHIPS.some((chip) => chip.id === id));
+}
+
+function listenSongGenreLabel(song = {}) {
+  const labels = (song.genres || [])
+    .filter((id) => id && !kidsOfSongGenre(id).length)
+    .map((id) => listenGenreChip(id).label || id)
+    .filter(Boolean);
+  return [...new Set(labels)].slice(0, 3).join(" · ");
+}
+
+function updateListenGenreSummary() {
+  const el = els.wordGenreSummary || els.listenGenreSummary;
+  if (!el) return;
+  const n = songCount(selectedListenGenres);
+  if (selectedListenGenres.includes("all")) {
+    el.textContent = n ? `전체 · ${n}곡` : "전체";
+    return;
+  }
+  const labels = selectedListenGenres.map((id) => listenGenreChip(id).label || id);
+  const head = labels.length <= 2 ? labels.join(" · ") : `${labels.slice(0, 2).join(" · ")} 외 ${labels.length - 2}`;
+  el.textContent = n ? `${head} · ${n}곡` : head;
+}
+
+function syncListenGenreUi(activeList) {
+  const active = normalizeListenGenres(activeList);
+  els.listenGenrePanel?.querySelectorAll(".genre-option").forEach((btn) => {
+    const id = btn.dataset.genre;
+    const parent = btn.dataset.parent || "";
+    const on = active.includes(id);
+    const included = !on && Boolean(parent) && active.includes(parent);
+    btn.classList.toggle("active", on);
+    btn.classList.toggle("is-included", included);
+    btn.setAttribute("aria-selected", on || included ? "true" : "false");
+    const mark = btn.querySelector(".genre-check");
+    if (mark) mark.textContent = on ? "✓" : included ? "·" : "";
+  });
+}
+
+function setListenGenreMenuOpen(open) {
+  if (!els.listenGenreModal) return;
+  if (open) {
+    draftListenGenres = selectedListenGenres.slice();
+    syncListenGenreUi(draftListenGenres);
+  }
+  const toggle = els.wordGenreToggle || els.listenGenreToggle;
+  setModalLayer(els.listenGenreModal, open, {
+    focusSelector: "#listenGenreClose",
+    returnFocus: open ? toggle : undefined,
+  });
+  toggle?.setAttribute("aria-expanded", open ? "true" : "false");
+  els.wordGenreMenu?.classList.toggle("open", open);
+}
+
+function commitListenGenres(next) {
+  selectedListenGenres = normalizeListenGenres(next);
+  draftListenGenres = selectedListenGenres.slice();
+  syncListenGenreUi(selectedListenGenres);
+  updateListenGenreSummary();
+  try {
+    localStorage.setItem(LISTEN_GENRE_PREF, JSON.stringify(selectedListenGenres));
+  } catch {
+    // ignore
+  }
+  stopListenAudio();
+  syncListenPreviewBtn();
+}
+
+function toggleDraftListenGenre(id) {
+  let next;
+  if (id === "all") next = ["all"];
+  else if (draftListenGenres.includes("all")) next = [id];
+  else if (draftListenGenres.includes(id)) {
+    const rest = draftListenGenres.filter((item) => item !== id);
+    next = rest.length ? rest : ["all"];
+  } else {
+    const kids = kidsOfSongGenre(id);
+    const parent = LISTEN_GENRE_CHIPS.find((chip) => chip.id === id)?.parentId || "";
+    next = draftListenGenres.filter((item) => item !== parent && !kids.includes(item));
+    next.push(id);
+  }
+  draftListenGenres = normalizeListenGenres(next);
+  syncListenGenreUi(draftListenGenres);
+}
+
+function renderListenGenreMenu() {
+  if (!els.listenGenrePanel) return;
+  els.listenGenrePanel.innerHTML = "";
+  const addBtn = (chip, extra = "") => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = extra ? `genre-option ${extra}` : "genre-option";
+    btn.dataset.genre = chip.id;
+    if (chip.parentId) btn.dataset.parent = chip.parentId;
+    btn.setAttribute("role", "option");
+    btn.innerHTML = `<span class="genre-check" aria-hidden="true"></span><span class="genre-ico" aria-hidden="true">${chip.icon || ""}</span><span>${chip.label || chip.id}</span>`;
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleDraftListenGenre(chip.id);
+    });
+    return btn;
+  };
+  els.listenGenrePanel.appendChild(addBtn({ id: "all", label: "전체", icon: "🎲" }));
+  for (const group of SONG_GENRE_TREE) {
+    const wrap = document.createElement("div");
+    wrap.className = "genre-modal-group";
+    wrap.appendChild(addBtn({ id: group.id, label: group.label, icon: group.icon }, "is-group"));
+    if (group.kids?.length) {
+      const kids = document.createElement("div");
+      kids.className = "genre-modal-kids";
+      for (const kid of group.kids) {
+        kids.appendChild(addBtn({ id: kid.id, label: kid.label, icon: kid.icon, parentId: group.id }, "is-kid"));
+      }
+      wrap.appendChild(kids);
+    }
+    els.listenGenrePanel.appendChild(wrap);
+  }
+  syncListenGenreUi(selectedListenGenres);
+  updateListenGenreSummary();
+}
+
+function restoreListenGenres() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(LISTEN_GENRE_PREF) || "[]");
+    if (Array.isArray(raw) && raw.length) selectedListenGenres = normalizeListenGenres(raw);
+  } catch {
+    selectedListenGenres = ["all"];
+  }
+  draftListenGenres = selectedListenGenres.slice();
+  renderListenGenreMenu();
+}
+
+function updateListenAnswerSummary() {
+  if (els.listenAnswerSummary) els.listenAnswerSummary.textContent = listenAnswerModeLabel(listenAnswerMode);
+  els.listenAnswerList?.querySelectorAll("[data-listen-answer]").forEach((btn) => {
+    const on = btn.dataset.listenAnswer === listenAnswerMode;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-selected", on ? "true" : "false");
+  });
+}
+
+function setListenAnswerMenuOpen(open) {
+  if (!els.listenAnswerList) return;
+  setHidden(els.listenAnswerList, !open);
+  els.listenAnswerToggle?.setAttribute("aria-expanded", open ? "true" : "false");
+  els.listenAnswerMenu?.classList.toggle("open", open);
+}
+
+function setListenAnswerMode(mode) {
+  listenAnswerMode = normalizeListenAnswerMode(mode);
+  updateListenAnswerSummary();
+  setListenAnswerMenuOpen(false);
+  try {
+    localStorage.setItem(LISTEN_ANSWER_PREF, listenAnswerMode);
+  } catch {
+    // ignore
+  }
+}
+
+function restoreListenAnswerMode() {
+  try {
+    listenAnswerMode = normalizeListenAnswerMode(localStorage.getItem(LISTEN_ANSWER_PREF) || "title");
+  } catch {
+    listenAnswerMode = "title";
+  }
+  updateListenAnswerSummary();
+}
+
+function bindListenAnswerControls() {
+  updateListenAnswerSummary();
+  els.listenAnswerToggle?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const open = els.listenAnswerList?.hidden !== false;
+    if (open) setListenGenreMenuOpen(false);
+    setListenAnswerMenuOpen(open);
+  });
+  els.listenAnswerList?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-listen-answer]");
+    if (!btn) return;
+    event.stopPropagation();
+    setListenAnswerMode(btn.dataset.listenAnswer);
+  });
+  document.addEventListener("click", (event) => {
+    if (!els.listenAnswerList || els.listenAnswerList.hidden) return;
+    if (event.target.closest("#listenAnswerMenu")) return;
+    setListenAnswerMenuOpen(false);
+  });
+}
+
+function bindListenGenreControls() {
+  renderListenGenreMenu();
+  els.listenGenreToggle?.addEventListener("click", () => {
+    setListenAnswerMenuOpen(false);
+    setListenGenreMenuOpen(els.listenGenreModal?.hidden !== false);
+  });
+  els.listenGenreClose?.addEventListener("click", () => setListenGenreMenuOpen(false));
+  els.listenGenreApply?.addEventListener("click", () => {
+    commitListenGenres(draftListenGenres);
+    setListenGenreMenuOpen(false);
+  });
+  els.listenGenreModal?.addEventListener("click", (event) => {
+    if (event.target?.dataset?.listenGenreClose) setListenGenreMenuOpen(false);
+  });
+}
+
 function renderQuestionView() {
   const answer = current.answer || "";
   const mode = current.mode;
@@ -2536,7 +3213,8 @@ function renderQuestionView() {
   if (mode === "draw") {
     if (els.paintWrap) els.paintWrap.hidden = false;
     els.prompt.hidden = true;
-    els.prompt.classList.remove("is-clue", "is-chosung");
+    els.prompt.classList.remove("is-clue", "is-chosung", "is-listen", "is-draw-reveal");
+    hideListenStage();
     hideClueArt({ forget: true });
     clearCluePromptFit();
     syncClueChosungLine("");
@@ -2553,8 +3231,24 @@ function renderQuestionView() {
   hideDrawHintBar();
   setHidden(els.prompt, false);
   els.prompt.classList.remove("hit", "miss");
+  if (mode === "listen") {
+    els.prompt.classList.remove("is-clue", "is-chosung");
+    els.prompt.classList.add("is-listen");
+    hideClueArt({ forget: true });
+    syncClueSheet();
+    clearCluePromptFit();
+    syncClueChosungLine("");
+    if (els.listenStage) els.listenStage.hidden = false;
+    const roundMode = current.listenAnswerMode || "title";
+    if (els.listenKicker) els.listenKicker.textContent = `듣기 · ${listenAnswerModeLabel(roundMode)}`;
+    if (els.listenLine) els.listenLine.textContent = listenAnswerPrompt(roundMode);
+    setPromptText(listenAnswerPrompt(roundMode));
+    syncGenreHintUi();
+    return;
+  }
+  hideListenStage();
   if (mode === "clue") {
-    els.prompt.classList.remove("is-chosung");
+    els.prompt.classList.remove("is-chosung", "is-listen");
     els.prompt.classList.add("is-clue");
     setPromptText(clueHintBody(current.hint) || current.hint || "");
     syncClueSheet();
@@ -2564,7 +3258,7 @@ function renderQuestionView() {
     scheduleCluePromptFit();
     return;
   }
-  els.prompt.classList.remove("is-clue", "has-art");
+  els.prompt.classList.remove("is-clue", "has-art", "is-listen");
   els.prompt.classList.add("is-chosung");
   hideClueArt({ forget: true });
   syncClueSheet();
@@ -2588,20 +3282,86 @@ function isClueFormat(format = quizFormat) {
   return format === "clue";
 }
 
+function isListenFormat(format = quizFormat) {
+  return format === "listen";
+}
+
+function isKnownQuizFormat(format) {
+  return format === "chosung" || format === "draw" || format === "clue" || format === "listen";
+}
+
+function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
+  const song = current.song;
+  return createJudge({
+    answer,
+    aliases,
+    excludeUserId,
+    match: song ? (text) => isSongCorrect(text, song, current.listenAnswerMode || "title") : undefined,
+  });
+}
+
 function isGamePackId(id) {
   return id === "all" || (CLUE_PACKS[id] && CLUE_PACKS[id].field === "game");
 }
 
 function activeCluePack() {
-  if (clueField === "manga") return CLUE_PACKS.manga;
+  if (clueField === "webtoon") return CLUE_PACKS.webtoon;
+  if (clueField === "anime") return CLUE_PACKS.anime;
   if (clueField === "movie") return CLUE_PACKS.movie;
   if (cluePack === "all") return allGamePack();
   return getCluePack(cluePack);
 }
 
 function activeClueBank() {
-  const id = activeCluePack().id;
-  return clueBanks[id] || { items: [], fetchedAt: 0, kinds: activeCluePack().kinds };
+  const pack = activeCluePack();
+  const bank = clueBanks[pack.id] || { items: [], fetchedAt: 0, kinds: pack.kinds };
+  if (clueField !== "game" || pack.id === "titles" || pack.id === "all") return bank;
+  const titles = clueBanks.titles;
+  if (!titles?.items?.length) return bank;
+  const wantTitles = selectedClueKinds.includes("all") || selectedClueKinds.includes(GAME_NAME_KIND);
+  if (!wantTitles) return bank;
+  return {
+    ...bank,
+    kinds: clueAllowedKinds(),
+    items: [...titles.items, ...bank.items],
+  };
+}
+
+function clueAllowedKinds() {
+  const kinds = activeCluePack().kinds || [];
+  if (clueField === "game" && !kinds.includes(GAME_NAME_KIND)) return [GAME_NAME_KIND, ...kinds];
+  return kinds;
+}
+
+function activeMediaTree() {
+  if (clueField === "movie") return movieGenreTree();
+  if (clueField === "webtoon") return webtoonGenreTree();
+  if (clueField === "anime") return animeGenreTree();
+  return [];
+}
+
+function mediaGenres() {
+  if (clueField === "movie") return movieGenres;
+  if (clueField === "anime") return animeGenres;
+  return mangaGenres;
+}
+
+function setMediaGenres(next) {
+  if (clueField === "movie") movieGenres = next;
+  else if (clueField === "anime") animeGenres = next;
+  else mangaGenres = next;
+}
+
+function mediaYear() {
+  if (clueField === "movie") return movieYear;
+  if (clueField === "anime") return animeYear;
+  return mangaYear;
+}
+
+function setMediaYear(next) {
+  if (clueField === "movie") movieYear = next;
+  else if (clueField === "anime") animeYear = next;
+  else mangaYear = next;
 }
 
 function cluePickOptions() {
@@ -2609,27 +3369,31 @@ function cluePickOptions() {
   const options = {
     kinds: selectedClueKinds.slice(),
     exclude: usedClueKeys,
-    allowedKinds: pack.kinds,
+    allowedKinds: clueAllowedKinds(),
   };
-  if (pack.id === "manga" || pack.id === "movie") {
-    options.mediaGenres = (pack.id === "movie" ? movieGenres : mangaGenres).slice();
-    options.yearBand = pack.id === "movie" ? movieYear : mangaYear;
+  if (pack.id === "movie" || pack.id === "webtoon" || pack.id === "anime") {
+    options.mediaGenres = mediaGenres().slice();
+    options.mediaTree = activeMediaTree();
+    if (pack.id !== "webtoon") options.yearBand = mediaYear();
   }
   return options;
 }
 
 function sanitizeClueKinds(kinds) {
-  const allowed = activeCluePack().kinds;
+  const allowed = clueAllowedKinds();
   if (!Array.isArray(kinds) || kinds.includes("all")) return ["all"];
   const next = kinds.filter((k) => allowed.includes(k));
   return next.length ? next : ["all"];
 }
 
 const CLUE_PACK_GROUPS = [
+  { label: "이름", ids: ["titles"] },
   { label: "호요버스", ids: ["genshin", "hsr"] },
-  { label: "라이엇", ids: ["lol", "tft"] },
-  { label: "슈터", ids: ["valorant", "overwatch", "pubg"] },
-  { label: "그 외", ids: ["pokemon", "bluearchive", "dota", "fortnite"] },
+  { label: "라이엇", ids: ["lol", "tft", "valorant"] },
+  { label: "슈터", ids: ["overwatch", "pubg", "fortnite"] },
+  { label: "카드", ids: ["yugioh", "hearthstone"] },
+  { label: "수집형", ids: ["pokemon", "bluearchive", "fgo"] },
+  { label: "캐주얼", ids: ["kartrider", "minecraft"] },
 ];
 
 function clueOptionMarkup(attrs, label) {
@@ -2643,15 +3407,15 @@ function renderCluePackButtons() {
   els.cluePackSeg.innerHTML = allChip + CLUE_PACK_GROUPS.map((group) => {
     const packs = group.ids.map((id) => byId[id]).filter(Boolean);
     if (!packs.length) return "";
-    return `<div class="clue-sheet-group"><p class="clue-sheet-group-label">${group.label}</p>${packs
+    return `<div class="clue-sheet-group"><p class="clue-sheet-group-label">${group.label}</p><div class="clue-sheet-group-chips">${packs
       .map((pack) => clueOptionMarkup(`data-clue-pack="${pack.id}" role="option"`, pack.label))
-      .join("")}</div>`;
+      .join("")}</div></div>`;
   }).join("");
 }
 
 function renderClueKindButtons() {
   if (!els.clueKindList) return;
-  const kinds = ["all", ...activeCluePack().kinds];
+  const kinds = ["all", ...clueAllowedKinds()];
   els.clueKindList.innerHTML = kinds
     .map((kind) => clueOptionMarkup(`data-clue-kind="${kind}"`, kind === "all" ? "전체" : kind))
     .join("");
@@ -2669,19 +3433,21 @@ const YEAR_LABELS = {
 let clueSheetMode = "";
 
 function renderMangaFilters() {
-  const genres = clueField === "movie" ? MOVIE_GENRES : MANGA_GENRES;
   if (!els.mangaGenreList) return;
-  els.mangaGenreList.innerHTML = ["all", ...genres]
-    .map((g) => clueOptionMarkup(`data-manga-genre="${g}"`, g === "all" ? "전체" : g))
+  const tree = activeMediaTree();
+  const chips = flattenMediaTree(tree);
+  const groups = tree
+    .map((group) => {
+      const kids = chips.filter((chip) => chip.parentId === group.id);
+      if (!kids.length) return "";
+      return `<div class="genre-modal-group"><p class="clue-sheet-group-label">${group.label}</p><div class="clue-sheet-group-chips">${[
+        clueOptionMarkup(`data-manga-genre="${group.id}"`, group.label),
+        ...kids.map((chip) => clueOptionMarkup(`data-manga-genre="${chip.id}"`, chip.label)),
+      ].join("")}</div></div>`;
+    })
     .join("");
-}
-
-function mediaGenres() {
-  return clueField === "movie" ? movieGenres : mangaGenres;
-}
-
-function mediaYear() {
-  return clueField === "movie" ? movieYear : mangaYear;
+  els.mangaGenreList.innerHTML = `<div class="clue-sheet-group">${clueOptionMarkup(`data-manga-genre="all"`, "전체")}</div>${groups}`;
+  if (els.mangaYearBlock) setHidden(els.mangaYearBlock, clueField === "webtoon");
 }
 
 function markClueOption(btn, on) {
@@ -2761,7 +3527,7 @@ function syncClueFieldUi() {
     markClueOption(btn, btn.dataset.cluePack === cluePack);
   });
   if (els.cluePackRow) setHidden(els.cluePackRow, clueField !== "game");
-  const media = clueField === "manga" || clueField === "movie";
+  const media = clueField === "movie" || clueField === "webtoon" || clueField === "anime";
   if (els.clueFilterRow) setHidden(els.clueFilterRow, !media);
   if (!media && clueSheetMode === "filter") closeClueSheet();
   if (clueField !== "game" && clueSheetMode === "pack") closeClueSheet();
@@ -2885,6 +3651,8 @@ function saveCluePrefs() {
       kinds: selectedClueKinds.slice(),
       mangaGenres: mangaGenres.slice(),
       mangaYear,
+      animeGenres: animeGenres.slice(),
+      animeYear,
       movieGenres: movieGenres.slice(),
       movieYear,
       chosungHint: isClueChosungHintOn(),
@@ -2896,10 +3664,13 @@ function saveCluePrefs() {
 function restoreCluePrefs() {
   try {
     const prefs = JSON.parse(localStorage.getItem(CLUE_PREF_KEY) || localStorage.getItem("cluePrefs:v1") || "{}");
-    if (prefs.field === "manga" || prefs.field === "movie" || prefs.field === "game") clueField = prefs.field;
+    if (prefs.field === "manga") clueField = "webtoon";
+    if (prefs.field === "webtoon" || prefs.field === "anime" || prefs.field === "movie" || prefs.field === "game") clueField = prefs.field;
     if (prefs.pack && isGamePackId(prefs.pack)) cluePack = prefs.pack;
     if (Array.isArray(prefs.mangaGenres) && prefs.mangaGenres.length) mangaGenres = prefs.mangaGenres;
     if (prefs.mangaYear) mangaYear = prefs.mangaYear;
+    if (Array.isArray(prefs.animeGenres) && prefs.animeGenres.length) animeGenres = prefs.animeGenres;
+    if (prefs.animeYear) animeYear = prefs.animeYear;
     if (Array.isArray(prefs.movieGenres) && prefs.movieGenres.length) movieGenres = prefs.movieGenres;
     if (prefs.movieYear) movieYear = prefs.movieYear;
     if (Array.isArray(prefs.kinds) && prefs.kinds.length) selectedClueKinds = prefs.kinds;
@@ -2933,7 +3704,22 @@ function reportClueStats() {
 
 async function ensureActiveClueBank() {
   const pack = activeCluePack();
-  if (clueBankLoading[pack.id]) return clueBankLoading[pack.id];
+  if (clueField === "game" && pack.id !== "titles" && !clueBanks.titles && !clueBankLoading.titles) {
+    const titles = getCluePack("titles");
+    clueBankLoading.titles = titles
+      .init()
+      .then((bank) => {
+        clueBanks.titles = bank;
+        return bank;
+      })
+      .finally(() => {
+        clueBankLoading.titles = null;
+      });
+  }
+  if (clueBankLoading[pack.id]) {
+    await clueBankLoading.titles?.catch(() => {});
+    return clueBankLoading[pack.id];
+  }
   clueBankLoading[pack.id] = (async () => {
     const bank = await pack.init();
     clueBanks[pack.id] = bank;
@@ -2953,11 +3739,12 @@ async function ensureActiveClueBank() {
     .finally(() => {
       clueBankLoading[pack.id] = null;
     });
+  await clueBankLoading.titles?.catch(() => {});
   return clueBankLoading[pack.id];
 }
 
 function setClueField(field) {
-  if (field !== "manga" && field !== "movie" && field !== "game") return;
+  if (field !== "webtoon" && field !== "anime" && field !== "movie" && field !== "game") return;
   clueField = field;
   selectedClueKinds = ["all"];
   warmedClueChoices = null;
@@ -3020,16 +3807,20 @@ function bindClueControls() {
     const btn = event.target.closest("[data-manga-genre]");
     if (!btn) return;
     const genre = btn.dataset.mangaGenre;
-    const movie = clueField === "movie";
-    let next = movie ? movieGenres.slice() : mangaGenres.slice();
+    const tree = activeMediaTree();
+    let next = mediaGenres().slice();
     if (genre === "all") next = ["all"];
     else if (next.includes("all")) next = [genre];
     else if (next.includes(genre)) {
       next = next.filter((g) => g !== genre);
       if (!next.length) next = ["all"];
-    } else next = [...next, genre];
-    if (movie) movieGenres = next;
-    else mangaGenres = next;
+    } else {
+      const kids = kidsOfMedia(genre, tree);
+      const parent = flattenMediaTree(tree).find((chip) => chip.id === genre)?.parentId || "";
+      next = next.filter((item) => item !== parent && !kids.includes(item));
+      next.push(genre);
+    }
+    setMediaGenres(next);
     syncMangaFilterButtons();
     saveCluePrefs();
     reportClueStats();
@@ -3038,8 +3829,7 @@ function bindClueControls() {
   els.mangaYearList?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-manga-year]");
     if (!btn) return;
-    if (clueField === "movie") movieYear = btn.dataset.mangaYear || "all";
-    else mangaYear = btn.dataset.mangaYear || "all";
+    setMediaYear(btn.dataset.mangaYear || "all");
     syncMangaFilterButtons();
     saveCluePrefs();
     reportClueStats();
@@ -3090,8 +3880,8 @@ function isAnswerPlayPhase() {
 }
 
 function shouldBlindDeskAnswer() {
-  // 초성/단서 자동 + 스트리머 참여 ON 일 때만 조작칸 정답 숨김
-  return (quizFormat === "chosung" || isClueFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+  // 초성/단서/듣기 자동 + 스트리머 참여 ON 일 때만 조작칸 정답 숨김
+  return (quizFormat === "chosung" || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
 }
 
 function syncManualAnswerUi() {
@@ -3105,9 +3895,7 @@ function syncManualAnswerUi() {
   if (showEditor) syncAnswerSubmitBtn();
   if (els.answerPlayingText) {
     setHidden(els.answerPlayingText, !showPlaying);
-    els.answerPlayingText.textContent = showPlaying
-      ? `이번 정답 : ${current.answer}`
-      : "이번 정답 :";
+    paintAnswerPlayingText(showPlaying ? `이번 정답 : ${current.answer}` : "이번 정답 :");
   }
   if (els.deskTopBar) {
     const showBar = showSkip || showPlaying;
@@ -3250,7 +4038,7 @@ function isStreamerJoinEnabled() {
 }
 
 function streamerDeskToolsOn() {
-  return (quizFormat === "chosung" || isClueFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+  return (quizFormat === "chosung" || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
 }
 
 function streamerGuessOpen() {
@@ -3284,19 +4072,8 @@ function submitStreamerGuess(raw) {
     host: true,
     hidden: false,
   };
-  if (phase === "holding") {
-    const deskJudge = judge || createJudge({ answer: current.answer });
-    enqueueSideChat(chat);
-    const result = deskJudge(chat);
-    if (result.hit) {
-      cancelHolds();
-      judge = deskJudge;
-      phase = "accepting";
-      finishQuestion(result.winner);
-    } else {
-      noteChosungMiss(chat);
-    }
-    return;
+  if (phase === "holding" && !judge) {
+    judge = makeQuestionJudge({ answer: current.answer, aliases: current.aliases });
   }
   onChat(chat);
 }
@@ -3316,6 +4093,7 @@ function restoreQuizModePrefs() {
   quizFormat = "chosung";
   try {
     const prefs = JSON.parse(localStorage.getItem(QUIZ_MODE_PREF_KEY) || "{}");
+    if (isKnownQuizFormat(prefs.format)) quizFormat = prefs.format;
     if (prefs.topic === "auto" || prefs.topic === "manual") quizTopic = prefs.topic;
     if (els.streamerJoin) els.streamerJoin.checked = prefs.streamerJoin === true;
   } catch {
@@ -3332,22 +4110,7 @@ function syncDrawPanel() {
 const WORD_PREF_KEY = "quizWordPickPrefs:v2";
 const WORD_LEN_MIN = 1;
 const WORD_LEN_MAX = 8;
-const GENRE_CHIPS = [
-  { id: "all", label: "전체", icon: "🎲" },
-  { id: "동물", label: "동물", icon: "🐾" },
-  { id: "음식", label: "음식", icon: "🍜" },
-  { id: "장소", label: "장소", icon: "📍" },
-  { id: "자연", label: "자연", icon: "🌿" },
-  { id: "물건", label: "물건", icon: "📦" },
-  { id: "직업", label: "직업", icon: "💼" },
-  { id: "학교", label: "학교", icon: "📚" },
-  { id: "스포츠", label: "스포츠", icon: "⚽" },
-  { id: "교통", label: "교통", icon: "🚗" },
-  { id: "생활", label: "생활", icon: "🏠" },
-  { id: "캐릭터", label: "캐릭터", icon: "⭐" },
-  { id: "영화", label: "영화", icon: "🎬" },
-  { id: "만화", label: "만화", icon: "🗯️" },
-];
+const GENRE_CHIPS = flattenGenreChips();
 
 let selectedGenres = ["all"];
 let draftGenres = ["all"];
@@ -3355,10 +4118,13 @@ let wordMinLen = 2;
 let wordMaxLen = 4;
 let autoPickCount = 1;
 let autoPickChoices = [];
+let lastPickChoices = [];
+let pickUiSig = "";
 let pendingAutoEntry = null;
 let warmedClueChoices = null;
 const usedClueKeys = new Set();
 const usedWordKeys = new Set();
+const usedSongIds = new Set();
 const clueImageReady = new Map();
 const clueImageIdle = [];
 let clueImageIdleActive = 0;
@@ -3463,7 +4229,7 @@ function idlePrefetchCluePool() {
 function warmUpcomingClueImages() {
   if (!isClueFormat() || warmedClueChoices?.length) return;
   try {
-    warmedClueChoices = pickClueEntries(activeClueBank(), cluePickOptions(), autoPickCount);
+    warmedClueChoices = pickClueEntries(activeClueBank(), cluePickOptions(), liveAutoPickCount());
     prefetchClueEntries(warmedClueChoices, { urgent: true });
   } catch {
     warmedClueChoices = null;
@@ -3568,8 +4334,14 @@ function genreIcon(id) {
   return GENRE_CHIPS.find((g) => g.id === id)?.icon || "";
 }
 
+function parentOfGenre(id) {
+  return GENRE_CHIPS.find((chip) => chip.id === id)?.parentId || "";
+}
+
 function normalizeGenreList(next) {
-  const unique = [...new Set((next || []).filter(Boolean))];
+  const unique = [
+    ...new Set((next || []).map((id) => GENRE_ALIASES[id] || id).filter(Boolean)),
+  ];
   if (!unique.length || unique.includes("all")) return ["all"];
   return unique;
 }
@@ -3592,11 +4364,14 @@ function syncGenreOptionUi(activeList) {
   const active = normalizeGenreList(activeList);
   els.wordGenrePanel?.querySelectorAll(".genre-option").forEach((btn) => {
     const id = btn.dataset.genre;
+    const parent = btn.dataset.parent || parentOfGenre(id);
     const on = active.includes(id);
+    const included = !on && Boolean(parent) && active.includes(parent);
     btn.classList.toggle("active", on);
-    btn.setAttribute("aria-selected", on ? "true" : "false");
+    btn.classList.toggle("is-included", included);
+    btn.setAttribute("aria-selected", on || included ? "true" : "false");
     const mark = btn.querySelector(".genre-check");
-    if (mark) mark.textContent = on ? "✓" : "";
+    if (mark) mark.textContent = on ? "✓" : included ? "·" : "";
   });
 }
 
@@ -3633,28 +4408,48 @@ function toggleDraftGenre(id) {
     const rest = draftGenres.filter((g) => g !== id);
     next = rest.length ? rest : ["all"];
   } else {
-    next = [...draftGenres, id];
+    const parent = parentOfGenre(id);
+    const kids = kidsOfGenre(id);
+    next = draftGenres.filter((g) => g !== parent && !kids.includes(g));
+    next.push(id);
   }
   draftGenres = normalizeGenreList(next);
   syncGenreOptionUi(draftGenres);
 }
 
+function makeGenreBtn(chip, extraClass = "") {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = extraClass ? `genre-option ${extraClass}` : "genre-option";
+  btn.dataset.genre = chip.id;
+  if (chip.parentId) btn.dataset.parent = chip.parentId;
+  btn.setAttribute("role", "option");
+  btn.tabIndex = -1;
+  btn.innerHTML = `<span class="genre-check" aria-hidden="true"></span><span class="genre-ico" aria-hidden="true">${chip.icon}</span><span>${chip.label || chip.id}</span>`;
+  btn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleDraftGenre(chip.id);
+  });
+  return btn;
+}
+
 function renderGenreMenu() {
   if (!els.wordGenrePanel) return;
   els.wordGenrePanel.innerHTML = "";
-  for (const chip of GENRE_CHIPS) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "genre-option";
-    btn.dataset.genre = chip.id;
-    btn.setAttribute("role", "option");
-    btn.tabIndex = -1;
-    btn.innerHTML = `<span class="genre-check" aria-hidden="true"></span><span class="genre-ico" aria-hidden="true">${chip.icon}</span><span>${chip.label}</span>`;
-    btn.addEventListener("click", (event) => {
-      event.stopPropagation();
-      toggleDraftGenre(chip.id);
-    });
-    els.wordGenrePanel.appendChild(btn);
+  els.wordGenrePanel.appendChild(makeGenreBtn({ id: "all", label: "전체", icon: "🎲" }));
+  for (const group of GENRE_TREE) {
+    const wrap = document.createElement("div");
+    wrap.className = "genre-modal-group";
+    wrap.appendChild(makeGenreBtn({ id: group.id, label: group.id, icon: group.icon }, "is-group"));
+    if (group.kids.length) {
+      const kids = document.createElement("div");
+      kids.className = "genre-modal-kids";
+      for (const kid of group.kids) {
+        kids.appendChild(makeGenreBtn({ id: kid.id, label: kid.id, icon: kid.icon, parentId: group.id }, "is-kid"));
+      }
+      wrap.appendChild(kids);
+    }
+    els.wordGenrePanel.appendChild(wrap);
   }
   const options = [...els.wordGenrePanel.querySelectorAll('[role="option"]')];
   if (options[0]) options[0].tabIndex = 0;
@@ -3715,11 +4510,23 @@ function wordPickOptions() {
   };
 }
 
+function liveAutoPickCount() {
+  return isStreamerJoinEnabled() ? 1 : autoPickCount;
+}
+
+function syncStreamerPickLock() {
+  const lock = isStreamerJoinEnabled();
+  setHidden(els.autoWordPick, lock || isListenFormat());
+  if (els.autoWordFields && isClueFormat()) setHidden(els.autoWordFields, lock);
+  syncAutoPickCountUi();
+}
+
 function syncAutoPickCountUi() {
-  if (els.autoPickCountLabel) els.autoPickCountLabel.textContent = `${autoPickCount}개`;
+  if (els.autoPickCountLabel) els.autoPickCountLabel.textContent = `${liveAutoPickCount()}개`;
 }
 
 function bumpAutoPickCount(delta) {
+  if (isStreamerJoinEnabled()) return;
   autoPickCount = Math.max(1, Math.min(3, autoPickCount + delta));
   syncAutoPickCountUi();
   saveWordPickPrefs();
@@ -3753,18 +4560,31 @@ function startPickNudge() {
 function clearAutoPickUi() {
   stopPickNudge();
   autoPickChoices = [];
+  pickUiSig = "";
   if (els.autoPickList) els.autoPickList.replaceChildren();
   if (els.autoPickPanel) setHidden(els.autoPickPanel, true);
+}
+
+function pickSignature(choices) {
+  return (choices || []).map((item) => `${item.genre || ""}\0${item.word || ""}\0${item.hint || ""}`).join("\n");
 }
 
 function renderAutoPickUi(choices = autoPickChoices) {
   const list = els.autoPickList;
   if (!list || !els.autoPickPanel) return;
+  const next = Array.isArray(choices) ? choices : [];
+  lastPickChoices = next.slice();
+  const sig = pickSignature(next);
+  if (sig && sig === pickUiSig && !els.autoPickPanel.hidden && list.childElementCount === next.length) {
+    return;
+  }
+  pickUiSig = sig;
   list.replaceChildren();
-  choices.forEach((entry, i) => {
+  next.forEach((entry, i) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.id = `autoPickBtn${i}`;
+    btn.dataset.pickIndex = String(i);
     btn.className = isClueFormat() ? "clue-pick-card" : "auto-pick-btn";
     const genre = document.createElement("strong");
     genre.textContent = entry.genre && entry.genre !== "전체" ? entry.genre : "주제";
@@ -3780,17 +4600,18 @@ function renderAutoPickUi(choices = autoPickChoices) {
     btn.addEventListener("click", () => chooseAutoPick(i));
     list.appendChild(btn);
   });
-  setHidden(els.autoPickPanel, choices.length < 2);
-  if (choices.length > 1) startPickNudge();
+  setHidden(els.autoPickPanel, next.length < 2);
+  if (next.length > 1) startPickNudge();
   else stopPickNudge();
 }
 
 function chooseAutoPick(index) {
+  const i = Number(index);
   if (isDeskMode) {
-    deskBridge?.post("ui.pick", { index });
+    deskBridge?.post("ui.pick", { index: i });
     return;
   }
-  const entry = autoPickChoices[index];
+  const entry = autoPickChoices[i] || lastPickChoices[i];
   if (!entry) return;
   pendingAutoEntry = entry;
   clearAutoPickUi();
@@ -3927,7 +4748,9 @@ function bindWordPickControls() {
 
   els.wordGenreToggle?.addEventListener("click", (event) => {
     event.stopPropagation();
-    setGenreMenuOpen(!!els.genreModal?.hidden);
+    setListenAnswerMenuOpen(false);
+    if (isListenFormat()) setListenGenreMenuOpen(!!els.listenGenreModal?.hidden);
+    else setGenreMenuOpen(!!els.genreModal?.hidden);
   });
   els.genreModalClose?.addEventListener("click", (event) => {
     event.stopPropagation();
@@ -3946,27 +4769,49 @@ function bindWordPickControls() {
 function syncModeUi() {
   const isDraw = isDrawFormat();
   const isClue = isClueFormat();
-  const isAuto = isClue ? true : isAutoTopic();
+  const isListen = isListenFormat();
+  const isAuto = isClue || isListen ? true : isAutoTopic();
   const needsAnswer = !isAuto;
-  if (isClue && quizTopic !== "auto") {
+  if ((isClue || isListen) && quizTopic !== "auto") {
     quizTopic = "auto";
   }
   syncAxisButtons();
-  if (els.topicAxis) setHidden(els.topicAxis, isClue);
-  if (els.timeHintOpt) setHidden(els.timeHintOpt, isClue);
+  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen);
+  const showTimeHint = !isClue && !isListen;
+  const showGenreReveal = isAuto && !isClue;
+  if (els.timeHintOpt) setHidden(els.timeHintOpt, !showTimeHint);
+  if (els.genreRevealOpt) setHidden(els.genreRevealOpt, !showGenreReveal);
+  if (els.hintGroup) setHidden(els.hintGroup, !showTimeHint && !showGenreReveal);
+  if (els.listenVolOpt) setHidden(els.listenVolOpt, !isListen);
+  if (els.deskListenVolOpt) setHidden(els.deskListenVolOpt, !isListen);
+  if (els.listenAnswerBlock) setHidden(els.listenAnswerBlock, !isListen);
+  if (!isListen) setListenAnswerMenuOpen(false);
   if (els.clueFields) setHidden(els.clueFields, !isClue);
-  if (els.clueChosungOpt) setHidden(els.clueChosungOpt, !(isClue || isAuto));
+  if (els.clueChosungOpt) setHidden(els.clueChosungOpt, isListen || !(isClue || isAuto));
   syncClueOnlyDeskOpts(isClue);
   syncDeskStreamerTools();
   if (els.manualAnswerHint) setHidden(els.manualAnswerHint, !needsAnswer);
   if (els.autoWordFields) {
     setHidden(els.autoWordFields, !isAuto);
     els.autoWordFields.classList.toggle("is-clue", isClue);
+    els.autoWordFields.classList.toggle("is-listen", isListen);
+  }
+  if (els.autoWordLen) setHidden(els.autoWordLen, isListen);
+  if (els.wordGenreToggle) {
+    els.wordGenreToggle.setAttribute("aria-controls", isListen ? "listenGenreModal" : "genreModal");
+  }
+  if (isListen) {
+    if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
+    updateListenGenreSummary();
+  } else {
+    if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
+    updateGenreSummary();
   }
   if (els.streamerJoinOpt) {
     const showStreamerJoin = !isDraw && isAuto;
     setHidden(els.streamerJoinOpt, !showStreamerJoin);
   }
+  syncStreamerPickLock();
   if (!needsAnswer) {
     clearManualAnswerLock();
   } else {
@@ -3997,7 +4842,8 @@ function syncModeUi() {
     return;
   }
 
-  if (els.paintWrap) els.paintWrap.hidden = true;
+  const keepRevealPaint = phase === "reveal" && els.paintWrap?.classList.contains("is-reveal-thumb");
+  if (!keepRevealPaint && els.paintWrap) els.paintWrap.hidden = true;
   if (phase !== "reveal" && phase !== "result") {
     hideDrawHintBar();
     els.prompt.classList.remove("hit", "miss");
@@ -4009,23 +4855,23 @@ function syncModeUi() {
 
 function setStatus(text) {
   els.status.textContent = text;
+  if (phase === "picking") return;
   publishDeskState();
 }
 
 function renderBoard() {
-  // scores Map keeps everyone; UI shows fixed top 5 slots
-  const top = [...scores.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+  const top = rankByScore([...scores.entries()]).slice(0, 5);
   const items = els.board?.querySelectorAll("li[data-rank]") || [];
   items.forEach((li, i) => {
     const row = top[i];
+    const numEl = li.querySelector(".rank-num");
     const nameEl = li.querySelector(".rank-name");
     const scoreEl = li.querySelector(".rank-score");
     const empty = !row;
     li.classList.toggle("is-empty", empty);
-    if (nameEl) nameEl.textContent = empty ? "—" : row[0];
-    if (scoreEl) scoreEl.textContent = empty ? "" : String(row[1]);
+    if (numEl) numEl.textContent = empty ? String(i + 1) : String(row.rank);
+    if (nameEl) nameEl.textContent = empty ? "—" : row.name;
+    if (scoreEl) scoreEl.textContent = empty ? "" : String(row.score);
   });
   publishObs();
 }
@@ -4094,9 +4940,11 @@ function showFinalResult(lastAnswer = "") {
   cancelHolds();
   stopChatDelayProbe();
   stopQuestionTts();
+  stopListenAudio();
   stopTimer();
   usedClueKeys.clear();
   usedWordKeys.clear();
+  usedSongIds.clear();
   warmedClueChoices = null;
   roundActive = false;
   phase = "result";
@@ -4113,7 +4961,9 @@ function showFinalResult(lastAnswer = "") {
   if (els.paintWrap) els.paintWrap.hidden = true;
   if (els.broadcastHud) els.broadcastHud.hidden = true;
   els.prompt.hidden = true;
-  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung");
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-listen", "is-pick-wait", "is-draw-reveal");
+  hideListenStage();
+  stopListenAudio();
   hideClueArt({ forget: true });
   clearCluePromptFit();
   setPromptText("");
@@ -4131,25 +4981,28 @@ function showFinalResult(lastAnswer = "") {
 }
 
 function getTopScores(limit = 5) {
-  return [...scores.entries()]
-    .sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]), "ko"))
-    .slice(0, limit)
-    .map(([name, score], i) => ({ rank: i + 1, name, score }));
+  return rankByScore([...scores.entries()]).slice(0, limit);
 }
 
 function renderPodiumFromScores() {
   const podium = els.podium;
   if (!podium) return;
   const tops = getTopScores(5);
-  const byRank = new Map(tops.map((row) => [row.rank, row]));
+  const byRank = new Map();
+  for (const row of tops) {
+    const list = byRank.get(row.rank) || [];
+    list.push(row);
+    byRank.set(row.rank, list);
+  }
   podium.querySelectorAll(".podium-slot").forEach((slot) => {
     const place = Number(slot.getAttribute("data-place"));
-    const row = byRank.get(place);
+    const rows = byRank.get(place) || [];
     const nameEl = slot.querySelector(".podium-name");
     const scoreEl = slot.querySelector(".podium-score");
-    if (nameEl) nameEl.textContent = row ? row.name : "—";
-    if (scoreEl) scoreEl.textContent = row ? `${row.score}점` : "";
-    slot.classList.toggle("is-empty", !row);
+    if (nameEl) nameEl.textContent = rows.length ? rows.map((row) => row.name).join(" · ") : "—";
+    if (scoreEl) scoreEl.textContent = rows.length ? `${rows[0].score}점` : "";
+    slot.classList.toggle("is-empty", !rows.length);
+    slot.classList.toggle("is-tie", rows.length > 1);
   });
   setHidden(podium, false);
   startPodiumConfetti();
@@ -4190,6 +5043,7 @@ function stopPodiumConfetti() {
 }
 
 function dismissPodium() {
+  stopListenAudio();
   stopPodiumConfetti();
   if (els.podium) {
     setHidden(els.podium, true);
@@ -4201,18 +5055,20 @@ function dismissPodium() {
 
 function openNextQuestionSetup() {
   if (phase !== "reveal") return;
+  stopListenAudio();
   if (remaining <= 0) {
     showFinalResult(current.answer || "");
     return;
   }
   clearRevealPaintThumb();
   phase = "ready";
-  setStatus("다음 문제 설정");
+  setStatus("문제 유형을 바꿔 주세요");
   syncDeskFlow();
 }
 
 async function continueAfterReveal() {
   if (phase !== "reveal") return;
+  stopListenAudio();
   if (remaining <= 0) {
     showFinalResult(current.answer || "");
     return;
@@ -4234,8 +5090,8 @@ async function continueAfterReveal() {
 }
 
 function clearRevealPaintThumb() {
-  if (!els.paintWrap) return;
-  els.paintWrap.classList.remove("is-reveal-thumb");
+  if (els.paintWrap) els.paintWrap.classList.remove("is-reveal-thumb");
+  els.prompt?.classList.remove("is-draw-reveal");
 }
 
 function showRevealPaintThumb() {
@@ -4243,6 +5099,7 @@ function showRevealPaintThumb() {
   els.paintWrap.classList.add("is-reveal-thumb");
   els.paintWrap.hidden = false;
   els.paintWrap.toggleAttribute("hidden", false);
+  els.prompt?.classList.add("is-draw-reveal");
   redraw();
 }
 
@@ -4346,6 +5203,7 @@ function playHitFly({ nickname, answer }, done) {
 function finishQuestion(winner) {
   if (phase !== "accepting") return;
   stopQuestionTts();
+  stopListenAudio();
   phase = "reveal";
   stopTimer();
   judge = null;
@@ -4355,12 +5213,16 @@ function finishQuestion(winner) {
   const answerText = current.answer || "";
   const wasDraw = current.mode === "draw" || isDrawFormat(current.format);
   const wasClue = current.mode === "clue" || isClueFormat(current.format);
+  const wasListen = current.mode === "listen" || isListenFormat(current.format);
   els.prompt.hidden = false;
   hideDrawHintBar();
+  hideListenStage();
   syncClueChosungLine("");
   els.prompt.classList.remove("hit", "miss");
   els.prompt.classList.toggle("is-clue", wasClue);
-  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue);
+  els.prompt.classList.toggle("is-listen", wasListen);
+  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen);
+  els.prompt.classList.toggle("is-draw-reveal", wasDraw);
   if (wasClue) {
     syncClueSheet();
     syncClueArt({ reveal: true });
@@ -4381,7 +5243,9 @@ function finishQuestion(winner) {
     addScore(winner.nickname);
     els.winner.textContent = "";
     setStatus(`${winner.nickname} 님이 맞히셨습니다 · 정답 ${answerText}`);
-    if (!wasDraw && !wasClue) setPromptText(formatChosungDisplay(answerText));
+    if (wasListen) setPromptText(answerText);
+    else if (wasDraw) setPromptText("");
+    else if (!wasClue) setPromptText(formatChosungDisplay(answerText));
     playHitFireworks();
     playHitFly({ nickname: winner.nickname, answer: answerText }, showHitPrompt);
   } else {
@@ -4473,9 +5337,18 @@ function appendSideChat(chat, { fake = false } = {}) {
 function onChatStatus(text) {
   const msg = String(text || "");
   setStatus(msg);
-  if (/연결됨/.test(msg)) setChatConnStatus(msg, "live");
-  else if (/끊김|오류|실패|취소|이미 다른/.test(msg)) setChatConnStatus(msg, "bad");
-  else setChatConnStatus(msg || "연결되지 않았습니다");
+  if (/연결됨/.test(msg)) {
+    chatLive = true;
+    setChatConnStatus(msg, "live");
+  } else if (/만료|다시 로그인/.test(msg)) {
+    chatLive = false;
+    setChatConnStatus(msg, "bad");
+    syncDeskFlow();
+  } else if (/끊김|오류|실패|취소|이미 다른/.test(msg)) {
+    setChatConnStatus(msg, "bad");
+  } else {
+    setChatConnStatus(msg || "연결되지 않았습니다");
+  }
   publishObs();
 }
 
@@ -4488,7 +5361,7 @@ function clearChosungMisses() {
 }
 
 function missAvoidBoxes(layerBox) {
-  const ids = ["prompt", "broadcastHud", "joinBanner", "genreHintLine", "clueChosungLine"];
+  const ids = ["prompt", "broadcastHud", "joinBanner", "joinRoster", "genreHintLine", "clueChosungLine"];
   const boxes = [];
   for (const id of ids) {
     const el = els[id] || document.getElementById(id);
@@ -4569,6 +5442,7 @@ function applyStreamerNickname(name) {
   const prev = String(session?.nickname || "").trim();
   if (prev === nick) return true;
   saveSession({ ...session, nickname: nick });
+  if (phase === "picking") showPickingWait();
   if (scores.has("스트리머")) {
     scores.set(nick, (scores.get(nick) || 0) + scores.get("스트리머"));
     scores.delete("스트리머");
@@ -4623,13 +5497,20 @@ function onChat(chat, opts = {}) {
   if (guestHost?.noteCandidate(chat)) {
     renderGuestHostUi();
   }
-  if (phase !== "accepting" || !judge) return;
+  if ((phase !== "accepting" && phase !== "holding") || !judge) return;
   if (chat?.type && chat.type !== "chat") return;
   if (chat?.hidden) return;
   if (guestHost?.shouldExcludeFromJudge(chat?.userId)) return;
   const result = judge(chat);
-  if (result.hit) finishQuestion(result.winner);
-  else noteChosungMiss(chat);
+  if (result.hit) {
+    if (phase === "holding") {
+      cancelHolds();
+      phase = "accepting";
+    }
+    finishQuestion(result.winner);
+  } else {
+    noteChosungMiss(chat);
+  }
 }
 
 function openEndConfirm() {
@@ -4645,6 +5526,7 @@ function closeEndConfirm() {
 
 function endRoundConfirmed() {
   cancelHolds();
+  stopListenAudio();
   stopTimer();
   judge = null;
   remaining = 0;
@@ -4675,6 +5557,7 @@ function setCountdownVisible(text) {
 async function runStartCountdown() {
   stopChatDelayProbe();
   stopQuestionTts();
+  stopListenAudio();
   warmUpcomingClueImages();
   phase = "countdown";
   syncDeskFlow();
@@ -4684,7 +5567,8 @@ async function runStartCountdown() {
   els.prompt.hidden = true;
   setPromptText("");
   hideClueArt({ forget: true });
-  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung");
+  hideListenStage();
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-listen", "is-draw-reveal");
   clearCluePromptFit();
   syncClueChosungLine("");
   if (els.paintWrap) els.paintWrap.hidden = true;
@@ -4706,11 +5590,22 @@ async function runStartCountdown() {
 }
 
 function canStartQuestion() {
+  if (!isDeskMode && !isDeskDetached()) {
+    showHostToast("조작창 분리 버튼을 눌러주세요");
+    return false;
+  }
   if (isClueFormat()) {
     const stats = getClueBankStats(activeClueBank(), cluePickOptions());
     if (!stats.matched) {
       const pack = activeCluePack();
       setStatus(clueBankLoading[pack.id] ? `${pack.label} 단서를 불러오는 중…` : "선택한 종류에 맞는 단서가 없습니다");
+      return false;
+    }
+    return true;
+  }
+  if (isListenFormat()) {
+    if (!songCount(selectedListenGenres)) {
+      setStatus("선택한 장르에 미리듣기가 없습니다");
       return false;
     }
     return true;
@@ -4731,7 +5626,13 @@ function canStartQuestion() {
   return true;
 }
 
+function clearStreamerGuessInput() {
+  if (els.streamerGuess) els.streamerGuess.value = "";
+  if (!isDeskMode) deskBridge?.post("guess.clear");
+}
+
 function beginQuestion() {
+  clearStreamerGuessInput();
   const format = quizFormat;
   const topic = quizTopic;
   const seconds = Number(els.seconds.value) || 30;
@@ -4745,10 +5646,31 @@ function beginQuestion() {
   let year = 0;
   let mediaGenres = [];
   let series = "";
+  let aliases = [];
+  let previewUrl = "";
+  let song = null;
+  let listenRoundMode = "";
   const clue = format === "clue";
-  const topicKey = clue ? "auto" : topic;
-  const streamerJoin = (format === "chosung" || clue) && topicKey === "auto" && isStreamerJoinEnabled();
-  if (topicKey === "auto") {
+  const listen = format === "listen";
+  const topicKey = clue || listen ? "auto" : topic;
+  const streamerJoin = (format === "chosung" || clue || listen) && topicKey === "auto" && isStreamerJoinEnabled();
+  if (listen) {
+    try {
+      song = takeSongSync(usedSongIds, selectedListenGenres);
+      usedSongIds.add(song.id);
+      listenRoundMode = pickListenAnswerMode(listenAnswerMode);
+      answer = songDisplayAnswer(song, listenRoundMode);
+      aliases = Array.isArray(song.aliases) ? song.aliases.slice() : [];
+      previewUrl = song.previewUrl;
+      genre = listenSongGenreLabel(song);
+    } catch (err) {
+      setStatus(String(err.message || err || "노래 선택에 실패했습니다"));
+      phase = "ready";
+      syncDeskFlow();
+      return;
+    }
+    if (!streamerJoin) excludeUserId = session.userId;
+  } else if (topicKey === "auto") {
     try {
       let entry = pendingAutoEntry;
       pendingAutoEntry = null;
@@ -4760,13 +5682,14 @@ function beginQuestion() {
         const choices = clue
           ? warmed?.length
             ? warmed
-            : pickClueEntries(activeClueBank(), cluePickOptions(), autoPickCount)
-          : pickWordEntriesFromBank(wordBank, wordPickOptions(), autoPickCount);
+            : pickClueEntries(activeClueBank(), cluePickOptions(), liveAutoPickCount())
+          : pickWordEntriesFromBank(wordBank, wordPickOptions(), liveAutoPickCount());
         if (clue) prefetchClueEntries(choices, { urgent: true });
         if (choices.length > 1) {
           autoPickChoices = choices;
           phase = "picking";
           renderAutoPickUi(choices);
+          showPickingWait();
           setStatus("지금 문제를 골라 주세요");
           syncDeskFlow();
           return;
@@ -4776,11 +5699,11 @@ function beginQuestion() {
       answer = entry.word;
       genre = entry.genre || "";
       hint = entry.hint || "";
-      image = entry.image || "";
-      imageReveal = entry.imageReveal || "";
+      ({ image, imageReveal } = cluePlayImages(entry));
       year = Number(entry.year) || 0;
       mediaGenres = Array.isArray(entry.mediaGenres) ? entry.mediaGenres.slice() : [];
       series = String(entry.series || "").trim();
+      aliases = Array.isArray(entry.aliases) ? entry.aliases.map((name) => String(name || "").trim()).filter(Boolean) : [];
       if (clue) {
         usedClueKeys.add(clueEntryKey(entry));
         prefetchClueEntries([entry], { urgent: true });
@@ -4793,7 +5716,7 @@ function beginQuestion() {
       syncDeskFlow();
       return;
     }
-    if ((format === "chosung" || clue) && !streamerJoin) {
+    if ((format === "chosung" || clue || listen) && !streamerJoin) {
       excludeUserId = session.userId;
     }
   } else {
@@ -4813,7 +5736,7 @@ function beginQuestion() {
       ? pendingGuestAuthor.nickname
       : "";
   current = {
-    mode: format === "draw" ? "draw" : clue ? "clue" : "chosung",
+    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : "chosung",
     format,
     topic: topicKey,
     answer,
@@ -4824,6 +5747,10 @@ function beginQuestion() {
     year,
     mediaGenres,
     series,
+    aliases,
+    previewUrl,
+    song,
+    listenAnswerMode: listenRoundMode,
     byGuest,
   };
   pendingGuestAuthor = null;
@@ -4845,6 +5772,7 @@ function beginQuestion() {
   els.winner.textContent = "";
   if (format === "draw") redraw();
   renderQuestionView();
+  if (listen) playListenPreview(previewUrl);
   syncGuestAuthorTag();
   clearManualAnswerLock();
   void guestHost?.pushHostMode(format === "draw" ? "draw" : "chosung");
@@ -4853,6 +5781,7 @@ function beginQuestion() {
   if (delay > 0) {
     phase = "holding";
     holdStartedAt = Date.now();
+    judge = makeQuestionJudge({ answer, aliases, excludeUserId });
     renderQuestionView();
     syncDeskFlow();
     speakQuestion();
@@ -4860,23 +5789,25 @@ function beginQuestion() {
     void (async () => {
       const ok = await runChatDelayHold(delay, token);
       if (!ok) return;
-      startAcceptingAnswers({ seconds, answer, excludeUserId, clue, format, topicKey, streamerJoin, genre, replayVoice: false });
+      startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre, replayVoice: false });
     })();
     return;
   }
-  startAcceptingAnswers({ seconds, answer, excludeUserId, clue, format, topicKey, streamerJoin, genre });
+  startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre });
 }
 
-function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, format, topicKey, streamerJoin, genre, replayVoice = true }) {
+function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre, replayVoice = true }) {
   holdStartedAt = 0;
-  judge = createJudge({ answer, excludeUserId });
+  if (!judge) judge = makeQuestionJudge({ answer, aliases: current.aliases, excludeUserId });
   phase = "accepting";
   renderQuestionView();
   startTimer(seconds);
   if (replayVoice) speakQuestion();
   syncDeskFlow();
   updateHintUi();
-  if (clue) {
+  if (listen) {
+    setStatus(isDev ? `듣기 · ${listenAnswerModeLabel(current.listenAnswerMode)} · 정답 [${answer}]` : listenAnswerStatus(current.listenAnswerMode));
+  } else if (clue) {
     setStatus(isDev ? `단서 · ${genre} · 정답 [${answer}]` : `단서 · ${genre} · 채팅 정답 대기`);
   } else if (topicKey === "auto") {
     if (streamerJoin) {
@@ -4898,6 +5829,7 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, format, t
 function startRound() {
   usedClueKeys.clear();
   usedWordKeys.clear();
+  usedSongIds.clear();
   warmedClueChoices = null;
   scores = new Map();
   renderBoard();
@@ -5292,7 +6224,7 @@ async function claimAuthTicket(ticket) {
 
 function saveSession(next) {
   session = next;
-  sessionStorage.setItem("chzzkSession", JSON.stringify(session));
+  writeAuthSession(HOST_SESSION_KEY, session);
   if (session.refreshToken) startAuthKeep();
 }
 
@@ -5437,6 +6369,7 @@ async function attachOfficialChat(accessToken, { skipSlotCheck = false } = {}) {
   if (!accessToken) throw new Error("로그인 토큰 없음");
   if (!skipSlotCheck && !(await ensureHostSessionSlot())) return;
   chatHandle?.close();
+  chatLive = false;
   setChatConnStatus("채팅 연결 중…");
   chatHandle = createOfficialChzzkChat({
     workerBase: workerBase(),
@@ -5464,6 +6397,7 @@ async function attachOfficialChat(accessToken, { skipSlotCheck = false } = {}) {
   });
   startAuthKeep();
   claimHostLock();
+  chatLive = true;
   if (phase === "lobby") phase = "ready";
   await ensureStreamerNickname();
   syncDeskFlow();
@@ -5550,27 +6484,37 @@ els.sessionTakeoverModal?.addEventListener("click", (event) => {
 });
 
 async function restoreSession() {
-  const raw = sessionStorage.getItem("chzzkSession");
-  if (!raw) return;
-  try {
-    session = JSON.parse(raw);
-    if (!session.channelId) return;
-    if (session.accessToken) {
-      setStatus("로그인 채널에 다시 연결하는 중…");
-      phase = "ready";
+  const saved = readAuthSession(HOST_SESSION_KEY);
+  if (!saved?.channelId) return;
+  session = saved;
+  if (isDev && session.mode === "dev") {
+    setStatus("테스트 채널에 다시 연결하는 중…");
+    phase = "ready";
+    await attachDevChannel(session.channelId, session.userId || "");
+    return;
+  }
+  if (session.refreshToken) {
+    startAuthKeep();
+    try {
+      const next = await authKeep?.refresh();
+      if (next?.accessToken) session = next;
+    } catch {
+      // 저장된 accessToken으로 한 번 더 시도
+    }
+  }
+  if (session.accessToken) {
+    setStatus("로그인 채널에 다시 연결하는 중…");
+    phase = "ready";
+    try {
       await attachOfficialChat(session.accessToken);
-      return;
+    } catch (err) {
+      chatLive = false;
+      phase = "lobby";
+      setStatus("치지직 연결이 끊겼습니다. 로그인을 다시 눌러 주세요");
+      setChatConnStatus(String(err.message || err), "bad");
+      syncDeskFlow();
     }
-    if (isDev && session.mode === "dev") {
-      setStatus("테스트 채널에 다시 연결하는 중…");
-      phase = "ready";
-      await attachDevChannel(session.channelId, session.userId || "");
-      return;
-    }
-    sessionStorage.removeItem("chzzkSession");
-    session = { channelId: "", userId: "" };
-  } catch {
-    sessionStorage.removeItem("chzzkSession");
+    return;
   }
 }
 
@@ -5598,8 +6542,11 @@ async function handleAuthRedirect() {
       syncDeskFlow();
     } catch (err) {
       history.replaceState({}, "", cleanReturnPath());
-      setStatus(`로그인 완료 처리 실패: ${err.message || err}`);
-      setChatConnStatus(String(err.message || err), "bad");
+      await restoreSession();
+      if (!session.accessToken) {
+        setStatus(`로그인 완료 처리 실패: ${err.message || err}`);
+        setChatConnStatus(String(err.message || err), "bad");
+      }
       syncDeskFlow();
     }
     return;
@@ -5624,11 +6571,8 @@ function bind() {
     setStatus("개발 모드입니다. 채널 연결 또는 가짜 채팅으로 테스트해 주세요");
   }
   localStorage.removeItem("workerUrl");
-  els.hintEnabled.checked = localStorage.getItem("hintEnabled") === "1";
-  if (els.hintGenreEnabled) {
-    // 기본 미체크. 예전 키는 무시
-    els.hintGenreEnabled.checked = localStorage.getItem("genreRevealEnabled:v1") === "1";
-  }
+  setOnoffBtn(els.hintEnabled, localStorage.getItem("hintEnabled") === "1");
+  setOnoffBtn(els.hintGenreEnabled, localStorage.getItem("genreRevealEnabled:v1") === "1");
   restoreWordPickPrefs();
   restoreCluePrefs();
   restoreTtsPref();
@@ -5639,6 +6583,24 @@ function bind() {
   });
   bindHostTutorial();
   bindQuizBgm();
+  restoreListenVolume();
+  restoreListenGenres();
+  restoreListenAnswerMode();
+  bindListenGenreControls();
+  bindListenAnswerControls();
+  const onListenVolInput = (event) => {
+    setListenVolume(Number(event.target?.value) / 100);
+    publishDeskState();
+  };
+  els.listenVol?.addEventListener("input", onListenVolInput);
+  els.deskListenVol?.addEventListener("input", onListenVolInput);
+  els.listenPreviewBtn?.addEventListener("click", () => {
+    void toggleListenVolumeSample();
+  });
+  els.deskListenPreviewBtn?.addEventListener("click", () => {
+    void toggleListenVolumeSample();
+  });
+  syncListenPreviewBtn();
   bindRoundSteppers();
   bindHintInfoTip();
   restoreQuizModePrefs();
@@ -5647,6 +6609,8 @@ function bind() {
   els.formatSeg?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-format]");
     if (!btn) return;
+    if (!isKnownQuizFormat(btn.dataset.format)) return;
+    if (quizFormat === "listen" && btn.dataset.format !== "listen") stopListenAudio();
     quizFormat = btn.dataset.format;
     saveQuizModePrefs();
     syncModeUi();
@@ -5662,22 +6626,27 @@ function bind() {
   });
   els.streamerJoin?.addEventListener("change", () => {
     saveQuizModePrefs();
+    syncStreamerPickLock();
     syncManualAnswerUi();
     syncDeskStreamerTools();
     publishDeskState();
   });
-  els.hintEnabled.addEventListener("change", () => {
-    localStorage.setItem("hintEnabled", els.hintEnabled.checked ? "1" : "0");
+  els.hintEnabled?.addEventListener("click", () => {
+    const on = els.hintEnabled.getAttribute("aria-pressed") !== "true";
+    setOnoffBtn(els.hintEnabled, on);
+    localStorage.setItem("hintEnabled", on ? "1" : "0");
     updateHintUi();
-    if (!els.hintEnabled.checked && phase === "accepting") {
+    if (!on && phase === "accepting") {
       hintCount = 0;
       resetHintRevealOrder(current.answer || "");
       renderQuestionView();
     }
     syncGenreHintUi();
   });
-  els.hintGenreEnabled?.addEventListener("change", () => {
-    localStorage.setItem("genreRevealEnabled:v1", els.hintGenreEnabled.checked ? "1" : "0");
+  els.hintGenreEnabled?.addEventListener("click", () => {
+    const on = els.hintGenreEnabled.getAttribute("aria-pressed") !== "true";
+    setOnoffBtn(els.hintGenreEnabled, on);
+    localStorage.setItem("genreRevealEnabled:v1", on ? "1" : "0");
     syncGenreHintUi();
   });
   els.startBtn.addEventListener("click", async () => {
@@ -5685,6 +6654,7 @@ function bind() {
       setStatus("먼저 치지직에 로그인해 주세요");
       return;
     }
+    if (!requireDeskDetached()) return;
     dismissHostTutorial();
     if (phase === "result") {
       dismissPodium();
@@ -5697,6 +6667,14 @@ function bind() {
         await ensureActiveClueBank();
       } catch {
         if (!canStartQuestion()) return;
+      }
+    }
+    if (isListenFormat()) {
+      try {
+        await loadSongs();
+      } catch {
+        setStatus("songs.json을 읽지 못했습니다");
+        return;
       }
     }
     if (!canStartQuestion()) return;
@@ -5757,7 +6735,12 @@ function bind() {
     if (event.key !== "Escape") return;
     if (hostTutorialStep >= 0 && els.hostTutorial && !els.hostTutorial.hidden) {
       event.preventDefault();
-      dismissHostTutorial();
+      if (hostTutorialStep >= HOST_TUTORIAL_STEPS.length - 1 && !isDeskDetached()) {
+        setStatus("조작 새창으로 분리를 눌러 주세요");
+        return;
+      }
+      if (isDeskDetached()) dismissHostTutorial();
+      else openHostTutorial(HOST_TUTORIAL_STEPS.length - 1);
       return;
     }
     if (delayProbe) {
@@ -5833,6 +6816,7 @@ async function main() {
   if (isDeskMode) {
     if (els.guestHostPanel) setHidden(els.guestHostPanel, true);
     if (els.joinBanner) els.joinBanner.hidden = true;
+    if (els.joinRoster) els.joinRoster.hidden = true;
     try {
       bindDraw();
     } catch (err) {
@@ -5868,6 +6852,9 @@ async function main() {
   } catch {
     setStatus("단어 목록을 읽지 못했습니다. 자동 초성을 사용할 수 없습니다");
   }
+  void loadSongs()
+    .then(() => updateListenGenreSummary())
+    .catch(() => {});
   try {
     await handleAuthRedirect();
   } catch (err) {
