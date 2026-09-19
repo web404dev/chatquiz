@@ -3,52 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
   <title>채팅 퀴즈</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=106" />
+  <link rel="preconnect" href="https://chzzk-chat-quiz.web404dev.workers.dev" />
+  <link rel="preconnect" href="https://enka.network" />
+  <link rel="preconnect" href="https://gi.yatta.moe" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://ddragon.leagueoflegends.com" />
+  <link rel="preconnect" href="https://valorant-api.com" />
+  <link rel="preconnect" href="https://graphql.anilist.co" />
+  <link rel="preconnect" href="https://raw.githubusercontent.com" />
+  <link rel="preconnect" href="https://www.wikidata.org" />
+  <link rel="preconnect" href="https://query.wikidata.org" />
+  <link rel="preconnect" href="https://ko.wikipedia.org" />
+  <link rel="preconnect" href="https://www.dota2.com" />
+  <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
+  <link rel="preconnect" href="https://fortnite-api.com" />
+  <link rel="stylesheet" href="./styles.css?v=167" />
 </head>
-<body>
+<body class="arena is-desk-locked">
+  <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
+  <main id="appMain" class="app-main" tabindex="-1">
   <div class="stage">
-    <div id="broadcastCropGuide" class="broadcast-crop-guide">
-      <div class="broadcast-crop-frame" aria-hidden="true"></div>
+    <div id="broadcastCropGuide" class="broadcast-crop-guide" aria-hidden="true">
+      <div class="broadcast-crop-frame"></div>
       <p class="broadcast-crop-label">---- 방송에 노출 되어야 하는곳 ----</p>
     </div>
-    <section class="broadcast">
-      <button type="button" id="quitRoundBtn" class="broadcast-quit" hidden aria-label="한 판 종료">×</button>
+    <section class="broadcast arena-frame arena-stage" aria-label="방송 화면">
+      <span class="arena-frame-bl" aria-hidden="true"></span>
+      <span class="arena-frame-br" aria-hidden="true"></span>
+      <button type="button" id="quitRoundBtn" class="icon-close broadcast-quit" hidden aria-label="한 판 종료">
+        <span aria-hidden="true">×</span>
+      </button>
       <div class="broadcast-hud" id="broadcastHud">
-        <div class="hud-round" title="라운드">
+        <div class="hud-round" aria-label="라운드">
+          <span class="hud-badge" aria-hidden="true">ROUND</span>
           <svg class="hud-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h10v2H4v-2z"/></svg>
           <span id="roundLabel">0/10</span>
         </div>
-        <div class="hud-timer" title="남은 시간">
+        <div class="hud-timer" aria-label="남은 시간">
+          <span class="hud-badge" aria-hidden="true">TIME</span>
           <svg class="hud-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm.5-13H11v6l5.2 3.1.8-1.3-4.5-2.7z"/></svg>
           <div class="timer-track" aria-hidden="true"><div id="timerBar" class="timer-bar"></div></div>
           <span id="timerSec" class="timer-sec">0</span>
         </div>
-        <p id="winner" class="hud-winner"></p>
+        <p id="winner" class="hud-winner" role="status" aria-live="polite"></p>
       </div>
       <div id="drawHintBar" class="draw-hint-bar" hidden>
         <div id="drawHintSlots" class="draw-hint-slots" aria-label="그림 힌트"></div>
       </div>
-      <p id="genreHintLine" class="genre-hint-line" hidden></p>
+      <p id="guestAuthorTag" class="guest-author-tag" hidden></p>
+      <p id="genreHintLine" class="genre-hint-line" hidden role="status" aria-live="polite"></p>
       <p id="countdown" class="countdown" hidden aria-live="assertive"></p>
-      <div id="broadcastLobby" class="broadcast-lobby">
-        <div class="broadcast-lobby-card">
-          <div id="lobbyAuthBlock" class="setup-block lobby-auth">
+      <p id="joinBanner" class="join-banner" hidden aria-hidden="true">!참여</p>
+      <div id="broadcastLobby" class="broadcast-lobby" tabindex="-1">
+        <div class="broadcast-lobby-card arena-panel">
+          <header class="lobby-hero">
+            <p class="lobby-kicker" aria-hidden="true">Live Quiz Arena</p>
+            <h1 class="lobby-title">채팅 퀴즈</h1>
+          </header>
+          <div id="lobbyAuthBlock" class="setup-block lobby-auth lobby-card">
             <h2 class="panel-title">치지직 연결</h2>
             <p class="lobby-auth-desc">로그인하면 내 채널 채팅이 연결됩니다.</p>
             <button id="loginBtn" type="button" class="lobby-login-btn">치지직 로그인</button>
           </div>
-          <div id="roundSettingsBlock" class="setup-block" hidden>
-            <h2 class="panel-title">한 판 설정</h2>
+          <div id="roundSettingsBlock" class="setup-block lobby-card" hidden>
+            <div class="round-settings-head">
+              <h2 class="panel-title">한 판 설정</h2>
+              <button type="button" id="guestModalOpenBtn" class="guest-modal-open-btn" aria-haspopup="dialog" aria-controls="guestModal">
+                시청자 참여
+                <span id="guestOpenBadge" class="guest-open-badge" hidden></span>
+              </button>
+            </div>
             <div class="setup-steppers">
               <div class="stepper">
                 <span class="stepper-label">제한시간</span>
                 <div class="stepper-controls">
                   <button type="button" id="secondsMinus" aria-label="시간 감소">−</button>
-                  <strong id="secondsLabel">30초</strong>
+                  <strong id="secondsLabel" aria-live="polite">30초</strong>
                   <button type="button" id="secondsPlus" aria-label="시간 증가">+</button>
                 </div>
               </div>
@@ -56,42 +90,104 @@
                 <span class="stepper-label">문제 수</span>
                 <div class="stepper-controls">
                   <button type="button" id="questionsMinus" aria-label="문제 수 감소">−</button>
-                  <strong id="questionsLabel">10문제</strong>
+                  <strong id="questionsLabel" aria-live="polite">10문제</strong>
                   <button type="button" id="questionsPlus" aria-label="문제 수 증가">+</button>
                 </div>
+              </div>
+              <div class="stepper chat-delay-stepper">
+                <span class="stepper-label">
+                  채팅 딜레이
+                  <button type="button" class="hint-info" id="chatDelayInfo" aria-label="채팅 딜레이 설명" aria-describedby="chatDelayInfoPop">
+                    <span class="hint-info-btn" aria-hidden="true">i</span>
+                  </button>
+                </span>
+                <div class="stepper-controls">
+                  <button type="button" id="chatDelayMinus" aria-label="채팅 딜레이 감소">−</button>
+                  <strong id="chatDelayLabel" aria-live="polite">끔</strong>
+                  <button type="button" id="chatDelayPlus" aria-label="채팅 딜레이 증가">+</button>
+                </div>
+                <button type="button" id="chatDelayProbeBtn" class="chat-delay-probe-btn">재기</button>
               </div>
             </div>
             <input id="seconds" type="hidden" value="30" />
             <input id="questionCount" type="hidden" value="10" />
+            <input id="chatDelay" type="hidden" value="0" />
           </div>
-          <div id="questionSettingsBlock" class="setup-block" hidden>
+          <div id="questionSettingsBlock" class="setup-block lobby-card" hidden>
             <h2 class="panel-title">이번 문제</h2>
             <div class="row row-compact quiz-axes">
               <div class="axis">
                 <span class="axis-label">유형</span>
                 <div class="seg" id="formatSeg" role="group" aria-label="유형">
-                  <button type="button" class="seg-btn active" data-format="chosung">초성</button>
-                  <button type="button" class="seg-btn" data-format="draw">그림</button>
+                  <button type="button" class="seg-btn active" data-format="chosung" aria-pressed="true">초성</button>
+                  <button type="button" class="seg-btn" data-format="draw" aria-pressed="false">그림</button>
+                  <button type="button" class="seg-btn" data-format="clue" aria-pressed="false">단서</button>
                 </div>
               </div>
-              <div class="axis">
+              <div class="axis" id="topicAxis">
                 <span class="axis-label">주제</span>
                 <div class="seg" id="topicSeg" role="group" aria-label="주제">
-                  <button type="button" class="seg-btn active" data-topic="auto">자동</button>
-                  <button type="button" class="seg-btn" data-topic="manual">수동</button>
+                  <button type="button" class="seg-btn active" data-topic="auto" aria-pressed="true">자동</button>
+                  <button type="button" class="seg-btn" data-topic="manual" aria-pressed="false">수동</button>
                 </div>
               </div>
-              <div class="hint-opt">
+              <div class="hint-opt" id="timeHintOpt">
                 <label class="check">
                   <input id="hintEnabled" type="checkbox" />
                   시간 힌트
                 </label>
-                <span class="hint-info" id="hintInfo" tabindex="0" aria-label="시간 힌트 설명" aria-describedby="hintInfoPop">
+                <button type="button" class="hint-info" id="hintInfo" aria-label="시간 힌트 설명" aria-describedby="hintInfoPop">
                   <span class="hint-info-btn" aria-hidden="true">i</span>
-                </span>
+                </button>
               </div>
             </div>
             <p id="manualAnswerHint" class="manual-answer-hint" hidden>조작창에 정답을 입력해 주세요</p>
+            <div id="clueFields" class="clue-fields" hidden>
+              <div class="clue-setup-head">
+                <p class="clue-setup-kicker">단서 판</p>
+                <p id="clueSetupStatus" class="clue-setup-status">작품과 맞출 내용을 고르면 바로 낼 수 있습니다</p>
+              </div>
+              <div class="clue-field-tiles" id="clueFieldSeg" role="group" aria-label="단서 분야">
+                <button type="button" class="clue-field-tile active" data-clue-field="game" aria-pressed="true">
+                  <strong>게임</strong>
+                </button>
+                <button type="button" class="clue-field-tile" data-clue-field="movie" aria-pressed="false">
+                  <strong>영화</strong>
+                </button>
+                <button type="button" class="clue-field-tile" data-clue-field="manga" aria-pressed="false">
+                  <strong>만화</strong>
+                </button>
+              </div>
+              <div class="clue-dd-list">
+                <div class="clue-dd" id="cluePackRow">
+                  <span class="clue-dd-label" id="cluePackLabel">작품</span>
+                  <div class="clue-dd-menu" id="cluePackMenu">
+                    <button type="button" id="cluePackToggle" class="clue-dd-toggle" aria-expanded="false" aria-haspopup="dialog" aria-controls="clueSheet" aria-labelledby="cluePackLabel cluePackSummary">
+                      <span id="cluePackSummary" class="clue-dd-summary">원신</span>
+                      <span class="genre-caret" aria-hidden="true">▾</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="clue-dd" id="clueKindRow">
+                  <span class="clue-dd-label" id="clueKindLabel">무엇을 맞출까요</span>
+                  <div class="clue-dd-menu" id="clueKindMenu">
+                    <button type="button" id="clueKindToggle" class="clue-dd-toggle" aria-expanded="false" aria-haspopup="dialog" aria-controls="clueSheet" aria-labelledby="clueKindLabel clueKindSummary">
+                      <span id="clueKindSummary" class="clue-dd-summary">전체</span>
+                      <span class="genre-caret" aria-hidden="true">▾</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="clue-dd" id="clueFilterRow" hidden>
+                  <span class="clue-dd-label" id="clueFilterLabel">장르·연도</span>
+                  <div class="clue-dd-menu" id="clueFilterMenu">
+                    <button type="button" id="clueFilterToggle" class="clue-dd-toggle" aria-expanded="false" aria-haspopup="dialog" aria-controls="clueSheet" aria-labelledby="clueFilterLabel clueFilterSummary">
+                      <span id="clueFilterSummary" class="clue-dd-summary">전체</span>
+                      <span class="genre-caret" aria-hidden="true">▾</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div id="autoWordFields" class="auto-word-fields">
               <div class="auto-word-row">
                 <div class="auto-word-block auto-word-len">
@@ -114,15 +210,23 @@
                       <input id="hintGenreEnabled" type="checkbox" />
                       공개
                     </label>
-                    <span class="hint-info" id="genreInfo" tabindex="0" aria-label="장르 공개 설명" aria-describedby="genreInfoPop">
+                    <button type="button" class="hint-info" id="genreInfo" aria-label="장르 공개 설명" aria-describedby="genreInfoPop">
                       <span class="hint-info-btn" aria-hidden="true">i</span>
-                    </span>
+                    </button>
                   </div>
                   <div id="wordGenreMenu" class="genre-menu">
-                    <button id="wordGenreToggle" type="button" class="genre-toggle" aria-expanded="false" aria-haspopup="dialog">
-                      <span id="wordGenreSummary">🎲 전체</span>
+                    <button id="wordGenreToggle" type="button" class="genre-toggle" aria-expanded="false" aria-haspopup="dialog" aria-controls="genreModal" aria-label="장르 선택">
+                      <span id="wordGenreSummary">전체</span>
                       <span class="genre-caret" aria-hidden="true">▾</span>
                     </button>
+                  </div>
+                </div>
+                <div class="auto-word-block auto-word-pick">
+                  <div class="auto-word-label">고를 문제</div>
+                  <div class="stepper-controls auto-pick-stepper">
+                    <button type="button" id="autoPickMinus" aria-label="고를 문제 줄이기">−</button>
+                    <strong id="autoPickCountLabel">1개</strong>
+                    <button type="button" id="autoPickPlus" aria-label="고를 문제 늘리기">+</button>
                   </div>
                 </div>
               </div>
@@ -132,30 +236,152 @@
                 <input id="streamerJoin" type="checkbox" />
                 스트리머 참여
               </label>
-              <span class="hint-info" id="streamerJoinInfo" tabindex="0" aria-label="스트리머 참여 설명" aria-describedby="streamerJoinInfoPop">
+              <button type="button" class="hint-info" id="streamerJoinInfo" aria-label="스트리머 참여 설명" aria-describedby="streamerJoinInfoPop">
                 <span class="hint-info-btn" aria-hidden="true">i</span>
-              </span>
+              </button>
             </div>
           </div>
-          <div id="setupStartRow" class="actions setup-start" hidden>
+          <div id="setupStartRow" class="actions setup-start lobby-card" hidden>
             <button id="startBtn" type="button">게임 시작</button>
           </div>
         </div>
       </div>
-      <div id="genreModal" class="genre-modal" hidden>
-        <div class="genre-modal-backdrop" data-genre-close="1"></div>
+      <div id="guestModal" class="guest-modal" hidden inert>
+        <div class="guest-modal-backdrop" data-guest-close="1" tabindex="-1" aria-hidden="true"></div>
+        <div class="guest-modal-card arena-panel" role="dialog" aria-modal="true" aria-labelledby="guestModalTitle">
+          <div class="guest-modal-head">
+            <h3 id="guestModalTitle">시청자 참여</h3>
+            <button type="button" id="guestModalClose" class="icon-close guest-modal-x" aria-label="시청자 참여 닫기">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+
+          <div class="guest-power">
+            <div class="guest-power-copy">
+              <p class="guest-power-kicker">전원</p>
+              <p class="guest-power-title">시청자 출제</p>
+              <p class="guest-power-sub">끄면 모집·룰렛·지정이 모두 멈춥니다</p>
+            </div>
+            <button type="button" class="guest-power-btn" id="guestHostEnabled" aria-pressed="false" aria-label="시청자 출제 전원">
+              <span class="guest-power-track" aria-hidden="true">
+                <span class="guest-power-knob"></span>
+              </span>
+              <span class="guest-power-state">OFF</span>
+            </button>
+          </div>
+
+          <div id="guestChildren" class="guest-children" hidden>
+            <p class="guest-section-label">세부 설정</p>
+            <div class="guest-child-list">
+              <button type="button" class="guest-child-row" id="guestRecruiting" aria-pressed="false" aria-label="모집">
+                <span class="guest-child-text">
+                  <strong id="guestRecruitingLabel">모집</strong>
+                  <span>채팅 <em>!참여</em> · 방송 안내</span>
+                </span>
+                <span class="guest-switch" aria-hidden="true"><span class="guest-switch-knob"></span></span>
+                <span class="onoff-state">OFF</span>
+              </button>
+              <button type="button" class="guest-child-row" id="guestCanScore" aria-pressed="false" aria-label="참가자 점수 채점">
+                <span class="guest-child-text">
+                  <strong>참가자 점수 채점</strong>
+                  <span>참가자도 함께 점수에 반영</span>
+                </span>
+                <span class="guest-switch" aria-hidden="true"><span class="guest-switch-knob"></span></span>
+                <span class="onoff-state">OFF</span>
+              </button>
+              <button type="button" class="guest-child-row" id="guestConsecutiveLimit" aria-pressed="true" aria-label="연속 출제 제한">
+                <span class="guest-child-text">
+                  <strong>연속 출제 제한</strong>
+                  <span>같은 계정 바로 재선정 막기</span>
+                </span>
+                <span class="guest-switch" aria-hidden="true"><span class="guest-switch-knob"></span></span>
+                <span class="onoff-state">ON</span>
+              </button>
+            </div>
+
+            <div id="guestHostBody" class="guest-host-body">
+              <p class="guest-section-label">초대</p>
+              <div id="guestInviteRemain" class="guest-invite-remain" hidden>
+                <span class="guest-remain-label">링크 참여 시간 남은 <strong id="guestRemainText">—</strong></span>
+              <button type="button" id="guestExtendBtn" class="guest-btn guest-btn-ghost guest-extend-btn" disabled aria-label="링크 참여 시간 3분 연장">+3분</button>
+              </div>
+              <p id="guestTtlHint" class="guest-ttl-hint">링크 참여 시간 <strong>10분</strong> · 모자라면 +3분 (최대 10분)</p>
+
+              <p class="guest-section-label">선정</p>
+              <div id="guestRouletteStage" class="guest-roulette-stage" aria-live="polite">
+                <p class="guest-roulette-hint">룰렛 결과</p>
+                <p id="guestRouletteName" class="guest-roulette-name">—</p>
+              </div>
+              <div class="guest-host-actions">
+                <button type="button" id="guestRouletteBtn" class="guest-btn guest-btn-accent">룰렛</button>
+                <button type="button" id="guestCopyLinkBtn" class="guest-btn guest-btn-ghost" disabled>링크 복사</button>
+              </div>
+              <p class="guest-host-meta">
+                <span class="guest-conn-dot" id="guestConnDot" data-conn="none" aria-hidden="true"></span>
+                연결 <strong id="guestConnLabel">없음</strong>
+              </p>
+
+              <div class="guest-pick-block">
+                <div class="guest-candidate-head">
+                  <span>후보</span>
+                  <strong id="guestCandidateCount">0</strong>
+                </div>
+                <div id="guestCandidateList" class="guest-candidate-chips" role="radiogroup" aria-label="참여자"></div>
+                <p id="guestCandidateEmpty" class="guest-candidate-empty">아직 없어요. 모집을 켜고 채팅에 !참여</p>
+                <button type="button" id="guestDesignateBtn" class="guest-btn guest-btn-primary" disabled>이 사람으로 지정</button>
+                <p id="guestSelectedLabel" class="guest-selected-label"></p>
+              </div>
+            </div>
+          </div>
+
+          <p id="guestToast" class="guest-toast" hidden role="status" aria-live="polite"></p>
+          <p id="guestPowerHint" class="guest-power-hint">전원을 켜면 모집과 출제자 선택이 열립니다</p>
+        </div>
+      </div>
+      <div id="genreModal" class="genre-modal" hidden inert>
+        <div class="genre-modal-backdrop" data-genre-close="1" tabindex="-1" aria-hidden="true"></div>
         <div class="genre-modal-card" role="dialog" aria-modal="true" aria-labelledby="genreModalTitle">
           <div class="genre-modal-head">
             <h3 id="genreModalTitle">장르 선택</h3>
-            <button type="button" id="genreModalClose" class="genre-modal-x" aria-label="닫기">×</button>
+            <button type="button" id="genreModalClose" class="icon-close genre-modal-x" aria-label="장르 선택 닫기">
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
-          <div id="wordGenrePanel" class="genre-modal-list" role="listbox" aria-multiselectable="true"></div>
+          <div id="wordGenrePanel" class="genre-modal-list" role="listbox" aria-labelledby="genreModalTitle" aria-multiselectable="true"></div>
           <button type="button" id="genreModalApply" class="genre-modal-apply">등록</button>
         </div>
       </div>
+      <div id="clueSheet" class="genre-modal" hidden inert>
+        <div class="genre-modal-backdrop" data-clue-sheet-close="1" tabindex="-1" aria-hidden="true"></div>
+        <div class="genre-modal-card" role="dialog" aria-modal="true" aria-labelledby="clueSheetTitle">
+          <div class="genre-modal-head">
+            <h3 id="clueSheetTitle">작품 고르기</h3>
+            <button type="button" id="clueSheetClose" class="icon-close genre-modal-x" aria-label="단서 선택 닫기">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div id="clueSheetBody" class="genre-modal-list">
+            <div id="cluePackSeg" class="clue-sheet-groups" role="listbox" aria-label="단서 작품" hidden></div>
+            <div id="clueKindList" class="clue-sheet-options" role="group" aria-label="무엇을 맞출까요" hidden></div>
+            <div id="mangaFilters" hidden>
+              <p class="clue-sheet-group-label" id="mediaGenreLabel">장르</p>
+              <div id="mangaGenreList" class="clue-sheet-options" role="group" aria-label="장르"></div>
+              <p class="clue-sheet-group-label">연도</p>
+              <div id="mangaYearList" class="clue-sheet-years" role="group" aria-label="연도">
+                <button type="button" class="clue-year-chip active" data-manga-year="all" aria-pressed="true">전체</button>
+                <button type="button" class="clue-year-chip" data-manga-year="1990s" aria-pressed="false">1990년대</button>
+                <button type="button" class="clue-year-chip" data-manga-year="2000s" aria-pressed="false">2000년대</button>
+                <button type="button" class="clue-year-chip" data-manga-year="2010s" aria-pressed="false">2010년대</button>
+                <button type="button" class="clue-year-chip" data-manga-year="2020s" aria-pressed="false">2020년대</button>
+              </div>
+            </div>
+          </div>
+          <button type="button" id="clueSheetApply" class="genre-modal-apply" hidden>확인</button>
+        </div>
+      </div>
 
-      <div id="endConfirmModal" class="end-confirm-modal" hidden>
-        <div class="end-confirm-backdrop" data-end-close="1"></div>
+      <div id="endConfirmModal" class="end-confirm-modal" hidden inert>
+        <div class="end-confirm-backdrop" data-end-close="1" tabindex="-1" aria-hidden="true"></div>
         <div class="end-confirm-card" role="dialog" aria-modal="true" aria-labelledby="endConfirmTitle">
           <p id="endConfirmTitle" class="end-confirm-msg">게임을 종료 하시겠습니까?</p>
           <div class="end-confirm-actions">
@@ -165,9 +391,35 @@
         </div>
       </div>
 
-      <p id="prompt" class="caption" hidden></p>
-      <div id="podium" class="podium" hidden>
-        <p class="podium-title">최종 순위</p>
+      <div id="sessionTakeoverModal" class="end-confirm-modal" hidden inert>
+        <div class="end-confirm-backdrop" data-session-close="1" tabindex="-1" aria-hidden="true"></div>
+        <div class="end-confirm-card" role="dialog" aria-modal="true" aria-labelledby="sessionTakeoverTitle" aria-describedby="sessionTakeoverDesc">
+          <p id="sessionTakeoverTitle" class="end-confirm-msg">이미 채팅퀴즈가 실행 중입니다.</p>
+          <p id="sessionTakeoverDesc" class="end-confirm-sub">이전 세션을 끄고 현재로 연결 할까요?</p>
+          <div class="end-confirm-actions">
+            <button type="button" id="sessionTakeoverCancel">취소</button>
+            <button type="button" id="sessionTakeoverOk">확인</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="chosungMissLayer" class="chosung-miss-layer" hidden aria-hidden="true"></div>
+      <div id="hitFlyLayer" class="hit-fly-layer" hidden aria-hidden="true">
+        <p id="hitFlyChip" class="hit-fly-chip"></p>
+      </div>
+      <div id="prompt" class="caption" hidden role="status" aria-live="polite">
+        <div class="clue-exhibit-head">
+          <p id="clueKindBadge" class="clue-kind-badge" hidden></p>
+          <p id="clueChosungLine" class="clue-chosung-line" hidden role="status"></p>
+        </div>
+        <div id="clueArtFrame" class="clue-art-frame" hidden>
+          <img id="clueArt" class="clue-art" alt="" hidden decoding="async" referrerpolicy="no-referrer">
+        </div>
+        <p id="clueMeta" class="clue-meta" hidden></p>
+        <span id="promptText"></span>
+      </div>
+      <div id="podium" class="podium" hidden role="region" aria-labelledby="podiumTitle">
+        <p class="podium-title" id="podiumTitle">최종 순위</p>
         <div class="podium-row" aria-label="시상 단">
           <div class="podium-slot" data-place="5">
             <p class="podium-name">—</p>
@@ -203,12 +455,12 @@
       </div>
       <div id="paintWrap" class="paint-wrap" hidden>
         <div class="paint-stage">
-          <canvas id="draw" width="1280" height="720"></canvas>
+          <canvas id="draw" width="1280" height="720" aria-label="방송 그림판"></canvas>
         </div>
       </div>
     </section>
 
-    <aside class="side-rail" aria-label="방송 사이드">
+    <aside class="side-rail arena-rail" aria-label="방송 사이드">
       <section class="side-panel side-rank" aria-label="점수 상위 5명">
         <ol id="board" class="board-list">
           <li data-rank="1"><span class="rank-num">1</span><span class="rank-name">—</span><span class="rank-score"></span></li>
@@ -219,7 +471,7 @@
         </ol>
       </section>
       <section class="side-panel side-chat" aria-label="채팅창">
-        <p id="chatConnStatus" class="chat-conn-status">연결되지 않았습니다</p>
+        <p id="chatConnStatus" class="chat-conn-status" role="status">연결되지 않았습니다</p>
         <ul id="chatList" class="chat-list" aria-live="polite"></ul>
       </section>
       <section id="sideCam" class="side-panel side-cam" aria-label="스트리머 캠">
@@ -228,28 +480,51 @@
     </aside>
   </div>
 
-  <section class="desk">
+  <section class="desk arena-deck" aria-label="조작">
     <div class="desk-window-bar">
       <button id="detachDeskBtn" type="button" class="detach-desk-btn">조작 새창으로 분리</button>
       <button id="focusDeskBtn" type="button" class="detach-desk-btn" hidden>조작창 포커스</button>
       <div id="deskHud" class="desk-hud" hidden>
         <span class="desk-hud-round">라운드 <strong id="deskRoundLabel">0/10</strong></span>
-        <div class="desk-hud-timer" title="남은 시간">
+        <div class="desk-hud-timer" aria-label="남은 시간">
           <div class="desk-timer-track" aria-hidden="true"><div id="deskTimerBar" class="desk-timer-bar"></div></div>
           <strong id="deskTimerSec">0</strong><span class="desk-hud-sec-unit">초</span>
         </div>
       </div>
       <span id="deskLinkStatus" class="desk-link-status" hidden></span>
     </div>
+    <div id="clueChosungOpt" class="clue-chosung-opt">
+      <p class="desk-hint-kicker">방송에 나갈 것</p>
+      <label class="check clue-dock-toggle" data-clue-only>
+        <input id="clueImageHint" type="checkbox" checked />
+        그림
+      </label>
+      <label class="check clue-dock-toggle" data-clue-only>
+        <input id="clueChosungHint" type="checkbox" />
+        초성
+      </label>
+      <label class="check clue-dock-toggle">
+        <input id="quizTts" type="checkbox" />
+        읽어주기
+      </label>
+      <button type="button" class="hint-info" id="clueChosungInfo" data-clue-only aria-label="단서 힌트 설명" aria-describedby="clueChosungInfoPop">
+        <span class="hint-info-btn" aria-hidden="true">i</span>
+      </button>
+    </div>
     <div id="deskTopBar" class="desk-top-bar" hidden>
       <button id="skipBtn" type="button" hidden>스킵</button>
       <p id="answerPlayingText" class="answer-playing-text" hidden>이번 정답 :</p>
     </div>
 
+    <div id="autoPickPanel" class="auto-pick-panel" hidden>
+      <p class="auto-pick-title">지금 문제를 고르세요</p>
+      <p class="auto-pick-sub">하나를 누르면 바로 시작합니다</p>
+      <div id="autoPickList" class="auto-pick-list"></div>
+    </div>
     <div id="answerPanel" class="panel panel-answer" hidden>
       <div id="answerEditor" class="answer-editor">
-        <span class="answer-inline-label">이번 정답</span>
-        <input id="answer" autocomplete="off" placeholder="시청자에게 안 보이는 정답" />
+        <label class="answer-inline-label" for="answer">이번 정답</label>
+        <input id="answer" autocomplete="off" aria-autocomplete="none" placeholder="시청자에게 안 보이는 정답" />
         <button type="button" id="answerActionBtn">제출</button>
       </div>
     </div>
@@ -264,13 +539,13 @@
           <span class="paint-cluster-label">브러시</span>
           <div class="paint-cluster-body">
             <div class="tool-slot">
-              <button id="penBtn" type="button" class="tool-btn icon-btn active" title="펜" aria-label="펜">
+              <button id="penBtn" type="button" class="tool-btn icon-btn active" title="펜" aria-label="펜" aria-pressed="true">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92L5.92 19.58zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
               </button>
-              <span class="tool-key">B</span>
+              <span class="tool-key" aria-hidden="true">B</span>
             </div>
             <div class="tool-slot">
-              <button id="eraser" type="button" class="tool-btn icon-btn" title="지우개" aria-label="지우개">
+              <button id="eraser" type="button" class="tool-btn icon-btn" title="지우개" aria-label="지우개" aria-pressed="false">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <g transform="rotate(-40 12 12)">
                     <rect x="7" y="4" width="10" height="14" rx="2" fill="currentColor"/>
@@ -279,13 +554,13 @@
                   </g>
                 </svg>
               </button>
-              <span class="tool-key">E</span>
+              <span class="tool-key" aria-hidden="true">E</span>
             </div>
             <div class="tool-slot">
-              <button id="fillBtn" type="button" class="tool-btn icon-btn" title="페인트통" aria-label="페인트통">
+              <button id="fillBtn" type="button" class="tool-btn icon-btn" title="페인트통" aria-label="페인트통" aria-pressed="false">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.35 11.72 12.07 4.44a1.5 1.5 0 0 0-2.12 0L3.5 10.9a1.5 1.5 0 0 0 0 2.12l7.28 7.28a1.5 1.5 0 0 0 2.12 0l6.45-6.45a1.5 1.5 0 0 0 0-2.13zM10.9 6.56l6.45 6.45-1.41 1.41-6.45-6.45 1.41-1.41zM5 19c0 1.66 1.79 3 4 3s4-1.34 4-3c0-1.54-1.81-3.53-4-5.5C6.81 15.47 5 17.46 5 19z"/></svg>
               </button>
-              <span class="tool-key">G</span>
+              <span class="tool-key" aria-hidden="true">G</span>
             </div>
           </div>
         </div>
@@ -293,13 +568,13 @@
           <span class="paint-cluster-label">도형</span>
           <div class="paint-cluster-body">
             <div class="tool-slot">
-              <button id="lineBtn" type="button" class="tool-btn icon-btn" title="직선" aria-label="직선">
+              <button id="lineBtn" type="button" class="tool-btn icon-btn" title="직선" aria-label="직선" aria-pressed="false">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M4 18 20 6"/></svg>
               </button>
-              <span class="tool-key">L</span>
+              <span class="tool-key" aria-hidden="true">L</span>
             </div>
             <div class="tool-slot tool-slot-stack">
-              <button id="rectBtn" type="button" class="shape-style-toggle" title="사각형 · 다시 누르면 채우기/테두리" aria-label="사각형">
+              <button id="rectBtn" type="button" class="shape-style-toggle" title="사각형 · 다시 누르면 채우기/테두리" aria-label="사각형 테두리" aria-pressed="false">
                 <span class="shape-face is-stroke is-front" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><rect x="5" y="6" width="14" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
                 </span>
@@ -307,10 +582,10 @@
                   <svg viewBox="0 0 24 24"><rect x="5" y="6" width="14" height="12" rx="1.5" fill="currentColor"/></svg>
                 </span>
               </button>
-              <span class="tool-key">R</span>
+              <span class="tool-key" aria-hidden="true">R</span>
             </div>
             <div class="tool-slot tool-slot-stack">
-              <button id="ellipseBtn" type="button" class="shape-style-toggle" title="원 · 다시 누르면 채우기/테두리" aria-label="원">
+              <button id="ellipseBtn" type="button" class="shape-style-toggle" title="원 · 다시 누르면 채우기/테두리" aria-label="원 테두리" aria-pressed="false">
                 <span class="shape-face is-stroke is-front" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
                 </span>
@@ -318,28 +593,30 @@
                   <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6" fill="currentColor"/></svg>
                 </span>
               </button>
-              <span class="tool-key">O</span>
+              <span class="tool-key" aria-hidden="true">O</span>
             </div>
           </div>
         </div>
         <div class="paint-group paint-palette-wrap" aria-label="색">
-          <div id="color" class="paint-palette"></div>
+          <div id="color" class="paint-palette" role="radiogroup" aria-label="색"></div>
           <label class="custom-color" title="직접 고르기">
             <input id="customColor" type="color" value="#1a1208" aria-label="직접 고르기" />
           </label>
         </div>
         <div class="paint-group paint-brush" aria-label="굵기·불투명도">
-          <canvas id="brushPreview" class="brush-preview" width="48" height="48" title="붓 미리보기"></canvas>
+          <canvas id="brushPreview" class="brush-preview" width="48" height="48" aria-hidden="true"></canvas>
           <div class="paint-sliders">
-            <label class="paint-slider" title="굵기">
+            <label class="paint-slider">
+              <span class="sr-only">굵기</span>
               <svg class="slider-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-              <input id="sizeRange" type="range" min="1" max="64" value="14" />
-              <strong id="sizeValue">14</strong>
+              <input id="sizeRange" type="range" min="1" max="64" value="14" aria-valuetext="14" />
+              <strong id="sizeValue" aria-hidden="true">14</strong>
             </label>
-            <label class="paint-slider" title="불투명도">
+            <label class="paint-slider">
+              <span class="sr-only">불투명도</span>
               <svg class="slider-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9h-9V3zm0-2v11h11a11 11 0 1 1-11-11z" opacity=".95"/><path fill="currentColor" d="M12 3a9 9 0 0 1 9 9h-9V3z" opacity=".35"/></svg>
-              <input id="opacityRange" type="range" min="10" max="100" value="100" />
-              <strong id="opacityValue">100%</strong>
+              <input id="opacityRange" type="range" min="10" max="100" value="100" aria-valuetext="100퍼센트" />
+              <strong id="opacityValue" aria-hidden="true">100%</strong>
             </label>
           </div>
         </div>
@@ -350,7 +627,7 @@
               <button id="undo" type="button" class="tool-btn icon-btn" title="되돌리기" aria-label="되돌리기">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.5 8c-2.65 0-5.05 1-6.9 2.6L2 7v9h9l-3.62-3.62A7.46 7.46 0 0 1 12.5 11c3.31 0 6.1 2.12 7.16 5.05l2.37-.79C20.53 11.14 16.85 8 12.5 8z"/></svg>
               </button>
-              <span class="tool-key">Z</span>
+              <span class="tool-key" aria-hidden="true">Z</span>
             </div>
             <div class="tool-slot">
               <button id="clear" type="button" class="tool-btn icon-btn danger" title="전체 지우기" aria-label="전체 지우기">
@@ -362,7 +639,7 @@
               <button id="saveBtn" type="button" class="tool-btn icon-btn" title="그림 저장" aria-label="그림 저장">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 3-3 3 3 0 0 1-3 3zM15 9H5V5h10v4z"/></svg>
               </button>
-              <span class="tool-key">S</span>
+              <span class="tool-key" aria-hidden="true">S</span>
             </div>
           </div>
         </div>
@@ -370,7 +647,19 @@
       </div>
     </div>
 
-    <p id="status" class="status">개발 모드로 열려면 ?dev=1 을 붙여 주세요</p>
+    <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true">개발 모드로 열려면 ?dev=1 을 붙여 주세요</p>
+
+    <div id="guestHostPanel" class="panel panel-guest-kick">
+      <div class="guest-kick-head">
+        <h2 class="panel-title">시청자 출제</h2>
+        <span class="guest-kick-conn">
+          <span class="guest-conn-dot" id="guestConnDotDesk" data-conn="none" aria-hidden="true"></span>
+          <strong id="guestConnLabelDesk">없음</strong>
+        </span>
+      </div>
+      <p id="guestSelectedLabelDesk" class="guest-selected-label" role="status" aria-live="polite"></p>
+      <button type="button" id="guestCancelInviteBtn" class="guest-kick-btn" disabled>초대 취소 / 강퇴</button>
+    </div>
 
     <div id="devBox" class="panel panel-dev" hidden>
       <h2 class="panel-title">테스트용</h2>
@@ -391,6 +680,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <div id="hintInfoPop" class="hint-info-pop" role="tooltip" hidden>
     남은 시간에 맞춰 글자를 자동으로 공개합니다.<br />
@@ -405,12 +695,25 @@
     정답 단어의 장르를 먼저 보여 줍니다.
   </div>
 
+  <div id="chatDelayInfoPop" class="hint-info-pop" role="tooltip" hidden>
+    방송·채팅이 늦게 나가면 그 시간만큼<br />
+    기다린 뒤에 정답을 받습니다.<br />
+    재기: 화면에 뜬 글자를 <strong>송출 화면</strong>으로 보고<br />
+    채팅에 그대로 치세요. 자기 미리보기로 치면 0초가 됩니다.
+  </div>
+
   <div id="streamerJoinInfoPop" class="hint-info-pop" role="tooltip" hidden>
     스트리머도 치지직 채팅창에 직접 입력해서 참여할 수 있습니다.<br />
     조작칸에는 정답이 보이지 않습니다.
   </div>
 
+  <div id="clueChosungInfoPop" class="hint-info-pop" role="tooltip" hidden>
+    초성 힌트는 정답의 첫 소리만 보여 줍니다.<br />
+    그림 보여주기는 실루엣이나 아이콘을 같이 띄웁니다.<br />
+    채팅은 이름 전체를 맞춰야 합니다.
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=106"></script>
+  <script type="module" src="./boot.js?v=167"></script>
 </body>
 </html>

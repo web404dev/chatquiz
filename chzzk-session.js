@@ -41,15 +41,36 @@ export function normalizeOfficialChat(raw) {
   };
 }
 
+function isSessionLimitError(err) {
+  const m = String(err?.message || err || "");
+  return /한도|limit|too many|exceed|concurrent|already|duplicate|429|SESSION_LIMIT|세션.*(초과|제한|가득|존재)/i.test(
+    m,
+  );
+}
+
+function isAuthError(err) {
+  return /401|unauthorized|unauthorised|invalid.?token|expired.?token|토큰 만료/i.test(
+    String(err?.message || err || ""),
+  );
+}
+
 export function createOfficialChzzkChat({
   workerBase,
   accessToken,
+  getAccessToken,
+  onAuthFail,
   onChat,
   onStatus,
+  onLimit,
 } = {}) {
   let socket = null;
   let closed = false;
   let subscribed = false;
+  let authTried = false;
+
+  function token() {
+    return getAccessToken?.() || accessToken || "";
+  }
 
   function status(text) {
     onStatus?.(text);
@@ -67,10 +88,10 @@ export function createOfficialChzzkChat({
     const res = await fetch(`${workerBase}/session/open`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ accessToken }),
+      body: JSON.stringify({ accessToken: token() }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || "세션 생성 실패");
+    if (!res.ok) throw new Error(data.error || data.message || data.code || "세션 생성 실패");
     if (!data.url) throw new Error("세션 URL 없음");
     return data.url;
   }
@@ -79,7 +100,7 @@ export function createOfficialChzzkChat({
     const res = await fetch(`${workerBase}/session/subscribe/chat`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ accessToken, sessionKey }),
+      body: JSON.stringify({ accessToken: token(), sessionKey }),
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || "채팅 구독 실패");
@@ -122,7 +143,10 @@ export function createOfficialChzzkChat({
         "connect timeout": 3000,
         transports: ["websocket"],
       });
-      socket.on("connect", () => status("채팅 소켓 연결됨"));
+      socket.on("connect", () => {
+        authTried = false;
+        status("채팅 소켓 연결됨");
+      });
       socket.on("SYSTEM", handleSystem);
       socket.on("CHAT", handleChat);
       socket.on("disconnect", () => {
@@ -141,7 +165,29 @@ export function createOfficialChzzkChat({
         status(String(err || "채팅 소켓 오류"));
       });
     } catch (err) {
-      status(String(err.message || err || "채팅 연결 실패"));
+      const message = String(err.message || err || "채팅 연결 실패");
+      if (isAuthError(err) && !authTried && onAuthFail) {
+        authTried = true;
+        status("로그인 유지 중…");
+        Promise.resolve(onAuthFail())
+          .then((ok) => {
+            if (ok && !closed) void connect();
+            else if (!closed) status("로그인이 만료되었습니다. 다시 로그인해 주세요");
+          })
+          .catch(() => {
+            if (!closed) status("로그인이 만료되었습니다. 다시 로그인해 주세요");
+          });
+        return;
+      }
+      if (isSessionLimitError(err)) {
+        status("이미 다른 창에서 연결되어 있습니다");
+        if (!closed) {
+          closed = true;
+          onLimit?.();
+        }
+        return;
+      }
+      status(message);
       if (!closed) {
         setTimeout(() => {
           void connect();

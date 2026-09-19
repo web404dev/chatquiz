@@ -103,12 +103,31 @@ export function filterWords(bank, options = {}) {
   });
 }
 
-export function pickWordEntryFromBank(bank, options = {}) {
-  const pool = filterWords(bank, options);
+export function pickWordEntriesFromBank(bank, options = {}, count = 1) {
+  const n = Math.max(1, Math.min(3, Math.floor(Number(count) || 1)));
+  const exclude = options.exclude instanceof Set ? options.exclude : null;
+  const all = filterWords(bank, options);
+  let pool = exclude ? all.filter((item) => !exclude.has(item.word)) : all.slice();
+  if (!pool.length && all.length && exclude) {
+    exclude.clear();
+    pool = all.slice();
+  }
   if (!pool.length) {
     throw new Error("조건에 맞는 쉬운 단어가 없음");
   }
-  return pool[Math.floor(Math.random() * pool.length)];
+  const out = [];
+  const used = new Set();
+  while (out.length < n && pool.length) {
+    const item = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+    if (!item?.word || used.has(item.word)) continue;
+    used.add(item.word);
+    out.push(item);
+  }
+  return out;
+}
+
+export function pickWordEntryFromBank(bank, options = {}) {
+  return pickWordEntriesFromBank(bank, options, 1)[0];
 }
 
 export function pickWordFromBank(bank, options = {}) {

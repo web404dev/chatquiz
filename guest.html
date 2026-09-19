@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <title>출제 참여</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css?v=167" />
+  <link rel="stylesheet" href="./guest.css?v=138" />
+</head>
+<body class="guest-page arena">
+  <a class="skip-link" href="#guestStatus">본문으로 건너뛰기</a>
+  <main class="guest-shell">
+    <h1 class="guest-title">출제 참여</h1>
+    <p id="guestStatus" class="guest-status" tabindex="-1" role="status" aria-live="polite">확인 중…</p>
+
+    <section id="guestBlocked" class="guest-card" hidden inert>
+      <p id="guestBlockedMsg" class="guest-blocked-msg">이 초대 링크는 만료되었습니다.</p>
+      <p class="guest-blocked-sub">더 이상 이 주소로 참여할 수 없습니다.</p>
+      <button type="button" id="guestCloseBtn" class="guest-close-btn">창 닫기</button>
+    </section>
+
+    <section id="guestLogin" class="guest-card" hidden inert>
+      <p>선정된 계정으로 치지직 로그인이 필요합니다.</p>
+      <button type="button" id="guestLoginBtn" class="guest-primary">치지직 로그인</button>
+    </section>
+
+    <section id="guestApp" class="guest-card" hidden inert>
+      <p id="guestHello" class="guest-hello"></p>
+      <div class="guest-mode-row">
+        <span>모드</span>
+        <strong id="guestModeLabel">대기</strong>
+      </div>
+      <div id="guestAnswerBox" class="guest-answer" hidden>
+        <label>정답 (방송에 안 보임)
+          <input id="guestAnswer" autocomplete="off" placeholder="정답 단어" />
+        </label>
+        <button type="button" id="guestAnswerSubmit">정답 제출</button>
+      </div>
+      <div id="guestPaintBox" class="guest-paint" hidden>
+        <canvas id="guestCanvas" width="960" height="540" aria-label="출제 그림판"></canvas>
+        <div class="guest-paint-tools">
+          <input id="guestColor" type="color" value="#1a1208" aria-label="색" />
+          <label>굵기 <input id="guestSize" type="range" min="2" max="48" value="14" aria-valuetext="14" /></label>
+          <button type="button" id="guestUndo">되돌리기</button>
+          <button type="button" id="guestClear">전체 지우기</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./guest.js?v=138"></script>
+</body>
+</html>
