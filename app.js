@@ -9,7 +9,7 @@ import {
   pickMissBox,
   normalizeAnswer,
   rankByScore,
-} from "./quiz.js?v=147";
+} from "./quiz.js?v=149";
 import { createChzzkChat } from "./chzzk-chat.js?v=107";
 import { createOfficialChzzkChat } from "./chzzk-session.js?v=109";
 import {
@@ -42,7 +42,12 @@ import {
   webtoonGenreTree,
 } from "./media-filter.js?v=1";
 import { createDeskBridge, normFromEvent } from "./desk-bridge.js?v=107";
-import { createGuestHostController } from "./guest-host.js?v=116";
+import {
+  applyGuestPenToStrokes,
+  canAcceptGuestPaint,
+  createGuestHostController,
+  guestPoseLock,
+} from "./guest-host.js?v=119";
 import { createAuthKeep, HOST_SESSION_KEY, readAuthSession, writeAuthSession } from "./auth-keep.js?v=138";
 import {
   syncQuizBgm,
@@ -52,7 +57,7 @@ import {
   setQuizBgmMuted,
   hushQuizBed,
 } from "./audio.js?v=193";
-import { loadSongs, takeSongSync, songCount } from "./song-bank.js?v=2";
+import { loadSongs, takeSongSync, songCount } from "./song-bank.js?v=6";
 import {
   isSongCorrect,
   songDisplayAnswer,
@@ -64,7 +69,7 @@ import {
   listenAnswerStatus,
   normalizeListenAnswerMode,
   pickListenAnswerMode,
-} from "./song-quiz.js?v=4";
+} from "./song-quiz.js?v=6";
 
 const params = new URLSearchParams(location.search);
 const isDev = params.get("dev") === "1";
@@ -325,6 +330,7 @@ const els = {
   guestConnDot: document.getElementById("guestConnDot"),
   guestConnDotDesk: document.getElementById("guestConnDotDesk"),
   guestToast: document.getElementById("guestToast"),
+  guestSoloBtn: document.getElementById("guestSoloBtn"),
 };
 
 const COLORS = [
@@ -561,8 +567,22 @@ function showGuestToast(text, ms = 2200) {
   }, ms);
 }
 
+function ensureGuestDrawFormat() {
+  if (!isGuestPosing()) return;
+  if (quizFormat === "draw" && quizTopic === "manual") return;
+  quizFormat = "draw";
+  quizTopic = "manual";
+  syncModeUi();
+  syncDeskFlow();
+  void guestHost?.pushHostMode("draw");
+}
+
 function applyGuestRemotePaint(msg) {
   if (!msg) return;
+  if (msg.type === "paint.action" || msg.type === "paint.pointer" || msg.type === "paint.stroke") {
+    ensureGuestDrawFormat();
+    syncGuestLiveDrawStage();
+  }
   if (msg.type === "paint.action") {
     if (msg.action === "undo") undoStroke();
     if (msg.action === "clear") clearStrokes();
@@ -570,15 +590,77 @@ function applyGuestRemotePaint(msg) {
     return;
   }
   if (msg.type === "paint.pointer" || msg.type === "paint.stroke") {
-    if (msg.color) selectPenColor(msg.color, true);
-    if (Number.isFinite(Number(msg.size))) {
-      penSize = Math.max(2, Math.min(64, Number(msg.size)));
-      if (els.sizeRange) els.sizeRange.value = String(penSize);
-      if (els.sizeValue) els.sizeValue.textContent = String(penSize);
-      updateDrawCursor();
-    }
-    handleRemotePaintPointer(msg);
+    applyGuestPenPointer(msg);
   }
+}
+
+let guestPreviewRaf = 0;
+
+function applyGuestPenPointer(p) {
+  if (!els.canvas) return;
+  if (!syncGuestLiveDrawStage() && !guestPaintAllowed()) return;
+  strokes = applyGuestPenToStrokes(strokes, p, {
+    width: els.canvas.width,
+    height: els.canvas.height,
+  });
+  redraw();
+  if (p.phase === "move") {
+    if (guestPreviewRaf) return;
+    guestPreviewRaf = requestAnimationFrame(() => {
+      guestPreviewRaf = 0;
+      publishPaintPreview();
+    });
+    return;
+  }
+  publishPaintPreview();
+}
+
+function isGuestPosing() {
+  return !!(guestHost?.state.selected?.userId && guestHost?.state.invite);
+}
+
+function guestHostMode() {
+  return quizFormat === "draw" ? "draw" : "chosung";
+}
+
+function applyGuestPoseLock() {
+  if (isGuestPosing()) {
+    const lock = guestPoseLock(quizFormat);
+    if (quizFormat === "listen" && lock.format !== "listen") stopListenAudio();
+    quizFormat = lock.format;
+    quizTopic = lock.topic;
+  }
+  syncModeUi();
+  syncDeskFlow();
+  syncGuestLiveDrawStage();
+}
+
+function armGuestPose() {
+  applyGuestPoseLock();
+  void guestHost?.pushHostMode(guestHostMode());
+  renderGuestHostUi();
+  publishDeskState();
+}
+
+function syncGuestLiveDrawStage() {
+  if (!isGuestPosing() || !isDrawFormat()) return false;
+  if (phase === "reveal" || phase === "result" || phase === "picking") return false;
+  setHidden(els.broadcastLobby, true);
+  if (els.paintWrap) {
+    els.paintWrap.hidden = false;
+    els.paintWrap.toggleAttribute("hidden", false);
+  }
+  if (els.prompt) els.prompt.hidden = true;
+  hideDrawHintBar();
+  return true;
+}
+
+function guestPaintAllowed() {
+  if (!els.canvas || !isDrawFormat() || els.paintWrap?.hidden) return false;
+  if (isGuestPosing()) {
+    return canAcceptGuestPaint({ phase, posing: true, format: "draw" });
+  }
+  return phase === "accepting" || phase === "holding";
 }
 
 function applyGuestAnswer(msg) {
@@ -589,7 +671,11 @@ function applyGuestAnswer(msg) {
     answer,
     nickname: guestHost?.state.selected?.nickname || "참가자",
   };
-  setStatus(`출제자 정답 수신 · [${answer}] (제출/시작은 스트리머)`);
+  quizTopic = "manual";
+  manualAnswerLocked = answer;
+  syncAnswerSubmitBtn();
+  syncManualAnswerUi();
+  setStatus(`출제자가 문제를 냄 · [${answer}] (시작은 스트리머)`);
   publishDeskState();
 }
 
@@ -764,11 +850,13 @@ async function runGuestRoulette() {
       }),
     ]);
     guestPickUserId = picked.userId;
+    armGuestPose();
     setStatus(`룰렛: ${picked.nickname}. 링크 복사 후 채팅에 붙여넣으세요`);
   } catch (err) {
     // 로컬/미배포여도 링크는 createInviteFor 안에서 이미 잡힐 수 있음
     if (guestHost.state.invite) {
       guestPickUserId = picked.userId;
+      armGuestPose();
       setStatus(`룰렛: ${picked.nickname}. 링크 복사 후 채팅에 붙여넣으세요`);
     } else {
       setStatus(String(err.message || err));
@@ -791,6 +879,7 @@ function bindGuestHostUi() {
     onStatus: setStatus,
     applyRemotePaint: applyGuestRemotePaint,
     applyGuestAnswer,
+    onGuestHello: armGuestPose,
   });
   setGuestModalOpen(false);
   renderGuestHostUi();
@@ -834,6 +923,17 @@ function bindGuestHostUi() {
   bindOnoff(els.guestRecruiting, (on) => guestHost.setRecruiting(on));
   bindOnoff(els.guestCanScore, (on) => guestHost.setGuestCanScore(on));
   bindOnoff(els.guestConsecutiveLimit, (on) => guestHost.setConsecutiveLimit(on));
+  els.guestSoloBtn?.addEventListener("click", () => {
+    try {
+      const url = guestHost.startSoloTest();
+      armGuestPose();
+      window.open(url, "chatquiz-solo-guest");
+      showGuestToast("출제 탭을 열었음");
+      setStatus("혼자 테스트 · 새 탭이 출제자입니다");
+    } catch (err) {
+      setStatus(String(err.message || err));
+    }
+  });
 
   els.guestExtendBtn?.addEventListener("click", async () => {
     try {
@@ -854,7 +954,7 @@ function bindGuestHostUi() {
     try {
       await guestHost.createInviteFor(user);
       await guestHost.copyInviteLink();
-      renderGuestHostUi();
+      armGuestPose();
       showGuestToast("링크 복사 완료 채팅창에 남겨주세요");
       setStatus(`${user.nickname} 지정 · 링크 복사됨`);
     } catch (err) {
@@ -876,6 +976,7 @@ function bindGuestHostUi() {
     try {
       await guestHost.revokeInvite("cancel");
       setStatus("초대를 취소했습니다");
+      applyGuestPoseLock();
       renderGuestHostUi();
     } catch (err) {
       setStatus(String(err.message || err));
@@ -1061,7 +1162,7 @@ function buildDeskState() {
     answerPlayingText: els.answerPlayingText?.textContent || "이번 정답 :",
     answerBtnText: els.answerActionBtn?.textContent || "제출",
     answerReadOnly: !!els.answer?.readOnly,
-    showAnswerEditor,
+    showAnswerEditor: showAnswerEditor && !isGuestPosing(),
     showAnswerPlaying,
     showDeskTopBar: showSkip || showAnswerPlaying,
     showHud,
@@ -1072,8 +1173,9 @@ function buildDeskState() {
     bgmMuted: isQuizBgmMuted(),
     listenVol: getListenVolume(),
     listenSampleOn,
+    guestPosing: isGuestPosing(),
     drawPanel: !els.drawPanel?.hidden,
-    paintLive: isDrawFormat() && phase === "accepting",
+    paintLive: isDrawFormat() && (phase === "accepting" || isGuestPosing()),
     pickChoices: autoPickChoices.map((e) => ({
       word: e.word,
       genre: e.genre,
@@ -1094,7 +1196,7 @@ function buildDeskState() {
     chatDelayProbe: Boolean(delayProbe),
     hidden: {
       skipBtn: !!els.skipBtn?.hidden,
-      answerPanel: !showAnswerEditor,
+      answerPanel: !showAnswerEditor || isGuestPosing(),
       answerPlayingText: !showAnswerPlaying,
       deskTopBar: !(showSkip || showAnswerPlaying),
       clueChosungOpt: !(quizTtsAvailable() || isClueFormat()),
@@ -1200,10 +1302,13 @@ function applyDeskState(s) {
     paintAnswerPlayingText(s.answerPlayingText);
   }
   applyHiddenMap(s.hidden);
+  deskGuestPosing = !!s.guestPosing;
   // desk는 syncModeUi/syncManualAnswerUi 호출 금지 — host 스냅샷만 적용
   if (els.deskPaintWrap) {
     const showPaint = !!s.paintLive || (!!s.drawPanel && quizFormat === "draw");
     setHidden(els.deskPaintWrap, !showPaint);
+    els.deskPaintWrap.classList.toggle("is-guest-view", deskGuestPosing);
+    if (els.deskPaint) els.deskPaint.style.pointerEvents = deskGuestPosing ? "none" : "";
     if (showPaint) requestAnimationFrame(updateDrawCursor);
   }
   if (els.deskLinkStatus) {
@@ -1387,6 +1492,7 @@ function handleHostDeskMessage(msg) {
       publishDeskState();
       break;
     case "paint.tool":
+      if (isGuestPosing()) break;
       if (p.tool === "rect" || p.tool === "ellipse") selectShapeTool(p.tool);
       else if (p.tool) setDrawTool(p.tool);
       break;
@@ -1406,12 +1512,14 @@ function handleHostDeskMessage(msg) {
       }
       break;
     case "paint.action":
+      if (isGuestPosing()) break;
       if (p.action === "undo") undoStroke();
       if (p.action === "clear") clearStrokes();
       if (p.action === "save") saveDrawingPng();
       publishPaintPreview();
       break;
     case "paint.pointer":
+      if (isGuestPosing()) break;
       handleRemotePaintPointer(p);
       break;
     default:
@@ -1420,7 +1528,7 @@ function handleHostDeskMessage(msg) {
 }
 
 function handleRemotePaintPointer(p) {
-  if (!els.canvas || !isDrawFormat() || (phase !== "accepting" && phase !== "holding") || els.paintWrap?.hidden) return;
+  if (!guestPaintAllowed()) return;
   const point = pointFromNorm(Number(p.x) || 0, Number(p.y) || 0);
   if (p.phase === "down") {
     if (remoteMoveRaf) {
@@ -1523,7 +1631,7 @@ function bindDeskHost() {
 function bindDeskClient() {
   document.documentElement.classList.add("mode-desk");
   document.body.classList.add("mode-desk");
-  document.title = "게임 컨트롤러";
+  document.title = "컨트롤러 · 이 창은 캡처하지 마세요";
   const skip = document.querySelector(".skip-link");
   if (skip) {
     skip.setAttribute("hidden", "");
@@ -1679,6 +1787,8 @@ function bindDeskClient() {
   setInterval(() => deskBridge?.post("desk.hello"), 4000);
 }
 
+let deskGuestPosing = false;
+
 function bindDeskPaintInput() {
   const canvas = els.deskPaint;
   if (!canvas) return;
@@ -1763,6 +1873,7 @@ function bindDeskPaintInput() {
   };
 
   canvas.addEventListener("pointerdown", (event) => {
+    if (deskGuestPosing) return;
     down = true;
     deskStrokeActive = true;
     deskPendingPreview = "";
@@ -2155,9 +2266,9 @@ function bumpQuestions(delta) {
 
 const CHAT_DELAY_PREF = "chatDelaySec:v1";
 let holdGen = 0;
-let holdStartedAt = 0;
 let delayProbe = null;
 const sideChatQueue = [];
+const streamerJudgeTimers = [];
 
 function getChatDelaySec() {
   return Math.max(0, Math.min(20, Math.floor(Number(els.chatDelay?.value) || 0)));
@@ -2194,8 +2305,16 @@ function restoreChatDelayPref() {
 
 function cancelHolds() {
   holdGen += 1;
-  holdStartedAt = 0;
+  for (const timer of streamerJudgeTimers.splice(0)) clearTimeout(timer);
   flushSideChatQueue();
+}
+
+function streamerChatJudgeDelayMs(chat) {
+  if (!streamerDeskToolsOn()) return 0;
+  if (chat?.host) return 0;
+  if (!isStreamerChat(chat)) return 0;
+  const sec = getChatDelaySec();
+  return sec > 0 ? sec * 1000 : 0;
 }
 
 function startChatDelayProbe() {
@@ -2246,15 +2365,6 @@ function noteChatDelayProbe(chat) {
   setChatDelaySec(sec);
   stopChatDelayProbe(sec ? `채팅 딜레이 ${sec}초로 맞춤` : "딜레이가 거의 없습니다. 끔으로 두었습니다");
   return true;
-}
-
-async function runChatDelayHold(seconds, token) {
-  for (let n = seconds; n > 0; n -= 1) {
-    if (holdGen !== token || phase !== "holding" || !roundActive) return false;
-    setStatus(`채팅 딜레이 대기 ${n}초`);
-    await sleep(1000);
-  }
-  return holdGen === token && phase === "holding";
 }
 
 function bindInfoTip(info, pop) {
@@ -2412,7 +2522,7 @@ const HOST_TUTORIAL_STEPS = [
   {
     id: "delay",
     title: "채팅이 늦으면 딜레이",
-    text: "방송이 몇 초 늦으면 그 시간만큼 기다린 뒤 정답을 받습니다. 재기: 송출 화면에 뜬 글자를 채팅에 치세요.",
+    text: "방송이 몇 초 늦으면 그 시간만큼 스트리머 채팅만 늦게 채점합니다. 문제·TTS·시청자 채팅은 바로 나갑니다. 재기: 송출 화면에 뜬 글자를 채팅에 치세요.",
     art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="110" cy="100" r="54" stroke="#3de7ff" stroke-width="6"/><path d="M110 64 V100 L136 116" stroke="#ffe14a" stroke-width="6" stroke-linecap="round"/><text x="240" y="88" text-anchor="middle" fill="#f4f7ff" font-size="28" font-weight="900">3초</text><text x="240" y="120" text-anchor="middle" fill="#9eb0d8" font-size="13" font-weight="800">재기로 맞출 수 있음</text></svg>`,
   },
   {
@@ -2642,6 +2752,7 @@ function syncDeskFlow() {
       }
     }
   }
+  syncGuestLiveDrawStage();
   if (!inPlay && !revealing && !onPodium) requestAnimationFrame(() => syncLenUi());
   setDeskLocked(!authed);
   syncDeskStreamerTools();
@@ -2714,10 +2825,17 @@ function showPickingWait() {
   setWavePrompt(`현재 ${streamerNickname()}님이 문제를 고르고 있습니다`);
 }
 
+function isTallCenterStill(img) {
+  const w = Number(img?.naturalWidth) || 0;
+  const h = Number(img?.naturalHeight) || 0;
+  return w > 0 && h / w >= 1.45;
+}
+
 function hideClueArt({ forget = false } = {}) {
   const img = els.clueArt;
   if (img) {
     img.hidden = true;
+    img.classList.remove("is-tall-center");
     if (forget) {
       img.removeAttribute("src");
       img.classList.remove("is-silhouette");
@@ -2804,6 +2922,7 @@ function syncClueArt({ reveal = false } = {}) {
     return;
   }
   if (img.getAttribute("src") !== src) img.src = src;
+  img.classList.toggle("is-tall-center", isTallCenterStill(ready || img));
   img.hidden = false;
   if (els.clueArtFrame) {
     els.clueArtFrame.hidden = false;
@@ -3441,7 +3560,7 @@ function renderMangaFilters() {
       const kids = chips.filter((chip) => chip.parentId === group.id);
       if (!kids.length) return "";
       return `<div class="genre-modal-group"><p class="clue-sheet-group-label">${group.label}</p><div class="clue-sheet-group-chips">${[
-        clueOptionMarkup(`data-manga-genre="${group.id}"`, group.label),
+        clueOptionMarkup(`data-manga-genre="${group.id}"`, group.id === "genre" ? "전체" : group.label),
         ...kids.map((chip) => clueOptionMarkup(`data-manga-genre="${chip.id}"`, chip.label)),
       ].join("")}</div></div>`;
     })
@@ -3609,7 +3728,7 @@ function ttsChunks(text) {
 }
 
 function speakTtsChunk(parts, index, token) {
-  if (token !== ttsToken || !isQuizTtsOn() || phase !== "accepting" || isDeskMode) return;
+  if (token !== ttsToken || !isQuizTtsOn() || (phase !== "accepting" && phase !== "holding") || isDeskMode) return;
   const part = parts[index];
   if (!part || !window.speechSynthesis) return;
   const utter = new SpeechSynthesisUtterance(part);
@@ -3880,6 +3999,7 @@ function isAnswerPlayPhase() {
 }
 
 function shouldBlindDeskAnswer() {
+  if (isGuestPosing()) return true;
   // 초성/단서/듣기 자동 + 스트리머 참여 ON 일 때만 조작칸 정답 숨김
   return (quizFormat === "chosung" || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
 }
@@ -4021,15 +4141,20 @@ function bindAnswerActions() {
 
 
 function syncAxisButtons() {
+  const posing = isGuestPosing();
   els.formatSeg?.querySelectorAll("[data-format]").forEach((btn) => {
-    const on = btn.dataset.format === quizFormat;
+    const format = btn.dataset.format;
+    const on = format === quizFormat;
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.disabled = posing && (format === "clue" || format === "listen");
   });
   els.topicSeg?.querySelectorAll("[data-topic]").forEach((btn) => {
-    const on = btn.dataset.topic === quizTopic;
+    const topic = btn.dataset.topic;
+    const on = topic === quizTopic;
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.disabled = posing && topic === "auto";
   });
 }
 
@@ -4042,6 +4167,9 @@ function streamerDeskToolsOn() {
 }
 
 function streamerGuessOpen() {
+  if (isGuestPosing() && (quizFormat === "chosung" || isDrawFormat())) {
+    return phase === "accepting" || phase === "holding";
+  }
   return streamerDeskToolsOn() && (phase === "accepting" || phase === "holding");
 }
 
@@ -4103,7 +4231,7 @@ function restoreQuizModePrefs() {
 }
 
 function syncDrawPanel() {
-  if (els.drawPanel) setHidden(els.drawPanel, !isDrawFormat());
+  if (els.drawPanel) setHidden(els.drawPanel, !isDrawFormat() || isGuestPosing());
 }
 
 
@@ -4767,12 +4895,21 @@ function bindWordPickControls() {
 }
 
 function syncModeUi() {
+  const posing = isGuestPosing();
+  if (posing) {
+    const lock = guestPoseLock(quizFormat);
+    if (quizFormat !== lock.format) {
+      if (quizFormat === "listen") stopListenAudio();
+      quizFormat = lock.format;
+    }
+    quizTopic = lock.topic;
+  }
   const isDraw = isDrawFormat();
   const isClue = isClueFormat();
   const isListen = isListenFormat();
-  const isAuto = isClue || isListen ? true : isAutoTopic();
+  const isAuto = posing ? false : isClue || isListen ? true : isAutoTopic();
   const needsAnswer = !isAuto;
-  if ((isClue || isListen) && quizTopic !== "auto") {
+  if (!posing && (isClue || isListen) && quizTopic !== "auto") {
     quizTopic = "auto";
   }
   syncAxisButtons();
@@ -4790,7 +4927,12 @@ function syncModeUi() {
   if (els.clueChosungOpt) setHidden(els.clueChosungOpt, isListen || !(isClue || isAuto));
   syncClueOnlyDeskOpts(isClue);
   syncDeskStreamerTools();
-  if (els.manualAnswerHint) setHidden(els.manualAnswerHint, !needsAnswer);
+  if (els.manualAnswerHint) {
+    setHidden(els.manualAnswerHint, !needsAnswer);
+    els.manualAnswerHint.textContent = posing
+      ? "출제자가 문제를 내면 시작하세요. 그림은 실시간으로 나갑니다"
+      : "조작창에 정답을 입력해 주세요";
+  }
   if (els.autoWordFields) {
     setHidden(els.autoWordFields, !isAuto);
     els.autoWordFields.classList.toggle("is-clue", isClue);
@@ -4839,6 +4981,11 @@ function syncModeUi() {
     } else {
       if (els.paintWrap) els.paintWrap.hidden = true;
     }
+    return;
+  }
+  if (syncGuestLiveDrawStage()) {
+    redraw();
+    requestAnimationFrame(updateDrawCursor);
     return;
   }
 
@@ -5202,6 +5349,7 @@ function playHitFly({ nickname, answer }, done) {
 
 function finishQuestion(winner) {
   if (phase !== "accepting") return;
+  cancelHolds();
   stopQuestionTts();
   stopListenAudio();
   phase = "reveal";
@@ -5274,12 +5422,6 @@ function setChatConnStatus(text, kind = "") {
   el.classList.toggle("is-bad", kind === "bad");
 }
 
-function chatRevealDelayMs() {
-  const sec = getChatDelaySec();
-  if (sec <= 0 || !holdStartedAt) return 0;
-  return Math.max(0, sec * 1000 - (Date.now() - holdStartedAt));
-}
-
 function flushSideChatQueue() {
   const items = sideChatQueue.splice(0);
   for (const item of items) {
@@ -5289,19 +5431,7 @@ function flushSideChatQueue() {
 }
 
 function enqueueSideChat(chat, opts = {}) {
-  const wait = chatRevealDelayMs();
-  const item = { chat: { ...chat }, opts, timer: 0 };
-  const show = () => {
-    const i = sideChatQueue.indexOf(item);
-    if (i >= 0) sideChatQueue.splice(i, 1);
-    appendSideChat(item.chat, item.opts);
-  };
-  if (wait <= 0) {
-    show();
-    return;
-  }
-  item.timer = window.setTimeout(show, wait);
-  sideChatQueue.push(item);
+  appendSideChat(chat, opts);
 }
 
 function appendSideChat(chat, { fake = false } = {}) {
@@ -5490,13 +5620,7 @@ async function ensureStreamerNickname() {
   }
 }
 
-function onChat(chat, opts = {}) {
-  rememberStreamerNick(chat);
-  enqueueSideChat(chat, opts);
-  if (noteChatDelayProbe(chat)) return;
-  if (guestHost?.noteCandidate(chat)) {
-    renderGuestHostUi();
-  }
+function judgeIncomingChat(chat) {
   if ((phase !== "accepting" && phase !== "holding") || !judge) return;
   if (chat?.type && chat.type !== "chat") return;
   if (chat?.hidden) return;
@@ -5511,6 +5635,32 @@ function onChat(chat, opts = {}) {
   } else {
     noteChosungMiss(chat);
   }
+}
+
+function scheduleStreamerJudge(chat) {
+  const wait = streamerChatJudgeDelayMs(chat);
+  if (wait <= 0) {
+    judgeIncomingChat(chat);
+    return;
+  }
+  const token = holdGen;
+  const timer = window.setTimeout(() => {
+    const i = streamerJudgeTimers.indexOf(timer);
+    if (i >= 0) streamerJudgeTimers.splice(i, 1);
+    if (token !== holdGen) return;
+    judgeIncomingChat(chat);
+  }, wait);
+  streamerJudgeTimers.push(timer);
+}
+
+function onChat(chat, opts = {}) {
+  rememberStreamerNick(chat);
+  enqueueSideChat(chat, opts);
+  if (noteChatDelayProbe(chat)) return;
+  if (guestHost?.noteCandidate(chat)) {
+    renderGuestHostUi();
+  }
+  scheduleStreamerJudge(chat);
 }
 
 function openEndConfirm() {
@@ -5594,6 +5744,14 @@ function canStartQuestion() {
     showHostToast("조작창 분리 버튼을 눌러주세요");
     return false;
   }
+  if (isGuestPosing()) {
+    if (!getManualAnswer()) {
+      setStatus("출제자가 문제를 낼 때까지 기다리세요");
+      shakeAnswerField();
+      return false;
+    }
+    return true;
+  }
   if (isClueFormat()) {
     const stats = getClueBankStats(activeClueBank(), cluePickOptions());
     if (!stats.matched) {
@@ -5652,7 +5810,8 @@ function beginQuestion() {
   let listenRoundMode = "";
   const clue = format === "clue";
   const listen = format === "listen";
-  const topicKey = clue || listen ? "auto" : topic;
+  const posing = isGuestPosing();
+  const topicKey = posing ? "manual" : clue || listen ? "auto" : topic;
   const streamerJoin = (format === "chosung" || clue || listen) && topicKey === "auto" && isStreamerJoinEnabled();
   if (listen) {
     try {
@@ -5727,7 +5886,7 @@ function beginQuestion() {
       syncDeskFlow();
       return;
     }
-    excludeUserId = session.userId;
+    if (!posing) excludeUserId = session.userId;
   }
 
   const byGuest =
@@ -5777,27 +5936,12 @@ function beginQuestion() {
   clearManualAnswerLock();
   void guestHost?.pushHostMode(format === "draw" ? "draw" : "chosung");
   stopChatDelayProbe();
-  const delay = streamerDeskToolsOn() ? getChatDelaySec() : 0;
-  if (delay > 0) {
-    phase = "holding";
-    holdStartedAt = Date.now();
-    judge = makeQuestionJudge({ answer, aliases, excludeUserId });
-    renderQuestionView();
-    syncDeskFlow();
-    speakQuestion();
-    const token = ++holdGen;
-    void (async () => {
-      const ok = await runChatDelayHold(delay, token);
-      if (!ok) return;
-      startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre, replayVoice: false });
-    })();
-    return;
-  }
+  cancelHolds();
+  judge = null;
   startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre });
 }
 
 function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre, replayVoice = true }) {
-  holdStartedAt = 0;
   if (!judge) judge = makeQuestionJudge({ answer, aliases: current.aliases, excludeUserId });
   phase = "accepting";
   renderQuestionView();
@@ -6048,7 +6192,7 @@ function bindDraw() {
   syncSize();
   syncOpacity();
 
-  const canDraw = () => isDrawFormat() && (phase === "accepting" || phase === "holding") && !els.paintWrap?.hidden;
+  const canDraw = () => guestPaintAllowed();
 
   paintPointerDown = (point) => {
     if (!canDraw()) return;
@@ -6113,6 +6257,7 @@ function bindDraw() {
   };
 
   const start = (event) => {
+    if (isGuestPosing()) return;
     if (!canDraw()) return;
     const point = getCanvasPoint(event);
     els.canvas.setPointerCapture?.(event.pointerId);
@@ -6149,7 +6294,7 @@ function bindDraw() {
   els.clear.addEventListener("click", clearStrokes);
   els.saveBtn?.addEventListener("click", saveDrawingPng);
   window.addEventListener("keydown", (event) => {
-    if (!isDrawFormat()) return;
+    if (!isDrawFormat() || isGuestPosing()) return;
     if (isTypingTarget(event.target)) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     // event.code = physical key (works in Hangul/English IME)
@@ -6610,15 +6755,19 @@ function bind() {
     const btn = event.target.closest("[data-format]");
     if (!btn) return;
     if (!isKnownQuizFormat(btn.dataset.format)) return;
+    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen")) return;
     if (quizFormat === "listen" && btn.dataset.format !== "listen") stopListenAudio();
     quizFormat = btn.dataset.format;
+    if (isGuestPosing()) quizTopic = "manual";
     saveQuizModePrefs();
     syncModeUi();
     syncDeskFlow();
+    if (isGuestPosing()) void guestHost.pushHostMode(guestHostMode());
   });
   els.topicSeg?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-topic]");
     if (!btn) return;
+    if (isGuestPosing()) return;
     quizTopic = btn.dataset.topic;
     saveQuizModePrefs();
     syncModeUi();

@@ -186,6 +186,14 @@
   border-color: var(--cyan, #3de7ff);
 }
 
+.guest-answer-hint {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted-on-dark, #dce4f8);
+  opacity: 0.85;
+}
+
 .guest-answer button {
   background: var(--caption, #ffe14a);
   color: #060912;

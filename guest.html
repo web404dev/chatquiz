@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css?v=194" />
-  <link rel="stylesheet" href="./guest.css?v=138" />
+  <link rel="stylesheet" href="./guest.css?v=139" />
 </head>
 <body class="guest-page arena">
   <a class="skip-link" href="#guestStatus">본문으로 건너뛰기</a>
@@ -35,10 +35,11 @@
         <strong id="guestModeLabel">대기</strong>
       </div>
       <div id="guestAnswerBox" class="guest-answer" hidden>
-        <label>정답 (방송에 안 보임)
-          <input id="guestAnswer" autocomplete="off" placeholder="정답 단어" />
+        <label>내실 문제
+          <input id="guestAnswer" autocomplete="off" placeholder="출제하실 문제를 입력해 주세요" />
         </label>
-        <button type="button" id="guestAnswerSubmit">정답 제출</button>
+        <p class="guest-answer-hint">방송에는 초성이나 그림만 나갑니다. 채팅이 맞춥니다.</p>
+        <button type="button" id="guestAnswerSubmit">출제하기</button>
       </div>
       <div id="guestPaintBox" class="guest-paint" hidden>
         <canvas id="guestCanvas" width="960" height="540" aria-label="출제 그림판"></canvas>
@@ -51,6 +52,6 @@
       </div>
     </section>
   </main>
-  <script type="module" src="./guest.js?v=142"></script>
+  <script type="module" src="./guest.js?v=147"></script>
 </body>
 </html>

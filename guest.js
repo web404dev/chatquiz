@@ -1,4 +1,5 @@
 import { createAuthKeep, GUEST_SESSION_KEY, readAuthSession, writeAuthSession } from "./auth-keep.js?v=138";
+import { SOLO_BUS_NAME } from "./guest-host.js?v=119";
 
 const WORKER_BASE = "https://chzzk-chat-quiz.web404dev.workers.dev";
 const params = new URLSearchParams(location.search);
@@ -6,6 +7,8 @@ let roomId = params.get("room") || "";
 let invite = params.get("invite") || "";
 const inviteCode = params.get("c") || "";
 const isDev = params.get("dev") === "1";
+const isSolo = isDev && params.get("solo") === "1";
+let soloBus = null;
 
 const els = {
   status: document.getElementById("guestStatus"),
@@ -204,13 +207,57 @@ async function claimAsGuest(meta) {
   show(els.login, false);
   show(els.blocked, false);
   show(els.app, true);
-  els.hello.textContent = `${data.nickname || meta.nickname || ""} 님, 출제할 수 있습니다`;
-  setStatus("연결됨 · 스트리머 설정을 기다리는 중");
+  els.hello.textContent = `${data.nickname || meta.nickname || ""} 님, 문제를 내 주세요`;
+  setStatus("연결되었습니다. 문제를 내 주세요. 그림은 바로 방송에 나갑니다");
+  show(els.answerBox, true);
   startPoll();
   bindPaint();
 }
 
+function postSolo(msg) {
+  try {
+    soloBus?.postMessage({ invite, from: "guest", msg });
+  } catch {
+    /* ignore */
+  }
+}
+
+function enterSolo() {
+  roomId = params.get("room") || roomId || "solo";
+  invite = params.get("invite") || invite;
+  session = {
+    channelId: "",
+    userId: params.get("userId") || "solo-self",
+    nickname: params.get("nickname") || "나",
+    accessToken: "",
+    refreshToken: "",
+  };
+  if (typeof BroadcastChannel !== "undefined") {
+    soloBus = new BroadcastChannel(SOLO_BUS_NAME);
+    soloBus.onmessage = (event) => {
+      const data = event.data;
+      if (!data || data.invite !== invite || data.from !== "host") return;
+      onHostMsg(data.msg || {});
+    };
+  }
+  show(els.login, false);
+  show(els.blocked, false);
+  show(els.app, true);
+  if (els.hello) els.hello.textContent = `${session.nickname} 님, 문제를 내 주세요`;
+  mode = "chosung";
+  if (els.modeLabel) els.modeLabel.textContent = "초성";
+  show(els.answerBox, true);
+  show(els.paintBox, false);
+  setStatus("연결되었습니다. 문제를 내 주세요. 그림은 바로 방송에 나갑니다");
+  postSolo({ type: "guest.hello" });
+  bindPaint();
+}
+
 async function relaySend(msg) {
+  if (isSolo) {
+    postSolo(msg);
+    return;
+  }
   await api("/relay/send", {
     method: "POST",
     body: JSON.stringify({ roomId, invite, from: "guest", msg }),
@@ -251,6 +298,8 @@ function onHostMsg(msg) {
       mode === "draw" ? "그림" : mode === "chosung" ? "초성" : "대기";
     show(els.paintBox, mode === "draw");
     show(els.answerBox, mode === "chosung" || mode === "draw");
+    if (mode === "draw") setStatus("그림을 그리시면 그것이 문제가 됩니다. 아래에 내실 문제도 적어 주세요");
+    else if (mode === "chosung") setStatus("내실 문제를 적어 주세요. 방송에는 초성만 나갑니다");
   }
 }
 
@@ -347,7 +396,7 @@ function bindPaint() {
     const value = String(els.answer.value || "").trim();
     if (!value) return;
     void relaySend({ type: "answer.submit", answer: value });
-    setStatus("정답을 보냈습니다");
+    setStatus("문제를 냈습니다");
   });
 }
 
@@ -358,6 +407,11 @@ els.closeBtn?.addEventListener("click", () => {
 els.loginBtn?.addEventListener("click", login);
 
 async function main() {
+  if (isSolo && (invite || params.get("invite"))) {
+    invite = params.get("invite") || invite;
+    enterSolo();
+    return;
+  }
   if (!inviteCode && (!roomId || !invite)) {
     showBlocked("초대 링크가 잘렸습니다. 짧은 주소를 다시 받아 주세요.");
     return;

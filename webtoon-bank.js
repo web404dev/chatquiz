@@ -44,6 +44,39 @@ export function isPlayableWebtoonRow(row = {}) {
   return isPlayableName(webtoonSeriesTitle(row.name));
 }
 
+export function isOfficialCoverUrl(url) {
+  const image = String(url || "").trim();
+  if (!image) return false;
+  if (/image-comic\.pstatic\.net\/webtoon\/[^/]+\/thumbnail\//i.test(image)) return true;
+  if (/thumbnail_IMAG/i.test(image)) return true;
+  if (/kakaopagecdn\.com\/P\/C\/\d+\/c1\//i.test(image)) return true;
+  return false;
+}
+
+export function isOfficialWebtoonCover(url) {
+  return !String(url || "").trim() || isOfficialCoverUrl(url);
+}
+
+export function applyStillByTitle(items = [], title, image) {
+  const key = webtoonSeriesTitle(title);
+  const next = String(image || "").trim();
+  if (!key || !next) return items;
+  return items.map((row) => (webtoonSeriesTitle(row.name) === key ? { ...row, image: next } : row));
+}
+
+export function titlesNeedingStill(items = []) {
+  const seen = new Set();
+  const titles = [];
+  for (const row of items) {
+    if (!isPlayableWebtoonRow(row)) continue;
+    const title = webtoonSeriesTitle(row.name);
+    if (!title || seen.has(title) || !isOfficialWebtoonCover(row.image)) continue;
+    seen.add(title);
+    titles.push(title);
+  }
+  return titles;
+}
+
 export function mergeWebtoonCatalog(prevItems = [], incoming = []) {
   const kept = [];
   const seen = new Set();

@@ -22,18 +22,23 @@ export function isArtistPageTitle(title) {
   return /\((entertainer|singer|rapper|band|group|musician|actress|actor)\)/i.test(String(title || ""));
 }
 
+function trackNameList(trackName) {
+  return (Array.isArray(trackName) ? trackName : [trackName])
+    .map((name) => foldSong(cutWikiTitle(name)))
+    .filter((name) => name.length >= 2);
+}
+
 export function isSongPageTitle(title, trackName = "") {
   const raw = String(title || "");
   if (isArtistPageTitle(raw)) return false;
-  if (/\bsong\b/i.test(raw)) return true;
-  const track = cutWikiTitle(trackName);
-  if (track && raw.toLowerCase().includes(track.toLowerCase()) && raw !== track) return true;
-  return false;
+  const got = foldSong(cutWikiTitle(raw));
+  if (!got) return false;
+  return trackNameList(trackName).some((want) => got === want || got.includes(want));
 }
 
 export function pickWikiSongTitle(results = [], trackName = "") {
   const rows = (results || []).map((row) => String(row?.title || "").trim()).filter(Boolean);
-  return rows.find((title) => isSongPageTitle(title, trackName)) || rows.find((title) => !isArtistPageTitle(title)) || "";
+  return rows.find((title) => isSongPageTitle(title, trackName)) || "";
 }
 
 function needles(primary, extras = []) {
@@ -41,7 +46,9 @@ function needles(primary, extras = []) {
 }
 
 function leftoverBucket(name) {
-  return /\s/.test(String(name || "").trim()) ? "title" : "artist";
+  const raw = String(name || "").trim();
+  if (/[가-힣]/.test(raw) && !/[A-Za-z]/.test(raw)) return "title";
+  return /\s/.test(raw) ? "title" : "artist";
 }
 
 export function songNeedles(song = {}) {

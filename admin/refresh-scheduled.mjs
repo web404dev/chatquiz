@@ -1,9 +1,9 @@
 import { spawn } from "node:child_process";
-import { isStale, packOf, readPackStatus, SCHEDULE_DAYS, SCHEDULE_ORDER, WEB_ROOT } from "./jobs.js";
+import { packOf, readPackStatus, SCHEDULE_DAYS, SCHEDULE_ORDER, WEB_ROOT, scheduleJobs } from "./jobs.js";
 
-function run(pack) {
+function run(pack, extraArgs = []) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [pack.script, ...(pack.args || [])], {
+    const child = spawn(process.execPath, [pack.script, ...(pack.args || []), ...extraArgs], {
       cwd: WEB_ROOT,
       env: process.env,
       stdio: ["ignore", "pipe", "pipe"],
@@ -17,24 +17,31 @@ function run(pack) {
   });
 }
 
-const stale = [];
+const statuses = [];
 for (const id of SCHEDULE_ORDER) {
-  const status = await readPackStatus(id);
-  const old = isStale(status?.fetchedAt, SCHEDULE_DAYS);
-  console.log(`${status.label} ${old ? "갱신" : "유지"} fetchedAt=${status.fetchedAt || 0}`);
-  if (old) stale.push(id);
+  statuses.push(await readPackStatus(id));
+}
+const jobs = scheduleJobs(statuses);
+for (const status of statuses) {
+  const job = jobs.find((row) => row.id === status.id);
+  const why = !job
+    ? "유지"
+    : job.args.includes("--fill-missing")
+      ? `빈칸 ${status.needStill}`
+      : "갱신";
+  console.log(`${status.label} ${why} fetchedAt=${status.fetchedAt || 0}`);
 }
 
-if (!stale.length) {
+if (!jobs.length) {
   console.log(`${SCHEDULE_DAYS}일 안이라 건너뜀`);
   process.exit(0);
 }
 
 const failed = [];
-for (const id of stale) {
-  const pack = packOf(id);
-  console.log(`== ${pack.label}`);
-  const code = await run(pack);
+for (const job of jobs) {
+  const pack = packOf(job.id);
+  console.log(`== ${pack.label}${job.args.length ? ` ${job.args.join(" ")}` : ""}`);
+  const code = await run(pack, job.args);
   if (code !== 0) {
     console.error(`${pack.label} 실패 ${code}`);
     failed.push(pack.label);

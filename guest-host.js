@@ -8,6 +8,53 @@ const GUEST_PREF_KEY = "guestHostPrefs:v1";
 const TTL_MAX_SEC = 10 * 60;
 const TTL_DEFAULT_SEC = 10 * 60;
 const TTL_EXTEND_SEC = 3 * 60;
+export const SOLO_BUS_NAME = "chatquiz-solo-guest";
+const SOLO_USER = { userId: "solo-self", nickname: "나" };
+
+export function guestPoseLock(format) {
+  return {
+    format: format === "draw" ? "draw" : "chosung",
+    topic: "manual",
+  };
+}
+
+export function isGuestPosingState(snap) {
+  return !!(snap?.selected?.userId && snap?.invite);
+}
+
+export function canAcceptGuestPaint({ phase, posing, format } = {}) {
+  if (!posing || format !== "draw") return false;
+  return (
+    phase === "ready" ||
+    phase === "lobby" ||
+    phase === "accepting" ||
+    phase === "holding" ||
+    phase === "countdown"
+  );
+}
+
+export function applyGuestPenToStrokes(strokes, msg, { width = 960, height = 540 } = {}) {
+  const point = {
+    x: Math.max(0, Math.min(width, (Number(msg?.x) || 0) * width)),
+    y: Math.max(0, Math.min(height, (Number(msg?.y) || 0) * height)),
+  };
+  const color = msg?.color || "#1a1208";
+  const size = Math.max(2, Math.min(64, Number(msg?.size) || 14));
+  const next = Array.isArray(strokes) ? strokes.slice() : [];
+  if (msg?.phase === "down" || !next.length) {
+    next.push({ color, size, alpha: 1, erase: false, points: [point] });
+    return next;
+  }
+  const last = next[next.length - 1];
+  next[next.length - 1] = {
+    ...last,
+    color,
+    size,
+    erase: false,
+    points: last.points.concat(point),
+  };
+  return next;
+}
 
 export function createGuestHostController({
   workerBase,
@@ -17,6 +64,7 @@ export function createGuestHostController({
   applyRemotePaint,
   applyGuestAnswer,
   excludeGuestFromJudge,
+  onGuestHello,
 }) {
   const state = {
     enabled: false,
@@ -36,6 +84,8 @@ export function createGuestHostController({
     lastGuestIds: [], // { userId, at }
     pollTimer: 0,
     relayAfter: 0,
+    solo: false,
+    soloBus: null,
   };
 
   function loadPrefs() {
@@ -125,11 +175,61 @@ export function createGuestHostController({
   }
 
   function guestLink() {
+    if (state.solo && state.invite) return soloGuestUrl();
     if (state.shortUrl) return state.shortUrl;
     if (state.inviteCode) {
       return `https://chzzk-chat-quiz.web404dev.workers.dev/${state.inviteCode}`;
     }
     return "";
+  }
+
+  function soloGuestUrl() {
+    const u = new URL("guest.html", guestBase());
+    u.searchParams.set("dev", "1");
+    u.searchParams.set("solo", "1");
+    u.searchParams.set("room", state.roomId || "solo");
+    u.searchParams.set("invite", state.invite);
+    u.searchParams.set("userId", state.selected?.userId || SOLO_USER.userId);
+    u.searchParams.set("nickname", state.selected?.nickname || SOLO_USER.nickname);
+    return u.href;
+  }
+
+  function closeSoloBus() {
+    try {
+      state.soloBus?.close();
+    } catch {
+      /* ignore */
+    }
+    state.soloBus = null;
+  }
+
+  function startSoloBus() {
+    closeSoloBus();
+    if (typeof BroadcastChannel === "undefined") return;
+    state.soloBus = new BroadcastChannel(SOLO_BUS_NAME);
+    state.soloBus.onmessage = (event) => {
+      const data = event.data;
+      if (!data || data.invite !== state.invite || data.from !== "guest") return;
+      handleRelay({ msg: data.msg });
+    };
+  }
+
+  function startSoloTest() {
+    const user = { ...SOLO_USER };
+    state.enabled = true;
+    state.recruiting = false;
+    state.consecutiveLimit = false;
+    state.solo = true;
+    state.candidates.set(user.userId, { ...user, at: Date.now() });
+    state.selected = { userId: user.userId, nickname: user.nickname };
+    state.invite = randomInvite();
+    state.inviteCode = "";
+    state.shortUrl = "";
+    state.inviteExpiresAt = Date.now() + TTL_DEFAULT_SEC * 1000;
+    state.roomId = `solo-${state.invite.slice(0, 8)}`;
+    state.guestConn = "waiting";
+    startSoloBus();
+    return soloGuestUrl();
   }
 
   async function api(path, init) {
@@ -183,8 +283,18 @@ export function createGuestHostController({
   async function revokeInvite(reason = "cancel") {
     const roomId = state.roomId;
     const invite = state.invite;
+    const wasSolo = state.solo;
+    if (wasSolo && invite) {
+      try {
+        state.soloBus?.postMessage({ invite, from: "host", msg: { type: "host.kick" } });
+      } catch {
+        /* ignore */
+      }
+    }
     stopPoll();
-    if (roomId && invite) {
+    closeSoloBus();
+    state.solo = false;
+    if (roomId && invite && !wasSolo) {
       try {
         await api("/invite/revoke", {
           method: "POST",
@@ -250,6 +360,7 @@ export function createGuestHostController({
     const msg = m.msg || m;
     if (msg.type === "guest.hello") {
       state.guestConn = "connected";
+      onGuestHello?.();
     } else if (msg.type === "guest.drawing") {
       state.guestConn = "drawing";
     } else if (msg.type === "guest.bye") {
@@ -308,6 +419,14 @@ export function createGuestHostController({
 
   async function relaySend(msg) {
     if (!state.roomId || !state.invite) return;
+    if (state.solo) {
+      try {
+        state.soloBus?.postMessage({ invite: state.invite, from: "host", msg });
+      } catch {
+        /* ignore */
+      }
+      return;
+    }
     try {
       await api("/relay/send", {
         method: "POST",
@@ -354,6 +473,7 @@ export function createGuestHostController({
       guestConn: state.guestConn,
       link: guestLink(),
       joinKeyword: JOIN_KEYWORD,
+      solo: state.solo,
     };
   }
 
@@ -387,6 +507,7 @@ export function createGuestHostController({
       savePrefs();
     },
     noteCandidate,
+    startSoloTest,
     listCandidates,
     inCooldown,
     pickRandom,

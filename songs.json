@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "fetchedAt": 1789840150757,
-  "updatedAt": "2026-09-19T17:49:10.757Z",
+  "fetchedAt": 1789882733284,
+  "updatedAt": "2026-09-20T06:13:16.264Z",
   "items": [
     {
       "id": "iu-goodday",
@@ -89,13 +89,15 @@
         "BTS",
         "Dynamite (Live)",
         "방탄소년단",
-        "Dynamite"
+        "Dynamite",
+        "다이너마이트"
       ],
       "artistAliases": [
         "BTS"
       ],
       "titleAliases": [
-        "Dynamite (Live)"
+        "Dynamite (Live)",
+        "다이너마이트"
       ],
       "genres": [
         "kpop",
@@ -115,12 +117,15 @@
       "aliases": [
         "NewJeans",
         "뉴진스",
-        "Attention"
+        "Attention",
+        "어텐션"
       ],
       "artistAliases": [
         "NewJeans"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "어텐션"
+      ],
       "genres": [
         "kpop",
         "kpop-girl",
@@ -138,12 +143,15 @@
       "aliases": [
         "NewJeans",
         "뉴진스",
-        "Super Shy"
+        "Super Shy",
+        "슈퍼샤이"
       ],
       "artistAliases": [
         "NewJeans"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "슈퍼샤이"
+      ],
       "genres": [
         "kpop",
         "kpop-girl",
@@ -187,12 +195,15 @@
       "aliases": [
         "BLACKPINK",
         "블랙핑크",
-        "How You Like That"
+        "How You Like That",
+        "하우유라이크댓"
       ],
       "artistAliases": [
         "BLACKPINK"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "하우유라이크댓"
+      ],
       "genres": [
         "kpop",
         "kpop-girl",
@@ -264,12 +275,15 @@
       "aliases": [
         "TWICE",
         "트와이스",
-        "Cheer Up"
+        "Cheer Up",
+        "치어업"
       ],
       "artistAliases": [
         "TWICE"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "치어업"
+      ],
       "genres": [
         "kpop",
         "kpop-girl",
@@ -405,12 +419,15 @@
       "aliases": [
         "IVE",
         "아이브",
-        "LOVE DIVE"
+        "LOVE DIVE",
+        "러브다이브"
       ],
       "artistAliases": [
         "IVE"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "러브다이브"
+      ],
       "genres": [
         "kpop",
         "kpop-girl",
@@ -428,12 +445,15 @@
       "aliases": [
         "aespa",
         "에스파",
-        "Next Level"
+        "Next Level",
+        "넥스트레벨"
       ],
       "artistAliases": [
         "aespa"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "넥스트레벨"
+      ],
       "genres": [
         "kpop",
         "kpop-girl",
@@ -577,12 +597,15 @@
       "aliases": [
         "EXO",
         "엑소",
-        "Love Me Right"
+        "Love Me Right",
+        "러브미라이트"
       ],
       "artistAliases": [
         "EXO"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "러브미라이트"
+      ],
       "genres": [
         "kpop",
         "kpop-boy",
@@ -645,25 +668,22 @@
       "artistKo": "지오디",
       "titleKo": "거짓말",
       "aliases": [
-        "G Herbo, The Kid LAROI & Gunna",
-        "You Can't",
+        "god",
         "지오디",
         "거짓말"
       ],
       "artistAliases": [
-        "G Herbo, The Kid LAROI & Gunna"
+        "god"
       ],
-      "titleAliases": [
-        "You Can't"
-      ],
+      "titleAliases": [],
       "genres": [
         "kpop",
         "kpop-coed",
         "ballad",
         "era-00s"
       ],
-      "itunesTrackId": 6812837136,
-      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b8/db/e6/b8dbe6b1-a983-6c09-700e-f4ff19ba1227/mzaf_6712241242614312370.plus.aac.p.m4a",
+      "itunesTrackId": 1671922071,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/87/dd/59/87dd5958-ab4e-7cd8-0e61-474ea8e99c3b/mzaf_15332778287919844364.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -698,25 +718,22 @@
       "artistKo": "쿨",
       "titleKo": "애상",
       "aliases": [
-        "Takashi Doushi",
-        "Cool Sorrow",
+        "COOL",
         "쿨",
         "애상"
       ],
       "artistAliases": [
-        "Takashi Doushi"
+        "COOL"
       ],
-      "titleAliases": [
-        "Cool Sorrow"
-      ],
+      "titleAliases": [],
       "genres": [
         "kpop",
         "kpop-coed",
         "dance",
         "era-90s"
       ],
-      "itunesTrackId": 1610056605,
-      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/94/0b/f5/940bf58f-297f-1011-19c0-e52647e5d80a/mzaf_18422555499581725342.plus.aac.p.m4a",
+      "itunesTrackId": 955125134,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ce/fb/c5/cefbc587-5c3d-0586-2223-833a6bf67762/mzaf_4947517493970765867.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -851,24 +868,21 @@
       "titleKo": "보고싶다",
       "aliases": [
         "KIM BUMSOO",
-        "Last Love",
         "김범수",
         "보고싶다"
       ],
       "artistAliases": [
         "KIM BUMSOO"
       ],
-      "titleAliases": [
-        "Last Love"
-      ],
+      "titleAliases": [],
       "genres": [
         "kpop",
         "kpop-solo",
         "ballad",
         "era-00s"
       ],
-      "itunesTrackId": 448015490,
-      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/12/fb/5a/12fb5a12-b653-6a6d-1546-974dc4930801/mzaf_14010797713833995501.plus.aac.p.m4a",
+      "itunesTrackId": 1071771882,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/Music49/v4/0a/a9/23/0aa9239d-3d3c-8ea6-3cc1-52e2f9a08a4c/mzaf_5476706887386879237.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -955,12 +969,17 @@
       "aliases": [
         "CHANGMO",
         "창모",
-        "METEOR"
+        "METEOR",
+        "메테오",
+        "미티어"
       ],
       "artistAliases": [
         "CHANGMO"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "메테오",
+        "미티어"
+      ],
       "genres": [
         "kpop",
         "kpop-solo",
@@ -978,12 +997,15 @@
       "aliases": [
         "Epik High",
         "에픽하이",
-        "Fly"
+        "Fly",
+        "플라이"
       ],
       "artistAliases": [
         "Epik High"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "플라이"
+      ],
       "genres": [
         "kpop",
         "hiphop",
@@ -999,7 +1021,7 @@
       "titleKo": "거기서거기",
       "aliases": [
         "Dynamicduo",
-        "Ring My Bell (feat. NAUL)",
+        "Without You",
         "다이나믹듀오",
         "거기서거기"
       ],
@@ -1007,15 +1029,15 @@
         "Dynamicduo"
       ],
       "titleAliases": [
-        "Ring My Bell (feat. NAUL)"
+        "Without You"
       ],
       "genres": [
         "kpop",
         "hiphop",
         "era-10s"
       ],
-      "itunesTrackId": 1688124640,
-      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/25/cf/4d/25cf4d8f-bb35-f0e8-14fc-8f566d5afb60/mzaf_8560821892414637556.plus.aac.p.m4a",
+      "itunesTrackId": 1672206500,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f4/ec/e4/f4ece43e-a7a7-470d-f8bd-19cacd201f04/mzaf_17404992981091964406.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -1025,12 +1047,15 @@
       "aliases": [
         "Crush",
         "크러쉬",
-        "Beautiful"
+        "Beautiful",
+        "뷰티풀"
       ],
       "artistAliases": [
         "Crush"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "뷰티풀"
+      ],
       "genres": [
         "kpop",
         "kpop-solo",
@@ -1049,12 +1074,15 @@
       "aliases": [
         "DEAN",
         "딘",
-        "instagram"
+        "instagram",
+        "인스타그램"
       ],
       "artistAliases": [
         "DEAN"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "인스타그램"
+      ],
       "genres": [
         "kpop",
         "kpop-solo",
@@ -1092,6 +1120,79 @@
       "itunesCountry": "US"
     },
     {
+      "id": "youngtak-jjin",
+      "artistKo": "영탁",
+      "titleKo": "찐이야",
+      "aliases": [
+        "Youngtak",
+        "Pitiful",
+        "영탁",
+        "찐이야"
+      ],
+      "artistAliases": [
+        "Youngtak"
+      ],
+      "titleAliases": [
+        "Pitiful"
+      ],
+      "genres": [
+        "trot",
+        "dance",
+        "era-20s"
+      ],
+      "itunesTrackId": 1502699031,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b4/9a/ba/b49aba3d-a3c4-fdf1-4f96-4a18eeb5f5bd/mzaf_16228553442531157116.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "songgain-moon",
+      "artistKo": "송가인",
+      "titleKo": "서울의달",
+      "aliases": [
+        "Song Ga In",
+        "Moon of Seoul",
+        "송가인",
+        "서울의달"
+      ],
+      "artistAliases": [
+        "Song Ga In"
+      ],
+      "titleAliases": [
+        "Moon of Seoul"
+      ],
+      "genres": [
+        "trot",
+        "era-10s"
+      ],
+      "itunesTrackId": 1804711917,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c4/f5/4d/c4f54daf-2c69-f398-bbd0-6e1ed736da59/mzaf_11706708227210306777.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "joohyounmi-rain",
+      "artistKo": "주현미",
+      "titleKo": "비내리는영동교",
+      "aliases": [
+        "Joo Hyun Mi",
+        "Rainy Yeongdong Bridge",
+        "주현미",
+        "비내리는영동교"
+      ],
+      "artistAliases": [
+        "Joo Hyun Mi"
+      ],
+      "titleAliases": [
+        "Rainy Yeongdong Bridge"
+      ],
+      "genres": [
+        "trot",
+        "era-90s"
+      ],
+      "itunesTrackId": 1633994262,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/b5/6a/d0/b56ad05e-3786-4722-677d-1c2123979776/mzaf_12218907229861717211.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
       "id": "jannabi-for-lovers",
       "artistKo": "잔나비",
       "titleKo": "주저하는연인들을위해",
@@ -1123,12 +1224,15 @@
       "aliases": [
         "HYUKOH",
         "혁오",
-        "TOMBOY"
+        "TOMBOY",
+        "톰보이"
       ],
       "artistAliases": [
         "HYUKOH"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "톰보이"
+      ],
       "genres": [
         "indie",
         "rock",
@@ -1196,24 +1300,24 @@
       "artistKo": "와이비",
       "titleKo": "나는나비",
       "aliases": [
-        "Kendrick Lamar",
-        "i",
+        "YB",
+        "A Flying Butterfly",
         "와이비",
         "나는나비"
       ],
       "artistAliases": [
-        "Kendrick Lamar"
+        "YB"
       ],
       "titleAliases": [
-        "i"
+        "A Flying Butterfly"
       ],
       "genres": [
         "rock",
         "band",
         "era-00s"
       ],
-      "itunesTrackId": 1440871896,
-      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/1b/66/441b66ea-fbec-f5d7-e572-995a8e0fc387/mzaf_10266399530288430977.plus.aac.p.m4a",
+      "itunesTrackId": 1892253035,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ec/33/b7/ec33b767-1c83-8a4b-9947-7f55d1dc3b9d/mzaf_13540806481189795421.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -1268,12 +1372,58 @@
       "itunesCountry": "US"
     },
     {
+      "id": "lee-moonsae-gwanghwamun",
+      "artistKo": "이문세",
+      "titleKo": "광화문연가",
+      "aliases": [
+        "Lee Moon Sae",
+        "이문세",
+        "광화문연가"
+      ],
+      "artistAliases": [
+        "Lee Moon Sae"
+      ],
+      "titleAliases": [],
+      "genres": [
+        "era-7080",
+        "ballad"
+      ],
+      "itunesTrackId": 1461532112,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d3/60/ef/d360efad-3003-1a34-0534-b69b9594cc64/mzaf_14843909140899089360.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "kim-kwangseok-loved",
+      "artistKo": "김광석",
+      "titleKo": "사랑했지만",
+      "aliases": [
+        "Kim Kwang Seok",
+        "사랑했지만 (2012 Remastered, ver.2)",
+        "김광석",
+        "사랑했지만"
+      ],
+      "artistAliases": [
+        "Kim Kwang Seok"
+      ],
+      "titleAliases": [
+        "사랑했지만 (2012 Remastered, ver.2)"
+      ],
+      "genres": [
+        "era-90s",
+        "folk",
+        "ballad"
+      ],
+      "itunesTrackId": 1501134423,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/4c/cb/3e/4ccb3eff-d3b4-cc08-0d31-a5c9607ccac7/mzaf_967015631066387479.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
       "id": "seotaiji-i-know",
       "artistKo": "서태지와아이들",
       "titleKo": "난알아요",
       "aliases": [
         "Seotaiji and Boys",
-        "As the Night Goes On",
+        "I Know (′92 TV Edit)",
         "서태지와아이들",
         "난알아요"
       ],
@@ -1281,7 +1431,7 @@
         "Seotaiji and Boys"
       ],
       "titleAliases": [
-        "As the Night Goes On"
+        "I Know (′92 TV Edit)"
       ],
       "genres": [
         "kpop",
@@ -1289,8 +1439,8 @@
         "dance",
         "hiphop"
       ],
-      "itunesTrackId": 1614225010,
-      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/25/c1/d9/25c1d97d-0f3c-e6d9-3bb0-4ed0d391cf72/mzaf_12726714369983503105.plus.aac.p.m4a",
+      "itunesTrackId": 1614225468,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b7/84/8f/b7848f37-d9ba-30ed-677c-1771818218e9/mzaf_5170312200389775960.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -1341,6 +1491,57 @@
       "itunesCountry": "US"
     },
     {
+      "id": "weeknd-blinding",
+      "artistKo": "더 위켄드",
+      "titleKo": "Blinding Lights",
+      "aliases": [
+        "The Weeknd",
+        "더 위켄드",
+        "Blinding Lights",
+        "블라인딩라이츠"
+      ],
+      "artistAliases": [
+        "The Weeknd"
+      ],
+      "titleAliases": [
+        "블라인딩라이츠"
+      ],
+      "genres": [
+        "pop",
+        "era-20s"
+      ],
+      "itunesTrackId": 1499378607,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/19/d6/60/19d660ff-e3a9-8377-15a3-ce4b28e89cac/mzaf_18422426156481158187.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "brunomars-uptown",
+      "artistKo": "브루노 마스",
+      "titleKo": "Uptown Funk",
+      "aliases": [
+        "Mark Ronson",
+        "Uptown Funk (feat. Bruno Mars)",
+        "브루노 마스",
+        "Uptown Funk",
+        "업타운펑크"
+      ],
+      "artistAliases": [
+        "Mark Ronson"
+      ],
+      "titleAliases": [
+        "Uptown Funk (feat. Bruno Mars)",
+        "업타운펑크"
+      ],
+      "genres": [
+        "pop",
+        "dance",
+        "era-10s"
+      ],
+      "itunesTrackId": 943946671,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b9/96/2c/b9962c79-3662-235c-e55d-6c4b41457499/mzaf_18075623088273148288.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
       "id": "taylorswift-shake",
       "artistKo": "테일러 스위프트",
       "titleKo": "Shake It Off",
@@ -1363,18 +1564,70 @@
       "itunesCountry": "US"
     },
     {
+      "id": "adele-rolling",
+      "artistKo": "아델",
+      "titleKo": "Rolling in the Deep",
+      "aliases": [
+        "Adele",
+        "아델",
+        "Rolling in the Deep",
+        "롤링인더딥"
+      ],
+      "artistAliases": [
+        "Adele"
+      ],
+      "titleAliases": [
+        "롤링인더딥"
+      ],
+      "genres": [
+        "pop",
+        "ballad",
+        "era-10s"
+      ],
+      "itunesTrackId": 1544491233,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4c/4f/03/4c4f032a-3d2b-853d-da81-996602355b42/mzaf_11625850023134180491.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "billie-badguy",
+      "artistKo": "빌리 아일리시",
+      "titleKo": "bad guy",
+      "aliases": [
+        "Billie Eilish",
+        "빌리 아일리시",
+        "bad guy",
+        "배드가이"
+      ],
+      "artistAliases": [
+        "Billie Eilish"
+      ],
+      "titleAliases": [
+        "배드가이"
+      ],
+      "genres": [
+        "pop",
+        "era-10s"
+      ],
+      "itunesTrackId": 1450695739,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c3/87/1f/c3871f7e-3260-d615-1c66-5fdca2c3a48f/mzaf_10721331211699880949.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
       "id": "gaga-bad-romance",
       "artistKo": "레이디 가가",
       "titleKo": "Bad Romance",
       "aliases": [
         "Lady Gaga",
         "레이디 가가",
-        "Bad Romance"
+        "Bad Romance",
+        "배드로맨스"
       ],
       "artistAliases": [
         "Lady Gaga"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "배드로맨스"
+      ],
       "genres": [
         "pop",
         "dance",
@@ -1385,18 +1638,71 @@
       "itunesCountry": "US"
     },
     {
+      "id": "queen-bohemian",
+      "artistKo": "퀸",
+      "titleKo": "Bohemian Rhapsody",
+      "aliases": [
+        "Queen",
+        "퀸",
+        "Bohemian Rhapsody",
+        "보헤미안랩소디"
+      ],
+      "artistAliases": [
+        "Queen"
+      ],
+      "titleAliases": [
+        "보헤미안랩소디"
+      ],
+      "genres": [
+        "oldpop",
+        "rock",
+        "era-7080"
+      ],
+      "itunesTrackId": 6781024437,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/17/fc/1e/17fc1eba-946d-84a9-710b-a0e88ea64209/mzaf_3049006317693088799.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "mj-billie-jean",
+      "artistKo": "마이클 잭슨",
+      "titleKo": "Billie Jean",
+      "aliases": [
+        "Michael Jackson",
+        "마이클 잭슨",
+        "Billie Jean",
+        "빌리진"
+      ],
+      "artistAliases": [
+        "Michael Jackson"
+      ],
+      "titleAliases": [
+        "빌리진"
+      ],
+      "genres": [
+        "oldpop",
+        "dance",
+        "era-7080"
+      ],
+      "itunesTrackId": 269573364,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/dc/bc/8a/dcbc8a3e-4ce1-c00d-cc02-eda2212053c7/mzaf_8347559338388601510.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
       "id": "abba-dancing-queen",
       "artistKo": "아바",
       "titleKo": "Dancing Queen",
       "aliases": [
         "ABBA",
         "아바",
-        "Dancing Queen"
+        "Dancing Queen",
+        "댄싱퀸"
       ],
       "artistAliases": [
         "ABBA"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "댄싱퀸"
+      ],
       "genres": [
         "oldpop",
         "dance",
@@ -1404,6 +1710,218 @@
       ],
       "itunesTrackId": 1422648513,
       "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ec/b1/63/ecb163bc-aff2-4dd2-d40b-c044f0b9fa4d/mzaf_4358783485405794088.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "journey-believin",
+      "artistKo": "저니",
+      "titleKo": "Don't Stop Believin'",
+      "aliases": [
+        "Journey",
+        "Don't Stop Believin' (2024 Remaster)",
+        "저니",
+        "Don't Stop Believin'"
+      ],
+      "artistAliases": [
+        "Journey"
+      ],
+      "titleAliases": [
+        "Don't Stop Believin' (2024 Remaster)"
+      ],
+      "genres": [
+        "oldpop",
+        "rock",
+        "era-7080"
+      ],
+      "itunesTrackId": 169003415,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/0f/e9/54/0fe95410-dc38-8696-0259-f61d869e9fca/mzaf_13616088119456591905.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "beatles-hey-jude",
+      "artistKo": "비틀즈",
+      "titleKo": "Hey Jude",
+      "aliases": [
+        "The Beatles",
+        "비틀즈",
+        "Hey Jude",
+        "헤이주드"
+      ],
+      "artistAliases": [
+        "The Beatles"
+      ],
+      "titleAliases": [
+        "헤이주드"
+      ],
+      "genres": [
+        "oldpop",
+        "era-7080"
+      ],
+      "itunesTrackId": 1441133277,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3d/08/f5/3d08f5d7-1e0a-99d9-1085-d50ecc972bb9/mzaf_1689604474306790314.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "whitney-always",
+      "artistKo": "휘트니 휴스턴",
+      "titleKo": "I Will Always Love You",
+      "aliases": [
+        "Whitney Houston",
+        "휘트니 휴스턴",
+        "I Will Always Love You"
+      ],
+      "artistAliases": [
+        "Whitney Houston"
+      ],
+      "titleAliases": [],
+      "genres": [
+        "oldpop",
+        "ballad",
+        "ost-movie",
+        "era-90s"
+      ],
+      "itunesTrackId": 388151901,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/03/d2/1a/03d21aca-c69e-09af-03ef-118004e68ab5/mzaf_17408932698913708736.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "takeuchi-plastic-love",
+      "artistKo": "타케우치 마리야",
+      "titleKo": "Plastic Love",
+      "aliases": [
+        "Mariya Takeuchi",
+        "타케우치 마리야",
+        "Plastic Love"
+      ],
+      "artistAliases": [
+        "Mariya Takeuchi"
+      ],
+      "titleAliases": [],
+      "genres": [
+        "citypop",
+        "jpop",
+        "era-7080"
+      ],
+      "itunesTrackId": 1541673399,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/de/a8/9ddea8ea-2ba4-c29b-2bdc-d411239fe80c/mzaf_15077054009562163230.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "yamashita-christmas-eve",
+      "artistKo": "야마시타 타츠로",
+      "titleKo": "Christmas Eve",
+      "aliases": [
+        "야마시타 타츠로",
+        "Christmas Eve"
+      ],
+      "artistAliases": [],
+      "titleAliases": [],
+      "genres": [
+        "citypop",
+        "jpop",
+        "era-7080"
+      ],
+      "itunesTrackId": 1300670407,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3a/72/7c/3a727c14-7f99-aff2-fcdc-44dea5506156/mzaf_5022035355810449489.plus.aac.p.m4a",
+      "itunesCountry": "JP"
+    },
+    {
+      "id": "utada-first-love",
+      "artistKo": "우타다 히카루",
+      "titleKo": "First Love",
+      "aliases": [
+        "Hikaru Utada",
+        "우타다 히카루",
+        "First Love",
+        "퍼스트러브"
+      ],
+      "artistAliases": [
+        "Hikaru Utada"
+      ],
+      "titleAliases": [
+        "퍼스트러브"
+      ],
+      "genres": [
+        "jpop",
+        "ballad",
+        "era-90s"
+      ],
+      "itunesTrackId": 1445055008,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8a/ef/99/8aef99aa-02e7-a0ed-62c2-52b8b7e0c438/mzaf_18106053477060712364.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "yoasobi-yoru",
+      "artistKo": "요아소비",
+      "titleKo": "밤을달리다",
+      "aliases": [
+        "YOASOBI",
+        "Yoru ni kakeru",
+        "요아소비",
+        "밤을달리다"
+      ],
+      "artistAliases": [
+        "YOASOBI"
+      ],
+      "titleAliases": [
+        "Yoru ni kakeru"
+      ],
+      "genres": [
+        "jpop",
+        "era-20s"
+      ],
+      "itunesTrackId": 1542182776,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/04/c0/bc/04c0bcbf-399f-b668-4c1a-8eb37f63d6e3/mzaf_8386400470233731365.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "yoasobi-idol",
+      "artistKo": "요아소비",
+      "titleKo": "아이돌",
+      "aliases": [
+        "YOASOBI",
+        "Idol",
+        "요아소비",
+        "아이돌"
+      ],
+      "artistAliases": [
+        "YOASOBI"
+      ],
+      "titleAliases": [
+        "Idol"
+      ],
+      "genres": [
+        "jpop",
+        "ost-ani",
+        "era-20s"
+      ],
+      "itunesTrackId": 1679278167,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f0/db/16/f0db16be-457e-f10f-98b6-f30b11de34e4/mzaf_5189430943078523093.plus.aac.p.m4a",
+      "itunesCountry": "US"
+    },
+    {
+      "id": "higedan-pretender",
+      "artistKo": "오피셜히게단디즘",
+      "titleKo": "Pretender",
+      "aliases": [
+        "OFFICIAL HIGE DANDISM",
+        "오피셜히게단디즘",
+        "Pretender",
+        "프리텐더"
+      ],
+      "artistAliases": [
+        "OFFICIAL HIGE DANDISM"
+      ],
+      "titleAliases": [
+        "프리텐더"
+      ],
+      "genres": [
+        "jpop",
+        "band",
+        "era-10s"
+      ],
+      "itunesTrackId": 1479397873,
+      "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/71/93/7a/71937a82-5662-3d08-c78d-65179c560a6b/mzaf_4128339501254480840.plus.aac.p.m4a",
       "itunesCountry": "US"
     },
     {
@@ -1483,12 +2001,15 @@
       "aliases": [
         "CHANYEOL & Punch",
         "찬열",
-        "Stay With Me"
+        "Stay With Me",
+        "스테이위드미"
       ],
       "artistAliases": [
         "CHANYEOL & Punch"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "스테이위드미"
+      ],
       "genres": [
         "kpop",
         "ost-drama",
@@ -1558,12 +2079,15 @@
       "aliases": [
         "Idina Menzel",
         "이디나 멘젤",
-        "Let It Go"
+        "Let It Go",
+        "렛잇고"
       ],
       "artistAliases": [
         "Idina Menzel"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "렛잇고"
+      ],
       "genres": [
         "pop",
         "ost-movie",
@@ -1580,12 +2104,15 @@
       "aliases": [
         "Avicii",
         "아비치",
-        "Wake Me Up"
+        "Wake Me Up",
+        "웨이크미업"
       ],
       "artistAliases": [
         "Avicii"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "웨이크미업"
+      ],
       "genres": [
         "edm",
         "pop",
@@ -1602,12 +2129,15 @@
       "aliases": [
         "Calvin Harris & Rihanna",
         "캘빈 해리스",
-        "This Is What You Came For"
+        "This Is What You Came For",
+        "디스이스왓유케임포"
       ],
       "artistAliases": [
         "Calvin Harris & Rihanna"
       ],
-      "titleAliases": [],
+      "titleAliases": [
+        "디스이스왓유케임포"
+      ],
       "genres": [
         "edm",
         "pop",

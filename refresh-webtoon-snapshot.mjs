@@ -1,5 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { isPlayableWebtoonRow, mergeWebtoonCatalog, webtoonSeriesTitle } from "./webtoon-bank.js";
+import {
+  applyStillByTitle,
+  isOfficialCoverUrl,
+  isPlayableWebtoonRow,
+  mergeWebtoonCatalog,
+  titlesNeedingStill,
+  webtoonSeriesTitle,
+} from "./webtoon-bank.js";
 import { searchStill } from "./still-search.js";
 
 const NAVER = "https://comic.naver.com";
@@ -16,38 +23,6 @@ function hangulCount(text) {
 
 function koreanGenres(list = []) {
   return [...new Set(list.map((item) => String(item || "").trim()).filter((item) => hangulCount(item) >= 2))].slice(0, 6);
-}
-
-function sleep(ms) {
-  return new Promise((ok) => setTimeout(ok, ms));
-}
-
-function firstHttp(...values) {
-  for (const value of values) {
-    if (value && typeof value === "object") {
-      const nested = firstHttp(value.url, value.src, value.imageUrl, value.thumbnailUrl, value.image);
-      if (nested) return nested;
-      continue;
-    }
-    const text = String(value || "").trim();
-    if (/^https?:\/\//i.test(text)) return text;
-  }
-  return "";
-}
-
-function coverOf(row = {}) {
-  return firstHttp(
-    row.thumbnailUrl,
-    row.thumbnail,
-    row.imageUrl,
-    row.image,
-    row.poster,
-    row.thumbUrl,
-    row.thumbnailImage,
-    row.featuredCharacterImageA,
-    row.featuredCharacterImageB,
-    row.backgroundImage,
-  );
 }
 
 function slim(row) {
@@ -85,17 +60,18 @@ async function byteSize(url) {
 }
 
 async function stillFor(title) {
-  return searchStill("웹툰", title, { getText, byteSize, ua: UA, tries: 3 });
-}
-
-async function stillUntilGot(title, fallback = "") {
-  for (let i = 0; i < 10; i += 1) {
-    const url = await stillFor(title);
-    if (url) return url;
-    console.log(`대기 ${title} ${i + 1}/10`);
-    await sleep(2000 + i * 1000);
-  }
-  return fallback;
+  const image = await searchStill("웹툰", title, {
+    getText: (url, headers) => getText(url, headers, 15000),
+    byteSize,
+    ua: UA,
+    tries: 3,
+    rejectUrl: isOfficialCoverUrl,
+    sleep: async (ms) => {
+      console.log(`검색 재시도 ${title}`);
+      await new Promise((ok) => setTimeout(ok, ms));
+    },
+  });
+  return image && !isOfficialCoverUrl(image) ? image : "";
 }
 
 async function naverList() {
@@ -134,7 +110,7 @@ async function naverDetail(titleId, listed = {}) {
     ],
     age: naverAge(info, ad.adultYn === "Y"),
     adult: false,
-    image: coverOf(info) || coverOf(listed),
+    image: "",
   });
 }
 
@@ -180,16 +156,69 @@ async function kakaoList() {
       genres: [content.genre, ...(content.genres || []), ...(content.categoryList || []).map((item) => item?.name || item)],
       age: Number(content.ageLimit) || (content.adult ? 19 : 0),
       adult: Boolean(content.adult),
-      image: coverOf(content),
+      image: "",
     }));
   }
   return [...byId.values()];
 }
 
 const out = new URL("./webtoon-snapshot.json", import.meta.url);
+const FILL_ALL = process.argv.includes("--fill-stills");
+const FILL_MISSING = process.argv.includes("--fill-missing");
 
 async function save(items) {
   await writeFile(out, `${JSON.stringify({ fetchedAt: Date.now(), items })}\n`);
+}
+
+function playableTitles(items = []) {
+  return [...new Set(items.filter(isPlayableWebtoonRow).map((row) => webtoonSeriesTitle(row.name)).filter(Boolean))];
+}
+
+function stillKept(items, title) {
+  const key = webtoonSeriesTitle(title);
+  const row = items.find((item) => webtoonSeriesTitle(item.name) === key);
+  return String(row?.image || "").trim();
+}
+
+async function fillAvailable(items, { all = false } = {}) {
+  const titles = all ? playableTitles(items) : titlesNeedingStill(items);
+  console.log(`명장면→말풍선→명대사 ${titles.length}`);
+  let next = items;
+  let got = 0;
+  let skip = 0;
+  await save(next);
+  for (let i = 0; i < titles.length; i += 1) {
+    const title = titles[i];
+    const image = await stillFor(title);
+    if (image) {
+      next = applyStillByTitle(next, title, image);
+      got += 1;
+      await save(next);
+      console.log(`fill ${i + 1}/${titles.length} ${title}`);
+    } else {
+      skip += 1;
+      const kept = stillKept(next, title);
+      console.log(kept
+        ? `건너뜀 ${i + 1}/${titles.length} ${title} 표지 유지`
+        : `건너뜀 ${i + 1}/${titles.length} ${title} 빈칸 다음 재시도`);
+    }
+  }
+  console.log(`그림 받음 ${got} 건너뜀 ${skip}`);
+  return next;
+}
+
+if (FILL_ALL || FILL_MISSING) {
+  let items = [];
+  try {
+    items = JSON.parse(await readFile(out, "utf8")).items || [];
+  } catch {
+    console.error("웹툰 스냅샷 없음 — 파일 유지");
+    process.exit(1);
+  }
+  const next = await fillAvailable(items, { all: FILL_ALL });
+  await save(next);
+  console.log(`wrote ${next.length} rows, stills ${playableTitles(next).length} → ${out.pathname}`);
+  process.exit(0);
 }
 
 const listed = await naverList();
@@ -209,7 +238,7 @@ for (let i = 0; i < naverKids.length; i += 20) {
           content: "",
           genres: [],
           adult: row.adult,
-          image: coverOf(row),
+          image: "",
         });
       }
     }),
@@ -228,20 +257,7 @@ try {
 const { kept, added } = mergeWebtoonCatalog(prevItems, incoming);
 console.log(`catalog naver ${naverItems.length} kakao ${kakaoItems.length} 유지 ${kept.length} 신규 ${added.length}`);
 
-const filled = [];
-for (const row of added) {
-  let image = String(row.image || "").trim();
-  if (!image && isPlayableWebtoonRow(row)) {
-    image = await stillUntilGot(webtoonSeriesTitle(row.name), "");
-    if (!image) {
-      console.error(`새 작품 그림 실패 ${row.name} — 파일 유지, 커밋 안 함`);
-      process.exit(1);
-    }
-    await sleep(1500);
-  }
-  filled.push({ ...row, image });
-  console.log(`new ${filled.length}/${added.length} ${row.name}`);
-}
-
-await save([...kept, ...filled]);
-console.log(`wrote ${kept.length + filled.length} rows (+${filled.length}) → ${out.pathname}`);
+const items = [...kept, ...added];
+const next = await fillAvailable(items);
+await save(next);
+console.log(`wrote ${next.length} rows (+${added.length}) → ${out.pathname}`);

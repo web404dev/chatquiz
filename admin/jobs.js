@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { titlesNeedingStill } from "../webtoon-bank.js";
 
 export const WEB_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -10,6 +11,7 @@ export function summarizeWebtoon(raw = {}) {
   return {
     rows: items.length,
     stills: items.filter((row) => row?.image).length,
+    needStill: titlesNeedingStill(items).length,
     fetchedAt: Number(raw.fetchedAt) || 0,
   };
 }
@@ -47,8 +49,8 @@ export function summarizeBank(raw = {}) {
   };
 }
 
-function media(id, label, script, hint, file, summarize) {
-  return { id, label, script, args: [], hint, group: "media", file, summarize };
+function media(id, label, script, hint, file, summarize, args = []) {
+  return { id, label, script, args, hint, group: "media", file, summarize };
 }
 
 function live(id, label, hint) {
@@ -74,6 +76,22 @@ export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
   return now - at >= days * 86400000;
 }
 
+export function scheduleJobs(statuses = [], now = Date.now()) {
+  const jobs = [];
+  for (const status of statuses) {
+    const id = String(status?.id || "");
+    if (!id) continue;
+    if (isStale(status.fetchedAt, SCHEDULE_DAYS, now)) {
+      jobs.push({ id, args: [] });
+      continue;
+    }
+    if (id === "webtoon" && Number(status.needStill) > 0) {
+      jobs.push({ id, args: ["--fill-missing"] });
+    }
+  }
+  return jobs;
+}
+
 export const PACKS = {
   all: {
     id: "all",
@@ -85,7 +103,7 @@ export const PACKS = {
     file: "",
     summarize: summarizeBank,
   },
-  webtoon: media("webtoon", "웹툰", "refresh-webtoon-snapshot.mjs", "네이버·카카오 목록 + 명장면. 가장 오래 걸림.", "webtoon-snapshot.json", summarizeWebtoon),
+  webtoon: media("webtoon", "웹툰", "refresh-webtoon-snapshot.mjs", "목록 + 명장면. 없으면 말풍선. 없으면 명대사. 검색이 비면 2번 더. 그래도 실패하면 표지는 유지, 빈칸은 빈칸.", "webtoon-snapshot.json", summarizeWebtoon),
   movie: media("movie", "영화", "refresh-movie-stills.mjs", "영화 제목 명장면.", "movie-stills.json", summarizeMovie),
   anime: media("anime", "애니", "refresh-laftel-snapshot.mjs", "라프텔 목록 + 홈 배너.", "laftel-snapshot.json", summarizeAnime),
   songs: {

@@ -1426,9 +1426,9 @@ textarea:focus-visible,
 
 .listen-kicker {
   margin: 0;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  font-size: clamp(26px, 3.2cqw, 32px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
   color: #8be7ff;
 }
 
@@ -1559,6 +1559,11 @@ textarea:focus-visible,
   height: 100%;
   object-fit: contain;
   pointer-events: none;
+}
+
+.clue-art.is-tall-center {
+  object-fit: cover;
+  object-position: center center;
 }
 
 .clue-art[hidden] {
@@ -3729,6 +3734,14 @@ body.mode-desk.is-desk-locked .desk > * {
   width: 100%;
   height: 100%;
   touch-action: none;
+}
+
+.desk-paint-wrap.is-guest-view {
+  pointer-events: none;
+}
+
+.desk-paint-wrap.is-guest-view canvas {
+  cursor: default;
 }
 
 /* 방송창: 조작 새창으로 분리된 동안 아래 조작칸만 숨김 (로비 설정은 방송창에 유지) */

@@ -4,7 +4,7 @@ let cache = null;
 
 export async function loadSongs() {
   if (cache) return cache;
-  const res = await fetch(new URL("./songs.json", import.meta.url));
+  const res = await fetch(new URL("./songs.json?v=6", import.meta.url));
   if (!res.ok) throw new Error("songs.json을 못 읽음");
   cache = pickPlayableSongs(await res.json());
   return cache;

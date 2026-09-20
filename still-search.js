@@ -2,6 +2,16 @@ export function stillQuery(topic, title) {
   return `${String(topic || "").trim()} ${String(title || "").trim()} 명장면`.replace(/\s+/g, " ").trim();
 }
 
+export function stillQueries(topic, title) {
+  const kind = String(topic || "").trim();
+  const name = String(title || "").trim();
+  return [
+    `${kind} ${name} 명장면`,
+    `${kind} ${name} 말풍선`,
+    `${kind} ${name} 명대사`,
+  ].map((query) => query.replace(/\s+/g, " ").trim()).filter(Boolean);
+}
+
 export function decodeStillUrl(raw) {
   return String(raw || "")
     .replace(/\\u0026/gi, "&")
@@ -20,7 +30,7 @@ export function stillDisplayUrl(original) {
 
 function keepStillUrl(url, seen) {
   if (!/^https?:\/\//i.test(url) || seen.has(url)) return false;
-  if (/daum_og\.png|favicon|og_v3\.png|sstatic\/search\/common|polyfill|remoteEntry|logins\.daum/i.test(url)) return false;
+  if (/daum_og\.png|favicon|og_v3\.png|sstatic\/search|opensearch-description|polyfill|remoteEntry|logins\.daum|\.(?:xml|css|js)(\?|$)/i.test(url)) return false;
   const image =
     /\.(jpe?g|png|webp|gif)(\?|$)/i.test(url) ||
     /pstatic\.net|daumcdn\.net|kakaocdn\.net|blogfiles\.naver|imgnews\.naver|postfiles\.pstatic/i.test(url);
@@ -54,14 +64,29 @@ export function extractHtmlImages(html, limit = 5) {
 }
 
 export function pickSmallestStill(candidates = []) {
-  const rows = candidates.filter((row) => row?.url);
+  const rows = candidates.filter((row) => row?.url && Number(row.bytes) > 0);
   if (!rows.length) return "";
-  const known = rows.filter((row) => Number(row.bytes) > 0);
-  if (known.length) {
-    known.sort((a, b) => a.bytes - b.bytes);
-    return known[0].url;
-  }
+  rows.sort((a, b) => a.bytes - b.bytes);
   return rows[0].url;
+}
+
+export async function probeOpenStill(url, byteSize, rejectUrl) {
+  const sizeOf = typeof byteSize === "function" ? byteSize : async () => 0;
+  const reject = typeof rejectUrl === "function" ? rejectUrl : () => false;
+  const seen = new Set();
+  for (const candidate of [decodeStillUrl(url), stillDisplayUrl(url)]) {
+    if (!candidate || seen.has(candidate) || reject(candidate)) continue;
+    seen.add(candidate);
+    const bytes = Number(await sizeOf(candidate)) || 0;
+    if (bytes > 0) return { url: candidate, bytes };
+  }
+  return { url: "", bytes: 0 };
+}
+
+async function pageUrls(getText, url, headers, extract) {
+  const html = await getText(url, headers);
+  const found = extract(html, 12);
+  return found.length ? found : extractHtmlImages(html, 12);
 }
 
 export async function searchStill(topic, title, io = {}) {
@@ -72,33 +97,30 @@ export async function searchStill(topic, title, io = {}) {
   const tries = Number(io.tries) > 0 ? Number(io.tries) : 3;
   const ua = io.ua || "Mozilla/5.0";
   const headers = { accept: "text/html", "user-agent": ua };
-  const q = encodeURIComponent(stillQuery(topic, title));
-  let urls = [];
-  for (let i = 0; i < tries && !urls.length; i += 1) {
+  const rejectUrl = typeof io.rejectUrl === "function" ? io.rejectUrl : () => false;
+  let opened = [];
+  for (let i = 0; i < tries && !opened.length; i += 1) {
     if (i) await sleep(800 * i);
-    try {
-      const html = await getText(`https://search.naver.com/search.naver?where=image&query=${q}`, {
-        ...headers,
-        referer: "https://search.naver.com/",
-      });
-      urls = extractNaverOriginals(html);
-      if (!urls.length) urls = extractHtmlImages(html);
-    } catch {
-      urls = [];
-    }
-    if (urls.length) break;
-    try {
-      const html = await getText(`https://search.daum.net/search?w=img&q=${q}`, {
-        ...headers,
-        referer: "https://search.daum.net/",
-      });
-      urls = extractDaumImages(html);
-      if (!urls.length) urls = extractHtmlImages(html);
-    } catch {
-      urls = [];
+    for (const query of stillQueries(topic, title)) {
+      const q = encodeURIComponent(query);
+      const sources = [
+        [`https://search.naver.com/search.naver?where=image&sm=tab_jum&query=${q}`, { ...headers, referer: "https://search.naver.com/" }, extractNaverOriginals],
+        [`https://search.daum.net/search?w=img&nil_search=btn&DA=NTB&enc=utf8&q=${q}`, { ...headers, referer: "https://search.daum.net/" }, extractDaumImages],
+      ];
+      for (const [page, pageHeaders, extract] of sources) {
+        let urls = [];
+        try {
+          urls = await pageUrls(getText, page, pageHeaders, extract);
+        } catch {
+          urls = [];
+        }
+        const probed = await Promise.all(urls.map((url) => probeOpenStill(url, byteSize, rejectUrl)));
+        opened = probed.filter((row) => row.url && row.bytes > 0 && !rejectUrl(row.url));
+        if (opened.length) break;
+      }
+      if (opened.length) break;
     }
   }
-  if (!urls.length) return "";
-  const sized = await Promise.all(urls.map(async (url) => ({ url, bytes: await byteSize(url) })));
-  return stillDisplayUrl(pickSmallestStill(sized));
+  const picked = pickSmallestStill(opened);
+  return picked ? stillDisplayUrl(picked) : "";
 }

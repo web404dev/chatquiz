@@ -23,9 +23,9 @@ export function toChosung(text) {
 
 const TITLE_SPLIT = /[:：\-–—·]/;
 
-function addAnswerKey(keys, value) {
+function addAnswerKey(keys, value, minLen = 2) {
   const n = normalizeAnswer(value);
-  if (n.length >= 2) keys.add(n);
+  if (n.length >= minLen) keys.add(n);
   const noSequel = n.replace(/[2-9]$/, "");
   if (noSequel.length >= 2) keys.add(noSequel);
 }
@@ -35,7 +35,7 @@ function collectAnswerKeys(texts, splitTitle) {
   for (const text of texts) {
     const raw = String(text ?? "").trim();
     if (!raw) continue;
-    addAnswerKey(keys, raw);
+    addAnswerKey(keys, raw, 1);
     if (!splitTitle) continue;
     for (const part of raw.split(TITLE_SPLIT)) {
       const piece = part.trim();
@@ -203,9 +203,9 @@ export function rankByScore(entries) {
   });
   let lastScore = null;
   let lastRank = 0;
-  return sorted.map(([name, score], i) => {
+  return sorted.map(([name, score]) => {
     const n = Number(score) || 0;
-    const rank = lastScore === n ? lastRank : i + 1;
+    const rank = lastScore === n ? lastRank : lastRank + 1;
     lastScore = n;
     lastRank = rank;
     return { name: String(name ?? ""), score: n, rank };

@@ -22,14 +22,16 @@ async function main() {
         console.log("skip");
         continue;
       }
+      if (song.itunesTrackId) row.itunesTrackId = song.itunesTrackId;
       items.push(song);
-      console.log(`${song.artistKo} ${song.titleKo}`);
+      console.log(`${song.artistKo} ${song.titleKo} #${song.itunesTrackId}`);
     } catch (err) {
       console.log(String(err.message || err));
     }
     await sleep(550);
   }
   await mkdir(dirname(outPath), { recursive: true });
+  await writeFile(seedPath, `${JSON.stringify(seed, null, 2)}\n`);
   await writeFile(
     outPath,
     `${JSON.stringify({ version: 1, fetchedAt: Date.now(), updatedAt: new Date().toISOString(), items }, null, 2)}\n`,
