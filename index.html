@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=225" />
+  <link rel="stylesheet" href="./styles.css?v=232" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -381,8 +381,10 @@
           </div>
 
           <p id="guestToast" class="guest-toast" hidden role="status" aria-live="polite"></p>
-          <button type="button" id="guestSoloBtn" class="guest-btn guest-btn-primary">혼자 테스트</button>
-          <p class="guest-ttl-hint">방송·채팅 없이 새 탭이 출제자로 열림</p>
+          <div id="guestSoloBox" hidden>
+            <button type="button" id="guestSoloBtn" class="guest-btn guest-btn-primary">혼자 테스트</button>
+            <p class="guest-ttl-hint">방송·채팅 없이 새 탭이 출제자로 열림</p>
+          </div>
           <p id="guestPowerHint" class="guest-power-hint">전원을 켜면 모집과 출제자 선택이 열립니다</p>
         </div>
       </div>
@@ -485,6 +487,9 @@
           <div class="listen-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         </div>
         <span id="promptText"></span>
+        <div id="listenMv" class="listen-mv" hidden>
+          <iframe id="listenMvFrame" class="listen-mv-frame" hidden title="YouTube MV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
       </div>
       <audio id="listenAudio" preload="none"></audio>
       <div id="podiumConfetti" class="podium-confetti" hidden aria-hidden="true"></div>
@@ -812,8 +817,9 @@
     <strong>스트리머 채팅만</strong> 늦게 채점합니다.<br />
     문제·TTS·시청자 채팅은 바로 나갑니다.<br />
     조작창 「내 정답」도 바로 들어갑니다.<br />
-    재기: 화면에 뜬 글자를 <strong>송출 화면</strong>으로 보고<br />
-    채팅에 그대로 치세요. 자기 미리보기로 치면 0초가 됩니다.
+    재기: 안내와 3·2·1 뒤에 글자가 나갑니다.<br />
+    <strong>송출 화면</strong>으로 보고 채팅에 그대로 치세요.<br />
+    미리보기로 치면 0초가 됩니다.
   </div>
 
   <div id="streamerJoinInfoPop" class="hint-info-pop" role="tooltip" hidden>
@@ -844,6 +850,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=269"></script>
+  <script type="module" src="./boot.js?v=278"></script>
 </body>
 </html>

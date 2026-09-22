@@ -61,6 +61,8 @@ import { loadSongs, takeSongSync, songCount } from "./song-bank.js?v=6";
 import {
   isSongCorrect,
   songDisplayAnswer,
+  youtubeEmbedUrl,
+  youtubeMvQuery,
   SONG_GENRE_TREE,
   flattenSongGenres,
   kidsOfSongGenre,
@@ -69,7 +71,7 @@ import {
   listenAnswerStatus,
   normalizeListenAnswerMode,
   pickListenAnswerMode,
-} from "./song-quiz.js?v=6";
+} from "./song-quiz.js?v=9";
 
 const params = new URLSearchParams(location.search);
 const isDev = params.get("dev") === "1";
@@ -157,6 +159,8 @@ const els = {
   clueKindBadge: document.getElementById("clueKindBadge"),
   clueMeta: document.getElementById("clueMeta"),
   listenStage: document.getElementById("listenStage"),
+  listenMv: document.getElementById("listenMv"),
+  listenMvFrame: document.getElementById("listenMvFrame"),
   listenAudio: document.getElementById("listenAudio"),
   listenVol: document.getElementById("listenVol"),
   listenVolOpt: document.getElementById("listenVolOpt"),
@@ -330,6 +334,7 @@ const els = {
   guestConnDot: document.getElementById("guestConnDot"),
   guestConnDotDesk: document.getElementById("guestConnDotDesk"),
   guestToast: document.getElementById("guestToast"),
+  guestSoloBox: document.getElementById("guestSoloBox"),
   guestSoloBtn: document.getElementById("guestSoloBtn"),
 };
 
@@ -2267,6 +2272,7 @@ function bumpQuestions(delta) {
 const CHAT_DELAY_PREF = "chatDelaySec:v1";
 let holdGen = 0;
 let delayProbe = null;
+let delayProbeDoneTimer = 0;
 const sideChatQueue = [];
 const streamerJudgeTimers = [];
 
@@ -2317,6 +2323,33 @@ function streamerChatJudgeDelayMs(chat) {
   return sec > 0 ? sec * 1000 : 0;
 }
 
+function clearDelayProbeDoneTimer() {
+  if (!delayProbeDoneTimer) return;
+  clearTimeout(delayProbeDoneTimer);
+  delayProbeDoneTimer = 0;
+}
+
+function flashDelayProbeResult(sec, msg) {
+  if (delayProbe?.timer) clearTimeout(delayProbe.timer);
+  for (const id of delayProbe?.steps || []) clearTimeout(id);
+  delayProbe = null;
+  for (const btn of [els.chatDelayProbeBtn, els.deskChatDelayProbeBtn]) {
+    if (!btn) continue;
+    btn.textContent = "재기";
+    btn.setAttribute("aria-pressed", "false");
+  }
+  els.countdown?.classList.add("is-probe");
+  setCountdownVisible(`${sec}초`);
+  setStatus(msg);
+  clearDelayProbeDoneTimer();
+  delayProbeDoneTimer = setTimeout(() => {
+    delayProbeDoneTimer = 0;
+    els.countdown?.classList.remove("is-probe");
+    if (phase !== "countdown") setCountdownVisible(null);
+    publishDeskState();
+  }, 2200);
+}
+
 function startChatDelayProbe() {
   if (roundActive || phase === "accepting" || phase === "holding" || phase === "countdown" || phase === "picking") {
     setStatus("한 판 중에는 딜레이를 잴 수 없습니다");
@@ -2326,26 +2359,48 @@ function startChatDelayProbe() {
     stopChatDelayProbe("재기를 취소했습니다");
     return;
   }
+  clearDelayProbeDoneTimer();
   const token = `딜${Math.floor(10 + Math.random() * 90)}`;
+  const steps = [];
   delayProbe = {
     token,
-    startedAt: Date.now(),
-    timer: setTimeout(() => stopChatDelayProbe("시간 초과. 다시 재 주세요"), 25000),
+    revealed: false,
+    startedAt: 0,
+    timer: 0,
+    steps,
   };
   els.countdown?.classList.add("is-probe");
-  setCountdownVisible(token);
+  setCountdownVisible("시청자 여러분\n이제부터 나오는 단어를 쳐주세요", { probeMsg: true });
+  const later = (ms, fn) => {
+    steps.push(setTimeout(() => {
+      if (!delayProbe || delayProbe.token !== token) return;
+      fn();
+    }, ms));
+  };
+  later(3200, () => setCountdownVisible("3"));
+  later(4200, () => setCountdownVisible("2"));
+  later(5200, () => setCountdownVisible("1"));
+  later(6200, () => {
+    delayProbe.revealed = true;
+    delayProbe.startedAt = Date.now();
+    delayProbe.timer = setTimeout(() => stopChatDelayProbe("시간 초과. 다시 재 주세요"), 25000);
+    setCountdownVisible(token);
+    setStatus(`방송에 뜬 ${token} 을 채팅에 치세요. 미리보기가 아니라 송출 화면을 보고 쳐 주세요`);
+  });
   for (const btn of [els.chatDelayProbeBtn, els.deskChatDelayProbeBtn]) {
     if (!btn) continue;
     btn.textContent = "취소";
     btn.setAttribute("aria-pressed", "true");
   }
-  setStatus(`방송에 뜬 ${token} 을 채팅에 치세요. 미리보기가 아니라 송출 화면을 보고 쳐 주세요`);
+  setStatus("안내 후 3초 뒤에 단어가 나갑니다");
   publishDeskState();
 }
 
 function stopChatDelayProbe(msg) {
   if (delayProbe?.timer) clearTimeout(delayProbe.timer);
+  for (const id of delayProbe?.steps || []) clearTimeout(id);
   delayProbe = null;
+  clearDelayProbeDoneTimer();
   els.countdown?.classList.remove("is-probe");
   if (phase !== "countdown") setCountdownVisible(null);
   for (const btn of [els.chatDelayProbeBtn, els.deskChatDelayProbeBtn]) {
@@ -2358,12 +2413,15 @@ function stopChatDelayProbe(msg) {
 }
 
 function noteChatDelayProbe(chat) {
-  if (!delayProbe) return false;
+  if (!delayProbe?.revealed || !delayProbe.startedAt) return false;
   const text = String(chat?.text || "").replace(/\s+/g, "");
   if (text !== delayProbe.token) return false;
   const sec = Math.max(0, Math.min(20, Math.round((Date.now() - delayProbe.startedAt) / 1000)));
   setChatDelaySec(sec);
-  stopChatDelayProbe(sec ? `채팅 딜레이 ${sec}초로 맞춤` : "딜레이가 거의 없습니다. 끔으로 두었습니다");
+  flashDelayProbeResult(
+    sec,
+    sec ? `채팅 딜레이 ${sec}초로 맞춤` : "딜레이가 거의 없습니다. 끔으로 두었습니다",
+  );
   return true;
 }
 
@@ -3022,6 +3080,46 @@ function restoreListenVolume() {
 
 function hideListenStage() {
   if (els.listenStage) els.listenStage.hidden = true;
+  hideListenMv();
+}
+
+let listenMvToken = 0;
+
+function hideListenMv() {
+  listenMvToken += 1;
+  if (els.listenMv) els.listenMv.hidden = true;
+  if (els.listenMvFrame) {
+    els.listenMvFrame.hidden = true;
+    els.listenMvFrame.removeAttribute("src");
+  }
+}
+
+function showListenMv(song) {
+  if (!els.listenMv || !els.listenMvFrame || !youtubeMvQuery(song)) return;
+  const token = ++listenMvToken;
+  els.listenMv.hidden = false;
+  els.listenMvFrame.hidden = false;
+  void (async () => {
+    const id = await resolveYoutubeMvId(song);
+    if (token !== listenMvToken) return;
+    const embed = youtubeEmbedUrl(id, location.origin);
+    if (!embed) return;
+    els.listenMvFrame.referrerPolicy = "strict-origin-when-cross-origin";
+    els.listenMvFrame.src = embed;
+  })();
+}
+
+async function resolveYoutubeMvId(song) {
+  const q = youtubeMvQuery(song);
+  if (!q) return "";
+  try {
+    const res = await fetch(`${workerBase()}/youtube/mv?q=${encodeURIComponent(q)}`);
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.videoId) return String(data.videoId);
+  } catch {
+    // worker miss
+  }
+  return "";
 }
 
 function stopListenAudio() {
@@ -5365,6 +5463,7 @@ function finishQuestion(winner) {
   els.prompt.hidden = false;
   hideDrawHintBar();
   hideListenStage();
+  if (wasListen) showListenMv(current.song);
   syncClueChosungLine("");
   els.prompt.classList.remove("hit", "miss");
   els.prompt.classList.toggle("is-clue", wasClue);
@@ -5693,15 +5792,35 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function setCountdownVisible(text) {
+function fillProbeWave(el, text) {
+  el.replaceChildren();
+  let i = 0;
+  for (const line of String(text).split("\n")) {
+    const row = document.createElement("span");
+    row.className = "probe-wave-line";
+    for (const ch of line) {
+      const span = document.createElement("span");
+      span.className = ch === " " ? "probe-wave-space" : "probe-wave-ch";
+      span.textContent = ch === " " ? "\u00a0" : ch;
+      span.style.setProperty("--i", String(i));
+      i += 1;
+      row.append(span);
+    }
+    el.append(row);
+  }
+}
+
+function setCountdownVisible(text, { probeMsg = false } = {}) {
   if (!els.countdown) return;
+  els.countdown.classList.toggle("is-probe-msg", Boolean(probeMsg));
   if (text == null) {
     els.countdown.hidden = true;
-    els.countdown.textContent = "";
+    els.countdown.replaceChildren();
     return;
   }
   els.countdown.hidden = false;
-  els.countdown.textContent = String(text);
+  if (probeMsg) fillProbeWave(els.countdown, text);
+  else els.countdown.textContent = String(text);
 }
 
 async function runStartCountdown() {
@@ -6357,14 +6476,19 @@ async function fetchChatToken(channelId) {
 }
 
 async function claimAuthTicket(ticket) {
-  const res = await fetch(`${workerBase()}/auth/claim`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ticket }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "로그인 ticket 실패");
-  return data;
+  let last = new Error("로그인 ticket 실패");
+  for (let i = 0; i < 4; i += 1) {
+    const res = await fetch(`${workerBase()}/auth/claim`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ticket }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.accessToken) return data;
+    last = new Error(data.error || "로그인 ticket 실패");
+    await new Promise((ok) => setTimeout(ok, 280 * (i + 1)));
+  }
+  throw last;
 }
 
 function saveSession(next) {
@@ -6584,26 +6708,26 @@ async function connectDevChannel() {
   }
 }
 
+function loginReturnUrl() {
+  const path = location.pathname.replace(/index\.html$/i, "");
+  const ret = new URL(path.endsWith("/") ? path : `${path}/`, location.origin);
+  if (isDev) ret.searchParams.set("dev", "1");
+  ret.searchParams.set("v", String(Date.now()));
+  return ret.toString();
+}
+
 let loginBusy = false;
 async function login() {
   if (loginBusy) return;
   loginBusy = true;
   try {
-    if (isDeskMode) {
-      deskBridge?.post("auth.start");
-      return;
-    }
     const base = workerBase();
     if (!base) {
       setStatus("로그인 서버 주소가 없습니다");
       return;
     }
-    if (!(await ensureHostSessionSlot())) return;
-    const ret = new URL(location.origin + location.pathname);
-    if (isDev) ret.searchParams.set("dev", "1");
     setStatus("치지직 로그인 창으로 이동 중…");
-    // assign 이면 뒤로가기가 치지직 로그인창으로 돌아감
-    window.location.replace(`${base}/auth/login?return=${encodeURIComponent(ret.toString())}`);
+    window.location.replace(`${base}/auth/login?return=${encodeURIComponent(loginReturnUrl())}`);
   } finally {
     loginBusy = false;
   }
@@ -6614,6 +6738,7 @@ els.loginBtn?.addEventListener(
   "click",
   (ev) => {
     ev.preventDefault();
+    ev.stopPropagation();
     login();
   },
   { capture: true },
@@ -6686,12 +6811,14 @@ async function handleAuthRedirect() {
       setStatus("내 채널이 연결되었습니다");
       syncDeskFlow();
     } catch (err) {
-      history.replaceState({}, "", cleanReturnPath());
       await restoreSession();
-      if (!session.accessToken) {
-        setStatus(`로그인 완료 처리 실패: ${err.message || err}`);
-        setChatConnStatus(String(err.message || err), "bad");
+      if (session.accessToken) {
+        history.replaceState({}, "", cleanReturnPath());
+        syncDeskFlow();
+        return;
       }
+      setStatus(`로그인 완료 처리 실패: ${err.message || err}. 새로고침하면 다시 붙습니다`);
+      setChatConnStatus(String(err.message || err), "bad");
       syncDeskFlow();
     }
     return;
@@ -6713,6 +6840,7 @@ async function handleAuthRedirect() {
 function bind() {
   if (isDev) {
     els.devBox.hidden = false;
+    if (els.guestSoloBox) els.guestSoloBox.hidden = false;
     setStatus("개발 모드입니다. 채널 연결 또는 가짜 채팅으로 테스트해 주세요");
   }
   localStorage.removeItem("workerUrl");

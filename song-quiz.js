@@ -113,6 +113,26 @@ export function isSongCorrect(guess, song, mode = "both") {
   return hasArtist && hasTitle;
 }
 
+export function youtubeMvQuery(song = {}) {
+  const artist = String(song.artistKo || "").trim();
+  const title = String(song.titleKo || "").trim();
+  return [artist, title, "MV"].filter(Boolean).join(" ");
+}
+
+export function youtubeMvSearchUrl(song = {}) {
+  const q = youtubeMvQuery(song);
+  return q ? `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}` : "";
+}
+
+export function youtubeEmbedUrl(videoId, origin = "") {
+  const id = String(videoId || "").trim();
+  if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return "";
+  const query = new URLSearchParams({ rel: "0", autoplay: "1" });
+  const src = String(origin || "").trim();
+  if (src) query.set("origin", src);
+  return `https://www.youtube.com/embed/${id}?${query}`;
+}
+
 export function songDisplayAnswer(song = {}, mode = "both") {
   const artist = String(song.artistKo || "").trim();
   const title = String(song.titleKo || "").trim();
