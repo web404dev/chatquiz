@@ -13,7 +13,7 @@ const SOLO_USER = { userId: "solo-self", nickname: "나" };
 
 export function guestPoseLock(format) {
   return {
-    format: format === "draw" ? "draw" : "chosung",
+    format: format === "draw" || format === "scramble" ? format : "chosung",
     topic: "manual",
   };
 }
@@ -442,10 +442,10 @@ export function createGuestHostController({
     }
   }
 
-  async function pushHostMode(mode) {
+  async function pushHostMode(mode, { unit = "word" } = {}) {
     if (!state.selected || !state.invite) return;
-    const m = mode === "draw" ? "draw" : mode === "chosung" ? "chosung" : "idle";
-    await relaySend({ type: "host.mode", mode: m });
+    const m = mode === "draw" || mode === "chosung" || mode === "scramble" ? mode : "idle";
+    await relaySend({ type: "host.mode", mode: m, unit: unit === "sentence" ? "sentence" : "word" });
   }
 
   function shouldExcludeFromJudge(userId) {

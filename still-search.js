@@ -98,10 +98,11 @@ export async function searchStill(topic, title, io = {}) {
   const ua = io.ua || "Mozilla/5.0";
   const headers = { accept: "text/html", "user-agent": ua };
   const rejectUrl = typeof io.rejectUrl === "function" ? io.rejectUrl : () => false;
+  const queries = Array.isArray(io.queries) && io.queries.length ? io.queries : stillQueries(topic, title);
   let opened = [];
   for (let i = 0; i < tries && !opened.length; i += 1) {
     if (i) await sleep(800 * i);
-    for (const query of stillQueries(topic, title)) {
+    for (const query of queries) {
       const q = encodeURIComponent(query);
       const sources = [
         [`https://search.naver.com/search.naver?where=image&sm=tab_jum&query=${q}`, { ...headers, referer: "https://search.naver.com/" }, extractNaverOriginals],
@@ -121,6 +122,7 @@ export async function searchStill(topic, title, io = {}) {
       if (opened.length) break;
     }
   }
-  const picked = pickSmallestStill(opened);
+  const pick = typeof io.pick === "function" ? io.pick : pickSmallestStill;
+  const picked = pick(opened);
   return picked ? stillDisplayUrl(picked) : "";
 }

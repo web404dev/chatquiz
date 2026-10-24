@@ -1,0 +1,136 @@
+{
+  "note": "방송에 내지 않을 문장(items), 명언에서 뺄 말한 사람(speakers), 그림이 안 맞아 다시 찾을 속담·명대사 문장(images). 고친 뒤 관리 화면에서 문장을 다시 갱신한다. images 는 갱신하면 비워지고, 버린 그림 주소는 rejectedImages 에 남아 다시 쓰지 않는다. 대한민국 대통령·정치인, 나치 독일, 친일인명사전, 성우·방송인 분류의 사람은 코드에서 자동으로 뺀다(대한민국의 연예인은 넣는다).",
+  "items": [
+    "암탉이 울면 집안이 망한다",
+    "옴 덕에 보지 긁는다",
+    "죽은 자식 자지 만져 보기",
+    "아이를 사르고 태를 길렀나",
+    "둏은 나무부터 띡히구 못 쓰는 낭그느 깉는다",
+    "그냥 다 죽여라. 신의 자녀는 신께서 돌보신다"
+  ],
+  "speakers": [
+    "아돌프 히틀러",
+    "하인리히 힘러",
+    "요제프 괴벨스",
+    "이오시프 스탈린",
+    "김일성",
+    "후쿠자와 유키치",
+    "윤치호",
+    "이광수",
+    "박중양",
+    "조승희",
+    "지강헌",
+    "권도형",
+    "노무현",
+    "이명박",
+    "박근혜",
+    "윤석열",
+    "김대중",
+    "안철수",
+    "심상정",
+    "이승만",
+    "김근태"
+  ],
+  "images": [],
+  "rejectedImages": {
+    "낫 놓고 기역 자도 모른다": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MjlfNTYg%2FMDAxNjYxNzg0NjcwNjI5.XdmPgKVM1NrzA25SvyuO1onadiOX7TWb9fnbZBEYJXgg.QkYwGhztbc5_UsYFxOd9eKFGcortDRLnFQxZJ2Wzyakg.PNG.82thanksmind%2F%25BB%25F5%25B7%25CE%25BF%25EE%25C0%25CC%25B9%25CC%25C1%25F6%25A4%25A9%25A4%25B7%25A4%25A9.png&type=sc960_832"
+    ],
+    "보기 좋은 떡이 먹기도 좋다": [
+      "https://www.paxnet.co.kr/tbbs/files/N00401/20260723/0d3507bc-0b6e-4363-a948-97c97190b166.png"
+    ],
+    "제시카 외동딸 일리노이 시카고": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fimgnews.naver.net%2Fimage%2F008%2F2019%2F11%2F13%2F0004309374_001_20191113183235910.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fimgnews.naver.net%2Fimage%2F032%2F2019%2F11%2F11%2F0002974012_004_20250602205826788.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMDAyMjFfMTI3%2FMDAxNTgyMjcxMTAyNjg0.BDxgQ0iqG2UwAIlOuELMWcD8ZEDgkh4xeKNQ3WOpWqwg.PGTx1Ua4B79BHkgrKNmR4lH_aBksJvIz-nX2MWLIIu8g.JPEG.ssyom97%2F1582271105795.jpg&type=sc960_832"
+    ],
+    "싸늘하다, 가슴에 비수가 날아와 꽂힌다": [
+      "https://coinpan.com/files/attach/images/181338187/784/053/320/f628f8c8e5829e45e57cb46461f83618.jpg"
+    ],
+    "맷돌 손잡이를 어이라고 해요": [
+      "https://blog.kakaocdn.net/dn/bDYiF3/btsNN6eYk4E/eGkpbkBxifgGZQK2oV2JTk/img.png",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNjEwMjNfODMg%2FMDAxNzkyNzYzOTI1MjIx.B6pxbnwVS9nr5ZTCadTOx778YynxHtPY7F0s7YlQwAQg.rMnD3dPJgUVVsLVCB2Tg7yG-foToJA-yeAW7Svh7u2kg.PNG%2F5506d8e5-7e83-401a-b610-552bfb999f5a.png&type=sc960_832",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNjEwMjNfMTU1%2FMDAxNzkyNzY0Mzc5NzMz.sOsJ65U5-PSa8azux6F7xjIA2fdqreLXiguS_XzCMpAg.yDlmIvhkRJrlSGwSlJaCnQJHQXWgZ8Opygn-Ro_HBtog.PNG%2Fd5fcf7c3-ed32-45ac-bdca-7016030a1475.png&type=sc960_832"
+    ],
+    "너 내가 누군지 아니?": [
+      "https://postfiles.pstatic.net/MjAyMzA3MjRfODYg/MDAxNjkwMTQ4MTg3NDIw.iOB59MwcMNAeMgOmL3mhKdwUS3_5jwS7MN7HkxNMPj4g.p4Ym73RKygTxdGPZg7gAHpHC4Ll2eLRkYbYxZNoU02gg.JPEG.uip62/IMG_3725.JPG?type=w966",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MThfMTc4%2FMDAxNzEzNDQ4NTUxMDM3.As3cTW1pmAUF3Eabps4vC4uDe_edOfiqEflxIpI_jtgg.ITgk-h7THEUGwHKjygAIRwX_QtICVMMPnnvgYCa5khQg.JPEG%2FIMG_4529.JPG&type=sc960_832",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA0MTRfMjYg%2FMDAxNzEzMTAyNzA4MTQz.AvlMCW_GJujBcRonIkHGiax_3bH1-ioVSTj--aQygsAg.BNesSH7Pbt3HwluP2T5pOAHz89y2i-CC-lEPU_JHTVkg.JPEG%2FIMG_4518.JPG&type=sc960_832",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fimgnews.naver.net%2Fimage%2F421%2F2024%2F05%2F02%2F0007516095_001_20240502090016039.jpg&type=sc960_832"
+    ],
+    "총을 쏴도 되는 건 총에 맞을 각오를 한 자 뿐이다": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA1MTZfMjQx%2FMDAxNzE1ODM5NjI4MDky.NRL35cXZ0QHx3FQ_h0XlJex67j_Zap5BqJeWM9yA478g.S4Fi5_Zx0WNdSlpg58KTGhKZlmraitrle-ewBv3NRaAg.JPEG%2F6.jpg&type=sc960_832"
+    ],
+    "오마에와 모 신데이루": [
+      "https://upload3.inven.co.kr/upload/2026/03/25/bbs/i1306141066.png?MW=800"
+    ],
+    "용사 힘멜이라면 그렇게 했을 테니까": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNjAzMjRfNzEg%2FMDAxNzc0MzM5NDA4NDc4.1NPZq1UFs4y6Eant5BTRUM8V_aWAaIOvxjdVGQGTKhog.KMjY3iq4w1cHDA7aNGlYbcXrG35KI4y6TbCfUfd9Uuwg.JPEG%2FIMG%25A3%25DF9037.JPG&type=sc960_832"
+    ],
+    "동경은 이해로부터 가장 먼 감정이야": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA5MzBfMTkz%2FMDAxNzU5MjI5NjMyNjMw.27u5mF4ts3MZW5m3gp0E7fplIMEYoN22wQAqMOvsSuog.Whk1keJZXA9PnIONggujmqRi1aK_SSWShxOsGoRb7rMg.JPEG%2F900%25A3%25DF20250906%25A3%25DF102826.jpg&type=sc960_832",
+      "https://nas.battlepage.com/upload/2024/0123/231418395c188f0041ba7d6c413e9399829f8cc7.jpg"
+    ],
+    "헌터란 자유를 좇는 자다": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA4MjBfMTc2%2FMDAxNzU1Njg1Mzc3NzU3.h5z6KvoMz4gYADau5TZScOC2q0CkR9exQMzW--S16kIg.i05_cBY-66ZkC9L-h2rqI8beLHBHcGlDEYo-OUB2KgUg.JPEG%2F1755685376666.jpg&type=sc960_832"
+    ],
+    "자신을 믿지 않는 녀석 따위는 노력 할 가치도 없다!": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fcafefiles.naver.net%2F20130824_157%2Fdlwogud940_1377310966359N6fXh_PNG%2Funtitled.png&type=sc960_832"
+    ],
+    "세계의 평화를 위해, 완벽한 가족이 필요하다.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA1MDJfNDkg%2FMDAxNjE5OTU5NzA5NDQ2.bx7pqVTiKZU4zuX3rcIjGSpdfB7VPZVNmhxybC2j7Qsg.GnxW26oB-T1IGjblm9fYqXUNQFNjeQuzEEKaohgPH7Ug.JPEG.ruthwen%2Fb2.jpg&type=sc960_832"
+    ],
+    "피죤투 금방 다녀올께": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMThfMTk3%2FMDAxNjQ3NTY2ODE0NjY1.AfAMMUsZy_jCbiAex6_B3AijfjoKYfKPP2qMySjPuyEg.TGKJYh8bEp4KfnpWF9RfnDvvYpPvqznIE5E0vgLm5g0g.JPEG.hoibabting%2FIMG_7103.jpg&type=sc960_832"
+    ],
+    "괴수 토벌은 내 일이다": [
+      "https://img-cdn.theqoo.net/bmqzDA.jpg"
+    ],
+    "안녕, 디지몬! 네가 있어서 난 참 좋았어": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA2MDdfMjcz%2FMDAxNjU0NTQwMzc3ODAx.p7MKPz3eRr4oWEYcSAySe4XYZ-Eq3jT73D5LK32aSjcg.TyL-KAH3OL67uB1AKs1MEA-ZE6ndZZzf8B6UFBrbX5og.JPEG.sally3831%2FIMG_3972.jpg&type=sc960_832"
+    ],
+    "이제 괜찮다! 왜냐고? 내가 왔으니까!": [
+      "https://3.gall-img.com/tdgall/files/attach/images/82/440/669/136/7146709130edfd304704800e23a3ae54.png"
+    ],
+    "마음을 불태워라. 한계를 뛰어넘어라": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fimgnews.naver.net%2Fimage%2F5198%2F2024%2F06%2F25%2F0000034777_001_20240625143815508.jpg&type=sc960_832"
+    ],
+    "지나간 일에 대해 새로운 눈물을 낭비하지 말자.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEyMjFfMTQ5%2FMDAxNTEzODYyNzc5MTQ1.1scd_nE6_dWqbVEHSyQnIT4jdnQDlHTUDc_Fztkm5mog.IWHitqoKRKKyg4cjFZBAwIugX_XOaTHU8H3mtvxBWuYg.JPEG.yumi2u%2F1513862776908.jpg&type=sc960_832"
+    ],
+    "용서는 미움에게 방 한 칸만 내주면 되는거래": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA3MDRfMjUw%2FMDAxNjI1MzQyOTY5NDU4.-aPE1r4iiglKh5fVM_aVy2RVIlGTsPRZzKBq8U4AHH8g.rweI9T6ZoUq09ivlymuOANHFIO8pixp6nlArwMSzd-8g.JPEG.hermoonbg%2F2012%25A3%25AD05%25A3%25AD24%25A3%25DF16%253B12%253B05%25A3%25DF20210704044748.jpg&type=sc960_832"
+    ],
+    "넌 나에게 모욕감을 줬어!": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMzExMjlfMTQ3%2FMDAxNzAxMjIyNDE4MjA1.NenuOgg2nR2P_D1WZmJ6C6891KCUXoC8oEcpbsBrFTAg.e5fgf5MUoPqnC6EG6E0W1KWM6_QXvWKs5BuRutHRU0Ig.JPEG.cheonho0414%2F%25B4%25DE%25C4%25DE%25C7%25D1%25C0%25CE%25BB%25FD.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAxODA1MjdfMjgy%2FMDAxNTI3NDIzODMwODIx.1tkIulshWD3e5WRAGlOQKupEmkfj0BNUsGql2wndJxIg.6qwNqGBGwSxyzHfbnSIeXpY7Dk3w68k_Zs6g7OU_Dhcg.PNG.replica615%2F%25C0%25CC%25B9%25CC%25C1%25F6_4.png&type=sc960_832"
+    ],
+    "견우야 미안해! 나도 어쩔수 없는 여자인가봐!": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MjVfMTMw%2FMDAxNjYxMzgwODEyNzEz.IwyeNs4nNpJwKiHhje_elFYlAAehw-8-_8god3ldOK4g.fMO1N2x3V5Vg2Qkve7QZu0vLZVHFb1LPacT1CpoD3Xwg.JPEG.hyniro%2F_DSC0406.JPG&type=sc960_832"
+    ],
+    "사람되는건 어렵지만 우리 괴물은 되지 말자": [
+      "https://nas.battlepage.com/upload/2021/0414/1400584826106bbdd58c0c8e6a652c76e1c52ce6.jpg"
+    ],
+    "사랑한다면 사랑받길 원하는 겁니다.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMzExMTZfMTgz%2FMDAxNzAwMDg5Nzk3MDA4.RjOXl0usy1Hmak5a9vZLLXvDKaHnxE4YHwgE4MJHPxYg.bJpQyegINYueVBqAtkGWC1HfsQVICHqA-GOBn1-iPe8g.JPEG.lalaco02%2FIMG_3644.jpg&type=sc960_832"
+    ],
+    "저기인가, 저기에 폐하가 계신가...": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA4MTNfMTMg%2FMDAxNTk3MjkyNzExNTE4.30meEYEWMYrZgq2n-9ez352M5IuV8Cve1dCf3TTrbMEg.WXLkAe-aeKzMmzi4SsHWLvF9Qxjuo73ZKlcFu3Uxzysg.JPEG.ho5435%2F1597292710528.jpg&type=sc960_832"
+    ],
+    "실수.. 하지 않게 조심하라고.": [
+      "https://t1.daumcdn.net/cafeattach/mEr9/8809922074e4a708e981ccfaed0e27a7924f0d83"
+    ],
+    "너는 너답게 살면 돼.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyNjAzMTZfOTIg%2FMDAxNzczNjE2ODE5MDI1.5LfW70RyaPTxepIM1tj3gTmeh21T4o5LLX2uxl2rd4Qg.AW4M6qsmThC6Kjc1NXgxVYrRA7fwzfSsSLC8fRhhbSAg.JPEG%2F%25B0%25ED%25BE%25E7%25B8%25B8%25B5%25CE_%25BA%25BB%25B9%25AE%2528%25C6%25EE%25C4%25A7%25B8%25E9%25298.jpg&type=sc960_832"
+    ],
+    "니가 언제 오든 널 기다리는 중이야.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMjJfMzcg%2FMDAxNjc3MDQ3NTM3MjQ2.PNZx_cPLV88HpxFI9WT2fltMTX_wC-gA0bfUavMURJwg.0fhXIwwWbmQLVrjxni7KAy16BebfyGkWOTvCUtppEyUg.PNG.le-porem-%2Fimage.png&type=sc960_832"
+    ],
+    "좋아하는 사람 생기면 꼭 말해, 망설이지 말고.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMjJfMTA5%2FMDAxNjY2NDEzMTk5MTM0.CXc1xXm3km-OGt_V0Y8xXRVTKR5Nnz0ixIwpgzjwqEQg.YIIKDmhHg1jgg92F-aiH9oMyveKkOS2BUQJqyMgFFWQg.JPEG.juliet7028%2F20221002%25A3%25DF184606.jpg&type=sc960_832"
+    ],
+    "그 종사관 나리는 그 여인의 첫사람이 맞습니다.": [
+      "https://search.pstatic.net/common/?src=https%3A%2F%2Fimgnews.naver.net%2Fimage%2F609%2F2024%2F03%2F02%2F202403021051433510_1_20240302105204233.jpg&type=sc960_832"
+    ]
+  }
+}

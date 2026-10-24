@@ -9,7 +9,14 @@ import {
   pickMissBox,
   normalizeAnswer,
   rankByScore,
-} from "./quiz.js?v=149";
+  isExactAnswer,
+  makeScramble,
+  scrambleArrangement,
+  scrambleHintLimit,
+  scrambleProblem,
+  scrambleUnits,
+  SCRAMBLE_MIN_UNITS,
+} from "./quiz.js?v=151";
 import { createChzzkChat } from "./chzzk-chat.js?v=107";
 import { createOfficialChzzkChat } from "./chzzk-session.js?v=109";
 import {
@@ -23,6 +30,7 @@ import {
   pickWordEntryFromBank,
   pickWordEntriesFromBank,
 } from "./word-bank.js?v=152";
+import { filterSentences, loadSentencePool, pickSentenceEntries, SENTENCE_SOURCES } from "./sentence-bank.js?v=22";
 import {
   pickClueEntries,
   filterClueItems,
@@ -47,7 +55,7 @@ import {
   canAcceptGuestPaint,
   createGuestHostController,
   guestPoseLock,
-} from "./guest-host.js?v=119";
+} from "./guest-host.js?v=120";
 import { createAuthKeep, HOST_SESSION_KEY, readAuthSession, writeAuthSession } from "./auth-keep.js?v=138";
 import {
   syncQuizBgm,
@@ -55,8 +63,10 @@ import {
   playQuizSfx,
   isQuizBgmMuted,
   setQuizBgmMuted,
+  getQuizBgmVolume,
+  setQuizBgmVolume,
   hushQuizBed,
-} from "./audio.js?v=193";
+} from "./audio.js?v=194";
 import { loadSongs, takeSongSync, songCount } from "./song-bank.js?v=6";
 import {
   isSongCorrect,
@@ -120,6 +130,14 @@ const els = {
   chatDelayInfo: document.getElementById("chatDelayInfo"),
   chatDelayInfoPop: document.getElementById("chatDelayInfoPop"),
   formatSeg: document.getElementById("formatSeg"),
+  scrambleUnitAxis: document.getElementById("scrambleUnitAxis"),
+  scrambleUnitSeg: document.getElementById("scrambleUnitSeg"),
+  formatDesc: document.getElementById("formatDesc"),
+  sentenceGenreModal: document.getElementById("sentenceGenreModal"),
+  sentenceGenrePanel: document.getElementById("sentenceGenrePanel"),
+  sentenceGenreClose: document.getElementById("sentenceGenreClose"),
+  sentenceGenreApply: document.getElementById("sentenceGenreApply"),
+  autoWordGenre: document.getElementById("autoWordGenre"),
   topicAxis: document.getElementById("topicAxis"),
   timeHintOpt: document.getElementById("timeHintOpt"),
   hintGroup: document.getElementById("hintGroup"),
@@ -240,6 +258,7 @@ const els = {
   hostTutorialSkip: document.getElementById("hostTutorialSkip"),
   deskHelpBtn: document.getElementById("deskHelpBtn"),
   deskBgmBtn: document.getElementById("deskBgmBtn"),
+  deskBgmVol: document.getElementById("deskBgmVol"),
   hintEnabled: document.getElementById("hintEnabled"),
   hintGenreEnabled: document.getElementById("hintGenreEnabled"),
   genreHintLine: document.getElementById("genreHintLine"),
@@ -358,6 +377,46 @@ const COLOR_NAMES = {
 };
 
 let wordBank = { words: [], fetchedAt: 0 };
+let sentencePool = null;
+let sentencePoolLoading = null;
+let selectedSentenceGenres = ["all"];
+let draftSentenceGenres = ["all"];
+const SENTENCE_GENRE_TREE = [
+  { id: "속담", label: "속담", icon: "📜" },
+  {
+    id: "명언",
+    label: "명언",
+    icon: "💬",
+    kids: [
+      { id: "연예·음악 명언", label: "연예·음악", icon: "🎤" },
+      { id: "스포츠 명언", label: "스포츠", icon: "⚽" },
+      { id: "과학 명언", label: "과학", icon: "🔬" },
+      { id: "역사·정치 명언", label: "역사·정치", icon: "🏛️" },
+      { id: "철학·종교 명언", label: "철학·종교", icon: "🧘" },
+      { id: "문학·예술 명언", label: "문학·예술", icon: "🎨" },
+      { id: "그 밖 명언", label: "그 밖", icon: "💡" },
+    ],
+  },
+  {
+    id: "명대사",
+    label: "명대사",
+    icon: "🎬",
+    kids: [
+      { id: "영화 명대사", label: "영화", icon: "🎬" },
+      { id: "애니 명대사", label: "애니", icon: "✨" },
+      { id: "드라마 명대사", label: "드라마", icon: "📺" },
+    ],
+  },
+];
+const SENTENCE_GENRE_IDS = SENTENCE_GENRE_TREE.flatMap((chip) => [chip.id, ...(chip.kids || []).map((kid) => kid.id)]);
+
+function sentenceGenreKids(id) {
+  return SENTENCE_GENRE_TREE.find((chip) => chip.id === id)?.kids?.map((kid) => kid.id) || [];
+}
+
+function sentenceGenreParent(id) {
+  return SENTENCE_GENRE_TREE.find((chip) => chip.kids?.some((kid) => kid.id === id))?.id || "";
+}
 let clueBanks = {};
 let clueBankLoading = {};
 let clueField = "game";
@@ -399,6 +458,7 @@ let current = {
 };
 let quizFormat = "chosung";
 let quizTopic = "auto";
+let scrambleUnit = "word";
 let nearMissSeen = new Set();
 let manualAnswerLocked = "";
 const QUIZ_MODE_PREF_KEY = "quizModePrefs:v1";
@@ -624,8 +684,13 @@ function isGuestPosing() {
   return !!(guestHost?.state.selected?.userId && guestHost?.state.invite);
 }
 
-function guestHostMode() {
-  return quizFormat === "draw" ? "draw" : "chosung";
+function guestHostMode(format = quizFormat) {
+  if (format === "draw") return "draw";
+  return format === "scramble" ? "scramble" : "chosung";
+}
+
+function pushGuestHostMode(format = quizFormat) {
+  void guestHost?.pushHostMode(guestHostMode(format), { unit: scrambleUnit });
 }
 
 function applyGuestPoseLock() {
@@ -642,7 +707,7 @@ function applyGuestPoseLock() {
 
 function armGuestPose() {
   applyGuestPoseLock();
-  void guestHost?.pushHostMode(guestHostMode());
+  pushGuestHostMode();
   renderGuestHostUi();
   publishDeskState();
 }
@@ -671,6 +736,11 @@ function guestPaintAllowed() {
 function applyGuestAnswer(msg) {
   const answer = String(msg?.answer || "").trim();
   if (!answer) return;
+  const problem = isScrambleFormat() ? scrambleProblem(answer, scrambleUnit) : "";
+  if (problem) {
+    setStatus(`출제자 문제를 섞을 수 없습니다 · ${problem}`);
+    return;
+  }
   if (els.answer) els.answer.value = answer;
   pendingGuestAuthor = {
     answer,
@@ -1176,6 +1246,7 @@ function buildDeskState() {
     timerPct,
     startBtnText: els.startBtn?.textContent || "게임 시작",
     bgmMuted: isQuizBgmMuted(),
+    bgmVol: getQuizBgmVolume(),
     listenVol: getListenVolume(),
     listenSampleOn,
     guestPosing: isGuestPosing(),
@@ -1321,6 +1392,7 @@ function applyDeskState(s) {
     els.deskLinkStatus.textContent = "방송창과 연결됨";
   }
   if (typeof s.bgmMuted === "boolean") syncBgmMuteBtn(s.bgmMuted);
+  if (typeof s.bgmVol === "number") syncBgmVolUi(s.bgmVol);
   if (typeof s.listenVol === "number") syncListenVolUi(s.listenVol);
   if (typeof s.listenSampleOn === "boolean") syncListenPreviewBtn(s.listenSampleOn);
   if (typeof s.showAnswerEditor === "boolean" && els.answerPanel) {
@@ -1428,6 +1500,10 @@ function handleHostDeskMessage(msg) {
       break;
     case "ui.bgm":
       toggleQuizBgmMute();
+      break;
+    case "ui.bgmVol":
+      setQuizBgmVolume(p.value);
+      publishDeskState();
       break;
     case "ui.listenVol":
       setListenVolume(p.value);
@@ -1756,6 +1832,10 @@ function bindDeskClient() {
       }
       if (t.id === "listenVol" || t.id === "deskListenVol") {
         deskBridge.post("ui.listenVol", { value: Number(t.value) / 100 });
+        return;
+      }
+      if (t.id === "deskBgmVol") {
+        deskBridge.post("ui.bgmVol", { value: Number(t.value) / 100 });
         return;
       }
       if (t.id === "answer" || t.id === "fakeText" || t.id === "fakeNick" || t.id === "channelInput") {
@@ -2542,9 +2622,12 @@ function updateHintUi() {
 
 function applyTimeHints(remainingRatio) {
   if (phase !== "accepting" || !hintsAllowed()) return;
-  const total = [...(current.answer || "")].length;
+  const scramble = current.mode === "scramble" ? current.scramble : null;
+  const total = scramble ? scramble.units.length : [...(current.answer || "")].length;
   if (!total) return;
-  const target = timeHintTargetCount(total, remainingRatio);
+  const target = scramble
+    ? Math.min(timeHintTargetCount(total, remainingRatio), scrambleHintLimit(scramble.units, scramble.hintOrder))
+    : timeHintTargetCount(total, remainingRatio);
   if (target <= hintCount) return;
   hintCount = target;
   playQuizSfx("hint");
@@ -2568,7 +2651,7 @@ const HOST_TUTORIAL_STEPS = [
   {
     id: "format",
     title: "유형을 고르세요",
-    text: "초성: 첫소리만 보여 줍니다. 그림: 직접 그립니다. 단서: 작품·캐릭터 힌트로 맞춥니다.",
+    text: "초성: 첫소리만 보여 줍니다. 그림: 직접 그립니다. 단서: 작품·캐릭터 힌트로 맞춥니다. 뒤죽박죽: 단어나 문장의 글자 순서를 섞습니다.",
     art: `<svg viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="46" width="100" height="108" rx="14" fill="#ffe14a"/><text x="66" y="92" text-anchor="middle" fill="#060912" font-size="20" font-weight="900">초성</text><text x="66" y="118" text-anchor="middle" fill="#060912" font-size="13">ㄱ ㅇ ㅇ</text><rect x="130" y="46" width="100" height="108" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="180" y="92" text-anchor="middle" fill="#f4f7ff" font-size="20" font-weight="900">그림</text><rect x="154" y="108" width="52" height="28" rx="6" fill="#3de7ff"/><rect x="244" y="46" width="100" height="108" rx="14" fill="#1b2744" stroke="#6b82b0" stroke-width="2"/><text x="294" y="92" text-anchor="middle" fill="#f4f7ff" font-size="20" font-weight="900">단서</text><text x="294" y="122" text-anchor="middle" fill="#9eb0d8" font-size="12">원신 · 영화</text></svg>`,
   },
   {
@@ -2686,6 +2769,11 @@ function syncBgmMuteBtn(muted = isQuizBgmMuted()) {
   els.deskBgmBtn.setAttribute("aria-label", muted ? "음소거 해제" : "음소거");
 }
 
+function syncBgmVolUi(value = getQuizBgmVolume()) {
+  const pct = String(Math.round(Math.min(1, Math.max(0, Number(value) || 0)) * 100));
+  if (els.deskBgmVol && els.deskBgmVol.value !== pct) els.deskBgmVol.value = pct;
+}
+
 function toggleQuizBgmMute() {
   setQuizBgmMuted(!isQuizBgmMuted());
   syncBgmMuteBtn();
@@ -2695,8 +2783,13 @@ function toggleQuizBgmMute() {
 
 function bindQuizBgm() {
   syncBgmMuteBtn();
+  syncBgmVolUi();
   els.deskBgmBtn?.addEventListener("click", () => {
     toggleQuizBgmMute();
+  });
+  els.deskBgmVol?.addEventListener("input", (event) => {
+    setQuizBgmVolume(Number(event.target?.value) / 100);
+    publishDeskState();
   });
   syncQuizBgm(phase, { desk: isDeskMode });
 }
@@ -2735,6 +2828,8 @@ function bindHostTutorial() {
   });
   els.deskHelpBtn?.addEventListener("click", replayHostTutorial);
 }
+
+let lobbySetupScrolled = false;
 
 function syncDeskFlow() {
   const inPlay = phase === "accepting" || phase === "holding" || phase === "countdown" || phase === "picking";
@@ -2777,10 +2872,16 @@ function syncDeskFlow() {
   if (els.broadcastLobby?.classList) {
     els.broadcastLobby.classList.toggle("mid-round", authed && !newGame && showLobbyChrome);
   }
-  if (showLobbyChrome && authed && newGame && !els.autoWordFields?.hidden) {
+  // 새 판 설정에 들어올 때 한 번만 맨 위(한 판 설정)를 보여 준다. 그 뒤엔 스트리머가 내린 스크롤을 건드리지 않는다.
+  const setupOpen = showLobbyChrome && authed && newGame;
+  if (setupOpen && !lobbySetupScrolled) {
+    lobbySetupScrolled = true;
     requestAnimationFrame(() => {
-      els.autoWordFields?.scrollIntoView({ block: "nearest", inline: "nearest" });
+      const card = els.roundSettingsBlock?.closest(".broadcast-lobby-card");
+      if (card) card.scrollTop = 0;
     });
+  } else if (!setupOpen) {
+    lobbySetupScrolled = false;
   }
   if (els.skipBtn) setHidden(els.skipBtn, phase !== "accepting");
   const hasMoreQuestions = revealing && remaining > 0;
@@ -2871,12 +2972,49 @@ function setWavePrompt(text) {
   });
 }
 
+function scrambleView() {
+  const s = current.scramble;
+  if (!s) return { tiles: [], text: "" };
+  const { order, fixed } = scrambleArrangement(s.units, s, hintCount);
+  const tiles = order.map((src, slot) => ({ text: s.units[src], fixed: fixed.has(slot) }));
+  return { tiles, text: tiles.map((tile) => tile.text).join(" ") };
+}
+
+function setScramblePrompt() {
+  const host = els.promptText || els.prompt;
+  if (!host) return;
+  els.prompt?.classList.remove("is-pick-wait");
+  host.replaceChildren(
+    ...scrambleView().tiles.map((tile) => {
+      const span = document.createElement("span");
+      span.className = tile.fixed ? "scramble-tile is-fixed" : "scramble-tile";
+      span.textContent = tile.text;
+      return span;
+    }),
+  );
+  requestAnimationFrame(fitScramblePrompt);
+}
+
+/** 긴 문장도 화면 안에 들어가도록 글씨만 줄인다(문장은 거르지 않는다). */
+function fitScramblePrompt() {
+  const box = els.prompt;
+  const text = els.promptText;
+  if (!box || !text || box.hidden || !box.classList.contains("is-scramble")) return;
+  text.style.fontSize = "";
+  const limit = box.clientHeight * (box.classList.contains("has-art") ? 0.3 : 0.7);
+  let size = parseFloat(getComputedStyle(text).fontSize) || 40;
+  while (size > 14 && text.offsetHeight > limit) {
+    size -= 2;
+    text.style.fontSize = `${size}px`;
+  }
+}
+
 function showPickingWait() {
   if (els.paintWrap) els.paintWrap.hidden = true;
   hideDrawHintBar();
   hideClueArt({ forget: true });
   setHidden(els.prompt, false);
-  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "has-art", "is-draw-reveal");
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "has-art", "is-draw-reveal");
   els.prompt.classList.add("is-pick-wait");
   syncClueChosungLine("");
   clearCluePromptFit();
@@ -2889,7 +3027,27 @@ function isTallCenterStill(img) {
   return w > 0 && h / w >= 1.45;
 }
 
+/** 뒤죽박죽 결과 그림은 원래 비율 그대로, 시간 표시와 버튼 사이 자리를 꽉 채우는 크기로 틀을 맞춘다. */
+function fitScrambleArt() {
+  const img = els.clueArt;
+  const frame = els.clueArtFrame;
+  const w = Number(img?.naturalWidth) || 0;
+  const h = Number(img?.naturalHeight) || 0;
+  if (!frame || !els.prompt || !w || !h) return;
+  const box = els.prompt.clientWidth;
+  const scale = Math.min(Math.min(box * 0.56, 600) / w, Math.min(box * 0.2, 210) / h);
+  frame.style.width = `${Math.round(w * scale)}px`;
+  frame.style.height = `${Math.round(h * scale)}px`;
+}
+
+function clearScrambleArtFit() {
+  if (!els.clueArtFrame) return;
+  els.clueArtFrame.style.width = "";
+  els.clueArtFrame.style.height = "";
+}
+
 function hideClueArt({ forget = false } = {}) {
+  clearScrambleArtFit();
   const img = els.clueArt;
   if (img) {
     img.hidden = true;
@@ -2917,6 +3075,9 @@ function bindClueArtFallback() {
   if (!img || img.dataset.fallbackBound === "1") return;
   img.dataset.fallbackBound = "1";
   img.referrerPolicy = "no-referrer";
+  img.addEventListener("load", () => {
+    if (phase === "reveal" && current.mode === "scramble") fitScrambleArt();
+  });
   img.addEventListener("error", () => {
     const playUrl = String((phase === "reveal" ? current.imageReveal || current.image : current.image) || "");
     const list = clueImageCandidates(playUrl);
@@ -2966,7 +3127,8 @@ function syncClueArt({ reveal = false } = {}) {
   bindClueArtFallback();
   const url = String((reveal ? current.imageReveal || current.image : current.image) || "").trim();
   const clue = current.mode === "clue" || isClueFormat(current.format);
-  const show = clue && url && (reveal || isClueImageHintOn());
+  const scrambleReveal = reveal && current.mode === "scramble";
+  const show = Boolean(url) && ((clue && (reveal || isClueImageHintOn())) || scrambleReveal);
   if (!show) {
     hideClueArt();
     return;
@@ -2980,7 +3142,10 @@ function syncClueArt({ reveal = false } = {}) {
     return;
   }
   if (img.getAttribute("src") !== src) img.src = src;
-  img.classList.toggle("is-tall-center", isTallCenterStill(ready || img));
+  // 뒤죽박죽 결과는 자르지 않고 원래 비율 그대로 자리를 채운다.
+  img.classList.toggle("is-tall-center", !scrambleReveal && isTallCenterStill(ready || img));
+  if (!scrambleReveal) clearScrambleArtFit();
+  else if (img.complete && img.naturalWidth) requestAnimationFrame(fitScrambleArt);
   img.hidden = false;
   if (els.clueArtFrame) {
     els.clueArtFrame.hidden = false;
@@ -3430,7 +3595,7 @@ function renderQuestionView() {
   if (mode === "draw") {
     if (els.paintWrap) els.paintWrap.hidden = false;
     els.prompt.hidden = true;
-    els.prompt.classList.remove("is-clue", "is-chosung", "is-listen", "is-draw-reveal");
+    els.prompt.classList.remove("is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "is-draw-reveal");
     hideListenStage();
     hideClueArt({ forget: true });
     clearCluePromptFit();
@@ -3449,7 +3614,7 @@ function renderQuestionView() {
   setHidden(els.prompt, false);
   els.prompt.classList.remove("hit", "miss");
   if (mode === "listen") {
-    els.prompt.classList.remove("is-clue", "is-chosung");
+    els.prompt.classList.remove("is-clue", "is-chosung", "is-scramble", "is-sentence");
     els.prompt.classList.add("is-listen");
     hideClueArt({ forget: true });
     syncClueSheet();
@@ -3464,8 +3629,20 @@ function renderQuestionView() {
     return;
   }
   hideListenStage();
+  if (mode === "scramble") {
+    els.prompt.classList.remove("is-clue", "is-chosung", "is-listen", "has-art");
+    els.prompt.classList.add("is-scramble");
+    els.prompt.classList.toggle("is-sentence", current.scramble?.kind === "sentence");
+    hideClueArt({ forget: true });
+    syncClueSheet();
+    clearCluePromptFit();
+    syncClueChosungLine("");
+    setScramblePrompt();
+    syncGenreHintUi();
+    return;
+  }
   if (mode === "clue") {
-    els.prompt.classList.remove("is-chosung", "is-listen");
+    els.prompt.classList.remove("is-chosung", "is-scramble", "is-sentence", "is-listen");
     els.prompt.classList.add("is-clue");
     setPromptText(clueHintBody(current.hint) || current.hint || "");
     syncClueSheet();
@@ -3475,7 +3652,7 @@ function renderQuestionView() {
     scheduleCluePromptFit();
     return;
   }
-  els.prompt.classList.remove("is-clue", "has-art", "is-listen");
+  els.prompt.classList.remove("is-clue", "has-art", "is-listen", "is-scramble", "is-sentence");
   els.prompt.classList.add("is-chosung");
   hideClueArt({ forget: true });
   syncClueSheet();
@@ -3503,8 +3680,16 @@ function isListenFormat(format = quizFormat) {
   return format === "listen";
 }
 
+function isScrambleFormat(format = quizFormat) {
+  return format === "scramble";
+}
+
+function isTypedWordFormat(format = quizFormat) {
+  return format === "chosung" || format === "scramble";
+}
+
 function isKnownQuizFormat(format) {
-  return format === "chosung" || format === "draw" || format === "clue" || format === "listen";
+  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble";
 }
 
 function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
@@ -3513,7 +3698,11 @@ function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
     answer,
     aliases,
     excludeUserId,
-    match: song ? (text) => isSongCorrect(text, song, current.listenAnswerMode || "title") : undefined,
+    match: song
+      ? (text) => isSongCorrect(text, song, current.listenAnswerMode || "title")
+      : current.mode === "scramble"
+        ? (text) => isExactAnswer(text, answer)
+        : undefined,
   });
 }
 
@@ -3800,6 +3989,7 @@ function questionTtsText() {
   if (current.mode === "chosung") {
     return formatChosungDisplay(current.answer);
   }
+  if (current.mode === "scramble") return scrambleView().text;
   return "";
 }
 
@@ -4099,7 +4289,7 @@ function isAnswerPlayPhase() {
 function shouldBlindDeskAnswer() {
   if (isGuestPosing()) return true;
   // 초성/단서/듣기 자동 + 스트리머 참여 ON 일 때만 조작칸 정답 숨김
-  return (quizFormat === "chosung" || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+  return (isTypedWordFormat() || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
 }
 
 function syncManualAnswerUi() {
@@ -4200,6 +4390,13 @@ function submitManualAnswer() {
     input?.focus();
     return;
   }
+  const problem = isScrambleFormat() ? scrambleProblem(value, scrambleUnit) : "";
+  if (problem) {
+    setStatus(problem);
+    shakeAnswerField();
+    input?.focus();
+    return;
+  }
   // 수동이 아니면 맞춰 둠 (입력창이 열린 상태)
   if (isAutoTopic()) {
     quizTopic = "manual";
@@ -4238,8 +4435,20 @@ function bindAnswerActions() {
 }
 
 
+const FORMAT_DESC = {
+  chosung: "방송에 첫소리만 나가요 · 고양이 → ㄱㅇㅇ",
+  draw: "그린 그림이 그대로 방송에 나가요",
+  clue: "작품·캐릭터 힌트를 보고 맞혀요",
+  listen: "노래 미리듣기를 듣고 맞혀요",
+  scramble: "글자 순서를 섞어서 나가요 · 치킨버거 → 거킨버치",
+  scrambleSentence: "띄어쓰기 없이 글자를 모두 섞어요 · 달 보고 짖는 개 → 개고달는보짖",
+};
+
 function syncAxisButtons() {
   const posing = isGuestPosing();
+  if (els.formatDesc) {
+    els.formatDesc.textContent = FORMAT_DESC[isSentenceScramble() ? "scrambleSentence" : quizFormat] || "";
+  }
   els.formatSeg?.querySelectorAll("[data-format]").forEach((btn) => {
     const format = btn.dataset.format;
     const on = format === quizFormat;
@@ -4254,6 +4463,11 @@ function syncAxisButtons() {
     btn.setAttribute("aria-pressed", on ? "true" : "false");
     btn.disabled = posing && topic === "auto";
   });
+  els.scrambleUnitSeg?.querySelectorAll("[data-scramble-unit]").forEach((btn) => {
+    const on = btn.dataset.scrambleUnit === scrambleUnit;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+  });
 }
 
 function isStreamerJoinEnabled() {
@@ -4261,11 +4475,11 @@ function isStreamerJoinEnabled() {
 }
 
 function streamerDeskToolsOn() {
-  return (quizFormat === "chosung" || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+  return (isTypedWordFormat() || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
 }
 
 function streamerGuessOpen() {
-  if (isGuestPosing() && (quizFormat === "chosung" || isDrawFormat())) {
+  if (isGuestPosing() && (isTypedWordFormat() || isDrawFormat())) {
     return phase === "accepting" || phase === "holding";
   }
   return streamerDeskToolsOn() && (phase === "accepting" || phase === "holding");
@@ -4310,6 +4524,8 @@ function saveQuizModePrefs() {
     JSON.stringify({
       format: quizFormat,
       topic: quizTopic,
+      scrambleUnit,
+      sentenceGenres: selectedSentenceGenres,
       streamerJoin: isStreamerJoinEnabled(),
     }),
   );
@@ -4321,6 +4537,8 @@ function restoreQuizModePrefs() {
     const prefs = JSON.parse(localStorage.getItem(QUIZ_MODE_PREF_KEY) || "{}");
     if (isKnownQuizFormat(prefs.format)) quizFormat = prefs.format;
     if (prefs.topic === "auto" || prefs.topic === "manual") quizTopic = prefs.topic;
+    if (prefs.scrambleUnit === "word" || prefs.scrambleUnit === "sentence") scrambleUnit = prefs.scrambleUnit;
+    if (Array.isArray(prefs.sentenceGenres)) selectedSentenceGenres = normalizeSentenceGenres(prefs.sentenceGenres);
     if (els.streamerJoin) els.streamerJoin.checked = prefs.streamerJoin === true;
   } catch {
     // ignore
@@ -4728,9 +4946,10 @@ function restoreWordPickPrefs() {
 }
 
 function wordPickOptions() {
+  const scramble = isScrambleFormat();
   return {
-    minLen: wordMinLen,
-    maxLen: wordMaxLen,
+    minLen: scramble ? Math.max(wordMinLen, SCRAMBLE_MIN_UNITS) : wordMinLen,
+    maxLen: scramble ? Math.max(wordMaxLen, SCRAMBLE_MIN_UNITS) : wordMaxLen,
     genres: selectedGenres.slice(),
     exclude: usedWordKeys,
   };
@@ -4871,10 +5090,146 @@ function startAuthKeep() {
   authKeep.start();
 }
 
+function normalizeSentenceGenres(next) {
+  const unique = [...new Set((next || []).filter(Boolean))];
+  if (!unique.length || unique.includes("all")) return ["all"];
+  const picked = SENTENCE_GENRE_IDS.filter((id) => unique.includes(id));
+  return picked.length ? picked : ["all"];
+}
+
+/** 상위 '명언'·'명대사'를 고르면 하위(명언 7종류, 영화·애니·드라마)가 모두 들어간다. */
+function activeSentenceSources() {
+  if (selectedSentenceGenres.includes("all")) return SENTENCE_SOURCES.slice();
+  const ids = selectedSentenceGenres.flatMap((id) => (sentenceGenreKids(id).length ? sentenceGenreKids(id) : [id]));
+  return SENTENCE_SOURCES.filter((id) => ids.includes(id));
+}
+
+function updateSentenceGenreSummary() {
+  if (!els.wordGenreSummary) return;
+  const n = sentencePool ? filterSentences(sentencePool, activeSentenceSources()).length : 0;
+  const head = selectedSentenceGenres.includes("all") ? "전체" : selectedSentenceGenres.join(" · ");
+  els.wordGenreSummary.textContent = n ? `${head} · ${n}개` : head;
+}
+
+function syncSentenceGenreUi(activeList) {
+  const active = normalizeSentenceGenres(activeList);
+  els.sentenceGenrePanel?.querySelectorAll(".genre-option").forEach((btn) => {
+    const on = active.includes(btn.dataset.genre);
+    const included = !on && Boolean(btn.dataset.parent) && active.includes(btn.dataset.parent);
+    btn.classList.toggle("active", on);
+    btn.classList.toggle("is-included", included);
+    btn.setAttribute("aria-selected", on || included ? "true" : "false");
+    const mark = btn.querySelector(".genre-check");
+    if (mark) mark.textContent = on ? "✓" : included ? "·" : "";
+  });
+}
+
+function setSentenceGenreMenuOpen(open) {
+  if (!els.sentenceGenreModal) return;
+  if (open) {
+    draftSentenceGenres = selectedSentenceGenres.slice();
+    syncSentenceGenreUi(draftSentenceGenres);
+  }
+  setModalLayer(els.sentenceGenreModal, open, {
+    focusSelector: "#sentenceGenreClose",
+    returnFocus: open ? els.wordGenreToggle : undefined,
+  });
+  els.wordGenreToggle?.setAttribute("aria-expanded", open ? "true" : "false");
+  els.wordGenreMenu?.classList.toggle("open", open);
+}
+
+function commitSentenceGenres(next) {
+  selectedSentenceGenres = normalizeSentenceGenres(next);
+  draftSentenceGenres = selectedSentenceGenres.slice();
+  syncSentenceGenreUi(selectedSentenceGenres);
+  saveQuizModePrefs();
+  updateSentenceGenreSummary();
+  reportWordPickStats();
+}
+
+function toggleDraftSentenceGenre(id) {
+  let next;
+  if (id === "all") next = ["all"];
+  else if (draftSentenceGenres.includes("all")) next = [id];
+  else if (draftSentenceGenres.includes(id)) next = draftSentenceGenres.filter((item) => item !== id);
+  else {
+    const kids = sentenceGenreKids(id);
+    const parent = sentenceGenreParent(id);
+    next = draftSentenceGenres.filter((item) => item !== parent && !kids.includes(item));
+    next.push(id);
+  }
+  draftSentenceGenres = normalizeSentenceGenres(next);
+  syncSentenceGenreUi(draftSentenceGenres);
+}
+
+function renderSentenceGenreMenu() {
+  if (!els.sentenceGenrePanel) return;
+  els.sentenceGenrePanel.innerHTML = "";
+  const addBtn = (chip, extra = "") => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = extra ? `genre-option ${extra}` : "genre-option";
+    btn.dataset.genre = chip.id;
+    if (chip.parentId) btn.dataset.parent = chip.parentId;
+    btn.setAttribute("role", "option");
+    btn.innerHTML = `<span class="genre-check" aria-hidden="true"></span><span class="genre-ico" aria-hidden="true">${chip.icon}</span><span>${chip.label}</span>`;
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleDraftSentenceGenre(chip.id);
+    });
+    return btn;
+  };
+  els.sentenceGenrePanel.appendChild(addBtn({ id: "all", label: "전체", icon: "🎲" }));
+  for (const group of SENTENCE_GENRE_TREE) {
+    const wrap = document.createElement("div");
+    wrap.className = "genre-modal-group";
+    wrap.appendChild(addBtn(group, "is-group"));
+    if (group.kids?.length) {
+      const kids = document.createElement("div");
+      kids.className = "genre-modal-kids";
+      for (const kid of group.kids) kids.appendChild(addBtn({ ...kid, parentId: group.id }, "is-kid"));
+      wrap.appendChild(kids);
+    }
+    els.sentenceGenrePanel.appendChild(wrap);
+  }
+  syncSentenceGenreUi(selectedSentenceGenres);
+}
+
+function isSentenceScramble() {
+  return isScrambleFormat() && scrambleUnit === "sentence";
+}
+
+function ensureSentencePool() {
+  if (sentencePool) return Promise.resolve(sentencePool);
+  if (!sentencePoolLoading) {
+    sentencePoolLoading = loadSentencePool().then((pool) => {
+      sentencePool = pool;
+      sentencePoolLoading = null;
+      if (isSentenceScramble()) updateSentenceGenreSummary();
+      if (isSentenceScramble() && isAutoTopic()) reportWordPickStats();
+      return pool;
+    });
+  }
+  return sentencePoolLoading;
+}
+
+function manualScrambleProblem() {
+  return isScrambleFormat() ? scrambleProblem(getManualAnswer(), scrambleUnit) : "";
+}
+
 function reportWordPickStats() {
   if (isClueFormat() || !isAutoTopic() || !wordBank) return;
+  if (isSentenceScramble()) {
+    setStatus(
+      sentencePool
+        ? `뒤죽박죽 문장 후보 ${filterSentences(sentencePool, activeSentenceSources()).length}개 (${activeSentenceSources().join("·")})`
+        : "문장 목록을 불러오는 중입니다",
+    );
+    return;
+  }
   const stats = getWordBankStats(wordBank, wordPickOptions());
-  setStatus(stats.matched ? `자동 초성 후보 ${stats.matched}개` : "선택한 글자 수/장르에 맞는 단어가 없습니다");
+  const label = isScrambleFormat() ? "뒤죽박죽" : "초성";
+  setStatus(stats.matched ? `자동 ${label} 후보 ${stats.matched}개` : "선택한 글자 수/장르에 맞는 단어가 없습니다");
 }
 
 function valueFromPointer(clientX) {
@@ -4976,8 +5331,22 @@ function bindWordPickControls() {
     event.stopPropagation();
     setListenAnswerMenuOpen(false);
     if (isListenFormat()) setListenGenreMenuOpen(!!els.listenGenreModal?.hidden);
+    else if (isSentenceScramble()) setSentenceGenreMenuOpen(!!els.sentenceGenreModal?.hidden);
     else setGenreMenuOpen(!!els.genreModal?.hidden);
   });
+  els.sentenceGenreClose?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setSentenceGenreMenuOpen(false);
+  });
+  els.sentenceGenreApply?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    commitSentenceGenres(draftSentenceGenres);
+    setSentenceGenreMenuOpen(false);
+  });
+  els.sentenceGenreModal?.addEventListener("click", (event) => {
+    if (event.target?.dataset?.sentenceGenreClose) setSentenceGenreMenuOpen(false);
+  });
+  renderSentenceGenreMenu();
   els.genreModalClose?.addEventListener("click", (event) => {
     event.stopPropagation();
     setGenreMenuOpen(false);
@@ -5005,6 +5374,8 @@ function syncModeUi() {
   const isDraw = isDrawFormat();
   const isClue = isClueFormat();
   const isListen = isListenFormat();
+  const isScramble = isScrambleFormat();
+  const isSentence = isSentenceScramble();
   const isAuto = posing ? false : isClue || isListen ? true : isAutoTopic();
   const needsAnswer = !isAuto;
   if (!posing && (isClue || isListen) && quizTopic !== "auto") {
@@ -5036,13 +5407,22 @@ function syncModeUi() {
     els.autoWordFields.classList.toggle("is-clue", isClue);
     els.autoWordFields.classList.toggle("is-listen", isListen);
   }
-  if (els.autoWordLen) setHidden(els.autoWordLen, isListen);
+  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence);
+  if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
   if (els.wordGenreToggle) {
-    els.wordGenreToggle.setAttribute("aria-controls", isListen ? "listenGenreModal" : "genreModal");
+    els.wordGenreToggle.setAttribute(
+      "aria-controls",
+      isListen ? "listenGenreModal" : isSentence ? "sentenceGenreModal" : "genreModal",
+    );
   }
+  if (!isSentence && els.sentenceGenreModal && !els.sentenceGenreModal.hidden) setSentenceGenreMenuOpen(false);
   if (isListen) {
     if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
     updateListenGenreSummary();
+  } else if (isSentence) {
+    if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
+    if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
+    updateSentenceGenreSummary();
   } else {
     if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
     updateGenreSummary();
@@ -5058,6 +5438,7 @@ function syncModeUi() {
     syncManualAnswerUi();
   }
   syncDrawPanel();
+  if (isSentence) void ensureSentencePool();
   if (isAuto && !isClue) {
     requestAnimationFrame(() => syncLenUi());
     reportWordPickStats();
@@ -5206,7 +5587,7 @@ function showFinalResult(lastAnswer = "") {
   if (els.paintWrap) els.paintWrap.hidden = true;
   if (els.broadcastHud) els.broadcastHud.hidden = true;
   els.prompt.hidden = true;
-  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-listen", "is-pick-wait", "is-draw-reveal");
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "is-pick-wait", "is-draw-reveal");
   hideListenStage();
   stopListenAudio();
   hideClueArt({ forget: true });
@@ -5460,6 +5841,7 @@ function finishQuestion(winner) {
   const wasDraw = current.mode === "draw" || isDrawFormat(current.format);
   const wasClue = current.mode === "clue" || isClueFormat(current.format);
   const wasListen = current.mode === "listen" || isListenFormat(current.format);
+  const wasScramble = current.mode === "scramble";
   els.prompt.hidden = false;
   hideDrawHintBar();
   hideListenStage();
@@ -5468,12 +5850,15 @@ function finishQuestion(winner) {
   els.prompt.classList.remove("hit", "miss");
   els.prompt.classList.toggle("is-clue", wasClue);
   els.prompt.classList.toggle("is-listen", wasListen);
-  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen);
+  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen && !wasScramble);
+  els.prompt.classList.toggle("is-scramble", wasScramble);
+  els.prompt.classList.toggle("is-sentence", wasScramble && current.scramble?.kind === "sentence");
   els.prompt.classList.toggle("is-draw-reveal", wasDraw);
   if (wasClue) {
     syncClueSheet();
     syncClueArt({ reveal: true });
-  } else hideClueArt();
+  } else if (wasScramble) syncClueArt({ reveal: true });
+  else hideClueArt();
   if (els.broadcastHud) els.broadcastHud.hidden = false;
   if (wasDraw) {
     showRevealPaintThumb();
@@ -5481,10 +5866,20 @@ function finishQuestion(winner) {
     clearRevealPaintThumb();
     if (els.paintWrap) els.paintWrap.hidden = true;
   }
+  // 명언은 누가 한 말인지, 명대사는 어느 영화인지 정답 아래에 붙인다.
+  const revealFrom = !wasScramble
+    ? ""
+    : current.speaker
+      ? current.speaker
+      : /명대사$/.test(current.genre) && current.series
+        ? `${current.workKind || "영화"} 「${current.series}」`
+        : "";
+  const revealText = revealFrom ? `${answerText}\n— ${revealFrom}` : answerText;
   const showHitPrompt = () => {
     els.prompt.classList.add("hit");
-    setPromptText(`${winner.nickname} 정답!\n${answerText}`);
+    setPromptText(`${winner.nickname} 정답!\n${revealText}`);
     if (wasClue) scheduleCluePromptFit();
+    if (wasScramble) requestAnimationFrame(fitScramblePrompt);
   };
   if (winner) {
     addScore(winner.nickname);
@@ -5492,14 +5887,16 @@ function finishQuestion(winner) {
     setStatus(`${winner.nickname} 님이 맞히셨습니다 · 정답 ${answerText}`);
     if (wasListen) setPromptText(answerText);
     else if (wasDraw) setPromptText("");
+    else if (wasScramble) setScramblePrompt();
     else if (!wasClue) setPromptText(formatChosungDisplay(answerText));
     playHitFireworks();
     playHitFly({ nickname: winner.nickname, answer: answerText }, showHitPrompt);
   } else {
     els.winner.textContent = "";
     els.prompt.classList.add("miss");
-    setPromptText(`정답 ${answerText}`);
+    setPromptText(`정답 ${revealText}`);
     if (wasClue) scheduleCluePromptFit();
+    if (wasScramble) requestAnimationFrame(fitScramblePrompt);
     setStatus(`정답 ${answerText}`);
   }
   remaining -= 1;
@@ -5643,6 +6040,7 @@ function noteChosungMiss(chat) {
   if (phase !== "accepting") return;
   if (current.mode === "draw" || current.format === "draw") return;
   if (current.mode === "clue" || current.format === "clue") return;
+  if (current.mode === "scramble") return;
   const word = rememberNearMiss(nearMissSeen, chat?.text, current.answer);
   if (!word) return;
   if (!placeChosungMissChip(word)) {
@@ -5837,7 +6235,7 @@ async function runStartCountdown() {
   setPromptText("");
   hideClueArt({ forget: true });
   hideListenStage();
-  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-listen", "is-draw-reveal");
+  els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "is-draw-reveal");
   clearCluePromptFit();
   syncClueChosungLine("");
   if (els.paintWrap) els.paintWrap.hidden = true;
@@ -5869,6 +6267,10 @@ function canStartQuestion() {
       shakeAnswerField();
       return false;
     }
+    if (manualScrambleProblem()) {
+      setStatus(`출제자 문제를 섞을 수 없습니다 · ${manualScrambleProblem()}`);
+      return false;
+    }
     return true;
   }
   if (isClueFormat()) {
@@ -5887,6 +6289,18 @@ function canStartQuestion() {
     }
     return true;
   }
+  if (isAutoTopic() && isSentenceScramble()) {
+    if (!sentencePool) {
+      void ensureSentencePool();
+      setStatus("문장 목록을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      return false;
+    }
+    if (!filterSentences(sentencePool, activeSentenceSources()).length) {
+      setStatus("고른 장르에 낼 문장이 없습니다");
+      return false;
+    }
+    return true;
+  }
   if (isAutoTopic()) {
     const stats = getWordBankStats(wordBank, wordPickOptions());
     if (!stats.matched) {
@@ -5897,6 +6311,11 @@ function canStartQuestion() {
   }
   if (!getManualAnswer()) {
     setStatus("조작창에서 정답을 제출해 주세요");
+    shakeAnswerField();
+    return false;
+  }
+  if (manualScrambleProblem()) {
+    setStatus(manualScrambleProblem());
     shakeAnswerField();
     return false;
   }
@@ -5923,15 +6342,19 @@ function beginQuestion() {
   let year = 0;
   let mediaGenres = [];
   let series = "";
+  let speaker = "";
+  let workKind = "";
   let aliases = [];
   let previewUrl = "";
   let song = null;
   let listenRoundMode = "";
   const clue = format === "clue";
   const listen = format === "listen";
+  const scramble = format === "scramble";
+  const sentence = scramble && scrambleUnit === "sentence";
   const posing = isGuestPosing();
   const topicKey = posing ? "manual" : clue || listen ? "auto" : topic;
-  const streamerJoin = (format === "chosung" || clue || listen) && topicKey === "auto" && isStreamerJoinEnabled();
+  const streamerJoin = (isTypedWordFormat(format) || clue || listen) && topicKey === "auto" && isStreamerJoinEnabled();
   if (listen) {
     try {
       song = takeSongSync(usedSongIds, selectedListenGenres);
@@ -5950,6 +6373,10 @@ function beginQuestion() {
     if (!streamerJoin) excludeUserId = session.userId;
   } else if (topicKey === "auto") {
     try {
+      if (sentence && !sentencePool) {
+        void ensureSentencePool();
+        throw new Error("문장 목록을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      }
       let entry = pendingAutoEntry;
       pendingAutoEntry = null;
       if (!entry) {
@@ -5961,7 +6388,9 @@ function beginQuestion() {
           ? warmed?.length
             ? warmed
             : pickClueEntries(activeClueBank(), cluePickOptions(), liveAutoPickCount())
-          : pickWordEntriesFromBank(wordBank, wordPickOptions(), liveAutoPickCount());
+          : sentence
+            ? pickSentenceEntries(sentencePool, { exclude: usedWordKeys, sources: activeSentenceSources() }, liveAutoPickCount())
+            : pickWordEntriesFromBank(wordBank, wordPickOptions(), liveAutoPickCount());
         if (clue) prefetchClueEntries(choices, { urgent: true });
         if (choices.length > 1) {
           autoPickChoices = choices;
@@ -5978,9 +6407,17 @@ function beginQuestion() {
       genre = entry.genre || "";
       hint = entry.hint || "";
       ({ image, imageReveal } = cluePlayImages(entry));
+      if (scramble) {
+        // 뒤죽박죽은 문제 중엔 그림을 숨기고 정답 공개 때만 보여 준다.
+        imageReveal = imageReveal || image;
+        image = "";
+        if (imageReveal) prefetchClueImage(imageReveal);
+      }
       year = Number(entry.year) || 0;
       mediaGenres = Array.isArray(entry.mediaGenres) ? entry.mediaGenres.slice() : [];
       series = String(entry.series || "").trim();
+      speaker = String(entry.who || "").trim();
+      workKind = String(entry.kind || "").trim();
       aliases = Array.isArray(entry.aliases) ? entry.aliases.map((name) => String(name || "").trim()).filter(Boolean) : [];
       if (clue) {
         usedClueKeys.add(clueEntryKey(entry));
@@ -5994,13 +6431,19 @@ function beginQuestion() {
       syncDeskFlow();
       return;
     }
-    if ((format === "chosung" || clue || listen) && !streamerJoin) {
+    if ((isTypedWordFormat(format) || clue || listen) && !streamerJoin) {
       excludeUserId = session.userId;
     }
   } else {
     answer = getManualAnswer();
     if (!answer) {
       setStatus("조작창에서 정답을 제출해 주세요");
+      phase = "ready";
+      syncDeskFlow();
+      return;
+    }
+    if (manualScrambleProblem()) {
+      setStatus(manualScrambleProblem());
       phase = "ready";
       syncDeskFlow();
       return;
@@ -6014,7 +6457,7 @@ function beginQuestion() {
       ? pendingGuestAuthor.nickname
       : "";
   current = {
-    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : "chosung",
+    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : scramble ? "scramble" : "chosung",
     format,
     topic: topicKey,
     answer,
@@ -6025,10 +6468,13 @@ function beginQuestion() {
     year,
     mediaGenres,
     series,
+    speaker,
+    workKind,
     aliases,
     previewUrl,
     song,
     listenAnswerMode: listenRoundMode,
+    scramble: scramble ? makeScrambleState(answer, sentence ? "sentence" : "word") : null,
     byGuest,
   };
   pendingGuestAuthor = null;
@@ -6053,11 +6499,16 @@ function beginQuestion() {
   if (listen) playListenPreview(previewUrl);
   syncGuestAuthorTag();
   clearManualAnswerLock();
-  void guestHost?.pushHostMode(format === "draw" ? "draw" : "chosung");
+  pushGuestHostMode(format);
   stopChatDelayProbe();
   cancelHolds();
   judge = null;
   startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre });
+}
+
+function makeScrambleState(answer, kind) {
+  const units = scrambleUnits(answer);
+  return { kind, units, ...makeScramble(units) };
 }
 
 function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, format, topicKey, streamerJoin, genre, replayVoice = true }) {
@@ -6072,6 +6523,10 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, f
     setStatus(isDev ? `듣기 · ${listenAnswerModeLabel(current.listenAnswerMode)} · 정답 [${answer}]` : listenAnswerStatus(current.listenAnswerMode));
   } else if (clue) {
     setStatus(isDev ? `단서 · ${genre} · 정답 [${answer}]` : `단서 · ${genre} · 채팅 정답 대기`);
+  } else if (current.mode === "scramble") {
+    const label = current.scramble?.kind === "sentence" ? "뒤죽박죽 문장" : "뒤죽박죽";
+    if (isDev && !streamerJoin) setStatus(`${label} · 정답 [${answer}]`);
+    else setStatus(hintsAllowed() ? `${label} · 시간 힌트 ON` : `${label} · 채팅 정답 대기`);
   } else if (topicKey === "auto") {
     if (streamerJoin) {
       setStatus(
@@ -6890,7 +7345,16 @@ function bind() {
     saveQuizModePrefs();
     syncModeUi();
     syncDeskFlow();
-    if (isGuestPosing()) void guestHost.pushHostMode(guestHostMode());
+    if (isGuestPosing()) pushGuestHostMode();
+  });
+  els.scrambleUnitSeg?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-scramble-unit]");
+    if (!btn) return;
+    scrambleUnit = btn.dataset.scrambleUnit === "sentence" ? "sentence" : "word";
+    saveQuizModePrefs();
+    syncModeUi();
+    syncDeskFlow();
+    if (isGuestPosing()) pushGuestHostMode();
   });
   els.topicSeg?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-topic]");
@@ -7051,6 +7515,11 @@ function bind() {
     if (els.genreModal && !els.genreModal.hidden) {
       event.preventDefault();
       setGenreMenuOpen(false);
+      return;
+    }
+    if (els.sentenceGenreModal && !els.sentenceGenreModal.hidden) {
+      event.preventDefault();
+      setSentenceGenreMenuOpen(false);
       return;
     }
     if (els.clueSheet && !els.clueSheet.hidden) {

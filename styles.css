@@ -1362,7 +1362,8 @@ textarea:focus-visible,
   40% { transform: translateY(-12px); opacity: 1; }
 }
 
-.caption.is-chosung {
+.caption.is-chosung,
+.caption.is-scramble {
   position: absolute !important;
   inset: 0 !important;
   display: grid !important;
@@ -1385,7 +1386,8 @@ textarea:focus-visible,
   letter-spacing: 0.16em;
 }
 
-.caption.is-chosung #promptText {
+.caption.is-chosung #promptText,
+.caption.is-scramble #promptText {
   display: inline-block;
   width: fit-content;
   max-width: min(86cqw, 920px);
@@ -1400,11 +1402,41 @@ textarea:focus-visible,
   pointer-events: none;
 }
 
-.caption.is-chosung.hit #promptText { background: #3dff9a; }
-.caption.is-chosung.miss #promptText { background: #d8d0c2; }
+.caption.is-chosung.hit #promptText,
+.caption.is-scramble.hit #promptText { background: #3dff9a; }
+.caption.is-chosung.miss #promptText,
+.caption.is-scramble.miss #promptText { background: #d8d0c2; }
 
-.caption.is-chosung > :not(#promptText) {
+.caption.is-chosung > :not(#promptText),
+.caption.is-scramble > :not(#promptText) {
   display: none !important;
+}
+
+.caption.is-scramble:not(.hit):not(.miss) #promptText {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1em 0.24em;
+}
+
+.caption.is-scramble.is-sentence {
+  font-size: clamp(28px, 4.6cqw, 54px);
+  letter-spacing: 0.02em;
+}
+
+.caption.is-scramble.is-sentence:not(.hit):not(.miss) #promptText {
+  gap: 0.08em 0.2em;
+}
+
+.scramble-tile {
+  display: inline-block;
+}
+
+.scramble-tile.is-fixed {
+  color: #d81b60;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
 }
 
 .caption.is-listen {
@@ -6166,4 +6198,74 @@ body.mode-desk .host-tutorial {
   background: #ffe14a;
   color: #060912;
   border-color: #060912;
+}
+
+/* 유형: 다섯 칸 같은 폭, 뒤죽박죽 섞기는 유형 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
+.broadcast-lobby .format-axis {
+  flex: 1 1 100%;
+}
+
+.broadcast-lobby .format-axis #formatSeg {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  width: 100%;
+}
+
+.broadcast-lobby .format-axis #formatSeg .seg-btn {
+  min-width: 0;
+  padding: 9px 4px;
+  white-space: nowrap;
+}
+
+.broadcast-lobby .format-sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.broadcast-lobby .format-sub[hidden] {
+  display: none;
+}
+
+.broadcast-lobby .format-sub .seg-btn {
+  padding: 6px 14px;
+}
+
+.broadcast-lobby .format-desc {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #a8b6d9;
+}
+
+/* 뒤죽박죽 결과: 명대사 장면·속담 그림을 정답 위에 */
+#prompt.caption.is-scramble.has-art {
+  align-content: center !important;
+  gap: 12px;
+  padding: 8cqw 0 10cqw !important;
+}
+
+#prompt.caption.is-scramble.has-art #promptText {
+  font-size: clamp(20px, 3cqw, 34px);
+  letter-spacing: 0.02em;
+}
+
+#prompt.caption.is-scramble.has-art > #clueArtFrame {
+  display: grid !important;
+  width: min(28cqw, 300px);
+  height: min(17.5cqw, 188px);
+  margin: 0;
+  border: 3px solid #141414;
+  box-shadow: 6px 6px 0 #000;
+  background: #0b1020;
+}
+
+#prompt.caption.is-scramble.has-art > #clueArtFrame[hidden] {
+  display: none !important;
+}
+
+#prompt.caption.is-scramble.has-art #clueArt {
+  object-fit: contain;
 }

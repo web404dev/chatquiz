@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=232" />
+  <link rel="stylesheet" href="./styles.css?v=240" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -126,14 +126,23 @@
           <div id="questionSettingsBlock" class="setup-block lobby-card" hidden>
             <h2 class="panel-title">이번 문제</h2>
             <div class="row row-compact quiz-axes">
-              <div class="axis">
+              <div class="axis format-axis">
                 <span class="axis-label">유형</span>
                 <div class="seg" id="formatSeg" role="group" aria-label="유형">
                   <button type="button" class="seg-btn active" data-format="chosung" aria-pressed="true">초성</button>
                   <button type="button" class="seg-btn" data-format="draw" aria-pressed="false">그림</button>
                   <button type="button" class="seg-btn" data-format="clue" aria-pressed="false">단서</button>
                   <button type="button" class="seg-btn" data-format="listen" aria-pressed="false">듣기</button>
+                  <button type="button" class="seg-btn" data-format="scramble" aria-pressed="false">뒤죽박죽</button>
                 </div>
+                <div class="format-sub" id="scrambleUnitAxis" hidden>
+                  <span class="axis-label">섞기</span>
+                  <div class="seg" id="scrambleUnitSeg" role="group" aria-label="섞기">
+                    <button type="button" class="seg-btn active" data-scramble-unit="word" aria-pressed="true">단어</button>
+                    <button type="button" class="seg-btn" data-scramble-unit="sentence" aria-pressed="false">문장</button>
+                  </div>
+                </div>
+                <p id="formatDesc" class="format-desc"></p>
               </div>
               <div class="axis" id="topicAxis">
                 <span class="axis-label">주제</span>
@@ -243,7 +252,7 @@
                     <strong id="wordMaxLabel" class="len-num">4</strong>
                   </div>
                 </div>
-                <div class="auto-word-block auto-word-genre">
+                <div id="autoWordGenre" class="auto-word-block auto-word-genre">
                   <div class="auto-word-label">장르</div>
                   <div id="wordGenreMenu" class="genre-menu">
                     <button id="wordGenreToggle" type="button" class="genre-toggle" aria-expanded="false" aria-haspopup="dialog" aria-controls="genreModal" aria-label="장르 선택">
@@ -414,6 +423,19 @@
           <button type="button" id="listenGenreApply" class="genre-modal-apply">등록</button>
         </div>
       </div>
+      <div id="sentenceGenreModal" class="genre-modal" hidden inert>
+        <div class="genre-modal-backdrop" data-sentence-genre-close="1" tabindex="-1" aria-hidden="true"></div>
+        <div class="genre-modal-card" role="dialog" aria-modal="true" aria-labelledby="sentenceGenreModalTitle">
+          <div class="genre-modal-head">
+            <h3 id="sentenceGenreModalTitle">문장 장르</h3>
+            <button type="button" id="sentenceGenreClose" class="icon-close genre-modal-x" aria-label="문장 장르 닫기">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div id="sentenceGenrePanel" class="genre-modal-list" role="listbox" aria-labelledby="sentenceGenreModalTitle" aria-multiselectable="true"></div>
+          <button type="button" id="sentenceGenreApply" class="genre-modal-apply">등록</button>
+        </div>
+      </div>
       <div id="clueSheet" class="genre-modal" hidden inert>
         <div class="genre-modal-backdrop" data-clue-sheet-close="1" tabindex="-1" aria-hidden="true"></div>
         <div class="genre-modal-card" role="dialog" aria-modal="true" aria-labelledby="clueSheetTitle">
@@ -580,6 +602,10 @@
           <span class="guest-switch" aria-hidden="true"><span class="guest-switch-knob"></span></span>
           <span class="onoff-state">OFF</span>
         </button>
+      </label>
+      <label class="desk-listen-vol">
+        <span>BGM</span>
+        <input id="deskBgmVol" type="range" min="0" max="100" step="1" value="100" aria-label="배경음악 볼륨" />
       </label>
       <button id="deskBgmBtn" type="button" class="desk-vol-btn" aria-pressed="false" aria-label="음소거">
         <svg class="desk-vol-on" viewBox="0 0 24 24" aria-hidden="true">
@@ -850,6 +876,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=278"></script>
+  <script type="module" src="./boot.js?v=310"></script>
 </body>
 </html>

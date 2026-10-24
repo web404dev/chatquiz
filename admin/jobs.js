@@ -40,6 +40,11 @@ export function summarizeSongs(raw = {}) {
   };
 }
 
+export function summarizeSentences(raw = {}) {
+  const items = Array.isArray(raw.items) ? raw.items : [];
+  return { rows: items.length, stills: 0, fetchedAt: Number(raw.fetchedAt) || 0 };
+}
+
 export function summarizeBank(raw = {}) {
   const items = Array.isArray(raw.items) ? raw.items : [];
   return {
@@ -66,8 +71,8 @@ function live(id, label, hint) {
   };
 }
 
-export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs"];
-export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs"];
+export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences"];
+export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences"];
 export const SCHEDULE_DAYS = 20;
 
 export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
@@ -98,7 +103,7 @@ export const PACKS = {
     label: "전체 갱신",
     script: "admin/refresh-all.mjs",
     args: [],
-    hint: "영화 → 애니 → 게임 → 웹툰 → 노래. 웹툰이 제일 김.",
+    hint: "영화 → 애니 → 게임 → 웹툰 → 노래 → 문장. 웹툰이 제일 김.",
     group: "all",
     file: "",
     summarize: summarizeBank,
@@ -115,6 +120,16 @@ export const PACKS = {
     group: "media",
     file: "songs.json",
     summarize: summarizeSongs,
+  },
+  sentences: {
+    id: "sentences",
+    label: "문장 (속담·명언)",
+    script: "admin/refresh-sentences.mjs",
+    args: [],
+    hint: "위키낱말사전 속담 + 위키인용집 명언·한국 영화 대사(애니·드라마·한국 영화는 코드의 유명 대사 목록도(마추기 퀴즈에서 옮긴 대사 포함), 말한 사람 사진: 위키백과, 없으면 위키데이터). 명언은 말한 사람 분류로 7종류. 3어절 이상·20글자 이하, 금칙어·정치인·성우·방송인(한국 연예인은 넣음)·sentence-exclude.json 은 뺌. 명대사는 앱에서 더함. 출처 CC BY-SA.",
+    group: "text",
+    file: "sentences.json",
+    summarize: summarizeSentences,
   },
   "all-games": {
     id: "all-games",

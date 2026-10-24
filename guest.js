@@ -1,5 +1,6 @@
 import { createAuthKeep, GUEST_SESSION_KEY, readAuthSession, writeAuthSession } from "./auth-keep.js?v=138";
-import { SOLO_BUS_NAME } from "./guest-host.js?v=119";
+import { SOLO_BUS_NAME } from "./guest-host.js?v=120";
+import { scrambleProblem } from "./quiz.js?v=151";
 
 const WORKER_BASE = "https://chzzk-chat-quiz.web404dev.workers.dev";
 const params = new URLSearchParams(location.search);
@@ -54,7 +55,8 @@ function isInviteSelf(meta) {
   if (want && (uid === want || cid === want)) return true;
   return sameInviteNick(session.nickname, meta?.nickname);
 }
-let mode = "idle"; // idle | chosung | draw
+let mode = "idle"; // idle | chosung | scramble | draw
+let scrambleUnit = "word";
 let pollAfter = 0;
 let pollTimer = 0;
 let authKeep = null;
@@ -293,13 +295,28 @@ function onHostMsg(msg) {
     return;
   }
   if (msg.type === "host.mode") {
-    mode = msg.mode === "draw" ? "draw" : msg.mode === "chosung" ? "chosung" : "idle";
+    mode = msg.mode === "draw" || msg.mode === "chosung" || msg.mode === "scramble" ? msg.mode : "idle";
+    scrambleUnit = msg.unit === "sentence" ? "sentence" : "word";
+    const sentence = scrambleUnit === "sentence";
     els.modeLabel.textContent =
-      mode === "draw" ? "그림" : mode === "chosung" ? "초성" : "대기";
+      mode === "draw"
+        ? "그림"
+        : mode === "chosung"
+          ? "초성"
+          : mode === "scramble"
+            ? `뒤죽박죽 · ${sentence ? "문장" : "단어"}`
+            : "대기";
     show(els.paintBox, mode === "draw");
-    show(els.answerBox, mode === "chosung" || mode === "draw");
+    show(els.answerBox, mode === "chosung" || mode === "scramble" || mode === "draw");
     if (mode === "draw") setStatus("그림을 그리시면 그것이 문제가 됩니다. 아래에 내실 문제도 적어 주세요");
     else if (mode === "chosung") setStatus("내실 문제를 적어 주세요. 방송에는 초성만 나갑니다");
+    else if (mode === "scramble") {
+      setStatus(
+        sentence
+          ? "내실 문장을 적어 주세요. 방송에는 띄어쓰기 없이 글자 순서가 섞여서 나갑니다"
+          : "내실 문제를 적어 주세요. 방송에는 글자 순서가 섞여서 나갑니다",
+      );
+    }
   }
 }
 
@@ -395,6 +412,12 @@ function bindPaint() {
   els.answerSubmit?.addEventListener("click", () => {
     const value = String(els.answer.value || "").trim();
     if (!value) return;
+    const problem = mode === "scramble" ? scrambleProblem(value, scrambleUnit) : "";
+    if (problem) {
+      setStatus(problem);
+      els.answer.focus();
+      return;
+    }
     void relaySend({ type: "answer.submit", answer: value });
     setStatus("문제를 냈습니다");
   });

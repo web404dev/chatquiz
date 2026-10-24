@@ -18,12 +18,17 @@ const SFX = {
 };
 
 const MUTE_KEY = "quizBgmMuted:v1";
+const VOL_KEY = "quizBgmVol:v1";
 
 let muted = false;
+let gain = 1;
 try {
   muted = localStorage.getItem(MUTE_KEY) === "1";
+  const stored = Number(localStorage.getItem(VOL_KEY));
+  if (Number.isFinite(stored)) gain = Math.min(1, Math.max(0, stored));
 } catch {
   muted = false;
+  gain = 1;
 }
 
 let deskSilent = false;
@@ -106,6 +111,31 @@ export function setQuizBgmMuted(on) {
   if (bedKey) playBed(bedKey, true);
 }
 
+function clampBgmGain(raw) {
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return 1;
+  return Math.min(1, Math.max(0, n));
+}
+
+function applyBedVolume() {
+  const spec = BEDS[bedKey];
+  if (spec) bed.volume = spec.volume * gain;
+}
+
+export function getQuizBgmVolume() {
+  return gain;
+}
+
+export function setQuizBgmVolume(raw) {
+  gain = clampBgmGain(raw > 1 ? raw / 100 : raw);
+  try {
+    localStorage.setItem(VOL_KEY, String(gain));
+  } catch {
+    // ignore
+  }
+  applyBedVolume();
+}
+
 export function unlockQuizAudio() {
   if (bedKey) playBed(bedKey, true);
 }
@@ -153,7 +183,7 @@ export function playQuizSting(kind) {
   clearTimeout(stingTimer);
   sting.pause();
   sting.src = spec.src;
-  sting.volume = spec.volume;
+  sting.volume = spec.volume * gain;
   sting.currentTime = 0;
   sting.play().catch(() => {});
   if (spec.maxSec) {
@@ -179,6 +209,6 @@ function playBed(key, force = false) {
   if (bed.src !== bedAbs(spec.src)) bed.src = spec.src;
   bed.loop = true;
   bed.autoplay = true;
-  bed.volume = spec.volume;
+  applyBedVolume();
   startBed();
 }

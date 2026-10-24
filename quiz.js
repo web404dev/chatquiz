@@ -110,6 +110,101 @@ export function timeHintTargetCount(letterCount, remainingRatio) {
   return Math.min(target, Math.max(0, letterCount));
 }
 
+export const SCRAMBLE_MIN_UNITS = 3;
+const SCRAMBLE_WORD_CHAR = /[0-9A-Za-z가-힣]/;
+
+/** 뒤죽박죽 칸은 글자(음절). 문장도 띄어쓰기를 빼고 글자째 섞는다. */
+export function scrambleUnits(text) {
+  return [...String(text ?? "").normalize("NFC")].filter((ch) => SCRAMBLE_WORD_CHAR.test(ch));
+}
+
+export function scrambleProblem(text, kind = "word") {
+  const units = scrambleUnits(text);
+  if (kind === "sentence") {
+    const words = String(text ?? "").trim().split(/\s+/).filter(Boolean);
+    if (words.length < SCRAMBLE_MIN_UNITS) return "세 어절 이상으로 적어 주세요";
+  } else if (units.length < SCRAMBLE_MIN_UNITS) {
+    return "세 글자 이상으로 적어 주세요";
+  }
+  if (new Set(units).size < 2) return "서로 다른 글자가 있어야 섞을 수 있어요";
+  return "";
+}
+
+function sameAsAnswer(units, order) {
+  return order.every((src, slot) => units[src] === units[slot]);
+}
+
+function shuffledCopy(list, rand) {
+  const arr = list.slice();
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function rotateSlots(order, slots) {
+  const picked = slots.map((slot) => order[slot]);
+  picked.push(picked.shift());
+  slots.forEach((slot, i) => {
+    order[slot] = picked[i];
+  });
+}
+
+/** order[칸] = 원래 몇 번째 칸인지. 원래 순서와 같은 배치는 내지 않는다. */
+export function makeScramble(units, rand = Math.random) {
+  const slots = units.map((_, i) => i);
+  let order = slots;
+  if (new Set(units).size >= 2) {
+    for (let i = 0; i < 64 && sameAsAnswer(units, order); i += 1) order = shuffledCopy(slots, rand);
+    if (sameAsAnswer(units, order)) {
+      order = slots.slice();
+      rotateSlots(order, slots);
+    }
+  }
+  const misplaced = slots.filter((slot) => units[order[slot]] !== units[slot]);
+  const placed = slots.filter((slot) => units[order[slot]] === units[slot]);
+  return { order, hintOrder: [...shuffledCopy(misplaced, rand), ...shuffledCopy(placed, rand)] };
+}
+
+/** 힌트로 고정해도 남은 칸에 서로 다른 것이 둘 이상 있어야 정답이 그대로 드러나지 않는다. */
+export function scrambleHintLimit(units, hintOrder = []) {
+  const fixed = new Set();
+  let limit = 0;
+  for (const slot of hintOrder) {
+    fixed.add(slot);
+    const loose = units.filter((_, i) => !fixed.has(i));
+    if (new Set(loose).size < 2) break;
+    limit += 1;
+  }
+  return limit;
+}
+
+export function scrambleArrangement(units, scramble, hintCount = 0) {
+  const order = (scramble?.order || units.map((_, i) => i)).slice();
+  const hintOrder = scramble?.hintOrder || [];
+  const fixed = new Set();
+  const count = Math.min(Math.max(0, Math.floor(Number(hintCount) || 0)), scrambleHintLimit(units, hintOrder));
+  for (let h = 0; h < count; h += 1) {
+    const slot = hintOrder[h];
+    if (units[order[slot]] !== units[slot]) {
+      const from = order.findIndex((src, pos) => !fixed.has(pos) && units[src] === units[slot]);
+      [order[from], order[slot]] = [order[slot], order[from]];
+    }
+    fixed.add(slot);
+    if (sameAsAnswer(units, order)) {
+      rotateSlots(order, units.map((_, i) => i).filter((pos) => !fixed.has(pos)));
+    }
+  }
+  return { order, fixed };
+}
+
+/** 뒤죽박죽 채점: 띄어쓰기·문장부호만 무시하고 전체가 같아야 한다. */
+export function isExactAnswer(guess, answer) {
+  const g = normalizeAnswer(guess);
+  return !!g && g === normalizeAnswer(answer);
+}
+
 export const CHOSUNG_MISS_MAX = 8;
 export const CHOSUNG_MISS_FONT_MIN = 16;
 export const CHOSUNG_MISS_FONT_MAX = 34;
