@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=240" />
+  <link rel="stylesheet" href="./styles.css?v=247" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -134,6 +134,7 @@
                   <button type="button" class="seg-btn" data-format="clue" aria-pressed="false">단서</button>
                   <button type="button" class="seg-btn" data-format="listen" aria-pressed="false">듣기</button>
                   <button type="button" class="seg-btn" data-format="scramble" aria-pressed="false">뒤죽박죽</button>
+                  <button type="button" class="seg-btn" data-format="zoom" aria-pressed="false">확대</button>
                 </div>
                 <div class="format-sub" id="scrambleUnitAxis" hidden>
                   <span class="axis-label">섞기</span>
@@ -501,6 +502,9 @@
         </div>
         <div id="clueArtFrame" class="clue-art-frame" hidden>
           <img id="clueArt" class="clue-art" alt="" hidden decoding="async" referrerpolicy="no-referrer">
+        </div>
+        <div id="zoomFrame" class="zoom-frame" hidden>
+          <img id="zoomImg" class="zoom-img" alt="" decoding="async" referrerpolicy="no-referrer">
         </div>
         <p id="clueMeta" class="clue-meta" hidden></p>
         <div id="listenStage" class="listen-stage" hidden>
@@ -876,6 +880,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=310"></script>
+  <script type="module" src="./boot.js?v=319"></script>
 </body>
 </html>

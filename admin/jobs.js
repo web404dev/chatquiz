@@ -71,8 +71,8 @@ function live(id, label, hint) {
   };
 }
 
-export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences"];
-export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences"];
+export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom"];
+export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom"];
 export const SCHEDULE_DAYS = 20;
 
 export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
@@ -103,7 +103,7 @@ export const PACKS = {
     label: "전체 갱신",
     script: "admin/refresh-all.mjs",
     args: [],
-    hint: "영화 → 애니 → 게임 → 웹툰 → 노래 → 문장. 웹툰이 제일 김.",
+    hint: "영화 → 애니 → 게임 → 웹툰 → 노래 → 문장 → 확대 사진. 웹툰이 제일 김.",
     group: "all",
     file: "",
     summarize: summarizeBank,
@@ -130,6 +130,16 @@ export const PACKS = {
     group: "text",
     file: "sentences.json",
     summarize: summarizeSentences,
+  },
+  zoom: {
+    id: "zoom",
+    label: "확대 사진",
+    script: "admin/refresh-zoom.mjs",
+    args: [],
+    hint: "zoom-bank.js 단어 목록(동물·음식·물건·탈것·자연) + 한국 연예인(위키데이터, 유명한 순) → 위키데이터 대표 그림, 작으면 공용 분류의 큰 사진. 위키미디어 공용 2560px 주소만. zoom-exclude.json 단어·사람은 뺌.",
+    group: "media",
+    file: "zoom-pics.json",
+    summarize: summarizeBank,
   },
   "all-games": {
     id: "all-games",

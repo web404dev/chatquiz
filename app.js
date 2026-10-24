@@ -31,6 +31,7 @@ import {
   pickWordEntriesFromBank,
 } from "./word-bank.js?v=152";
 import { filterSentences, loadSentencePool, pickSentenceEntries, SENTENCE_SOURCES } from "./sentence-bank.js?v=22";
+import { filterZoomEntries, loadZoomPool, pickZoomEntries, pickZoomFocus, ZOOM_GENRES, zoomStepScale } from "./zoom-bank.js?v=5";
 import {
   pickClueEntries,
   filterClueItems,
@@ -174,6 +175,8 @@ const els = {
   clueChosungLine: document.getElementById("clueChosungLine"),
   clueArt: document.getElementById("clueArt"),
   clueArtFrame: document.getElementById("clueArtFrame"),
+  zoomFrame: document.getElementById("zoomFrame"),
+  zoomImg: document.getElementById("zoomImg"),
   clueKindBadge: document.getElementById("clueKindBadge"),
   clueMeta: document.getElementById("clueMeta"),
   listenStage: document.getElementById("listenStage"),
@@ -379,8 +382,14 @@ const COLOR_NAMES = {
 let wordBank = { words: [], fetchedAt: 0 };
 let sentencePool = null;
 let sentencePoolLoading = null;
+let zoomPool = null;
+let zoomPoolLoading = null;
+/** 카운트다운 동안 미리 골라 받아 두는 다음 확대 사진(앞 사진·틀 크기가 남지 않게). */
+let warmedZoomChoices = null;
+const zoomPreloads = new Map();
 let selectedSentenceGenres = ["all"];
 let draftSentenceGenres = ["all"];
+let selectedZoomGenres = ["all"];
 const SENTENCE_GENRE_TREE = [
   { id: "속담", label: "속담", icon: "📜" },
   {
@@ -409,6 +418,10 @@ const SENTENCE_GENRE_TREE = [
   },
 ];
 const SENTENCE_GENRE_IDS = SENTENCE_GENRE_TREE.flatMap((chip) => [chip.id, ...(chip.kids || []).map((kid) => kid.id)]);
+
+const ZOOM_GENRE_ICONS = { 동물: "🐾", 음식: "🍜", 물건: "📦", 탈것: "🚗", 자연: "🌿", 연예인: "⭐" };
+const ZOOM_GENRE_TREE = ZOOM_GENRES.map((id) => ({ id, label: id, icon: ZOOM_GENRE_ICONS[id] || "📷" }));
+const ZOOM_GENRE_IDS = ZOOM_GENRE_TREE.map((chip) => chip.id);
 
 function sentenceGenreKids(id) {
   return SENTENCE_GENRE_TREE.find((chip) => chip.id === id)?.kids?.map((kid) => kid.id) || [];
@@ -2287,6 +2300,8 @@ function maskAnswer(answer, revealed) {
 
 function hintsAllowed() {
   if (isClueFormat() || current.mode === "clue" || isListenFormat() || current.mode === "listen") return false;
+  // 확대는 줄어드는 사진이 곧 힌트라 글자 힌트를 주지 않는다.
+  if (isZoomFormat() || current.mode === "zoom") return false;
   return els.hintEnabled?.getAttribute("aria-pressed") === "true";
 }
 
@@ -3013,6 +3028,7 @@ function showPickingWait() {
   if (els.paintWrap) els.paintWrap.hidden = true;
   hideDrawHintBar();
   hideClueArt({ forget: true });
+  hideZoomStage();
   setHidden(els.prompt, false);
   els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "has-art", "is-draw-reveal");
   els.prompt.classList.add("is-pick-wait");
@@ -3587,11 +3603,94 @@ function bindListenGenreControls() {
   });
 }
 
+/** 확대 사진: 처음엔 아주 크게, 시간이 지나면 단계마다 배율이 바뀐다(zoom-bank.js ZOOM_STEPS). 정답 공개 때는 전체 사진. */
+function zoomRemainingRatio() {
+  if (phase !== "accepting" || !timerId || timerDuration <= 0) return 1;
+  return Math.max(0, endsAt - Date.now()) / (timerDuration * 1000);
+}
+
+function fitZoomFrame({ reveal = false } = {}) {
+  const img = els.zoomImg;
+  const frame = els.zoomFrame;
+  const w = Number(img?.naturalWidth) || 0;
+  const h = Number(img?.naturalHeight) || 0;
+  if (!frame || !els.prompt || !w || !h) return;
+  // 틀은 사진 원래 비율 그대로라 1배일 때 빈 곳 없이 꽉 찬다.
+  // 위(시간·장르 표시)와 아래(다음문제 버튼) 여백을 뺀 자리에 맞추고, 정답 공개 때는 정답 글자 두 줄 자리를 더 뺀다.
+  const css = getComputedStyle(els.prompt);
+  const free = els.prompt.clientHeight - (parseFloat(css.paddingTop) || 0) - (parseFloat(css.paddingBottom) || 0);
+  const tall = Math.max(80, free - (reveal ? els.prompt.clientHeight * 0.26 : 0));
+  const scale = Math.min(Math.min(els.prompt.clientWidth * 0.82, 1100) / w, tall / h);
+  frame.style.width = `${Math.round(w * scale)}px`;
+  frame.style.height = `${Math.round(h * scale)}px`;
+}
+
+function applyZoom(remainingRatio) {
+  const img = els.zoomImg;
+  if (current.mode !== "zoom" || !img) return;
+  img.style.transform = `scale(${zoomStepScale(remainingRatio)})`;
+}
+
+let zoomShownFor = null;
+
+function showZoomStage({ reveal = false } = {}) {
+  const frame = els.zoomFrame;
+  const img = els.zoomImg;
+  if (!frame || !img) return;
+  els.prompt?.classList.add("is-zoom");
+  const url = String(current.image || "").trim();
+  const focus = current.zoom?.focus || { x: 50, y: 50 };
+  // 새 문제는 확대한 상태에서 바로 시작한다(앞 문제의 전체 사진이 줄어드는 움직임으로 비치지 않게).
+  const fresh = zoomShownFor !== current;
+  zoomShownFor = current;
+  if (fresh) img.style.transition = "none";
+  img.style.transformOrigin = `${focus.x}% ${focus.y}%`;
+  applyZoom(reveal ? 0 : zoomRemainingRatio());
+  if (img.getAttribute("src") !== url) {
+    // 새 사진은 다 받아서 틀 크기를 맞춘 뒤에 틀째로 보여 준다(앞 사진 크기의 빈 틀이 보이지 않게).
+    frame.hidden = true;
+    img.onload = () => {
+      img.onload = null;
+      if (current.image !== url || current.mode !== "zoom") return;
+      fitZoomFrame({ reveal: phase !== "accepting" && phase !== "ready" && phase !== "countdown" });
+      applyZoom(phase === "accepting" ? zoomRemainingRatio() : 0);
+      frame.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => (img.style.transition = "")));
+    };
+    img.src = url;
+    return;
+  }
+  if (img.complete && img.naturalWidth) {
+    fitZoomFrame({ reveal });
+    frame.hidden = false;
+    if (fresh) requestAnimationFrame(() => requestAnimationFrame(() => (img.style.transition = "")));
+  }
+}
+
+function hideZoomStage({ forget = false } = {}) {
+  els.prompt?.classList.remove("is-zoom");
+  if (els.zoomFrame) els.zoomFrame.hidden = true;
+  if (forget && els.zoomImg) {
+    // 다음 문제에서 앞 사진·틀 크기가 잠깐이라도 보이지 않게 비운다.
+    els.zoomImg.onload = null;
+    els.zoomImg.removeAttribute("src");
+    zoomShownFor = null;
+  }
+}
+
+function takeWarmedZoomChoices() {
+  const genres = activeZoomGenres();
+  const warmed = (warmedZoomChoices || []).filter((entry) => !usedWordKeys.has(entry.word) && (!genres || genres.includes(entry.genre)));
+  warmedZoomChoices = null;
+  return warmed.length ? warmed : null;
+}
+
 function renderQuestionView() {
   const answer = current.answer || "";
   const mode = current.mode;
   const masked = hintCount > 0 ? maskAnswer(answer, hintCount) : "";
 
+  if (mode !== "zoom") hideZoomStage();
   if (mode === "draw") {
     if (els.paintWrap) els.paintWrap.hidden = false;
     els.prompt.hidden = true;
@@ -3629,6 +3728,17 @@ function renderQuestionView() {
     return;
   }
   hideListenStage();
+  if (mode === "zoom") {
+    els.prompt.classList.remove("is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "has-art");
+    hideClueArt({ forget: true });
+    syncClueSheet();
+    clearCluePromptFit();
+    syncClueChosungLine("");
+    setPromptText("");
+    showZoomStage();
+    syncGenreHintUi();
+    return;
+  }
   if (mode === "scramble") {
     els.prompt.classList.remove("is-clue", "is-chosung", "is-listen", "has-art");
     els.prompt.classList.add("is-scramble");
@@ -3680,6 +3790,10 @@ function isListenFormat(format = quizFormat) {
   return format === "listen";
 }
 
+function isZoomFormat(format = quizFormat) {
+  return format === "zoom";
+}
+
 function isScrambleFormat(format = quizFormat) {
   return format === "scramble";
 }
@@ -3689,7 +3803,7 @@ function isTypedWordFormat(format = quizFormat) {
 }
 
 function isKnownQuizFormat(format) {
-  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble";
+  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom";
 }
 
 function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
@@ -4442,6 +4556,7 @@ const FORMAT_DESC = {
   listen: "노래 미리듣기를 듣고 맞혀요",
   scramble: "글자 순서를 섞어서 나가요 · 치킨버거 → 거킨버치",
   scrambleSentence: "띄어쓰기 없이 글자를 모두 섞어요 · 달 보고 짖는 개 → 개고달는보짖",
+  zoom: "아주 크게 확대한 사진이 천천히 줄어들어요 · 무엇인지 맞혀요",
 };
 
 function syncAxisButtons() {
@@ -4454,7 +4569,7 @@ function syncAxisButtons() {
     const on = format === quizFormat;
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.disabled = posing && (format === "clue" || format === "listen");
+    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom");
   });
   els.topicSeg?.querySelectorAll("[data-topic]").forEach((btn) => {
     const topic = btn.dataset.topic;
@@ -4526,6 +4641,7 @@ function saveQuizModePrefs() {
       topic: quizTopic,
       scrambleUnit,
       sentenceGenres: selectedSentenceGenres,
+      zoomGenres: selectedZoomGenres,
       streamerJoin: isStreamerJoinEnabled(),
     }),
   );
@@ -4539,6 +4655,7 @@ function restoreQuizModePrefs() {
     if (prefs.topic === "auto" || prefs.topic === "manual") quizTopic = prefs.topic;
     if (prefs.scrambleUnit === "word" || prefs.scrambleUnit === "sentence") scrambleUnit = prefs.scrambleUnit;
     if (Array.isArray(prefs.sentenceGenres)) selectedSentenceGenres = normalizeSentenceGenres(prefs.sentenceGenres);
+    if (Array.isArray(prefs.zoomGenres)) selectedZoomGenres = normalizeZoomGenres(prefs.zoomGenres);
     if (els.streamerJoin) els.streamerJoin.checked = prefs.streamerJoin === true;
   } catch {
     // ignore
@@ -4668,6 +4785,26 @@ function idlePrefetchCluePool() {
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
   prefetchClueEntries(pool.slice(0, 40));
+}
+
+function preloadZoomImage(url) {
+  if (!url || zoomPreloads.has(url)) return;
+  const img = new Image();
+  img.referrerPolicy = "no-referrer";
+  img.decoding = "async";
+  img.src = url;
+  zoomPreloads.set(url, img);
+  if (zoomPreloads.size > 12) zoomPreloads.delete(zoomPreloads.keys().next().value);
+}
+
+function warmUpcomingZoomImages() {
+  if (!isZoomFormat() || !zoomPool?.items.length || warmedZoomChoices?.length) return;
+  try {
+    warmedZoomChoices = pickZoomEntries(zoomPool, { exclude: usedWordKeys, genres: activeZoomGenres() }, liveAutoPickCount());
+    for (const entry of warmedZoomChoices) preloadZoomImage(entry.image);
+  } catch {
+    warmedZoomChoices = null;
+  }
 }
 
 function warmUpcomingClueImages() {
@@ -5090,11 +5227,55 @@ function startAuthKeep() {
   authKeep.start();
 }
 
-function normalizeSentenceGenres(next) {
+function normalizePickedGenres(next, ids) {
   const unique = [...new Set((next || []).filter(Boolean))];
   if (!unique.length || unique.includes("all")) return ["all"];
-  const picked = SENTENCE_GENRE_IDS.filter((id) => unique.includes(id));
+  const picked = ids.filter((id) => unique.includes(id));
   return picked.length ? picked : ["all"];
+}
+
+function normalizeSentenceGenres(next) {
+  return normalizePickedGenres(next, SENTENCE_GENRE_IDS);
+}
+
+function normalizeZoomGenres(next) {
+  return normalizePickedGenres(next, ZOOM_GENRE_IDS);
+}
+
+/** 장르 창 하나를 문장과 확대가 같이 쓴다. 지금 유형에 맞는 목록·선택을 고른다. */
+function genreModalSpec() {
+  return isZoomFormat()
+    ? {
+        title: "확대 장르",
+        tree: ZOOM_GENRE_TREE,
+        normalize: normalizeZoomGenres,
+        get: () => selectedZoomGenres,
+        set: (next) => {
+          selectedZoomGenres = next;
+        },
+        summary: updateZoomGenreSummary,
+      }
+    : {
+        title: "문장 장르",
+        tree: SENTENCE_GENRE_TREE,
+        normalize: normalizeSentenceGenres,
+        get: () => selectedSentenceGenres,
+        set: (next) => {
+          selectedSentenceGenres = next;
+        },
+        summary: updateSentenceGenreSummary,
+      };
+}
+
+function activeZoomGenres() {
+  return selectedZoomGenres.includes("all") ? null : selectedZoomGenres.slice();
+}
+
+function updateZoomGenreSummary() {
+  if (!els.wordGenreSummary) return;
+  const n = zoomPool ? filterZoomEntries(zoomPool, activeZoomGenres()).length : 0;
+  const head = selectedZoomGenres.includes("all") ? "전체" : selectedZoomGenres.join(" · ");
+  els.wordGenreSummary.textContent = n ? `${head} · ${n}개` : head;
 }
 
 /** 상위 '명언'·'명대사'를 고르면 하위(명언 7종류, 영화·애니·드라마)가 모두 들어간다. */
@@ -5112,7 +5293,7 @@ function updateSentenceGenreSummary() {
 }
 
 function syncSentenceGenreUi(activeList) {
-  const active = normalizeSentenceGenres(activeList);
+  const active = genreModalSpec().normalize(activeList);
   els.sentenceGenrePanel?.querySelectorAll(".genre-option").forEach((btn) => {
     const on = active.includes(btn.dataset.genre);
     const included = !on && Boolean(btn.dataset.parent) && active.includes(btn.dataset.parent);
@@ -5127,7 +5308,8 @@ function syncSentenceGenreUi(activeList) {
 function setSentenceGenreMenuOpen(open) {
   if (!els.sentenceGenreModal) return;
   if (open) {
-    draftSentenceGenres = selectedSentenceGenres.slice();
+    renderSentenceGenreMenu();
+    draftSentenceGenres = genreModalSpec().get().slice();
     syncSentenceGenreUi(draftSentenceGenres);
   }
   setModalLayer(els.sentenceGenreModal, open, {
@@ -5139,11 +5321,12 @@ function setSentenceGenreMenuOpen(open) {
 }
 
 function commitSentenceGenres(next) {
-  selectedSentenceGenres = normalizeSentenceGenres(next);
-  draftSentenceGenres = selectedSentenceGenres.slice();
-  syncSentenceGenreUi(selectedSentenceGenres);
+  const spec = genreModalSpec();
+  spec.set(spec.normalize(next));
+  draftSentenceGenres = spec.get().slice();
+  syncSentenceGenreUi(spec.get());
   saveQuizModePrefs();
-  updateSentenceGenreSummary();
+  spec.summary();
   reportWordPickStats();
 }
 
@@ -5158,12 +5341,16 @@ function toggleDraftSentenceGenre(id) {
     next = draftSentenceGenres.filter((item) => item !== parent && !kids.includes(item));
     next.push(id);
   }
-  draftSentenceGenres = normalizeSentenceGenres(next);
+  draftSentenceGenres = genreModalSpec().normalize(next);
   syncSentenceGenreUi(draftSentenceGenres);
 }
 
 function renderSentenceGenreMenu() {
   if (!els.sentenceGenrePanel) return;
+  const spec = genreModalSpec();
+  const title = document.getElementById("sentenceGenreModalTitle");
+  if (title) title.textContent = spec.title;
+  els.sentenceGenreClose?.setAttribute("aria-label", `${spec.title} 닫기`);
   els.sentenceGenrePanel.innerHTML = "";
   const addBtn = (chip, extra = "") => {
     const btn = document.createElement("button");
@@ -5180,7 +5367,7 @@ function renderSentenceGenreMenu() {
     return btn;
   };
   els.sentenceGenrePanel.appendChild(addBtn({ id: "all", label: "전체", icon: "🎲" }));
-  for (const group of SENTENCE_GENRE_TREE) {
+  for (const group of spec.tree) {
     const wrap = document.createElement("div");
     wrap.className = "genre-modal-group";
     wrap.appendChild(addBtn(group, "is-group"));
@@ -5192,7 +5379,7 @@ function renderSentenceGenreMenu() {
     }
     els.sentenceGenrePanel.appendChild(wrap);
   }
-  syncSentenceGenreUi(selectedSentenceGenres);
+  syncSentenceGenreUi(spec.get());
 }
 
 function isSentenceScramble() {
@@ -5213,11 +5400,37 @@ function ensureSentencePool() {
   return sentencePoolLoading;
 }
 
+function ensureZoomPool() {
+  if (zoomPool) return Promise.resolve(zoomPool);
+  if (!zoomPoolLoading) {
+    zoomPoolLoading = loadZoomPool().then((pool) => {
+      zoomPool = pool;
+      zoomPoolLoading = null;
+      if (isZoomFormat()) {
+        updateZoomGenreSummary();
+        if (pool.items.length) reportWordPickStats();
+        else setStatus("확대 사진을 불러오지 못했습니다");
+      }
+      return pool;
+    });
+  }
+  return zoomPoolLoading;
+}
+
 function manualScrambleProblem() {
   return isScrambleFormat() ? scrambleProblem(getManualAnswer(), scrambleUnit) : "";
 }
 
 function reportWordPickStats() {
+  if (isZoomFormat()) {
+    const genres = activeZoomGenres();
+    setStatus(
+      zoomPool
+        ? `확대 사진 후보 ${filterZoomEntries(zoomPool, genres).length}개 (${genres ? genres.join("·") : "전체"})`
+        : "확대 사진을 불러오는 중입니다",
+    );
+    return;
+  }
   if (isClueFormat() || !isAutoTopic() || !wordBank) return;
   if (isSentenceScramble()) {
     setStatus(
@@ -5331,7 +5544,7 @@ function bindWordPickControls() {
     event.stopPropagation();
     setListenAnswerMenuOpen(false);
     if (isListenFormat()) setListenGenreMenuOpen(!!els.listenGenreModal?.hidden);
-    else if (isSentenceScramble()) setSentenceGenreMenuOpen(!!els.sentenceGenreModal?.hidden);
+    else if (isSentenceScramble() || isZoomFormat()) setSentenceGenreMenuOpen(!!els.sentenceGenreModal?.hidden);
     else setGenreMenuOpen(!!els.genreModal?.hidden);
   });
   els.sentenceGenreClose?.addEventListener("click", (event) => {
@@ -5376,14 +5589,15 @@ function syncModeUi() {
   const isListen = isListenFormat();
   const isScramble = isScrambleFormat();
   const isSentence = isSentenceScramble();
-  const isAuto = posing ? false : isClue || isListen ? true : isAutoTopic();
+  const isZoom = isZoomFormat();
+  const isAuto = posing ? false : isClue || isListen || isZoom ? true : isAutoTopic();
   const needsAnswer = !isAuto;
-  if (!posing && (isClue || isListen) && quizTopic !== "auto") {
+  if (!posing && (isClue || isListen || isZoom) && quizTopic !== "auto") {
     quizTopic = "auto";
   }
   syncAxisButtons();
-  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen);
-  const showTimeHint = !isClue && !isListen;
+  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom);
+  const showTimeHint = !isClue && !isListen && !isZoom;
   const showGenreReveal = isAuto && !isClue;
   if (els.timeHintOpt) setHidden(els.timeHintOpt, !showTimeHint);
   if (els.genreRevealOpt) setHidden(els.genreRevealOpt, !showGenreReveal);
@@ -5407,22 +5621,23 @@ function syncModeUi() {
     els.autoWordFields.classList.toggle("is-clue", isClue);
     els.autoWordFields.classList.toggle("is-listen", isListen);
   }
-  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence);
+  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom);
   if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
   if (els.wordGenreToggle) {
     els.wordGenreToggle.setAttribute(
       "aria-controls",
-      isListen ? "listenGenreModal" : isSentence ? "sentenceGenreModal" : "genreModal",
+      isListen ? "listenGenreModal" : isSentence || isZoom ? "sentenceGenreModal" : "genreModal",
     );
   }
-  if (!isSentence && els.sentenceGenreModal && !els.sentenceGenreModal.hidden) setSentenceGenreMenuOpen(false);
+  if (!isSentence && !isZoom && els.sentenceGenreModal && !els.sentenceGenreModal.hidden) setSentenceGenreMenuOpen(false);
   if (isListen) {
     if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
     updateListenGenreSummary();
-  } else if (isSentence) {
+  } else if (isSentence || isZoom) {
     if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
     if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
-    updateSentenceGenreSummary();
+    if (isZoom) updateZoomGenreSummary();
+    else updateSentenceGenreSummary();
   } else {
     if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
     updateGenreSummary();
@@ -5439,6 +5654,7 @@ function syncModeUi() {
   }
   syncDrawPanel();
   if (isSentence) void ensureSentencePool();
+  if (isZoom) void ensureZoomPool();
   if (isAuto && !isClue) {
     requestAnimationFrame(() => syncLenUi());
     reportWordPickStats();
@@ -5550,6 +5766,7 @@ function tick() {
   const pct = timerDuration > 0 ? (leftMs / (timerDuration * 1000)) * 100 : 0;
   updateTimerHud(left, pct);
   const remainingRatio = timerDuration > 0 ? leftMs / (timerDuration * 1000) : 0;
+  if (current.mode === "zoom" && phase === "accepting") applyZoom(remainingRatio);
   applyTimeHints(remainingRatio);
   if (left <= 0) finishQuestion(null);
 }
@@ -5842,6 +6059,7 @@ function finishQuestion(winner) {
   const wasClue = current.mode === "clue" || isClueFormat(current.format);
   const wasListen = current.mode === "listen" || isListenFormat(current.format);
   const wasScramble = current.mode === "scramble";
+  const wasZoom = current.mode === "zoom";
   els.prompt.hidden = false;
   hideDrawHintBar();
   hideListenStage();
@@ -5850,7 +6068,7 @@ function finishQuestion(winner) {
   els.prompt.classList.remove("hit", "miss");
   els.prompt.classList.toggle("is-clue", wasClue);
   els.prompt.classList.toggle("is-listen", wasListen);
-  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen && !wasScramble);
+  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen && !wasScramble && !wasZoom);
   els.prompt.classList.toggle("is-scramble", wasScramble);
   els.prompt.classList.toggle("is-sentence", wasScramble && current.scramble?.kind === "sentence");
   els.prompt.classList.toggle("is-draw-reveal", wasDraw);
@@ -5859,6 +6077,8 @@ function finishQuestion(winner) {
     syncClueArt({ reveal: true });
   } else if (wasScramble) syncClueArt({ reveal: true });
   else hideClueArt();
+  if (wasZoom) showZoomStage({ reveal: true });
+  else hideZoomStage();
   if (els.broadcastHud) els.broadcastHud.hidden = false;
   if (wasDraw) {
     showRevealPaintThumb();
@@ -5888,6 +6108,7 @@ function finishQuestion(winner) {
     if (wasListen) setPromptText(answerText);
     else if (wasDraw) setPromptText("");
     else if (wasScramble) setScramblePrompt();
+    else if (wasZoom) setPromptText("");
     else if (!wasClue) setPromptText(formatChosungDisplay(answerText));
     playHitFireworks();
     playHitFly({ nickname: winner.nickname, answer: answerText }, showHitPrompt);
@@ -6226,6 +6447,7 @@ async function runStartCountdown() {
   stopQuestionTts();
   stopListenAudio();
   warmUpcomingClueImages();
+  warmUpcomingZoomImages();
   phase = "countdown";
   syncDeskFlow();
   stopTimer();
@@ -6234,6 +6456,7 @@ async function runStartCountdown() {
   els.prompt.hidden = true;
   setPromptText("");
   hideClueArt({ forget: true });
+  hideZoomStage({ forget: true });
   hideListenStage();
   els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "is-draw-reveal");
   clearCluePromptFit();
@@ -6285,6 +6508,18 @@ function canStartQuestion() {
   if (isListenFormat()) {
     if (!songCount(selectedListenGenres)) {
       setStatus("선택한 장르에 미리듣기가 없습니다");
+      return false;
+    }
+    return true;
+  }
+  if (isZoomFormat()) {
+    if (!zoomPool) {
+      void ensureZoomPool();
+      setStatus("확대 사진을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      return false;
+    }
+    if (!filterZoomEntries(zoomPool, activeZoomGenres()).length) {
+      setStatus("고른 장르에 낼 확대 사진이 없습니다");
       return false;
     }
     return true;
@@ -6352,9 +6587,10 @@ function beginQuestion() {
   const listen = format === "listen";
   const scramble = format === "scramble";
   const sentence = scramble && scrambleUnit === "sentence";
+  const zoom = format === "zoom";
   const posing = isGuestPosing();
-  const topicKey = posing ? "manual" : clue || listen ? "auto" : topic;
-  const streamerJoin = (isTypedWordFormat(format) || clue || listen) && topicKey === "auto" && isStreamerJoinEnabled();
+  const topicKey = posing ? "manual" : clue || listen || zoom ? "auto" : topic;
+  const streamerJoin = (isTypedWordFormat(format) || clue || listen || zoom) && topicKey === "auto" && isStreamerJoinEnabled();
   if (listen) {
     try {
       song = takeSongSync(usedSongIds, selectedListenGenres);
@@ -6377,6 +6613,10 @@ function beginQuestion() {
         void ensureSentencePool();
         throw new Error("문장 목록을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       }
+      if (zoom && !zoomPool) {
+        void ensureZoomPool();
+        throw new Error("확대 사진을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      }
       let entry = pendingAutoEntry;
       pendingAutoEntry = null;
       if (!entry) {
@@ -6388,9 +6628,11 @@ function beginQuestion() {
           ? warmed?.length
             ? warmed
             : pickClueEntries(activeClueBank(), cluePickOptions(), liveAutoPickCount())
-          : sentence
-            ? pickSentenceEntries(sentencePool, { exclude: usedWordKeys, sources: activeSentenceSources() }, liveAutoPickCount())
-            : pickWordEntriesFromBank(wordBank, wordPickOptions(), liveAutoPickCount());
+          : zoom
+            ? takeWarmedZoomChoices() || pickZoomEntries(zoomPool, { exclude: usedWordKeys, genres: activeZoomGenres() }, liveAutoPickCount())
+            : sentence
+              ? pickSentenceEntries(sentencePool, { exclude: usedWordKeys, sources: activeSentenceSources() }, liveAutoPickCount())
+              : pickWordEntriesFromBank(wordBank, wordPickOptions(), liveAutoPickCount());
         if (clue) prefetchClueEntries(choices, { urgent: true });
         if (choices.length > 1) {
           autoPickChoices = choices;
@@ -6431,7 +6673,7 @@ function beginQuestion() {
       syncDeskFlow();
       return;
     }
-    if ((isTypedWordFormat(format) || clue || listen) && !streamerJoin) {
+    if ((isTypedWordFormat(format) || clue || listen || zoom) && !streamerJoin) {
       excludeUserId = session.userId;
     }
   } else {
@@ -6457,7 +6699,7 @@ function beginQuestion() {
       ? pendingGuestAuthor.nickname
       : "";
   current = {
-    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : scramble ? "scramble" : "chosung",
+    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : scramble ? "scramble" : zoom ? "zoom" : "chosung",
     format,
     topic: topicKey,
     answer,
@@ -6475,6 +6717,7 @@ function beginQuestion() {
     song,
     listenAnswerMode: listenRoundMode,
     scramble: scramble ? makeScrambleState(answer, sentence ? "sentence" : "word") : null,
+    zoom: zoom ? { focus: pickZoomFocus() } : null,
     byGuest,
   };
   pendingGuestAuthor = null;
@@ -6523,6 +6766,8 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, f
     setStatus(isDev ? `듣기 · ${listenAnswerModeLabel(current.listenAnswerMode)} · 정답 [${answer}]` : listenAnswerStatus(current.listenAnswerMode));
   } else if (clue) {
     setStatus(isDev ? `단서 · ${genre} · 정답 [${answer}]` : `단서 · ${genre} · 채팅 정답 대기`);
+  } else if (current.mode === "zoom") {
+    setStatus(isDev && !streamerJoin ? `확대 · ${genre} · 정답 [${answer}]` : "확대 · 채팅 정답 대기");
   } else if (current.mode === "scramble") {
     const label = current.scramble?.kind === "sentence" ? "뒤죽박죽 문장" : "뒤죽박죽";
     if (isDev && !streamerJoin) setStatus(`${label} · 정답 [${answer}]`);
@@ -7338,7 +7583,7 @@ function bind() {
     const btn = event.target.closest("[data-format]");
     if (!btn) return;
     if (!isKnownQuizFormat(btn.dataset.format)) return;
-    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen")) return;
+    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom")) return;
     if (quizFormat === "listen" && btn.dataset.format !== "listen") stopListenAudio();
     quizFormat = btn.dataset.format;
     if (isGuestPosing()) quizTopic = "manual";

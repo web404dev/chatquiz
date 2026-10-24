@@ -6200,14 +6200,14 @@ body.mode-desk .host-tutorial {
   border-color: #060912;
 }
 
-/* 유형: 다섯 칸 같은 폭, 뒤죽박죽 섞기는 유형 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
+/* 유형: 여섯 칸 같은 폭, 뒤죽박죽 섞기는 유형 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
 .broadcast-lobby .format-axis {
   flex: 1 1 100%;
 }
 
 .broadcast-lobby .format-axis #formatSeg {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   width: 100%;
 }
 
@@ -6268,4 +6268,89 @@ body.mode-desk .host-tutorial {
 
 #prompt.caption.is-scramble.has-art #clueArt {
   object-fit: contain;
+}
+
+/* 확대: 사진 한 점을 크게 키워 보여 주고 남은 시간에 맞춰 천천히 줄인다. 틀은 사진 원래 비율. */
+.zoom-frame {
+  position: relative;
+  flex: none;
+  /* 자막의 pre-line 줄바꿈이 사진 위아래 빈 줄로 들어가지 않게 한다. */
+  white-space: normal;
+  font-size: 0;
+  line-height: 0;
+  width: min(70cqw, 960px);
+  height: 56cqh;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #05070d;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14), 0 18px 48px rgba(0, 0, 0, 0.55);
+  /* 정답 공개 때 틀이 줄어드는 것도 부드럽게(숨긴 채 크기를 맞출 땐 움직이지 않음). */
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.zoom-frame[hidden] {
+  display: none;
+}
+
+.zoom-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* 틀이 사진 비율과 같으니 반올림 1px 틈도 남지 않게 채운다. */
+  object-fit: cover;
+  /* 단계가 바뀔 때 크기가 짧게 부드럽게 바뀐다. */
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+.caption.is-zoom {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4cqh;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  /* 위는 시간 표시와 「장르 · …」 표시(위 48px부터 약 36px), 아래는 정답 공개 때 나오는 다음문제 버튼(아래 28px부터 약 55px) 자리. */
+  padding: 96px 4cqw 96px !important;
+  box-sizing: border-box;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  pointer-events: none;
+  font-family: "Noto Sans KR", sans-serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(28px, 4.4cqw, 54px);
+  line-height: 1.15 !important;
+}
+
+.caption.is-zoom > :not(#promptText):not(#zoomFrame) {
+  display: none !important;
+}
+
+.caption.is-zoom #promptText {
+  display: inline-block;
+  max-width: min(86cqw, 920px);
+  margin: 0;
+  padding: 12px 32px;
+  background: #ffe14a;
+  color: #141414;
+  box-shadow: 6px 6px 0 #000;
+  font: inherit;
+  white-space: pre-line;
+  text-align: center;
+}
+
+.caption.is-zoom.hit #promptText { background: #3dff9a; }
+.caption.is-zoom.miss #promptText { background: #d8d0c2; }
+
+.caption.is-zoom #promptText:empty {
+  display: none;
 }

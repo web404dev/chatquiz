@@ -1,0 +1,2773 @@
+{
+ "version": 3,
+ "fetchedAt": 1792869395111,
+ "title": "확대 사진 (단어 목록·한국 연예인 + 위키데이터·위키미디어 공용 사진)",
+ "note": "사진 파일은 저장하지 않고 위키미디어 공용 주소만 둔다. 사진 저작권·라이선스는 각 파일 문서를 따른다. 빼고 싶은 단어는 zoom-exclude.json words, 사람은 people 에 적고 다시 갱신한다.",
+ "genres": [
+  "동물",
+  "음식",
+  "물건",
+  "탈것",
+  "자연",
+  "연예인"
+ ],
+ "items": [
+  {
+   "word": "고양이",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cat%20grooming.jpg?width=2560",
+   "wikidata": "Q146"
+  },
+  {
+   "word": "강아지",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Day%20354%20-%20West%20Midlands%20Police%20-%20Newly%20born%20police%20puppies%20(8288060774).jpg?width=2560",
+   "wikidata": "Q39266"
+  },
+  {
+   "word": "기린",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rothschild's%20giraffe%20(Giraffa%20camelopardalis%20rothschildi)%20-%20Murchison%20Falls%20National%20Park.jpg?width=2560",
+   "wikidata": "Q15083"
+  },
+  {
+   "word": "얼룩말",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Plains%20Zebra%20Equus%20quagga.jpg?width=2560",
+   "wikidata": "Q32789"
+  },
+  {
+   "word": "코끼리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/178%20Male%20African%20bush%20elephant%20in%20Etosha%20National%20Park%20Photo%20by%20Giles%20Laurent.jpg?width=2560",
+   "wikidata": "Q7378"
+  },
+  {
+   "word": "펭귄",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/00%202304%20Eselspinguine%20in%20der%20Antarktis.jpg?width=2560",
+   "wikidata": "Q9147"
+  },
+  {
+   "word": "호랑이",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Adult%20male%20Royal%20Bengal%20tiger.jpg?width=2560",
+   "wikidata": "Q19939"
+  },
+  {
+   "word": "사자",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lion%20in%20masai%20mara.jpg?width=2560",
+   "wikidata": "Q140"
+  },
+  {
+   "word": "앵무새",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ara%20ararauna%20Luc%20Viatour.jpg?width=2560",
+   "wikidata": "Q31431"
+  },
+  {
+   "word": "코알라",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Australia%20Cairns%20Koala.jpg?width=2560",
+   "wikidata": "Q36101"
+  },
+  {
+   "word": "캥거루",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kangaroo%20Island%20Western%20grey%20kangaroo%20(Macropus%20fuliginosus%20fuliginosus)%20male.jpg?width=2560",
+   "wikidata": "Q5070208"
+  },
+  {
+   "word": "하마",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hippo%20(Hippopotamus%20amphibius)%20(16485955207).jpg?width=2560",
+   "wikidata": "Q34505"
+  },
+  {
+   "word": "코뿔소",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Waterberg%20Nashorn1.jpg?width=2560",
+   "wikidata": "Q34718"
+  },
+  {
+   "word": "낙타",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/07.%20Camel%20Profile%2C%20near%20Silverton%2C%20NSW%2C%2007.07.2007.jpg?width=2560",
+   "wikidata": "Q7375"
+  },
+  {
+   "word": "원숭이",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cebus%20albifrons%20edit.jpg?width=2560",
+   "wikidata": "Q1367"
+  },
+  {
+   "word": "고릴라",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lowland%20Gorilla%20(8973697544).jpg?width=2560",
+   "wikidata": "Q36611"
+  },
+  {
+   "word": "여우",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vulpes%20vulpes%20laying%20in%20snow.jpg?width=2560",
+   "wikidata": "Q8331"
+  },
+  {
+   "word": "늑대",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Canis%20lupus%20chanco1.jpg?width=2560",
+   "wikidata": "Q266883"
+  },
+  {
+   "word": "북극곰",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Polar%20bear%20(Ursus%20maritimus)%20in%20the%20drift%20ice%20region%20north%20of%20Svalbard.jpg?width=2560",
+   "wikidata": "Q33609"
+  },
+  {
+   "word": "너구리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%95%D0%BD%D0%BE%D1%82%D0%BE%D0%B2%D0%B8%D0%B4%D0%BD%D0%B0%D1%8F%20%D1%81%D0%BE%D0%B1%D0%B0%D0%BA%D0%B0%20%D0%93%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%20(cropped%202).jpg?width=2560",
+   "wikidata": "Q133189"
+  },
+  {
+   "word": "다람쥐",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Red%20squirrel%20on%20tree%20branch.jpg?width=2560",
+   "wikidata": "Q858243"
+  },
+  {
+   "word": "토끼",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Eastern%20Cottontail%20(Sylvilagus%20floridanus).JPG?width=2560",
+   "wikidata": "Q9394"
+  },
+  {
+   "word": "거북",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hawaii%20turtle%202.JPG?width=2560",
+   "wikidata": "Q223044"
+  },
+  {
+   "word": "악어",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Crocodylus%20acutus%20jalisco%20mexico.jpg?width=2560",
+   "wikidata": "Q25363"
+  },
+  {
+   "word": "개구리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rana%20aurora%206230.JPG?width=2560",
+   "wikidata": "Q72738"
+  },
+  {
+   "word": "카멜레온",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bradypodion%20pumilum%20Cape%20chameleon%20female%20IMG%201767%20(cropped).jpg?width=2560",
+   "wikidata": "Q37686"
+  },
+  {
+   "word": "부엉이",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/H%C3%A4ndkakk%202014.JPG?width=2560",
+   "wikidata": "Q8021345"
+  },
+  {
+   "word": "독수리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cinereous%20vulture%20-%20Al-%20Al-Liyah%20reserve%203.jpg?width=2560",
+   "wikidata": "Q168677"
+  },
+  {
+   "word": "홍학",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20170425%20131%20Camargue%20Flamingo%20(33654108203).jpg?width=2560",
+   "wikidata": "Q41994"
+  },
+  {
+   "word": "비둘기",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2019-03-17%20Columba%20oenas%2C%20Jesmond%20Dene%208.jpg?width=2560",
+   "wikidata": "Q10856"
+  },
+  {
+   "word": "참새",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tree-Sparrow-2009-16-02.jpg?width=2560",
+   "wikidata": "Q25968"
+  },
+  {
+   "word": "까치",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Eurasian%20magpie%20(10860).jpg?width=2560",
+   "wikidata": "Q25307"
+  },
+  {
+   "word": "오리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Anas%20platyrhynchos%20(mixed%20pair)%20(32428014687).jpg?width=2560",
+   "wikidata": "Q3736439"
+  },
+  {
+   "word": "닭",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kruppert%20Cubalaya%20cropped.JPG?width=2560",
+   "wikidata": "Q780"
+  },
+  {
+   "word": "펠리컨",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pelikan%20Walvis%20Bay.jpg?width=2560",
+   "wikidata": "Q19413"
+  },
+  {
+   "word": "돌고래",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tursiops%20truncatus%2001.jpg?width=2560",
+   "wikidata": "Q7369"
+  },
+  {
+   "word": "고래",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/00%202381%20Schwanzflosse%20des%20Buckelwals.jpg?width=2560",
+   "wikidata": "Q160"
+  },
+  {
+   "word": "상어",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tibur%C3%B3n%20azul%20(Prionace%20glauca)%2C%20canal%20Fayal-Pico%2C%20islas%20Azores%2C%20Portugal%2C%202020-07-27%2C%20DD%2014.jpg?width=2560",
+   "wikidata": "Q7372"
+  },
+  {
+   "word": "오징어",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Loligo%20vulgaris.jpg?width=2560",
+   "wikidata": "Q843338"
+  },
+  {
+   "word": "해파리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jellyfish%20from%20Corpus%20Christi.jpg?width=2560",
+   "wikidata": "Q30178"
+  },
+  {
+   "word": "게",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Liocarcinus%20vernalis.jpg?width=2560",
+   "wikidata": "Q40802"
+  },
+  {
+   "word": "새우",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/HK%20food%20%E6%80%A5%E5%87%8D%20frozen%20food%20%E8%9D%A6%E4%BB%81%20peeled%20prawn%20in%20June%202022%20Px3%2005%20cropped.jpg?width=2560",
+   "wikidata": "Q1517781"
+  },
+  {
+   "word": "나비",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Charaxes%20brutus%20natalensis.jpg?width=2560",
+   "wikidata": "Q11946202"
+  },
+  {
+   "word": "무당벌레",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Coccinella%20in%20Parc%20du%20Bois-de-Coulonge%20uncut%20version.jpg?width=2560",
+   "wikidata": "Q499627"
+  },
+  {
+   "word": "잠자리",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Common%20darter%20dragonflies%20(Sympetrum%20striolatum)%20mating%20blue%20abdomen%20and%20red%20pterostigma.JPG?width=2560",
+   "wikidata": "Q25375"
+  },
+  {
+   "word": "개미",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Fourmi%20(Formica%20rufa)%20(5%20dioptries).jpg?width=2560",
+   "wikidata": "Q7386"
+  },
+  {
+   "word": "달팽이",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Snail.jpg?width=2560",
+   "wikidata": "Q308841"
+  },
+  {
+   "word": "소",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bulgarian%20gray%20cattle.jpg?width=2560",
+   "wikidata": "Q830"
+  },
+  {
+   "word": "말",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Biandintz%20eta%20zaldiak%20-%20modified2.jpg?width=2560",
+   "wikidata": "Q726"
+  },
+  {
+   "word": "돼지",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sow%20with%20piglet.jpg?width=2560",
+   "wikidata": "Q787"
+  },
+  {
+   "word": "양",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Flock%20of%20sheep.jpg?width=2560",
+   "wikidata": "Q7368"
+  },
+  {
+   "word": "염소",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Billy%20goat.jpg?width=2560",
+   "wikidata": "Q2934"
+  },
+  {
+   "word": "사슴",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chital%20in%20Sanjay%20Dubri%20Tiger%20Reserve%20December%202024%20by%20Tisha%20Mukherjee%2001.jpg?width=2560",
+   "wikidata": "Q23390"
+  },
+  {
+   "word": "알파카",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Alpacas%20Sillustani%20(pixinn.net).jpg?width=2560",
+   "wikidata": "Q81564"
+  },
+  {
+   "word": "수달",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/European%20otter%2001.jpg?width=2560",
+   "wikidata": "Q29995"
+  },
+  {
+   "word": "물개",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/New%20Zealand%20Fur%20Seal%20pup%20(Arctocephalus%20forsteri)%2C%20wet.jpg?width=2560",
+   "wikidata": "Q1043473"
+  },
+  {
+   "word": "공룡",
+   "genre": "동물",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tyrannosaur%20Rex%20and%20Triceratops.jpg?width=2560",
+   "wikidata": "Q430"
+  },
+  {
+   "word": "파인애플",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/AnanasComosusOnPlant.jpg?width=2560",
+   "wikidata": "Q1493"
+  },
+  {
+   "word": "딸기",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Strawberries.JPG?width=2560",
+   "wikidata": "Q13158"
+  },
+  {
+   "word": "옥수수",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Klip%20kukuruza%20uzgojen%20u%20Me%C4%91imurju%20(Croatia).JPG?width=2560",
+   "wikidata": "Q11575"
+  },
+  {
+   "word": "바나나",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cavendish%20banana%20from%20Maracaibo.jpg?width=2560",
+   "wikidata": "Q503"
+  },
+  {
+   "word": "아보카도",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Persea%20americana%20fruit%202.JPG?width=2560",
+   "wikidata": "Q37153"
+  },
+  {
+   "word": "피자",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pizza-3007395.jpg?width=2560",
+   "wikidata": "Q177"
+  },
+  {
+   "word": "김밥",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gimbap%20(pixabay).jpg?width=2560",
+   "wikidata": "Q495360"
+  },
+  {
+   "word": "레몬",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Limonero%20con%20injerto%20de%20naranjo%2C%20Sevilla%2C%20Espa%C3%B1a%2C%20noviembre%20de%202011.JPG?width=2560",
+   "wikidata": "Q500"
+  },
+  {
+   "word": "사과",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Honeycrisp.jpg?width=2560",
+   "wikidata": "Q89"
+  },
+  {
+   "word": "체리",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20Stella444.jpg?width=2560",
+   "wikidata": "Q196"
+  },
+  {
+   "word": "복숭아",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Autumn%20Red%20peaches.jpg?width=2560",
+   "wikidata": "Q13189"
+  },
+  {
+   "word": "망고",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mango%20-%20single.jpg?width=2560",
+   "wikidata": "Q3919027"
+  },
+  {
+   "word": "귤",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mandarin%20Oranges%20(Citrus%20Reticulata).jpg?width=2560",
+   "wikidata": "Q81513"
+  },
+  {
+   "word": "블루베리",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Dish%20of%20blueberries.jpg?width=2560",
+   "wikidata": "Q13178"
+  },
+  {
+   "word": "석류",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pomegranate%20fruit%20-%20whole%20and%20piece%20with%20arils.jpg?width=2560",
+   "wikidata": "Q13222088"
+  },
+  {
+   "word": "코코넛",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Revendeuses%20de%20Noix%20de%20Coco%2003.jpg?width=2560",
+   "wikidata": "Q3342808"
+  },
+  {
+   "word": "토마토",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pomodorini%20sulla%20pianta.jpg?width=2560",
+   "wikidata": "Q23501"
+  },
+  {
+   "word": "마늘",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Garlic%20bulbs%20and%20cloves.jpg?width=2560",
+   "wikidata": "Q23400"
+  },
+  {
+   "word": "감자",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20080914-9946%20Solanum%20tuberosum.jpg?width=2560",
+   "wikidata": "Q10998"
+  },
+  {
+   "word": "호박",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cucurbita%202011%20G1.jpg?width=2560",
+   "wikidata": "Q165308"
+  },
+  {
+   "word": "오이",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cucumis%20sativus%200001.JPG?width=2560",
+   "wikidata": "Q23425"
+  },
+  {
+   "word": "가지",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Solanum%20melongena%2024%2008%202012%20(1).JPG?width=2560",
+   "wikidata": "Q7540"
+  },
+  {
+   "word": "버섯",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Amanita%20muscaria%20(fly%20agaric).JPG?width=2560",
+   "wikidata": "Q83093"
+  },
+  {
+   "word": "배추",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20cabage%20blossoms.jpg?width=2560",
+   "wikidata": "Q13360268"
+  },
+  {
+   "word": "양배추",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Witte%20kool.jpg?width=2560",
+   "wikidata": "Q35051"
+  },
+  {
+   "word": "호두",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Walnuts%20-%20whole%20and%20open%20with%20halved%20kernel.jpg?width=2560",
+   "wikidata": "Q208021"
+  },
+  {
+   "word": "빵",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Home%20made%20sour%20dough%20bread.jpg?width=2560",
+   "wikidata": "Q7802"
+  },
+  {
+   "word": "케이크",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Runebergintorttu.jpg?width=2560",
+   "wikidata": "Q13276"
+  },
+  {
+   "word": "도넛",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Doughnut.jpg?width=2560",
+   "wikidata": "Q192783"
+  },
+  {
+   "word": "마카롱",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Macarons%20Marcolini%2004.jpg?width=2560",
+   "wikidata": "Q12478"
+  },
+  {
+   "word": "아이스크림",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20cup%20of%20three%20ice%20cream%20in%20Victoria%20Peak%20Hong%20Kong.jpg?width=2560",
+   "wikidata": "Q13233"
+  },
+  {
+   "word": "초콜릿",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cocoa%20Powder%20and%20Chocolate%20on%20Marble%20Background.jpg?width=2560",
+   "wikidata": "Q195"
+  },
+  {
+   "word": "사탕",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Candy%20in%20Damascus.jpg?width=2560",
+   "wikidata": "Q185583"
+  },
+  {
+   "word": "햄버거",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Burger%20King%20double%20cheeseburger.jpg?width=2560",
+   "wikidata": "Q6663"
+  },
+  {
+   "word": "핫도그",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hotdog%20-%20Evan%20Swigart.jpg?width=2560",
+   "wikidata": "Q181055"
+  },
+  {
+   "word": "샌드위치",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandwich%20on%20a%20cutting%20board.jpg?width=2560",
+   "wikidata": "Q28803"
+  },
+  {
+   "word": "스파게티",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pasta%20(23727887804).jpg?width=2560",
+   "wikidata": "Q20026"
+  },
+  {
+   "word": "라면",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mama%20instant%20noodle%20block.jpg?width=2560",
+   "wikidata": "Q1051265"
+  },
+  {
+   "word": "만두",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Semmelkn%C3%B6del.jpg?width=2560",
+   "wikidata": "Q1854639"
+  },
+  {
+   "word": "김치",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gimchi.jpg?width=2560",
+   "wikidata": "Q141898"
+  },
+  {
+   "word": "비빔밥",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean.food-Bibimbap-02.jpg?width=2560",
+   "wikidata": "Q648352"
+  },
+  {
+   "word": "초밥",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Various%20sushi%2C%20beautiful%20October%20night%20at%20midnight.jpg?width=2560",
+   "wikidata": "Q46383"
+  },
+  {
+   "word": "치즈",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hartkaese%20HardCheeses.jpg?width=2560",
+   "wikidata": "Q10943"
+  },
+  {
+   "word": "달걀",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Day%20017%20Photo365%20Eggs%20(95960053).jpeg?width=2560",
+   "wikidata": "Q15260613"
+  },
+  {
+   "word": "커피",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20small%20cup%20of%20coffee.JPG?width=2560",
+   "wikidata": "Q8486"
+  },
+  {
+   "word": "꿀",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Runny%20hunny.jpg?width=2560",
+   "wikidata": "Q10987"
+  },
+  {
+   "word": "팝콘",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Popcorn%209.jpg?width=2560",
+   "wikidata": "Q165112"
+  },
+  {
+   "word": "크루아상",
+   "genre": "음식",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Croissants%20au%20beurre%20(18953292873).jpg?width=2560",
+   "wikidata": "Q207832"
+  },
+  {
+   "word": "피아노",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Steinway%20%26%20Sons%20upright%20piano%2C%20model%20K-52%20(mahogany%20finish)%2C%20manufactured%20at%20Steinway's%20factory%20in%20New%20York%20City.jpg?width=2560",
+   "wikidata": "Q5994"
+  },
+  {
+   "word": "우산",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/An%20inside%20view%20of%20an%20Umbrella%2C%20%E0%B4%95%E0%B5%81%E0%B4%9F%E0%B4%AF%E0%B5%81%E0%B4%9F%E0%B5%86%20%E0%B4%89%E0%B5%BE%E0%B4%B5%E0%B4%B6%E0%B4%82.JPG?width=2560",
+   "wikidata": "Q41607"
+  },
+  {
+   "word": "안경",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2023%20Okulary%20korekcyjne.jpg?width=2560",
+   "wikidata": "Q37501"
+  },
+  {
+   "word": "열쇠",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vachette%20Radial%20NT%20key.jpg?width=2560",
+   "wikidata": "Q132041"
+  },
+  {
+   "word": "전구",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Christ%20Church%20NYC%20117.jpg?width=2560",
+   "wikidata": "Q47616"
+  },
+  {
+   "word": "축구공",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Fu%C3%9Fball%20auf%20Rasen%20(40259829870).jpg?width=2560",
+   "wikidata": "Q12252328"
+  },
+  {
+   "word": "주사위",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/W%C3%BCrfel%2C%20gemischt%20--%202021%20--%205577.jpg?width=2560",
+   "wikidata": "Q45089"
+  },
+  {
+   "word": "가위",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Scissors%20collection.jpg?width=2560",
+   "wikidata": "Q40847"
+  },
+  {
+   "word": "시계",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pendulum%20clock%20by%20Jacob%20Kock%2C%20antique%20furniture%20photography%2C%20IMG%200931%20edit.jpg?width=2560",
+   "wikidata": "Q376"
+  },
+  {
+   "word": "연필",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2014-01-16-Hittegods%20(12009261426).jpg?width=2560",
+   "wikidata": "Q14674"
+  },
+  {
+   "word": "지우개",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pelikan%20Radiergummi.jpg?width=2560",
+   "wikidata": "Q171888"
+  },
+  {
+   "word": "공책",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Notebook%20writing.jpg?width=2560",
+   "wikidata": "Q43013"
+  },
+  {
+   "word": "가방",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Nordic%20Climate%20Solutions%202009-09-09.jpg?width=2560",
+   "wikidata": "Q1323314"
+  },
+  {
+   "word": "신발",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Reebok%20Royal%20Glide%20Ripple%20Clip%20shoe.jpg?width=2560",
+   "wikidata": "Q22676"
+  },
+  {
+   "word": "모자",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Amsterdam%20-%20Hats%20-%200931.jpg?width=2560",
+   "wikidata": "Q80151"
+  },
+  {
+   "word": "장갑",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Centre%20de%20Documentaci%C3%B3%20Museu%20T%C3%A8xtil%20de%20Terrassa-%20Reserves-%20Teixits-%20Guants002.JPG?width=2560",
+   "wikidata": "Q169031"
+  },
+  {
+   "word": "양말",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hopital%20Laquintini-5095.jpg?width=2560",
+   "wikidata": "Q43663"
+  },
+  {
+   "word": "단추",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kn%C3%B6pfe%20--%202018%20--%200502.jpg?width=2560",
+   "wikidata": "Q160464"
+  },
+  {
+   "word": "칫솔",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Toothbrush%20x3%2020050716%20002.jpg?width=2560",
+   "wikidata": "Q134205"
+  },
+  {
+   "word": "비누",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bars%20of%20pure%20Marseille%20and%20Aleppo%20soap%2C%202024.jpg?width=2560",
+   "wikidata": "Q34396"
+  },
+  {
+   "word": "수건",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Toballola%20de%20platja.jpg?width=2560",
+   "wikidata": "Q131696"
+  },
+  {
+   "word": "컵",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kaffeetasse%20halbhoch%20Golddekor%2005%2C%20KPM.jpg?width=2560",
+   "wikidata": "Q81727"
+  },
+  {
+   "word": "접시",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Unglazed%20plates.jpg?width=2560",
+   "wikidata": "Q57216"
+  },
+  {
+   "word": "숟가락",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/SpoonCollection.jpg?width=2560",
+   "wikidata": "Q81895"
+  },
+  {
+   "word": "포크",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Assorted%20forks.jpg?width=2560",
+   "wikidata": "Q81881"
+  },
+  {
+   "word": "젓가락",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Comment%20tenir%20des%20baguettes%20-%20Troisi%C3%A8me%20%C3%A9tape.JPG?width=2560",
+   "wikidata": "Q81980"
+  },
+  {
+   "word": "냄비",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Toepfe%20(fcm).jpg?width=2560",
+   "wikidata": "Q154038"
+  },
+  {
+   "word": "주전자",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kettle%20(AM%201965.78.862-3).jpg?width=2560",
+   "wikidata": "Q107444"
+  },
+  {
+   "word": "의자",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Silla-Abuelo.jpg?width=2560",
+   "wikidata": "Q15026"
+  },
+  {
+   "word": "침대",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Imagerrrrrr.jpg?width=2560",
+   "wikidata": "Q42177"
+  },
+  {
+   "word": "소파",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/19CentSofaMusDF.JPG?width=2560",
+   "wikidata": "Q131514"
+  },
+  {
+   "word": "냉장고",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LG%20refrigerator%20interior.jpg?width=2560",
+   "wikidata": "Q37828"
+  },
+  {
+   "word": "전화기",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Telefon%20BW%202012-02-18%2013-44-32.JPG?width=2560",
+   "wikidata": "Q11035"
+  },
+  {
+   "word": "카메라",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinon%20CP%209%20AF%20BW%201.JPG?width=2560",
+   "wikidata": "Q15328"
+  },
+  {
+   "word": "노트북",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lenovo%20G500s%20laptop-2905.jpg?width=2560",
+   "wikidata": "Q3962"
+  },
+  {
+   "word": "키보드",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Backlit%20keyboard.jpg?width=2560",
+   "wikidata": "Q250"
+  },
+  {
+   "word": "헤드폰",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2023%20S%C5%82uchawki%20Sony%20WI-XB400%20(2).jpg?width=2560",
+   "wikidata": "Q186819"
+  },
+  {
+   "word": "바이올린",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Alina%20Pogostkina-20130225-RM-194336.jpg?width=2560",
+   "wikidata": "Q8355"
+  },
+  {
+   "word": "드럼",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bateria.jpg?width=2560",
+   "wikidata": "Q128309"
+  },
+  {
+   "word": "트럼펫",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trompette%20-%20corps.JPG?width=2560",
+   "wikidata": "Q8338"
+  },
+  {
+   "word": "양초",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%22Candle%22.JPG?width=2560",
+   "wikidata": "Q12888135"
+  },
+  {
+   "word": "풍선",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Balloon%20on%20a%20children's%20birthday%20party.jpg?width=2560",
+   "wikidata": "Q9706"
+  },
+  {
+   "word": "인형",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ch%E1%BB%A3%20B%E1%BA%BFn%20Th%C3%A0nh2.JPG?width=2560",
+   "wikidata": "Q168658"
+  },
+  {
+   "word": "야구공",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Baseball%20(crop).jpg?width=2560",
+   "wikidata": "Q791187"
+  },
+  {
+   "word": "배낭",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20backpack%20with%20trekking%20poles%20and%20shoes.jpg?width=2560",
+   "wikidata": "Q5843"
+  },
+  {
+   "word": "지갑",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WalletMpegMan.jpg?width=2560",
+   "wikidata": "Q131740"
+  },
+  {
+   "word": "반지",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Roman%20-%20Crouching%20Venus%20-%20Walters%20421007%20-%20Three%20Quarter.jpg?width=2560",
+   "wikidata": "Q46847"
+  },
+  {
+   "word": "왕관",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Reichskrone%20Schatzkammer.jpg?width=2560",
+   "wikidata": "Q170984"
+  },
+  {
+   "word": "망원경",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lunette%20mg%202368.jpg?width=2560",
+   "wikidata": "Q4213"
+  },
+  {
+   "word": "현미경",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Focused%20Discoveries.jpg?width=2560",
+   "wikidata": "Q196538"
+  },
+  {
+   "word": "나침반",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2016%20Busola.JPG?width=2560",
+   "wikidata": "Q34735"
+  },
+  {
+   "word": "사다리",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Berlin%20-%20Kaiser-Wilhelm-Nationaldenkmal%20-%20Gew%C3%B6lbe%206.jpg?width=2560",
+   "wikidata": "Q168639"
+  },
+  {
+   "word": "빗자루",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Local%20broom%20(Ghana).jpg?width=2560",
+   "wikidata": "Q172833"
+  },
+  {
+   "word": "바구니",
+   "genre": "물건",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Knitted%20basket1.jpg?width=2560",
+   "wikidata": "Q201097"
+  },
+  {
+   "word": "자전거",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/00%208327%20Historisches%20Fahrrad.jpg?width=2560",
+   "wikidata": "Q11442"
+  },
+  {
+   "word": "버스",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Setra%20S6%20-%20Empresa%20Mosquera%20-%2002.jpg?width=2560",
+   "wikidata": "Q5638"
+  },
+  {
+   "word": "트럭",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2000%20Peterbilt%20379.jpg?width=2560",
+   "wikidata": "Q43193"
+  },
+  {
+   "word": "지하철",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/U9%20im%20U-Bahnhof%20Zoologischer%20Garten.jpg?width=2560",
+   "wikidata": "Q5503"
+  },
+  {
+   "word": "비행기",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Airliners%2028.07.2009%2010-01-28.JPG?width=2560",
+   "wikidata": "Q197"
+  },
+  {
+   "word": "헬리콥터",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LAPD%20Bell%20206%20Jetranger.jpg?width=2560",
+   "wikidata": "Q34486"
+  },
+  {
+   "word": "잠수함",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/U%20995%20Laboe.JPG?width=2560",
+   "wikidata": "Q2811"
+  },
+  {
+   "word": "오토바이",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Norton%20Motorcycle.jpg?width=2560",
+   "wikidata": "Q34493"
+  },
+  {
+   "word": "스쿠터",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Z%C3%BCndapp%20Bella%20R%20154%20(2008-05-21)%20Seitenansicht%20ret.jpg?width=2560",
+   "wikidata": "Q193234"
+  },
+  {
+   "word": "스케이트보드",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Zawody%20w%20skateboardingu%20Street%20of%20Mediateka%2C%20Zag%C5%82%C4%99biowska%20Mediateka%2C%20ulica%20Ko%C5%9Bcielna%2C%20Sosnowiec%2C%2022%20czerwca%202024%2004.jpg?width=2560",
+   "wikidata": "Q15783"
+  },
+  {
+   "word": "트랙터",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Zetor%20Crystal.jpg?width=2560",
+   "wikidata": "Q39495"
+  },
+  {
+   "word": "불도저",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/First%20Tractor%20Company%20-%20old%20working%20model%20-%2001.jpg?width=2560",
+   "wikidata": "Q131677"
+  },
+  {
+   "word": "소방차",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tulekahju%20kustutamine%20Tartus%2C%20Karlova%20linnaosas.%202018.%20aasta%20aprill..jpg?width=2560",
+   "wikidata": "Q208281"
+  },
+  {
+   "word": "구급차",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Krankentransportwagen%20in%20Passau.JPG?width=2560",
+   "wikidata": "Q180481"
+  },
+  {
+   "word": "경찰차",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chrysler%20010.jpg?width=2560",
+   "wikidata": "Q868601"
+  },
+  {
+   "word": "캠핑카",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Dodge-based%20recreational%20vehicle%20in%20Munich.JPG?width=2560",
+   "wikidata": "Q746448"
+  },
+  {
+   "word": "탱크",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Char%20T%2034%20noBG.jpg?width=2560",
+   "wikidata": "Q12876"
+  },
+  {
+   "word": "열기구",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/17.%20Th%C3%BCringer%20Montgolfiade%20-%2035.jpg?width=2560",
+   "wikidata": "Q1551574"
+  },
+  {
+   "word": "로켓",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Apollo%2011%20Saturn%20V%20lifting%20off%20on%20July%2016%2C%201969.jpg?width=2560",
+   "wikidata": "Q41291"
+  },
+  {
+   "word": "롤러코스터",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cobra%20Powerpark.JPG?width=2560",
+   "wikidata": "Q204832"
+  },
+  {
+   "word": "휠체어",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bamberg%20Hain%20Rollstuhl-20190401-RM-141430.jpg?width=2560",
+   "wikidata": "Q191931"
+  },
+  {
+   "word": "카누",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Boat%20on%20Euphrates.jpg?width=2560",
+   "wikidata": "Q171529"
+  },
+  {
+   "word": "썰매",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rifugio%20Friedrich%20August%20-%20Sleigh.jpg?width=2560",
+   "wikidata": "Q181388"
+  },
+  {
+   "word": "마차",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rome%20(Italy)%2C%20Piazza%20della%20Rotonda%2C%20Hub%20of%20a%20Coach%20--%202013%20--%2010.jpg?width=2560",
+   "wikidata": "Q1112950"
+  },
+  {
+   "word": "지게차",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hyster%2050XT%20forklift%20parked%20in%20downtown%20Campbell.jpg?width=2560",
+   "wikidata": "Q41577"
+  },
+  {
+   "word": "기중기",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trier%2C%2007-12-2023%20(actm.)%2001.jpg?width=2560",
+   "wikidata": "Q178692"
+  },
+  {
+   "word": "증기기관차",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/00%203305%20Bahnhof%20Schirke%20-%20Brockenbahn.jpg?width=2560",
+   "wikidata": "Q171043"
+  },
+  {
+   "word": "범선",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Shtandart%20(ship%2C%201999)%2C%20S%C3%A8te%20cf02.jpg?width=2560",
+   "wikidata": "Q170483"
+  },
+  {
+   "word": "페리",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bast%C3%B8%20VIII%20(former%20Bast%C3%B8%20V)%20leaving%20Horten.jpg?width=2560",
+   "wikidata": "Q25653"
+  },
+  {
+   "word": "모노레일",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mono%20means%20one%2C%20and%20rail%20means%20rail.jpg?width=2560",
+   "wikidata": "Q187934"
+  },
+  {
+   "word": "굴착기",
+   "genre": "탈것",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Old%20excavator.jpg?width=2560",
+   "wikidata": "Q182661"
+  },
+  {
+   "word": "해바라기",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sunflower%20field%20-%20panoramio%20(10).jpg?width=2560",
+   "wikidata": "Q171497"
+  },
+  {
+   "word": "장미",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rosa%20pendulina.jpg?width=2560",
+   "wikidata": "Q34687"
+  },
+  {
+   "word": "튤립",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tulipa%20suaveolens%20floriade%20to%20Canberra.jpg?width=2560",
+   "wikidata": "Q93201"
+  },
+  {
+   "word": "벚꽃",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/.00%203019%20Japanische%20Bl%C3%BCtenkirsche%20(Prunus%20serrulata).jpg?width=2560",
+   "wikidata": "Q871991"
+  },
+  {
+   "word": "연꽃",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sacred%20lotus%20Nelumbo%20nucifera.jpg?width=2560",
+   "wikidata": "Q16528"
+  },
+  {
+   "word": "소나무",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pinus%20densiflora%2001.JPG?width=2560",
+   "wikidata": "Q1044186"
+  },
+  {
+   "word": "대나무",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20070906-8504%20Bambusa%20textilis.jpg?width=2560",
+   "wikidata": "Q35922"
+  },
+  {
+   "word": "무지개",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20rainbow%20at%20sunset%20after%20rain%20in%20Gaziantep%2C%20Turkey.IMG%202448.jpg?width=2560",
+   "wikidata": "Q1052"
+  },
+  {
+   "word": "번개",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lightning%20Pritzerbe%2001%20(MK).jpg?width=2560",
+   "wikidata": "Q33741"
+  },
+  {
+   "word": "화산",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pahoeoe%20fountain%20original.jpg?width=2560",
+   "wikidata": "Q8072"
+  },
+  {
+   "word": "폭포",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cachoeira%20do%20Bianchini%20-%20panoramio.jpg?width=2560",
+   "wikidata": "Q34038"
+  },
+  {
+   "word": "사막",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Libya%204608%20Idehan%20Ubari%20Dunes%20Luca%20Galuzzi%202007.jpg?width=2560",
+   "wikidata": "Q8514"
+  },
+  {
+   "word": "빙하",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Perito%20Moreno%20Glacier%20Patagonia%20Argentina%20Luca%20Galuzzi%202005.JPG?width=2560",
+   "wikidata": "Q35666"
+  },
+  {
+   "word": "동굴",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Phong%20Nha-Ke%20Bang%20cave3.jpg?width=2560",
+   "wikidata": "Q35509"
+  },
+  {
+   "word": "오로라",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Northern%20lights%20in%20Tromsoe.jpg?width=2560",
+   "wikidata": "Q40609"
+  },
+  {
+   "word": "눈송이",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Snowflake%20-%20Flickr%20-%20Alexey%20Kljatov.jpg?width=2560",
+   "wikidata": "Q550147"
+  },
+  {
+   "word": "구름",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Clouded%20sky.jpg?width=2560",
+   "wikidata": "Q8074"
+  },
+  {
+   "word": "달",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/FullMoon2010.jpg?width=2560",
+   "wikidata": "Q405"
+  },
+  {
+   "word": "지구",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Meteosat-12-fci-march-equinox-2025-noon.jpg?width=2560",
+   "wikidata": "Q2"
+  },
+  {
+   "word": "파도",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Porto%20Covo%20July%202011-6.jpg?width=2560",
+   "wikidata": "Q165848"
+  },
+  {
+   "word": "섬",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Islas-Malgrats4-Mallorca-rafax.jpg?width=2560",
+   "wikidata": "Q23442"
+  },
+  {
+   "word": "호수",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gentau%20Pic%20du%20Midi%20Ossau.jpg?width=2560",
+   "wikidata": "Q23397"
+  },
+  {
+   "word": "해변",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Beach%2C%20Gili%20Meno%20Island%2C%20Indonesia.jpg?width=2560",
+   "wikidata": "Q40080"
+  },
+  {
+   "word": "모래",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/00065%20sand%20collage.jpg?width=2560",
+   "wikidata": "Q34679"
+  },
+  {
+   "word": "조개",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Clams.JPG?width=2560",
+   "wikidata": "Q1192868"
+  },
+  {
+   "word": "고사리",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pteridium%20aquilinum%20(habitus).jpg?width=2560",
+   "wikidata": "Q258034"
+  },
+  {
+   "word": "해초",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Posidonia%20oceanica%20(L).jpg?width=2560",
+   "wikidata": "Q646660"
+  },
+  {
+   "word": "산호",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Coral%20Outcrop%20Flynn%20Reef.jpg?width=2560",
+   "wikidata": "Q171446"
+  },
+  {
+   "word": "낙엽",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Dreef%20Ternat%2001.jpg?width=2560",
+   "wikidata": "Q1131316"
+  },
+  {
+   "word": "도토리",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Quercus%20robur%20acorn%20-%20Keila.jpg?width=2560",
+   "wikidata": "Q3914781"
+  },
+  {
+   "word": "솔방울",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pinus%20nigra%2C%20cultivated%2C%20Scotland.jpg?width=2560",
+   "wikidata": "Q118185651"
+  },
+  {
+   "word": "클로버",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20160822Trifolium%20repens2.jpg?width=2560",
+   "wikidata": "Q101538"
+  },
+  {
+   "word": "라벤더",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vanessa%20cardui%20on%20Lavandula%20angustifolia-2459.jpg?width=2560",
+   "wikidata": "Q42081"
+  },
+  {
+   "word": "무궁화",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ruhland%2C%20Grenzstr.%203%2C%20Straucheibisch%2C%20Bl%C3%BCte%2C%20Fr%C3%BChling%2C%2005.jpg?width=2560",
+   "wikidata": "Q157756"
+  },
+  {
+   "word": "고드름",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ice%20formations%202.jpg?width=2560",
+   "wikidata": "Q496380"
+  },
+  {
+   "word": "갯벌",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bassin%20d'Arcachon%20-%20Cabanes%20tchanqu%C3%A9es.jpg?width=2560",
+   "wikidata": "Q31796"
+  },
+  {
+   "word": "계곡",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Terek%20Valley%2C%20Khevi%2C%20Georgia.jpg?width=2560",
+   "wikidata": "Q39816"
+  },
+  {
+   "word": "협곡",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Roca%20de%20la%20Ley%2C%20Parque%20Nacional%20de%20%C3%9Eingvellir%2C%20Su%C3%B0urland%2C%20Islandia%2C%202014-08-16%2C%20DD%20022.JPG?width=2560",
+   "wikidata": "Q150784"
+  },
+  {
+   "word": "빙산",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/00%202099%20Antarctica%20-%20Gerlache%20Strait%20(Icebergs).jpg?width=2560",
+   "wikidata": "Q47568"
+  },
+  {
+   "word": "단풍",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kyoto%20Japan0431.JPG?width=2560",
+   "wikidata": "Q1156320"
+  },
+  {
+   "word": "수국",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bauernhortensie%20Wochenmarkt.jpg?width=2560",
+   "wikidata": "Q155997"
+  },
+  {
+   "word": "백합",
+   "genre": "자연",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LiliumBulbiferumCroceumBologna.jpg?width=2560",
+   "wikidata": "Q5194627"
+  },
+  {
+   "word": "싸이",
+   "genre": "연예인",
+   "aliases": [
+    "PSY",
+    "박재상"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/PSY%20EMTV%20logo%2027%20(8198008711).jpg?width=2560",
+   "wikidata": "Q20150"
+  },
+  {
+   "word": "로제",
+   "genre": "연예인",
+   "aliases": [
+    "로잔느 박",
+    "로젠 박",
+    "박채영"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20190518%20Blackpink%20Amsterdam%20concert%2024.jpg?width=2560",
+   "wikidata": "Q27655344"
+  },
+  {
+   "word": "이민호",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20160730-P1000317%20(28771436702).jpg?width=2560",
+   "wikidata": "Q80758"
+  },
+  {
+   "word": "송중기",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Song%20Joong-ki%201.jpg?width=2560",
+   "wikidata": "Q485517"
+  },
+  {
+   "word": "아이유",
+   "genre": "연예인",
+   "aliases": [
+    "이지은"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/240921%20IU%20HEREH%20World%20Tour%20concert%20encore%20'The%20Winning'%2003.jpg?width=2560",
+   "wikidata": "Q20145"
+  },
+  {
+   "word": "지수",
+   "genre": "연예인",
+   "aliases": [
+    "김지수"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/090826%20Jisoo%20Incheon%20Airport%20departure%2002.jpg?width=2560",
+   "wikidata": "Q27655361"
+  },
+  {
+   "word": "정국",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jeon%20Jung-kook%20during%20Love%20Yourself%20tour%20in%20Los%20Angeles%2C%208%20September%202018%2001.jpg?width=2560",
+   "wikidata": "Q22338877"
+  },
+  {
+   "word": "문근영",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Moon%20Geun-young%20on%20December%2031%202010%20(2).jpg?width=2560",
+   "wikidata": "Q102098"
+  },
+  {
+   "word": "슬기",
+   "genre": "연예인",
+   "aliases": [
+    "강슬기"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20230530%20Red%20Velvet%20Amsterdam%20concert%20084%20Irene%20and%20Seulgi.jpg?width=2560",
+   "wikidata": "Q15934116"
+  },
+  {
+   "word": "지민",
+   "genre": "연예인",
+   "aliases": [
+    "박지민"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Park%20Ji-min%20at%20The%20Wings%20Tour%20in%20Anaheim%2001.jpg?width=2560",
+   "wikidata": "Q20947093"
+  },
+  {
+   "word": "찬열",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chanyeol%20at%20a%20Dynamic%20Duo%20concert%20on%20December%208%2C%202019.jpg?width=2560",
+   "wikidata": "Q7137681"
+  },
+  {
+   "word": "슈가",
+   "genre": "연예인",
+   "aliases": [
+    "閔玧其"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Suga%20for%20Valentino%20and%20Marie%20Claire%20Korea%2006.jpg?width=2560",
+   "wikidata": "Q21075020"
+  },
+  {
+   "word": "김남준",
+   "genre": "연예인",
+   "aliases": [
+    "랩몬스터",
+    "알엠"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/RM%20at%20W%20Korea%20Love%20Your%20W%2C%20November%202023.jpg?width=2560",
+   "wikidata": "Q20514446"
+  },
+  {
+   "word": "진",
+   "genre": "연예인",
+   "aliases": [
+    "김석진"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/BTS%20Jin%20at%20Maison%20Fred%2C%2013%20March%202025%2001.jpg?width=2560",
+   "wikidata": "Q24276424"
+  },
+  {
+   "word": "아이린",
+   "genre": "연예인",
+   "aliases": [
+    "배주현"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Irene%20Bae%20leaving%20a%20Music%20Bank%20recording%20in%20February%202017.jpg?width=2560",
+   "wikidata": "Q12605358"
+  },
+  {
+   "word": "수지",
+   "genre": "연예인",
+   "aliases": [
+    "배수지",
+    "裵秀智"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bae%20Suzy%20at%20OB%20Beer%20Hanmac%20'As%20Smooth%20As%20Possible'%20campaign%2C%203%20April%202024%2005.jpg?width=2560",
+   "wikidata": "Q464645"
+  },
+  {
+   "word": "제이홉",
+   "genre": "연예인",
+   "aliases": [
+    "정호석",
+    "鄭號錫"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2025-03-26%20J-Hope%20performing%20Dis-ease%20in%20San%20Antonio.jpg?width=2560",
+   "wikidata": "Q16236223"
+  },
+  {
+   "word": "전지현",
+   "genre": "연예인",
+   "aliases": [
+    "지아나 전"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jun%20Ji-hyun.jpg?width=2560",
+   "wikidata": "Q253626"
+  },
+  {
+   "word": "스티븐 연",
+   "genre": "연예인",
+   "aliases": [
+    "연상엽",
+    "스티븐연"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/StevenYeun2015ComicCon.jpg?width=2560",
+   "wikidata": "Q552176"
+  },
+  {
+   "word": "윤아",
+   "genre": "연예인",
+   "aliases": [
+    "임윤아",
+    "林潤妸"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/260508%20YOONA%20%40%2062nd%20BAEKSANG%20AWARDS%20with%20GUCCI.jpg?width=2560",
+   "wikidata": "Q466975"
+  },
+  {
+   "word": "송혜교",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Song%20Hye-kyo.jpg?width=2560",
+   "wikidata": "Q1080180"
+  },
+  {
+   "word": "이정재",
+   "genre": "연예인",
+   "aliases": [
+    "李政宰"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee%2C%20Jung-Jae.jpg?width=2560",
+   "wikidata": "Q491318"
+  },
+  {
+   "word": "지효",
+   "genre": "연예인",
+   "aliases": [
+    "박지효"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/181117%20%EC%83%81%EC%95%94%20%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C%20(5).jpg?width=2560",
+   "wikidata": "Q22774055"
+  },
+  {
+   "word": "현아",
+   "genre": "연예인",
+   "aliases": [
+    "현　아"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Hyun-Ah.jpg?width=2560",
+   "wikidata": "Q234066"
+  },
+  {
+   "word": "백현",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/191007%20Super%20M%20Twitter%20Blueroom.jpg?width=2560",
+   "wikidata": "Q4688701"
+  },
+  {
+   "word": "박보검",
+   "genre": "연예인",
+   "aliases": [
+    "朴寶劍"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/190811%20%EC%BD%94%EC%B9%B4%EC%BD%9C%EB%9D%BC%20%EC%8D%B8%EB%A8%B8%20%ED%8A%B8%EB%A6%BD%20%ED%96%89%EC%82%AC%20(2).jpg?width=2560",
+   "wikidata": "Q15977222"
+  },
+  {
+   "word": "태연",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/250807%20%ED%83%9C%EC%97%B0%20'%EC%95%85%EB%A7%88%EA%B0%80%20%EC%9D%B4%EC%82%AC%EC%99%94%EB%8B%A4'%20VIP%20Premiere%2004%20(cropped).jpg?width=2560",
+   "wikidata": "Q233371"
+  },
+  {
+   "word": "정호연",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jung%20Ho-Yeon%20at%20the%202026%20Cannes%20Film%20Festival%2003.jpg?width=2560",
+   "wikidata": "Q28699137"
+  },
+  {
+   "word": "이종석",
+   "genre": "연예인",
+   "aliases": [
+    "李鐘奭"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LEE%20Jong-suk%20at%202026%20Busan%20International%20Film%20Festival%2002.jpg?width=2560",
+   "wikidata": "Q486582"
+  },
+  {
+   "word": "지드래곤",
+   "genre": "연예인",
+   "aliases": [
+    "지 드래곤",
+    "權志龍",
+    "G Dragon",
+    "G-DRAGON",
+    "G-드래곤",
+    "G드래곤"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/G-Dragon%202012%202.jpg?width=2560",
+   "wikidata": "Q495577"
+  },
+  {
+   "word": "이병헌",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee%20Byung-hun%202025%20Toronto%20(cropped).jpg?width=2560",
+   "wikidata": "Q380121"
+  },
+  {
+   "word": "박서준",
+   "genre": "연예인",
+   "aliases": [
+    "박용규"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Park%20Seo-joon%20for%20Marie%20Claire%20Korea%2C%202023%20(4).jpg?width=2560",
+   "wikidata": "Q5116234"
+  },
+  {
+   "word": "김윤진",
+   "genre": "연예인",
+   "aliases": [
+    "金侖珍"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Yoon-Jin.jpg?width=2560",
+   "wikidata": "Q229389"
+  },
+  {
+   "word": "한효주",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Han%20Hyo-joo%20in%20July%202024.jpg?width=2560",
+   "wikidata": "Q494346"
+  },
+  {
+   "word": "손예진",
+   "genre": "연예인",
+   "aliases": [
+    "손언진"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Son%20Ye-jin%20at%20Bucheon%20International%20Film%20Festival%20on%2004072024%20(2).jpg?width=2560",
+   "wikidata": "Q256932"
+  },
+  {
+   "word": "박민영",
+   "genre": "연예인",
+   "aliases": [
+    "朴敏英"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20250625%20Park%20Min-young%20TAG%20Heuer%20PhotoCall.jpg?width=2560",
+   "wikidata": "Q242673"
+  },
+  {
+   "word": "현빈",
+   "genre": "연예인",
+   "aliases": [
+    "김태평"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hyun%20Bin%20at%20the%202024%20Toronto%20International%20Film%20Festival%202%20(cropped).jpg?width=2560",
+   "wikidata": "Q380118"
+  },
+  {
+   "word": "수호",
+   "genre": "연예인",
+   "aliases": [
+    "김준면"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20241105%20Suho%20%EC%88%98%ED%98%B8%2003.jpg?width=2560",
+   "wikidata": "Q10822003"
+  },
+  {
+   "word": "모모",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/TWICE%20MOMO%20April%202024.jpg?width=2560",
+   "wikidata": "Q23779926"
+  },
+  {
+   "word": "박산다라",
+   "genre": "연예인",
+   "aliases": [
+    "산다라 박",
+    "산다라박"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandara%20Park%20Paris%20Fashion%20Week%20Spring%20Summer%202020.jpg?width=2560",
+   "wikidata": "Q496170"
+  },
+  {
+   "word": "카이",
+   "genre": "연예인",
+   "aliases": [
+    "김종인"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kai%20at%20the%20U%20Have%20A%20Dream%20concert%20on%20May%2031%2C%202017%20(2).jpg?width=2560",
+   "wikidata": "Q10775090"
+  },
+  {
+   "word": "김태희",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LG%20%EB%94%94%EC%98%A4%EC%8A%A4%20%EB%83%89%EC%9E%A5%EA%B3%A0%20%EA%B4%91%EA%B3%A0%EB%AA%A8%EB%8D%B8%20%EA%B9%80%ED%83%9C%ED%9D%AC%2C%20%EC%B0%BD%EC%9B%90%20%EC%97%B0%EA%B5%AC%EC%86%8C%20%EA%B0%80%EB%8B%A4%20(5).jpg?width=2560",
+   "wikidata": "Q464574"
+  },
+  {
+   "word": "지창욱",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ji%20Chang-wook.jpg?width=2560",
+   "wikidata": "Q625128"
+  },
+  {
+   "word": "류준열",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ryu%20Jun-yeol.jpg?width=2560",
+   "wikidata": "Q20063575"
+  },
+  {
+   "word": "에일리",
+   "genre": "연예인",
+   "aliases": [
+    "이예진",
+    "Ailee"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ailee%20at%20Korea%20Expo%20Los%20Angeles%202026-1.jpg?width=2560",
+   "wikidata": "Q487391"
+  },
+  {
+   "word": "마동석",
+   "genre": "연예인",
+   "aliases": [
+    "이동석",
+    "돈 리",
+    "李東錫",
+    "馬東石"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Don%20Lee%20by%20Gage%20Skidmore.jpg?width=2560",
+   "wikidata": "Q498374"
+  },
+  {
+   "word": "수영",
+   "genre": "연예인",
+   "aliases": [
+    "최수영",
+    "수　영"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Choi%20Sooyoung%20LONGCHAMP%202024.jpg?width=2560",
+   "wikidata": "Q233385"
+  },
+  {
+   "word": "정수정",
+   "genre": "연예인",
+   "aliases": [
+    "크리스탈 정"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Krystal%20at%20Incheon%20International%20Airport%20on%2001042025%20(2).jpg?width=2560",
+   "wikidata": "Q464623"
+  },
+  {
+   "word": "티파니 영",
+   "genre": "연예인",
+   "aliases": [
+    "스테파니 황",
+    "스테퍼니 황",
+    "황미영"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/260215%20TIFFANY%20%4033th%20Hanteo%20Music%20Awards%202025%204%20(cropped).jpg?width=2560",
+   "wikidata": "Q236355"
+  },
+  {
+   "word": "도경수",
+   "genre": "연예인",
+   "aliases": [
+    "D.O.",
+    "디오"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/D.O.%20modeling%20for%20Marie%20Claire%20Korea%2C%20August%20issue%2C%202023%20(3).jpg?width=2560",
+   "wikidata": "Q15111667"
+  },
+  {
+   "word": "배두나",
+   "genre": "연예인",
+   "aliases": [
+    "裵斗娜"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Bae%20Doona%20at%20Berlinale%202026.jpg?width=2560",
+   "wikidata": "Q269742"
+  },
+  {
+   "word": "화사",
+   "genre": "연예인",
+   "aliases": [
+    "안혜진"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/HWASA%20in%20Seattle%20-%2054382519362.jpg?width=2560",
+   "wikidata": "Q19603912"
+  },
+  {
+   "word": "이준기",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee%20Joon-gi%20at%20Yeonse%20University%2C%202010.jpg?width=2560",
+   "wikidata": "Q130947"
+  },
+  {
+   "word": "민호",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Choi%20Min-ho%20during%20the%20Shilla%20Beauty%20Concert%20Media%20Conference%20in%20November%202017%2002.jpg?width=2560",
+   "wikidata": "Q134575"
+  },
+  {
+   "word": "이동욱",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee%20Dong-wook%20at%20the%202024%20Toronto%20International%20Film%20Festival.%2002.jpg?width=2560",
+   "wikidata": "Q494714"
+  },
+  {
+   "word": "박봄",
+   "genre": "연예인",
+   "aliases": [
+    "박　봄"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/190330%20%EB%B0%95%EB%B4%84%20%EB%A1%AF%EB%8D%B0%EB%B0%B1%ED%99%94%EC%A0%90%20%EC%9E%A0%EC%8B%A4%20%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C%202.jpg?width=2560",
+   "wikidata": "Q494154"
+  },
+  {
+   "word": "제시카",
+   "genre": "연예인",
+   "aliases": [
+    "정수연",
+    "제시카 정"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jessica(SNSD)%20in%202009%20Asia%20Song%20Festival.jpg?width=2560",
+   "wikidata": "Q233911"
+  },
+  {
+   "word": "수현",
+   "genre": "연예인",
+   "aliases": [
+    "김수현",
+    "유리엘",
+    "클라우디아 김",
+    "클로디아 김"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Korea%20Avengers%20MOU%2004.jpg?width=2560",
+   "wikidata": "Q3788246"
+  },
+  {
+   "word": "구혜선",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ku%20Hye%20Sun%20Boys%20Over%20Flowers.jpg?width=2560",
+   "wikidata": "Q237673"
+  },
+  {
+   "word": "서현",
+   "genre": "연예인",
+   "aliases": [
+    "서주현"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/260621%20Seohyun%20%EC%84%9C%ED%98%84.jpg?width=2560",
+   "wikidata": "Q240082"
+  },
+  {
+   "word": "하지원",
+   "genre": "연예인",
+   "aliases": [
+    "전해림"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ha%20Ji-Won%20in%202009.jpg?width=2560",
+   "wikidata": "Q44260"
+  },
+  {
+   "word": "정연",
+   "genre": "연예인",
+   "aliases": [
+    "유정연"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/260306%20Twice%20Hamilton%20Jeongyeon%20%ED%8A%B8%EC%99%80%EC%9D%B4%EC%8A%A4%20%EC%A0%95%EC%97%B0%20(3).jpg?width=2560",
+   "wikidata": "Q25374501"
+  },
+  {
+   "word": "채영",
+   "genre": "연예인",
+   "aliases": [
+    "손채영",
+    "孫彩瑛"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/TWICE's%20Chayeong%20%EC%86%90%EC%B1%84%EC%98%81%202024%2006.jpg?width=2560",
+   "wikidata": "Q24043625"
+  },
+  {
+   "word": "이효리",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lee%20hyori%20south%20korean%20photo%20by%20christopher%20peterson.jpg?width=2560",
+   "wikidata": "Q232491"
+  },
+  {
+   "word": "윤여정",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Youn%20Yuh-jung%20Sundance%202025.jpg?width=2560",
+   "wikidata": "Q491013"
+  },
+  {
+   "word": "김고은",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Go-eun%20at%20the%202024%20Toronto%20International%20Film%20Festival%20(cropped).jpg?width=2560",
+   "wikidata": "Q6408653"
+  },
+  {
+   "word": "최민식",
+   "genre": "연예인",
+   "aliases": [
+    "崔岷植"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Choi%20Min-sik.jpg?width=2560",
+   "wikidata": "Q484575"
+  },
+  {
+   "word": "장원영",
+   "genre": "연예인",
+   "aliases": [
+    "원영"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/052826%20Jang%20Won-young%20at%20a%20Tommy%20Hilfiger%20photo%20call%20(7).jpg?width=2560",
+   "wikidata": "Q56476186"
+  },
+  {
+   "word": "태민",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2025-12-08%20Taemin%20at%20AHC%20event%2004%20(cropped).jpg?width=2560",
+   "wikidata": "Q153597"
+  },
+  {
+   "word": "유리",
+   "genre": "연예인",
+   "aliases": [
+    "권유리"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/260426%20YURI%20%40%20THE%20WASP%20(Theatre)%20Final%20performance%20as%20Carla.jpg?width=2560",
+   "wikidata": "Q276158"
+  },
+  {
+   "word": "김지원",
+   "genre": "연예인",
+   "aliases": [
+    "金智媛"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/082726%20Kim%20Ji-won%20at%20The%20Whoo%20photocall%2001.jpg?width=2560",
+   "wikidata": "Q2680695"
+  },
+  {
+   "word": "김유정",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/161112%20%EA%B9%80%EC%9C%A0%EC%A0%95%20%ED%8C%AC%EC%8B%B8%EC%9D%B8%ED%9A%8C%20(6).jpg?width=2560",
+   "wikidata": "Q486320"
+  },
+  {
+   "word": "써니",
+   "genre": "연예인",
+   "aliases": [
+    "써　니",
+    "이순규"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/220820%20Sunny%20%40SM%20TOWN.jpg?width=2560",
+   "wikidata": "Q233894"
+  },
+  {
+   "word": "박해수",
+   "genre": "연예인",
+   "aliases": [
+    "朴海秀"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20210923%E2%80%94Park%20Hae-soo%20%EB%B0%95%ED%95%B4%EC%88%98%2C%20interview%2C%20ELLE%20Taiwan%20screenshot%20(02m20s).jpg?width=2560",
+   "wikidata": "Q18732317"
+  },
+  {
+   "word": "예리",
+   "genre": "연예인",
+   "aliases": [
+    "김예림"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Yeri%20-%202016%20Gaon%20Chart%20K-pop%20Awards%20red%20carpet%2004.jpg?width=2560",
+   "wikidata": "Q19940498"
+  },
+  {
+   "word": "전소미",
+   "genre": "연예인",
+   "aliases": [
+    "Ennik Somi Douma",
+    "에닉 도우마",
+    "全昭弥"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20230720%20Jeon%20Somi%20(%EC%A0%84%EC%86%8C%EB%AF%B8).jpg?width=2560",
+   "wikidata": "Q22910214"
+  },
+  {
+   "word": "김재중",
+   "genre": "연예인",
+   "aliases": [
+    "김재중、金在中",
+    "영웅재중",
+    "金在中"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Jaejoong%20(34749007994).jpg?width=2560",
+   "wikidata": "Q169717"
+  },
+  {
+   "word": "장나라",
+   "genre": "연예인",
+   "aliases": [
+    "張나라"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/191025%20%EC%9E%A5%EB%82%98%EB%9D%BC.jpg?width=2560",
+   "wikidata": "Q494190"
+  },
+  {
+   "word": "효연",
+   "genre": "연예인",
+   "aliases": [
+    "HYO",
+    "효　연"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Hyo-yeon%202020.jpg?width=2560",
+   "wikidata": "Q253619"
+  },
+  {
+   "word": "조이",
+   "genre": "연예인",
+   "aliases": [
+    "박수영"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/18.06.28%2037%EC%82%AC%EB%8B%A8%20%EC%9C%84%EB%AC%B8%20%EA%B3%B5%EC%97%B0%20%EC%A7%81%EC%B0%8D%20(%20%EB%A0%88%EB%93%9C%EB%B2%A8%EB%B2%B3%20%EC%A1%B0%EC%9D%B4)%20by%20%ED%97%88%EC%88%98%EC%95%84%EB%B9%84%2002.jpg?width=2560",
+   "wikidata": "Q17484113"
+  },
+  {
+   "word": "전소연",
+   "genre": "연예인",
+   "aliases": [
+    "소연"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/0226%20(%EC%97%AC%EC%9E%90)%EC%95%84%EC%9D%B4%EB%93%A4%20%EC%86%8C%EC%97%B0%20%ED%8F%AC%EC%BB%A4%EC%8A%A4%26%EC%84%B8%EB%A1%9C%EC%BA%A0%2C%202nd%20%EB%AF%B8%EB%8B%88%EC%95%A8%EB%B2%94%20'I%20made'%20%EC%87%BC%EC%BC%80%EC%9D%B4%EC%8A%A4%20%ED%8F%AC%ED%86%A0%ED%83%80%EC%9E%84%20(derived).jpg?width=2560",
+   "wikidata": "Q26707915"
+  },
+  {
+   "word": "고아라",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Go%20Ara.jpg?width=2560",
+   "wikidata": "Q259409"
+  },
+  {
+   "word": "박소담",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/16.07.02%20%EC%84%9C%EB%93%A0%EC%96%B4%ED%83%9D%20%ED%8C%AC%EB%AF%B8%ED%8C%85%20%EB%B0%95%EC%86%8C%EB%8B%B4%2002.jpg?width=2560",
+   "wikidata": "Q18700040"
+  },
+  {
+   "word": "함은정",
+   "genre": "연예인",
+   "aliases": [
+    "은정",
+    "티아라 은정"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ham%20Eun-Jung.jpg?width=2560",
+   "wikidata": "Q140099"
+  },
+  {
+   "word": "김소연",
+   "genre": "연예인",
+   "aliases": [
+    "金素姸"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20So-yeon.2019.jpg?width=2560",
+   "wikidata": "Q464372"
+  },
+  {
+   "word": "지연",
+   "genre": "연예인",
+   "aliases": [
+    "박지연",
+    "티아라 지연",
+    "朴芝妍"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ji-yeon%20at%20Love%20Jinx%20vip%20premiere%2C%20February%202014%2003.jpg?width=2560",
+   "wikidata": "Q483563"
+  },
+  {
+   "word": "선미",
+   "genre": "연예인",
+   "aliases": [
+    "이선미"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sunmi%20in%20london%20uk.jpg?width=2560",
+   "wikidata": "Q624995"
+  },
+  {
+   "word": "김청하",
+   "genre": "연예인",
+   "aliases": [
+    "청하",
+    "김찬미",
+    "Chungha",
+    "애니 킴"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ground%20Forces%20Festival%202025%20-%200130.jpg?width=2560",
+   "wikidata": "Q26214034"
+  },
+  {
+   "word": "민아",
+   "genre": "연예인",
+   "aliases": [
+    "방민아"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/KCON%2017%20LA%20P1030511%20(36668489842).jpg?width=2560",
+   "wikidata": "Q12596240"
+  },
+  {
+   "word": "이수만",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LEE%20SOO%20MAN%20(%EC%9D%B4%EC%88%98%EB%A7%8C)%20%E2%80%93%20CISAC%202024%20%E2%80%93%20P1.jpg?width=2560",
+   "wikidata": "Q484165"
+  },
+  {
+   "word": "송지효",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Song%20Ji%20Hyo%20(3).jpg?width=2560",
+   "wikidata": "Q484965"
+  },
+  {
+   "word": "박보영",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2026-05-08%20Baeksang%20Arts%20Awards%20red%20carpet%2002%20(cropped).jpg?width=2560",
+   "wikidata": "Q490918"
+  },
+  {
+   "word": "서인국",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Seo%20In-guk%20at%20the%20Department%20of%20Tourism.jpg?width=2560",
+   "wikidata": "Q491648"
+  },
+  {
+   "word": "세훈",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/170610%20EXO%20Chanyeol%2C%20Suho%20%26%20Sehun.jpg?width=2560",
+   "wikidata": "Q10802388"
+  },
+  {
+   "word": "정은지",
+   "genre": "연예인",
+   "aliases": [
+    "정혜림"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kpop%20World%20Festival%20137%20(8209802041).jpg?width=2560",
+   "wikidata": "Q487831"
+  },
+  {
+   "word": "택연",
+   "genre": "연예인",
+   "aliases": [
+    "옥택연",
+    "택　연"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/221125%20Ok%20Taec-yeon.jpg?width=2560",
+   "wikidata": "Q483363"
+  },
+  {
+   "word": "태양",
+   "genre": "연예인",
+   "aliases": [
+    "빅뱅의 태양",
+    "태양 가수"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Taeyang%202012.jpg?width=2560",
+   "wikidata": "Q482991"
+  },
+  {
+   "word": "안소희",
+   "genre": "연예인",
+   "aliases": [
+    "소희"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20180830%E2%80%94Ahn%20So-hee%20%EC%95%88%EC%86%8C%ED%9D%AC%2C%20Chanel%20event%2C%20Seongsu-dong%2C%20Seoul%2C%20South%20Korea%2C%20screenshot%20(00m41s).jpg?width=2560",
+   "wikidata": "Q483633"
+  },
+  {
+   "word": "서예지",
+   "genre": "연예인",
+   "aliases": [
+    "徐睿知"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/ELLE%20TAIWAN%20Seo%20Yea-ji%202020.jpg?width=2560",
+   "wikidata": "Q16181177"
+  },
+  {
+   "word": "조미연",
+   "genre": "연예인",
+   "aliases": [
+    "미연"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/082726%20Miyeon%20at%20The%20Whoo%20photocall%2006.jpg?width=2560",
+   "wikidata": "Q56259927"
+  },
+  {
+   "word": "문별",
+   "genre": "연예인",
+   "aliases": [
+    "문별이"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mamamoo%20Moonbyul%20in%202024%20(1)%2005.jpg?width=2560",
+   "wikidata": "Q19483782"
+  },
+  {
+   "word": "혜리",
+   "genre": "연예인",
+   "aliases": [
+    "이혜리"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LEE%20HYERI%20(%EC%9D%B4%ED%98%9C%EB%A6%AC)%20%E2%80%93%202024.11.07%20%E2%80%93%20P1.jpg?width=2560",
+   "wikidata": "Q11073341"
+  },
+  {
+   "word": "박재범",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Won%20Spirits%20CEO%20Jay%20Park%2004.jpg?width=2560",
+   "wikidata": "Q429046"
+  },
+  {
+   "word": "김설현",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Seolhyun%20Ellesse%20Fanisgn%20160408.jpg?width=2560",
+   "wikidata": "Q16173210"
+  },
+  {
+   "word": "김선호",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Seon-ho%20CTLBT%20Presscon%2003.jpg?width=2560",
+   "wikidata": "Q37565564"
+  },
+  {
+   "word": "위하준",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20210923%E2%80%94Wi%20Ha-joon%20%EC%9C%84%ED%95%98%EC%A4%80%2C%20Squid%20Game%20promo%2C%20ELLE%20Taiwan%20screenshot%20(05m43s).jpg?width=2560",
+   "wikidata": "Q55737623"
+  },
+  {
+   "word": "유재석",
+   "genre": "연예인",
+   "aliases": [
+    "MC 날유",
+    "메뚜기",
+    "유느님",
+    "유산슬"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Yoo%20Jae-suk.jpg?width=2560",
+   "wikidata": "Q485905"
+  },
+  {
+   "word": "온유",
+   "genre": "연예인",
+   "aliases": [
+    "Onew"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/2025-11-16%20ONEW%20concert%20010.jpg?width=2560",
+   "wikidata": "Q494692"
+  },
+  {
+   "word": "신민아",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Shin%20Mina%20at%20the%202026%20Busan%20International%20Film%20Festival.%2004.jpg?width=2560",
+   "wikidata": "Q464569"
+  },
+  {
+   "word": "이승기",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LEESEUNGGI%2020111109.jpg?width=2560",
+   "wikidata": "Q483571"
+  },
+  {
+   "word": "박형식",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%EB%B0%95%ED%98%95%EC%8B%9D%202024.jpg?width=2560",
+   "wikidata": "Q6757073"
+  },
+  {
+   "word": "손나은",
+   "genre": "연예인",
+   "aliases": [
+    "나은",
+    "孫娜恩"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Son%20Na-eun%20at%20Duoback%20fansigning%20event%2C%205%20March%202016%2006.jpg?width=2560",
+   "wikidata": "Q492666"
+  },
+  {
+   "word": "정일우",
+   "genre": "연예인",
+   "aliases": [
+    "丁一宇"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jung%20Il%20Woo%20with%20LG%20Optimus%20LTE%202%20(1).jpg?width=2560",
+   "wikidata": "Q494116"
+  },
+  {
+   "word": "규현",
+   "genre": "연예인",
+   "aliases": [
+    "조규현"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cho%20Kyuhyun.jpg?width=2560",
+   "wikidata": "Q494816"
+  },
+  {
+   "word": "한승연",
+   "genre": "연예인",
+   "aliases": [
+    "승연",
+    "韓昇延"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Han%20Seung-yeon%20in%202012.jpg?width=2560",
+   "wikidata": "Q495020"
+  },
+  {
+   "word": "김희철",
+   "genre": "연예인",
+   "aliases": [
+    "희철"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/150715%20%ED%9D%AC%EC%B2%A0.jpg?width=2560",
+   "wikidata": "Q380123"
+  },
+  {
+   "word": "조유리",
+   "genre": "연예인",
+   "aliases": [
+    "유리조"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/20241018%20Jo%20Yuri%2001.jpg?width=2560",
+   "wikidata": "Q56678033"
+  },
+  {
+   "word": "김세정",
+   "genre": "연예인",
+   "aliases": [
+    "세정"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%EA%B9%80%EC%84%B8%EC%A0%95%20(KIM%20SEJEONG)%20-%20MARIE%20CLAIRE%20KOREA%20-%202023.03.13%20P2.jpg?width=2560",
+   "wikidata": "Q22911780"
+  },
+  {
+   "word": "동해",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/KCON%202015%20Super%20Junior%20DSC02998%20(20357930851).jpg?width=2560",
+   "wikidata": "Q153638"
+  },
+  {
+   "word": "김민희",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Min-hee%20at%20Berlinale%202022%20(cropped).jpg?width=2560",
+   "wikidata": "Q484936"
+  },
+  {
+   "word": "김소은",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20So-Eun%20in%202009%2002.jpg?width=2560",
+   "wikidata": "Q496433"
+  },
+  {
+   "word": "문가영",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%EB%AC%B8%EA%B0%80%EC%98%81(MOON%20GAYOUNG)%20-%20INCHEON%20AIRPORT%20-%202023.06.09%20P2.jpg?width=2560",
+   "wikidata": "Q12968338"
+  },
+  {
+   "word": "필릭스",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/200117%20Felix%20Lee%20in%20Pop%20Quiz%20by%20Marie%20Claire%20Korea.jpg?width=2560",
+   "wikidata": "Q61100678"
+  },
+  {
+   "word": "대성",
+   "genre": "연예인",
+   "aliases": [
+    "대　성"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Daesung%202012.jpg?width=2560",
+   "wikidata": "Q194798"
+  },
+  {
+   "word": "박규리",
+   "genre": "연예인",
+   "aliases": [
+    "규리"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Park%20Gyu-ri.jpg?width=2560",
+   "wikidata": "Q495000"
+  },
+  {
+   "word": "카리나",
+   "genre": "연예인",
+   "aliases": [
+    "유지민"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Aespa's%20Karina%2010.jpg?width=2560",
+   "wikidata": "Q101161002"
+  },
+  {
+   "word": "강소라",
+   "genre": "연예인",
+   "aliases": [
+    "姜素拉"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kang%20So-ra%20in%20July%202024.jpg?width=2560",
+   "wikidata": "Q712786"
+  },
+  {
+   "word": "황예지",
+   "genre": "연예인",
+   "aliases": [
+    "예지"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hwang%20Ye-ji%20(%ED%99%A9%EC%98%88%EC%A7%80)%20220729.jpg?width=2560",
+   "wikidata": "Q60870268"
+  },
+  {
+   "word": "임시완",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Yim%20Si-wan%2C%20Cyworld%20Dream%20Music%20Festival%202011.jpg?width=2560",
+   "wikidata": "Q82788"
+  },
+  {
+   "word": "김영광",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/240816%20%EC%84%9C%EC%9A%B8%EC%9B%94%EB%93%9C%EC%BB%B5%EA%B2%BD%EA%B8%B0%EC%9E%A5%20(%EA%B9%80%EC%98%81%EA%B4%91).jpg?width=2560",
+   "wikidata": "Q381169"
+  },
+  {
+   "word": "김희선",
+   "genre": "연예인",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Hee-sun.jpg?width=2560",
+   "wikidata": "Q464601"
+  }
+ ]
+}
