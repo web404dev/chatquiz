@@ -2019,6 +2019,11 @@ textarea:focus-visible,
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
+/* 글자 수 칸이 없으면(문장 뒤죽박죽·확대) 장르는 넓게, 「고를 문제」는 −/+ 버튼이 다 들어가는 너비로. */
+.auto-word-fields.no-len .auto-word-row {
+  grid-template-columns: minmax(0, 1fr) max-content;
+}
+
 .listen-answer-list {
   position: absolute;
   left: 0;

@@ -5620,6 +5620,8 @@ function syncModeUi() {
     setHidden(els.autoWordFields, !isAuto);
     els.autoWordFields.classList.toggle("is-clue", isClue);
     els.autoWordFields.classList.toggle("is-listen", isListen);
+    // 글자 수 칸이 없는 유형(문장 뒤죽박죽·확대)은 「고를 문제」가 좁은 둘째 칸으로 밀려 넘치지 않게 칸을 바꾼다.
+    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom);
   }
   if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom);
   if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
