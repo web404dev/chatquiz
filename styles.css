@@ -6331,6 +6331,11 @@ body.mode-desk .host-tutorial {
   line-height: 1.15 !important;
 }
 
+/* 결과·로비로 넘어가 자막 상자를 숨기면 확대 사진도 반드시 숨긴다(위 display !important 보다 우선). */
+.caption.is-zoom[hidden] {
+  display: none !important;
+}
+
 .caption.is-zoom > :not(#promptText):not(#zoomFrame) {
   display: none !important;
 }

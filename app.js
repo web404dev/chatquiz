@@ -5691,6 +5691,7 @@ function syncModeUi() {
     els.prompt.classList.remove("hit", "miss");
     setPromptText("");
     hideClueArt();
+    hideZoomStage();
     els.prompt.hidden = true;
   }
 }
@@ -5724,7 +5725,10 @@ function showPrompt(mode, publicText) {
   if (els.paintWrap) els.paintWrap.hidden = !isDraw;
   els.prompt.classList.remove("hit", "miss");
   setPromptText(text);
-  if (isDraw || !text) hideClueArt();
+  if (isDraw || !text) {
+    hideClueArt();
+    hideZoomStage();
+  }
   els.prompt.hidden = isDraw || !text;
   publishObs();
 }
@@ -5808,6 +5812,7 @@ function showFinalResult(lastAnswer = "") {
   hideListenStage();
   stopListenAudio();
   hideClueArt({ forget: true });
+  hideZoomStage({ forget: true });
   clearCluePromptFit();
   setPromptText("");
   syncClueChosungLine("");
