@@ -30,7 +30,7 @@ import {
   pickWordEntryFromBank,
   pickWordEntriesFromBank,
 } from "./word-bank.js?v=152";
-import { filterSentences, loadSentencePool, pickSentenceEntries, SENTENCE_SOURCES } from "./sentence-bank.js?v=22";
+import { filterSentences, loadSentencePool, pickSentenceEntries, SENTENCE_SOURCES } from "./sentence-bank.js?v=23";
 import { filterZoomEntries, loadZoomPool, pickZoomEntries, pickZoomFocus, ZOOM_GENRES, zoomStepScale } from "./zoom-bank.js?v=5";
 import {
   pickClueEntries,
@@ -491,6 +491,15 @@ let deskPollId = 0;
 let deskConnected = false;
 let deskHelloAt = 0;
 let deskOpenWait = 0;
+/**
+ * 조작창 연결 확인(사용자 2026-10-25: 가끔 아래 조작칸이 또 뜨고, 새로고침하면 조작창과 둘이 뜸).
+ * 크롬은 가려진 조작창의 타이머를 늦춰(오래 가려지면 1분에 한 번) 조작창이 스스로 보내는 신호만 믿으면 닫힌 것으로 착각한다.
+ * 그래서 방송창이 묻고(host.ping) 조작창이 메시지를 받자마자 답한다. 직접 연 창은 창 닫힘을 바로 확인하고, 아니면 답이 끊긴 지 15초면 닫힌 것으로 본다.
+ */
+const DESK_PING_MS = 3000;
+/** 질문 5번(약 15초) 동안 답이 없으면 닫힌 것으로 본다. 답은 타이머가 아니라 메시지로 오니 가려져도 늦지 않는다. */
+const DESK_SILENT_MS = 15000;
+const DESK_RELOAD_WAIT_MS = 1500;
 let remoteDrawing = false;
 let paintPointerDown = () => {};
 let paintPointerMove = () => {};
@@ -1129,11 +1138,12 @@ function clearDeskPoll() {
 function startDeskAlivePoll() {
   if (deskPollId) return;
   deskPollId = setInterval(() => {
-    if (deskPopup && deskPopup.closed) {
-      onDeskPopupClosed();
+    if (deskPopup) {
+      // 방송창이 직접 연 창은 닫혔는지 바로 알 수 있으니 신호가 늦어도 닫힌 것으로 보지 않는다.
+      if (deskPopup.closed) onDeskPopupClosed();
       return;
     }
-    if (deskConnected && Date.now() - deskHelloAt > 12000) onDeskPopupClosed();
+    if (deskConnected && Date.now() - deskHelloAt > DESK_SILENT_MS) onDeskPopupClosed();
   }, 1000);
 }
 
@@ -1699,6 +1709,12 @@ function handleDeskClientMessage(msg) {
     deskBridge?.post("desk.hello");
   }
   if (msg.type === "host.welcome") markDeskHostLinked();
+  if (msg.type === "host.ping") {
+    // 방송창이 물으면 바로 답한다(이 창이 가려져 타이머가 늦어져도 메시지 답은 바로 간다).
+    if (p.tabId) lastHostTabId = String(p.tabId);
+    if (!deskConnected) markDeskHostLinked();
+    deskBridge?.post("desk.hello");
+  }
   if (msg.type === "host.bye") {
     const from = String(p.tabId || "");
     if (from && lastHostTabId && from !== lastHostTabId) return;
@@ -1720,6 +1736,12 @@ function bindDeskHost() {
     deskBridge?.post("host.bye", { tabId });
   });
   deskBridge.post("host.hello", { tabId });
+  setInterval(() => deskBridge?.post("host.ping", { tabId }), DESK_PING_MS);
+  // 새로고침 직후엔 이미 열려 있던 조작창이 답할 때까지 잠깐 아래 조작칸을 띄우지 않는다.
+  setDeskDetachedUi(true);
+  setTimeout(() => {
+    if (!isDeskDetached()) setDeskDetachedUi(false);
+  }, DESK_RELOAD_WAIT_MS);
 }
 
 function bindDeskClient() {

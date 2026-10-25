@@ -74,12 +74,17 @@ export function isBroadcastSafe(text) {
   return !SENTENCE_BLOCK.some((re) => re.test(raw));
 }
 
+/** 3어절이 안 돼도 내는 대사(한글만 이어 붙인 글). 사용자 2026-10-25: 「봄날은 간다」는 "라면 먹고 갈래요?"가 아니라 "라면 먹을래요?"가 맞음 → 이 대사만 2어절 허용. */
+const TWO_WORD_LINES = new Set(["라면먹을래요"]);
+
 /** 3어절 이상, 섞이는 글자(띄어쓰기·문장부호 뺀 한글)는 20자까지(사용자 2026-10-25: "최소는 지켜", "66글자는 지나치게 많아 한계는 있어야하는데", "7자는 너무 짧았던거야" → 20글자 선택). */
 export function isSentenceCandidate(text) {
   const raw = String(text ?? "").normalize("NFC").trim();
   if (!/^[가-힣 ,.?!]+$/.test(raw)) return false;
-  if (raw.replace(/[^가-힣]/g, "").length > SENTENCE_MAX_LETTERS) return false;
-  return sentenceWords(raw).length >= SENTENCE_MIN_WORDS && isBroadcastSafe(raw);
+  const letters = raw.replace(/[^가-힣]/g, "");
+  if (letters.length > SENTENCE_MAX_LETTERS) return false;
+  const minWords = TWO_WORD_LINES.has(letters) ? 2 : SENTENCE_MIN_WORDS;
+  return sentenceWords(raw).length >= minWords && isBroadcastSafe(raw);
 }
 
 function sentenceKey(text) {
@@ -230,7 +235,7 @@ export const CURATED_LINES = [
   ["영화 명대사", "영화", "왕의 남자", "나 여기 있고 너 거기 있지"],
   ["영화 명대사", "영화", "암살", "알려줘야지, 우린 계속 싸우고 있다고"],
   ["영화 명대사", "영화", "서울의 봄", "실패하면 반역, 성공하면 혁명 아닙니까"],
-  ["영화 명대사", "영화", "봄날은 간다", "라면 먹고 갈래요?"],
+  ["영화 명대사", "영화", "봄날은 간다", "라면 먹을래요?"],
   ["영화 명대사", "영화", "봄날은 간다", "사랑이 어떻게 변하니?"],
   ["영화 명대사", "영화", "비트", "나에겐 꿈이 없었다"],
   ["영화 명대사", "영화", "말아톤", "초원이 다리는 백만 불짜리 다리"],
