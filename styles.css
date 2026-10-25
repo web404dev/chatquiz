@@ -6205,7 +6205,7 @@ body.mode-desk .host-tutorial {
   border-color: #060912;
 }
 
-/* 유형: 그림·이름·한 줄 설명이 든 카드 3칸×2줄(사용자 2026-10-25 "카드형식으로해서 보여주게 하자 안에 그림 설명도 넣고").
+/* 유형: 그림·이름·한 줄 설명이 든 카드 4칸×2줄(사용자 2026-10-25 "카드형식으로해서 보여주게 하자 안에 그림 설명도 넣고", 레시피가 더해져 7개).
    뒤죽박죽 섞기는 카드 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
 .broadcast-lobby .format-axis {
   flex: 1 1 100%;
@@ -6213,7 +6213,7 @@ body.mode-desk .host-tutorial {
 
 .broadcast-lobby .format-axis #formatSeg {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   width: 100%;
   border: 0;
@@ -6441,4 +6441,204 @@ body.mode-desk .host-tutorial {
 
 .caption.is-zoom #promptText:empty {
   display: none;
+}
+
+/* 레시피: 재료 칩 → 설명 문장 → 초성이 차례로 열리는 카드. 정답 공개 때는 카드 대신 대표 사진과 위키백과 출처. */
+.caption.is-recipe {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4cqh;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  /* 위는 시간·「장르 · …」 표시, 아래는 정답 공개 때 다음문제 버튼 자리(확대와 같음). */
+  padding: 96px 4cqw 96px !important;
+  box-sizing: border-box;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  pointer-events: none;
+  font-family: "Noto Sans KR", sans-serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(28px, 4.4cqw, 54px);
+  line-height: 1.15 !important;
+  /* 안의 카드·사진 크기(cqw·cqh)는 방송 영역(이 자막 상자) 기준으로 잰다. */
+  container-type: size;
+}
+
+.caption.is-recipe[hidden] {
+  display: none !important;
+}
+
+.caption.is-recipe > :not(#promptText):not(#recipeStage) {
+  display: none !important;
+}
+
+.caption.is-recipe #promptText {
+  display: inline-block;
+  max-width: min(86cqw, 920px);
+  margin: 0;
+  padding: 12px 32px;
+  background: #ffe14a;
+  color: #141414;
+  box-shadow: 6px 6px 0 #000;
+  font: inherit;
+  white-space: pre-line;
+  text-align: center;
+}
+
+.caption.is-recipe.hit #promptText { background: #3dff9a; }
+.caption.is-recipe.miss #promptText { background: #d8d0c2; }
+
+.caption.is-recipe #promptText:empty {
+  display: none;
+}
+
+.recipe-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  max-height: 100%;
+  /* 자막의 pre-line 이 마크업 줄바꿈을 빈 줄로 넣지 않게 한다. */
+  white-space: normal;
+}
+
+.recipe-stage[hidden],
+.recipe-card[hidden],
+.recipe-img[hidden],
+.recipe-photo[hidden],
+.recipe-lines[hidden],
+.recipe-chosung[hidden] {
+  display: none !important;
+}
+
+.recipe-card {
+  width: min(84cqw, 1100px);
+  box-sizing: border-box;
+  padding: 2.6cqh 3cqw 3cqh;
+  border-radius: 20px;
+  background: #fff8e8;
+  color: #1b1b1b;
+  box-shadow: 8px 8px 0 #000;
+  text-align: left;
+  font-weight: 800;
+}
+
+.recipe-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 1.6cqh;
+  font-size: clamp(16px, 2cqw, 26px);
+  line-height: 1.2;
+}
+
+.recipe-badge {
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: #141414;
+  color: #ffe14a;
+  font-weight: 900;
+}
+
+.recipe-ask {
+  color: #6b5a3a;
+  font-weight: 900;
+}
+
+.recipe-label {
+  margin: 0 0 1cqh;
+  color: #8a6d3b;
+  font-size: clamp(14px, 1.7cqw, 22px);
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+}
+
+.recipe-ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2cqh 1cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recipe-chip {
+  padding: 0.6cqh 1.4cqw;
+  border: 2px solid #141414;
+  border-radius: 999px;
+  background: #ffe14a;
+  box-shadow: 3px 3px 0 #141414;
+  font-size: clamp(18px, 2.7cqw, 36px);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.recipe-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqh;
+  margin: 2.4cqh 0 0;
+  padding: 2cqh 0 0;
+  border-top: 2px dashed #d9c9a3;
+  list-style: none;
+}
+
+.recipe-line {
+  font-size: clamp(16px, 2.2cqw, 30px);
+  font-weight: 700;
+  line-height: 1.45;
+  animation: recipe-in 0.4s ease;
+}
+
+.recipe-chosung {
+  margin: 2.4cqh 0 0;
+  color: #141414;
+  font-size: clamp(22px, 3.6cqw, 48px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+  animation: recipe-in 0.4s ease;
+}
+
+@keyframes recipe-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.recipe-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1cqh;
+  margin: 0;
+}
+
+.recipe-img {
+  display: block;
+  max-width: min(80cqw, 960px);
+  /* 아래 정답 자막(두 줄)과 출처가 들어갈 자리를 남긴다. */
+  max-height: 48cqh;
+  border-radius: 16px;
+  background: #05070d;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14), 0 18px 48px rgba(0, 0, 0, 0.55);
+  object-fit: contain;
+}
+
+.recipe-source {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(12px, 1.3cqw, 16px);
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px #000;
 }

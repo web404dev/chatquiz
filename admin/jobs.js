@@ -71,8 +71,8 @@ function live(id, label, hint) {
   };
 }
 
-export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom"];
-export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom"];
+export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes"];
+export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes"];
 export const SCHEDULE_DAYS = 20;
 
 export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
@@ -139,6 +139,16 @@ export const PACKS = {
     hint: "zoom-bank.js 단어 목록(동물·음식·물건·탈것·자연) + 한국 연예인(위키데이터, 유명한 순) → 위키데이터 대표 그림, 작으면 공용 분류의 큰 사진. 위키미디어 공용 2560px 주소만. zoom-exclude.json 단어·사람은 뺌.",
     group: "media",
     file: "zoom-pics.json",
+    summarize: summarizeBank,
+  },
+  recipes: {
+    id: "recipes",
+    label: "레시피",
+    script: "admin/refresh-recipes.mjs",
+    args: [],
+    hint: "위키백과 한국어판 요리 분류(한식·중식·일식·양식·세계) → 최근 60일 많이 본 순 대중 요리 300개. 첫 문단에서 재료(3개 이상)와 설명 문장, 대표 사진 주소. 정답 이름만 가림. recipe-exclude.json 은 뺌. 출처 CC BY-SA.",
+    group: "text",
+    file: "recipes.json",
     summarize: summarizeBank,
   },
   "all-games": {

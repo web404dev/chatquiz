@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=250" />
+  <link rel="stylesheet" href="./styles.css?v=252" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -158,6 +158,11 @@
                     <span class="format-card-art" aria-hidden="true">🔍</span>
                     <span class="format-card-name">확대</span>
                     <span class="format-card-desc">크게 확대한 사진 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="recipe" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🍳</span>
+                    <span class="format-card-name">레시피</span>
+                    <span class="format-card-desc">재료·설명 보고 음식 맞히기</span>
                   </button>
                 </div>
                 <div class="format-sub" id="scrambleUnitAxis" hidden>
@@ -529,6 +534,19 @@
         </div>
         <div id="zoomFrame" class="zoom-frame" hidden>
           <img id="zoomImg" class="zoom-img" alt="" decoding="async" referrerpolicy="no-referrer">
+        </div>
+        <div id="recipeStage" class="recipe-stage" hidden>
+          <div id="recipeCard" class="recipe-card">
+            <p class="recipe-head"><span class="recipe-badge">🍳 레시피</span><span class="recipe-ask">무슨 음식일까요?</span></p>
+            <p class="recipe-label">재료</p>
+            <ul id="recipeIngredients" class="recipe-ingredients"></ul>
+            <ul id="recipeLines" class="recipe-lines" hidden></ul>
+            <p id="recipeChosung" class="recipe-chosung" hidden></p>
+          </div>
+          <figure id="recipePhoto" class="recipe-photo" hidden>
+            <img id="recipeImg" class="recipe-img" alt="" decoding="async" referrerpolicy="no-referrer">
+            <figcaption id="recipeSource" class="recipe-source"></figcaption>
+          </figure>
         </div>
         <p id="clueMeta" class="clue-meta" hidden></p>
         <div id="listenStage" class="listen-stage" hidden>
@@ -904,6 +922,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=324"></script>
+  <script type="module" src="./boot.js?v=326"></script>
 </body>
 </html>

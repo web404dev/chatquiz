@@ -32,6 +32,7 @@ import {
 } from "./word-bank.js?v=152";
 import { filterSentences, loadSentencePool, pickSentenceEntries, SENTENCE_SOURCES } from "./sentence-bank.js?v=23";
 import { filterZoomEntries, loadZoomPool, pickZoomEntries, pickZoomFocus, ZOOM_GENRES, zoomStepScale } from "./zoom-bank.js?v=5";
+import { filterRecipeEntries, loadRecipePool, pickRecipeEntries, RECIPE_GENRES, recipeStage } from "./recipe-bank.js?v=1";
 import {
   pickClueEntries,
   filterClueItems,
@@ -177,6 +178,14 @@ const els = {
   clueArtFrame: document.getElementById("clueArtFrame"),
   zoomFrame: document.getElementById("zoomFrame"),
   zoomImg: document.getElementById("zoomImg"),
+  recipeStage: document.getElementById("recipeStage"),
+  recipeCard: document.getElementById("recipeCard"),
+  recipeIngredients: document.getElementById("recipeIngredients"),
+  recipeLines: document.getElementById("recipeLines"),
+  recipeChosung: document.getElementById("recipeChosung"),
+  recipePhoto: document.getElementById("recipePhoto"),
+  recipeImg: document.getElementById("recipeImg"),
+  recipeSource: document.getElementById("recipeSource"),
   clueKindBadge: document.getElementById("clueKindBadge"),
   clueMeta: document.getElementById("clueMeta"),
   listenStage: document.getElementById("listenStage"),
@@ -390,6 +399,9 @@ const zoomPreloads = new Map();
 let selectedSentenceGenres = ["all"];
 let draftSentenceGenres = ["all"];
 let selectedZoomGenres = ["all"];
+let recipePool = null;
+let recipePoolLoading = null;
+let selectedRecipeGenres = ["all"];
 const SENTENCE_GENRE_TREE = [
   { id: "속담", label: "속담", icon: "📜" },
   {
@@ -422,6 +434,9 @@ const SENTENCE_GENRE_IDS = SENTENCE_GENRE_TREE.flatMap((chip) => [chip.id, ...(c
 const ZOOM_GENRE_ICONS = { 동물: "🐾", 음식: "🍜", 물건: "📦", 탈것: "🚗", 자연: "🌿", 연예인: "⭐" };
 const ZOOM_GENRE_TREE = ZOOM_GENRES.map((id) => ({ id, label: id, icon: ZOOM_GENRE_ICONS[id] || "📷" }));
 const ZOOM_GENRE_IDS = ZOOM_GENRE_TREE.map((chip) => chip.id);
+const RECIPE_GENRE_ICONS = { 한식: "🍚", 중식: "🥟", 일식: "🍣", 양식: "🍝", 세계: "🌏" };
+const RECIPE_GENRE_TREE = RECIPE_GENRES.map((id) => ({ id, label: id, icon: RECIPE_GENRE_ICONS[id] || "🍳" }));
+const RECIPE_GENRE_IDS = RECIPE_GENRE_TREE.map((chip) => chip.id);
 
 function sentenceGenreKids(id) {
   return SENTENCE_GENRE_TREE.find((chip) => chip.id === id)?.kids?.map((kid) => kid.id) || [];
@@ -2324,6 +2339,8 @@ function hintsAllowed() {
   if (isClueFormat() || current.mode === "clue" || isListenFormat() || current.mode === "listen") return false;
   // 확대는 줄어드는 사진이 곧 힌트라 글자 힌트를 주지 않는다.
   if (isZoomFormat() || current.mode === "zoom") return false;
+  // 레시피는 재료 → 설명 → 초성 순으로 스스로 열어서 글자 힌트를 따로 주지 않는다.
+  if (isRecipeFormat() || current.mode === "recipe") return false;
   return els.hintEnabled?.getAttribute("aria-pressed") === "true";
 }
 
@@ -3051,6 +3068,7 @@ function showPickingWait() {
   hideDrawHintBar();
   hideClueArt({ forget: true });
   hideZoomStage();
+  hideRecipeStage();
   setHidden(els.prompt, false);
   els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "has-art", "is-draw-reveal");
   els.prompt.classList.add("is-pick-wait");
@@ -3700,6 +3718,67 @@ function hideZoomStage({ forget = false } = {}) {
   }
 }
 
+/** 레시피: 처음엔 재료만, 시간이 지나면 설명 문장 → 초성(recipe-bank.js RECIPE_STEPS). 정답 공개 때 대표 사진과 위키백과 출처. */
+let recipeShownFor = null;
+let recipeShownKey = "";
+let recipePreload = null;
+
+function recipeItem(text, className) {
+  const li = document.createElement("li");
+  li.className = className;
+  li.textContent = text;
+  return li;
+}
+
+function showRecipeStage({ reveal = false, remainingRatio = 1 } = {}) {
+  const r = current.recipe;
+  if (!r || !els.recipeStage) return;
+  els.prompt?.classList.add("is-recipe");
+  els.recipeStage.hidden = false;
+  const stage = recipeStage(remainingRatio);
+  const key = reveal ? "reveal" : `${stage.lines}:${stage.chosung}`;
+  if (recipeShownFor === current && recipeShownKey === key) return;
+  if (recipeShownFor !== current && r.image) {
+    // 정답 공개 때 사진이 바로 뜨게 문제 동안 미리 받아 둔다.
+    recipePreload = new Image();
+    recipePreload.referrerPolicy = "no-referrer";
+    recipePreload.src = r.image;
+  }
+  recipeShownFor = current;
+  recipeShownKey = key;
+  if (els.recipeCard) els.recipeCard.hidden = reveal;
+  if (els.recipePhoto) els.recipePhoto.hidden = !reveal;
+  if (reveal) {
+    // 대표 사진이 없는 요리는 출처만 보여 준다.
+    if (els.recipeImg) {
+      els.recipeImg.hidden = !r.image;
+      if (r.image && els.recipeImg.getAttribute("src") !== r.image) els.recipeImg.src = r.image;
+    }
+    if (els.recipeSource) els.recipeSource.textContent = `출처 · 위키백과 「${r.page}」 (CC BY-SA)`;
+    return;
+  }
+  els.recipeIngredients?.replaceChildren(...r.ingredients.map((name) => recipeItem(name, "recipe-chip")));
+  const lines = r.lines.slice(0, stage.lines);
+  els.recipeLines?.replaceChildren(...lines.map((line) => recipeItem(line, "recipe-line")));
+  if (els.recipeLines) els.recipeLines.hidden = !lines.length;
+  if (els.recipeChosung) {
+    els.recipeChosung.textContent = stage.chosung ? `초성 · ${formatChosungDisplay(current.answer)}` : "";
+    els.recipeChosung.hidden = !stage.chosung;
+  }
+}
+
+function hideRecipeStage({ forget = false } = {}) {
+  els.prompt?.classList.remove("is-recipe");
+  if (els.recipeStage) els.recipeStage.hidden = true;
+  recipeShownKey = "";
+  if (forget) {
+    els.recipeImg?.removeAttribute("src");
+    els.recipeIngredients?.replaceChildren();
+    els.recipeLines?.replaceChildren();
+    recipeShownFor = null;
+  }
+}
+
 function takeWarmedZoomChoices() {
   const genres = activeZoomGenres();
   const warmed = (warmedZoomChoices || []).filter((entry) => !usedWordKeys.has(entry.word) && (!genres || genres.includes(entry.genre)));
@@ -3713,6 +3792,7 @@ function renderQuestionView() {
   const masked = hintCount > 0 ? maskAnswer(answer, hintCount) : "";
 
   if (mode !== "zoom") hideZoomStage();
+  if (mode !== "recipe") hideRecipeStage();
   if (mode === "draw") {
     if (els.paintWrap) els.paintWrap.hidden = false;
     els.prompt.hidden = true;
@@ -3758,6 +3838,17 @@ function renderQuestionView() {
     syncClueChosungLine("");
     setPromptText("");
     showZoomStage();
+    syncGenreHintUi();
+    return;
+  }
+  if (mode === "recipe") {
+    els.prompt.classList.remove("is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "has-art");
+    hideClueArt({ forget: true });
+    syncClueSheet();
+    clearCluePromptFit();
+    syncClueChosungLine("");
+    setPromptText("");
+    showRecipeStage({ remainingRatio: zoomRemainingRatio() });
     syncGenreHintUi();
     return;
   }
@@ -3816,6 +3907,10 @@ function isZoomFormat(format = quizFormat) {
   return format === "zoom";
 }
 
+function isRecipeFormat(format = quizFormat) {
+  return format === "recipe";
+}
+
 function isScrambleFormat(format = quizFormat) {
   return format === "scramble";
 }
@@ -3825,7 +3920,7 @@ function isTypedWordFormat(format = quizFormat) {
 }
 
 function isKnownQuizFormat(format) {
-  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom";
+  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom" || format === "recipe";
 }
 
 function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
@@ -4424,8 +4519,8 @@ function isAnswerPlayPhase() {
 
 function shouldBlindDeskAnswer() {
   if (isGuestPosing()) return true;
-  // 초성/단서/듣기 자동 + 스트리머 참여 ON 일 때만 조작칸 정답 숨김
-  return (isTypedWordFormat() || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+  // 초성/단서/듣기/확대/레시피 자동 + 스트리머 참여 ON 일 때만 조작칸 정답 숨김
+  return streamerJoinFormat() && isAutoTopic() && isStreamerJoinEnabled();
 }
 
 function syncManualAnswerUi() {
@@ -4579,6 +4674,7 @@ const FORMAT_DESC = {
   scramble: "글자 순서를 섞어서 나가요 · 치킨버거 → 거킨버치",
   scrambleSentence: "띄어쓰기 없이 글자를 모두 섞어요 · 달 보고 짖는 개 → 개고달는보짖",
   zoom: "아주 크게 확대한 사진이 천천히 줄어들어요 · 무엇인지 맞혀요",
+  recipe: "요리 재료 → 설명 → 초성 순으로 열려요 · 무슨 음식인지 맞혀요 (위키백과)",
 };
 
 function syncAxisButtons() {
@@ -4591,7 +4687,7 @@ function syncAxisButtons() {
     const on = format === quizFormat;
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom");
+    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom" || format === "recipe");
   });
   els.topicSeg?.querySelectorAll("[data-topic]").forEach((btn) => {
     const topic = btn.dataset.topic;
@@ -4611,8 +4707,13 @@ function isStreamerJoinEnabled() {
   return Boolean(els.streamerJoin?.checked);
 }
 
+/** 스트리머 참여(조작창 정답 입력칸·정답 가리기)를 쓰는 유형. 확대·레시피도 넣음(사용자 2026-10-25: "확대에 스트리머 참여에 컨트롤러에 그게 맞출수 있게 하는게 없어"). */
+function streamerJoinFormat() {
+  return isTypedWordFormat() || isClueFormat() || isListenFormat() || isZoomFormat() || isRecipeFormat();
+}
+
 function streamerDeskToolsOn() {
-  return (isTypedWordFormat() || isClueFormat() || isListenFormat()) && isAutoTopic() && isStreamerJoinEnabled();
+  return streamerJoinFormat() && isAutoTopic() && isStreamerJoinEnabled();
 }
 
 function streamerGuessOpen() {
@@ -4664,6 +4765,7 @@ function saveQuizModePrefs() {
       scrambleUnit,
       sentenceGenres: selectedSentenceGenres,
       zoomGenres: selectedZoomGenres,
+      recipeGenres: selectedRecipeGenres,
       streamerJoin: isStreamerJoinEnabled(),
     }),
   );
@@ -4678,6 +4780,7 @@ function restoreQuizModePrefs() {
     if (prefs.scrambleUnit === "word" || prefs.scrambleUnit === "sentence") scrambleUnit = prefs.scrambleUnit;
     if (Array.isArray(prefs.sentenceGenres)) selectedSentenceGenres = normalizeSentenceGenres(prefs.sentenceGenres);
     if (Array.isArray(prefs.zoomGenres)) selectedZoomGenres = normalizeZoomGenres(prefs.zoomGenres);
+    if (Array.isArray(prefs.recipeGenres)) selectedRecipeGenres = normalizeRecipeGenres(prefs.recipeGenres);
     if (els.streamerJoin) els.streamerJoin.checked = prefs.streamerJoin === true;
   } catch {
     // ignore
@@ -5264,8 +5367,24 @@ function normalizeZoomGenres(next) {
   return normalizePickedGenres(next, ZOOM_GENRE_IDS);
 }
 
-/** 장르 창 하나를 문장과 확대가 같이 쓴다. 지금 유형에 맞는 목록·선택을 고른다. */
+function normalizeRecipeGenres(next) {
+  return normalizePickedGenres(next, RECIPE_GENRE_IDS);
+}
+
+/** 장르 창 하나를 문장·확대·레시피가 같이 쓴다. 지금 유형에 맞는 목록·선택을 고른다. */
 function genreModalSpec() {
+  if (isRecipeFormat()) {
+    return {
+      title: "레시피 장르",
+      tree: RECIPE_GENRE_TREE,
+      normalize: normalizeRecipeGenres,
+      get: () => selectedRecipeGenres,
+      set: (next) => {
+        selectedRecipeGenres = next;
+      },
+      summary: updateRecipeGenreSummary,
+    };
+  }
   return isZoomFormat()
     ? {
         title: "확대 장르",
@@ -5297,6 +5416,17 @@ function updateZoomGenreSummary() {
   if (!els.wordGenreSummary) return;
   const n = zoomPool ? filterZoomEntries(zoomPool, activeZoomGenres()).length : 0;
   const head = selectedZoomGenres.includes("all") ? "전체" : selectedZoomGenres.join(" · ");
+  els.wordGenreSummary.textContent = n ? `${head} · ${n}개` : head;
+}
+
+function activeRecipeGenres() {
+  return selectedRecipeGenres.includes("all") ? null : selectedRecipeGenres.slice();
+}
+
+function updateRecipeGenreSummary() {
+  if (!els.wordGenreSummary) return;
+  const n = recipePool ? filterRecipeEntries(recipePool, activeRecipeGenres()).length : 0;
+  const head = selectedRecipeGenres.includes("all") ? "전체" : selectedRecipeGenres.join(" · ");
   els.wordGenreSummary.textContent = n ? `${head} · ${n}개` : head;
 }
 
@@ -5439,11 +5569,37 @@ function ensureZoomPool() {
   return zoomPoolLoading;
 }
 
+function ensureRecipePool() {
+  if (recipePool) return Promise.resolve(recipePool);
+  if (!recipePoolLoading) {
+    recipePoolLoading = loadRecipePool().then((pool) => {
+      recipePool = pool;
+      recipePoolLoading = null;
+      if (isRecipeFormat()) {
+        updateRecipeGenreSummary();
+        if (pool.items.length) reportWordPickStats();
+        else setStatus("레시피를 불러오지 못했습니다");
+      }
+      return pool;
+    });
+  }
+  return recipePoolLoading;
+}
+
 function manualScrambleProblem() {
   return isScrambleFormat() ? scrambleProblem(getManualAnswer(), scrambleUnit) : "";
 }
 
 function reportWordPickStats() {
+  if (isRecipeFormat()) {
+    const genres = activeRecipeGenres();
+    setStatus(
+      recipePool
+        ? `레시피 후보 ${filterRecipeEntries(recipePool, genres).length}개 (${genres ? genres.join("·") : "전체"})`
+        : "레시피를 불러오는 중입니다",
+    );
+    return;
+  }
   if (isZoomFormat()) {
     const genres = activeZoomGenres();
     setStatus(
@@ -5566,7 +5722,7 @@ function bindWordPickControls() {
     event.stopPropagation();
     setListenAnswerMenuOpen(false);
     if (isListenFormat()) setListenGenreMenuOpen(!!els.listenGenreModal?.hidden);
-    else if (isSentenceScramble() || isZoomFormat()) setSentenceGenreMenuOpen(!!els.sentenceGenreModal?.hidden);
+    else if (isSentenceScramble() || isZoomFormat() || isRecipeFormat()) setSentenceGenreMenuOpen(!!els.sentenceGenreModal?.hidden);
     else setGenreMenuOpen(!!els.genreModal?.hidden);
   });
   els.sentenceGenreClose?.addEventListener("click", (event) => {
@@ -5612,14 +5768,15 @@ function syncModeUi() {
   const isScramble = isScrambleFormat();
   const isSentence = isSentenceScramble();
   const isZoom = isZoomFormat();
-  const isAuto = posing ? false : isClue || isListen || isZoom ? true : isAutoTopic();
+  const isRecipe = isRecipeFormat();
+  const isAuto = posing ? false : isClue || isListen || isZoom || isRecipe ? true : isAutoTopic();
   const needsAnswer = !isAuto;
-  if (!posing && (isClue || isListen || isZoom) && quizTopic !== "auto") {
+  if (!posing && (isClue || isListen || isZoom || isRecipe) && quizTopic !== "auto") {
     quizTopic = "auto";
   }
   syncAxisButtons();
-  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom);
-  const showTimeHint = !isClue && !isListen && !isZoom;
+  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom || isRecipe);
+  const showTimeHint = !isClue && !isListen && !isZoom && !isRecipe;
   const showGenreReveal = isAuto && !isClue;
   if (els.timeHintOpt) setHidden(els.timeHintOpt, !showTimeHint);
   if (els.genreRevealOpt) setHidden(els.genreRevealOpt, !showGenreReveal);
@@ -5642,25 +5799,26 @@ function syncModeUi() {
     setHidden(els.autoWordFields, !isAuto);
     els.autoWordFields.classList.toggle("is-clue", isClue);
     els.autoWordFields.classList.toggle("is-listen", isListen);
-    // 글자 수 칸이 없는 유형(문장 뒤죽박죽·확대)은 「고를 문제」가 좁은 둘째 칸으로 밀려 넘치지 않게 칸을 바꾼다.
-    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom);
+    // 글자 수 칸이 없는 유형(문장 뒤죽박죽·확대·레시피)은 「고를 문제」가 좁은 둘째 칸으로 밀려 넘치지 않게 칸을 바꾼다.
+    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom || isRecipe);
   }
-  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom);
+  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom || isRecipe);
   if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
   if (els.wordGenreToggle) {
     els.wordGenreToggle.setAttribute(
       "aria-controls",
-      isListen ? "listenGenreModal" : isSentence || isZoom ? "sentenceGenreModal" : "genreModal",
+      isListen ? "listenGenreModal" : isSentence || isZoom || isRecipe ? "sentenceGenreModal" : "genreModal",
     );
   }
-  if (!isSentence && !isZoom && els.sentenceGenreModal && !els.sentenceGenreModal.hidden) setSentenceGenreMenuOpen(false);
+  if (!isSentence && !isZoom && !isRecipe && els.sentenceGenreModal && !els.sentenceGenreModal.hidden) setSentenceGenreMenuOpen(false);
   if (isListen) {
     if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
     updateListenGenreSummary();
-  } else if (isSentence || isZoom) {
+  } else if (isSentence || isZoom || isRecipe) {
     if (els.genreModal && !els.genreModal.hidden) setGenreMenuOpen(false);
     if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
     if (isZoom) updateZoomGenreSummary();
+    else if (isRecipe) updateRecipeGenreSummary();
     else updateSentenceGenreSummary();
   } else {
     if (els.listenGenreModal && !els.listenGenreModal.hidden) setListenGenreMenuOpen(false);
@@ -5679,6 +5837,7 @@ function syncModeUi() {
   syncDrawPanel();
   if (isSentence) void ensureSentencePool();
   if (isZoom) void ensureZoomPool();
+  if (isRecipe) void ensureRecipePool();
   if (isAuto && !isClue) {
     requestAnimationFrame(() => syncLenUi());
     reportWordPickStats();
@@ -5716,6 +5875,7 @@ function syncModeUi() {
     setPromptText("");
     hideClueArt();
     hideZoomStage();
+    hideRecipeStage();
     els.prompt.hidden = true;
   }
 }
@@ -5752,6 +5912,7 @@ function showPrompt(mode, publicText) {
   if (isDraw || !text) {
     hideClueArt();
     hideZoomStage();
+    hideRecipeStage();
   }
   els.prompt.hidden = isDraw || !text;
   publishObs();
@@ -5795,6 +5956,7 @@ function tick() {
   updateTimerHud(left, pct);
   const remainingRatio = timerDuration > 0 ? leftMs / (timerDuration * 1000) : 0;
   if (current.mode === "zoom" && phase === "accepting") applyZoom(remainingRatio);
+  if (current.mode === "recipe" && phase === "accepting") showRecipeStage({ remainingRatio });
   applyTimeHints(remainingRatio);
   if (left <= 0) finishQuestion(null);
 }
@@ -5837,6 +5999,7 @@ function showFinalResult(lastAnswer = "") {
   stopListenAudio();
   hideClueArt({ forget: true });
   hideZoomStage({ forget: true });
+  hideRecipeStage({ forget: true });
   clearCluePromptFit();
   setPromptText("");
   syncClueChosungLine("");
@@ -6089,6 +6252,7 @@ function finishQuestion(winner) {
   const wasListen = current.mode === "listen" || isListenFormat(current.format);
   const wasScramble = current.mode === "scramble";
   const wasZoom = current.mode === "zoom";
+  const wasRecipe = current.mode === "recipe";
   els.prompt.hidden = false;
   hideDrawHintBar();
   hideListenStage();
@@ -6097,7 +6261,7 @@ function finishQuestion(winner) {
   els.prompt.classList.remove("hit", "miss");
   els.prompt.classList.toggle("is-clue", wasClue);
   els.prompt.classList.toggle("is-listen", wasListen);
-  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen && !wasScramble && !wasZoom);
+  els.prompt.classList.toggle("is-chosung", !wasDraw && !wasClue && !wasListen && !wasScramble && !wasZoom && !wasRecipe);
   els.prompt.classList.toggle("is-scramble", wasScramble);
   els.prompt.classList.toggle("is-sentence", wasScramble && current.scramble?.kind === "sentence");
   els.prompt.classList.toggle("is-draw-reveal", wasDraw);
@@ -6108,6 +6272,8 @@ function finishQuestion(winner) {
   else hideClueArt();
   if (wasZoom) showZoomStage({ reveal: true });
   else hideZoomStage();
+  if (wasRecipe) showRecipeStage({ reveal: true });
+  else hideRecipeStage();
   if (els.broadcastHud) els.broadcastHud.hidden = false;
   if (wasDraw) {
     showRevealPaintThumb();
@@ -6137,7 +6303,7 @@ function finishQuestion(winner) {
     if (wasListen) setPromptText(answerText);
     else if (wasDraw) setPromptText("");
     else if (wasScramble) setScramblePrompt();
-    else if (wasZoom) setPromptText("");
+    else if (wasZoom || wasRecipe) setPromptText("");
     else if (!wasClue) setPromptText(formatChosungDisplay(answerText));
     playHitFireworks();
     playHitFly({ nickname: winner.nickname, answer: answerText }, showHitPrompt);
@@ -6486,6 +6652,7 @@ async function runStartCountdown() {
   setPromptText("");
   hideClueArt({ forget: true });
   hideZoomStage({ forget: true });
+  hideRecipeStage({ forget: true });
   hideListenStage();
   els.prompt.classList.remove("hit", "miss", "is-clue", "is-chosung", "is-scramble", "is-sentence", "is-listen", "is-draw-reveal");
   clearCluePromptFit();
@@ -6553,6 +6720,18 @@ function canStartQuestion() {
     }
     return true;
   }
+  if (isRecipeFormat()) {
+    if (!recipePool) {
+      void ensureRecipePool();
+      setStatus("레시피를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      return false;
+    }
+    if (!filterRecipeEntries(recipePool, activeRecipeGenres()).length) {
+      setStatus("고른 장르에 낼 레시피가 없습니다");
+      return false;
+    }
+    return true;
+  }
   if (isAutoTopic() && isSentenceScramble()) {
     if (!sentencePool) {
       void ensureSentencePool();
@@ -6612,14 +6791,16 @@ function beginQuestion() {
   let previewUrl = "";
   let song = null;
   let listenRoundMode = "";
+  let recipeInfo = null;
   const clue = format === "clue";
   const listen = format === "listen";
   const scramble = format === "scramble";
   const sentence = scramble && scrambleUnit === "sentence";
   const zoom = format === "zoom";
+  const recipe = format === "recipe";
   const posing = isGuestPosing();
-  const topicKey = posing ? "manual" : clue || listen || zoom ? "auto" : topic;
-  const streamerJoin = (isTypedWordFormat(format) || clue || listen || zoom) && topicKey === "auto" && isStreamerJoinEnabled();
+  const topicKey = posing ? "manual" : clue || listen || zoom || recipe ? "auto" : topic;
+  const streamerJoin = (isTypedWordFormat(format) || clue || listen || zoom || recipe) && topicKey === "auto" && isStreamerJoinEnabled();
   if (listen) {
     try {
       song = takeSongSync(usedSongIds, selectedListenGenres);
@@ -6646,6 +6827,10 @@ function beginQuestion() {
         void ensureZoomPool();
         throw new Error("확대 사진을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       }
+      if (recipe && !recipePool) {
+        void ensureRecipePool();
+        throw new Error("레시피를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      }
       let entry = pendingAutoEntry;
       pendingAutoEntry = null;
       if (!entry) {
@@ -6659,7 +6844,9 @@ function beginQuestion() {
             : pickClueEntries(activeClueBank(), cluePickOptions(), liveAutoPickCount())
           : zoom
             ? takeWarmedZoomChoices() || pickZoomEntries(zoomPool, { exclude: usedWordKeys, genres: activeZoomGenres() }, liveAutoPickCount())
-            : sentence
+            : recipe
+              ? pickRecipeEntries(recipePool, { exclude: usedWordKeys, genres: activeRecipeGenres() }, liveAutoPickCount())
+              : sentence
               ? pickSentenceEntries(sentencePool, { exclude: usedWordKeys, sources: activeSentenceSources() }, liveAutoPickCount())
               : pickWordEntriesFromBank(wordBank, wordPickOptions(), liveAutoPickCount());
         if (clue) prefetchClueEntries(choices, { urgent: true });
@@ -6690,6 +6877,7 @@ function beginQuestion() {
       speaker = String(entry.who || "").trim();
       workKind = String(entry.kind || "").trim();
       aliases = Array.isArray(entry.aliases) ? entry.aliases.map((name) => String(name || "").trim()).filter(Boolean) : [];
+      if (recipe) recipeInfo = { ingredients: entry.ingredients.slice(), lines: entry.lines.slice(), image: entry.image, page: entry.page };
       if (clue) {
         usedClueKeys.add(clueEntryKey(entry));
         prefetchClueEntries([entry], { urgent: true });
@@ -6702,7 +6890,7 @@ function beginQuestion() {
       syncDeskFlow();
       return;
     }
-    if ((isTypedWordFormat(format) || clue || listen || zoom) && !streamerJoin) {
+    if ((isTypedWordFormat(format) || clue || listen || zoom || recipe) && !streamerJoin) {
       excludeUserId = session.userId;
     }
   } else {
@@ -6728,7 +6916,7 @@ function beginQuestion() {
       ? pendingGuestAuthor.nickname
       : "";
   current = {
-    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : scramble ? "scramble" : zoom ? "zoom" : "chosung",
+    mode: format === "draw" ? "draw" : clue ? "clue" : listen ? "listen" : scramble ? "scramble" : zoom ? "zoom" : recipe ? "recipe" : "chosung",
     format,
     topic: topicKey,
     answer,
@@ -6747,6 +6935,7 @@ function beginQuestion() {
     listenAnswerMode: listenRoundMode,
     scramble: scramble ? makeScrambleState(answer, sentence ? "sentence" : "word") : null,
     zoom: zoom ? { focus: pickZoomFocus() } : null,
+    recipe: recipeInfo,
     byGuest,
   };
   pendingGuestAuthor = null;
@@ -6797,6 +6986,8 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, f
     setStatus(isDev ? `단서 · ${genre} · 정답 [${answer}]` : `단서 · ${genre} · 채팅 정답 대기`);
   } else if (current.mode === "zoom") {
     setStatus(isDev && !streamerJoin ? `확대 · ${genre} · 정답 [${answer}]` : "확대 · 채팅 정답 대기");
+  } else if (current.mode === "recipe") {
+    setStatus(isDev && !streamerJoin ? `레시피 · ${genre} · 정답 [${answer}]` : "레시피 · 채팅 정답 대기");
   } else if (current.mode === "scramble") {
     const label = current.scramble?.kind === "sentence" ? "뒤죽박죽 문장" : "뒤죽박죽";
     if (isDev && !streamerJoin) setStatus(`${label} · 정답 [${answer}]`);
@@ -7612,7 +7803,7 @@ function bind() {
     const btn = event.target.closest("[data-format]");
     if (!btn) return;
     if (!isKnownQuizFormat(btn.dataset.format)) return;
-    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom")) return;
+    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom" || btn.dataset.format === "recipe")) return;
     if (quizFormat === "listen" && btn.dataset.format !== "listen") stopListenAudio();
     quizFormat = btn.dataset.format;
     if (isGuestPosing()) quizTopic = "manual";
