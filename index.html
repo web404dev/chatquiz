@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=248" />
+  <link rel="stylesheet" href="./styles.css?v=249" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -129,12 +129,36 @@
               <div class="axis format-axis">
                 <span class="axis-label">유형</span>
                 <div class="seg" id="formatSeg" role="group" aria-label="유형">
-                  <button type="button" class="seg-btn active" data-format="chosung" aria-pressed="true">초성</button>
-                  <button type="button" class="seg-btn" data-format="draw" aria-pressed="false">그림</button>
-                  <button type="button" class="seg-btn" data-format="clue" aria-pressed="false">단서</button>
-                  <button type="button" class="seg-btn" data-format="listen" aria-pressed="false">듣기</button>
-                  <button type="button" class="seg-btn" data-format="scramble" aria-pressed="false">뒤죽박죽</button>
-                  <button type="button" class="seg-btn" data-format="zoom" aria-pressed="false">확대</button>
+                  <button type="button" class="seg-btn format-card active" data-format="chosung" aria-pressed="true">
+                    <span class="format-card-art" aria-hidden="true"><span class="art-tiles"><i>ㄱ</i><i>ㅇ</i><i>ㅇ</i></span></span>
+                    <span class="format-card-name">초성</span>
+                    <span class="format-card-desc">첫소리만 보고 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="draw" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🎨</span>
+                    <span class="format-card-name">그림</span>
+                    <span class="format-card-desc">그린 그림 보고 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="clue" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🧩</span>
+                    <span class="format-card-name">단서</span>
+                    <span class="format-card-desc">작품·캐릭터 힌트로 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="listen" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🎧</span>
+                    <span class="format-card-name">듣기</span>
+                    <span class="format-card-desc">노래 듣고 제목·가수 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="scramble" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true"><span class="art-tiles"><i>거</i><i>킨</i><i>버</i><i>치</i></span></span>
+                    <span class="format-card-name">뒤죽박죽</span>
+                    <span class="format-card-desc">섞인 글자 바로잡기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="zoom" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🔍</span>
+                    <span class="format-card-name">확대</span>
+                    <span class="format-card-desc">크게 확대한 사진 맞히기</span>
+                  </button>
                 </div>
                 <div class="format-sub" id="scrambleUnitAxis" hidden>
                   <span class="axis-label">섞기</span>

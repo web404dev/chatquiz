@@ -6200,21 +6200,99 @@ body.mode-desk .host-tutorial {
   border-color: #060912;
 }
 
-/* 유형: 여섯 칸 같은 폭, 뒤죽박죽 섞기는 유형 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
+/* 유형: 그림·이름·한 줄 설명이 든 카드 3칸×2줄(사용자 2026-10-25 "카드형식으로해서 보여주게 하자 안에 그림 설명도 넣고").
+   뒤죽박죽 섞기는 카드 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
 .broadcast-lobby .format-axis {
   flex: 1 1 100%;
 }
 
 .broadcast-lobby .format-axis #formatSeg {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
   width: 100%;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
 }
 
-.broadcast-lobby .format-axis #formatSeg .seg-btn {
+.broadcast-lobby .format-axis #formatSeg .format-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
   min-width: 0;
-  padding: 9px 4px;
-  white-space: nowrap;
+  min-height: 92px;
+  padding: 10px 6px 9px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: rgba(6, 9, 18, 0.55);
+  color: var(--paper);
+  white-space: normal;
+  text-align: center;
+  line-height: 1.2;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.broadcast-lobby .format-axis #formatSeg .format-card:hover {
+  border-color: rgba(61, 231, 255, 0.7);
+  background: rgba(61, 231, 255, 0.08);
+}
+
+.broadcast-lobby .format-axis #formatSeg .format-card.active {
+  border-color: var(--caption);
+  background: rgba(255, 225, 74, 0.14);
+  color: var(--caption);
+  box-shadow: inset 0 0 0 1px var(--caption);
+}
+
+.broadcast-lobby .format-axis #formatSeg .format-card:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.format-card-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.format-card-art .art-tiles {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.format-card-art .art-tiles i {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 22px;
+  border-radius: 4px;
+  background: #ffe14a;
+  color: #141414;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 1px 1px 0 #000;
+}
+
+.format-card-name {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.format-card-desc {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.broadcast-lobby .format-axis #formatSeg .format-card.active .format-card-desc {
+  color: #f3e7b0;
 }
 
 .broadcast-lobby .format-sub {
