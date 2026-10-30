@@ -6675,6 +6675,33 @@ body.mode-desk .host-tutorial {
   animation: recipe-in 0.4s ease;
 }
 
+/* 밈: 문제 동안에도 짤을 카드 위에 띄운다. 카드는 작게, 아래 힌트까지 한 화면에. */
+.trivia-stage.with-photo {
+  gap: 1.6cqh;
+}
+
+.trivia-stage.with-photo .recipe-photo {
+  order: -1;
+}
+
+.trivia-stage.with-photo .recipe-img {
+  /* cqh 는 위아래 96px 를 뺀 안쪽 높이 기준. 카드(약 80px)·출처 줄을 빼고 남는 만큼. */
+  max-height: 56cqh;
+}
+
+.trivia-stage.with-photo .trivia-card {
+  padding: 1.4cqh 3cqw 1.8cqh;
+}
+
+.trivia-stage.with-photo .trivia-question {
+  margin: 0.6cqh 0 0;
+  font-size: clamp(20px, 3cqw, 40px);
+}
+
+.trivia-stage.with-photo .trivia-hint {
+  margin-top: 1.2cqh;
+}
+
 .recipe-source {
   color: rgba(255, 255, 255, 0.78);
   font-size: clamp(12px, 1.3cqw, 16px);

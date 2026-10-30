@@ -34,7 +34,7 @@ import { filterSentences, loadSentencePool, pickSentenceEntries, SENTENCE_SOURCE
 import { filterZoomEntries, loadZoomPool, pickZoomEntries, pickZoomFocus, ZOOM_GENRES, zoomStepScale } from "./zoom-bank.js?v=5";
 import { filterRecipeEntries, loadRecipePool, pickRecipeEntries, RECIPE_GENRES, recipeStage } from "./recipe-bank.js?v=1";
 import { filterTriviaEntries, loadTriviaPool, pickTriviaEntries, TRIVIA_GENRES, triviaLengthHint, triviaStage } from "./trivia-bank.js?v=2";
-import { buildMemePool, filterMemeEntries, MEME_GENRES, pickMemeEntries } from "./meme-bank.js?v=1";
+import { buildMemePool, filterMemeEntries, MEME_GENRES, pickMemeEntries } from "./meme-bank.js?v=2";
 import {
   pickClueEntries,
   filterClueItems,
@@ -3804,7 +3804,8 @@ function hideRecipeStage({ forget = false } = {}) {
   }
 }
 
-/** 상식: 문제 카드에 시간이 지나면 글자 수 → 초성(trivia-bank.js TRIVIA_STEPS). 정답 공개 때 명화는 그림, 나머지는 문제 카드를 그대로 둔다. */
+/** 상식: 문제 카드에 시간이 지나면 글자 수 → 초성(trivia-bank.js TRIVIA_STEPS). 정답 공개 때 명화는 그림, 나머지는 문제 카드를 그대로 둔다.
+ *  밈(photoFirst)은 문제 동안에도 짤을 카드 위에 띄운다. */
 let triviaShownFor = null;
 let triviaShownKey = "";
 let triviaPreload = null;
@@ -3831,8 +3832,9 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
   }
   triviaShownFor = current;
   triviaShownKey = key;
-  const photo = reveal && !!t.image;
-  if (els.triviaCard) els.triviaCard.hidden = photo;
+  const photo = (reveal || !!t.photoFirst) && !!t.image;
+  els.triviaStage.classList.toggle("with-photo", photo && !reveal);
+  if (els.triviaCard) els.triviaCard.hidden = photo && reveal;
   if (els.triviaPhoto) els.triviaPhoto.hidden = !photo;
   if (photo) {
     if (els.triviaImg && els.triviaImg.getAttribute("src") !== t.image) els.triviaImg.src = t.image;
@@ -4776,7 +4778,7 @@ const FORMAT_DESC = {
   zoom: "아주 크게 확대한 사진이 천천히 줄어들어요 · 무엇인지 맞혀요",
   recipe: "요리 재료 → 설명 → 초성 순으로 열려요 · 무슨 음식인지 맞혀요 (위키백과)",
   trivia: "수도·화폐·원소 기호·명화·문학 문제가 나와요 · 글자 수 → 초성 힌트 (위키데이터)",
-  meme: "밈 설명을 보고 무슨 밈인지 맞혀요 · 글자 수 → 초성 힌트 (마추기 밈 퀴즈에서 옮김)",
+  meme: "밈 짤을 보고 무슨 밈인지 맞혀요 · 글자 수 → 초성 힌트 (마추기 밈 퀴즈에서 옮김)",
 };
 
 function syncAxisButtons() {
@@ -7115,7 +7117,7 @@ function beginQuestion() {
       if (recipe) recipeInfo = { ingredients: entry.ingredients.slice(), lines: entry.lines.slice(), image: entry.image, page: entry.page };
       if (trivia) {
         triviaInfo = meme
-          ? { question: entry.question, image: entry.image || "", level: "", label: "😂 밈", source: "출처 · 마추기 아이오 밈 퀴즈" }
+          ? { question: entry.question, image: entry.image || "", photoFirst: true, level: "", label: "😂 밈", source: "출처 · 마추기 아이오 밈 퀴즈" }
           : { question: entry.question, image: entry.image || "", level: entry.level || "" };
       }
       if (clue) {
