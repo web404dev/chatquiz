@@ -1,0 +1,4821 @@
+{
+ "version": 1,
+ "fetchedAt": 1793374686560,
+ "title": "상식 퀴즈 (위키데이터 수도·화폐·원소 기호·명화·문학, 난이도는 한국어 위키백과 조회수)",
+ "note": "문제는 위키데이터(CC0)에서 틀로 만든다. 명화 그림은 위키미디어 공용 주소만 둔다. 빼고 싶은 문제는 trivia-exclude.json 의 titles(명화·문학 제목)·questions(문제 문장)·keys 에 적고 다시 갱신한다.",
+ "genres": [
+  "수도",
+  "화폐",
+  "원소",
+  "명화",
+  "문학"
+ ],
+ "items": [
+  {
+   "key": "capital:Q884",
+   "genre": "수도",
+   "question": "「대한민국」의 수도는?",
+   "word": "서울",
+   "aliases": [
+    "서울특별시",
+    "서울시"
+   ],
+   "source": "위키데이터",
+   "score": 20709,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q17",
+   "genre": "수도",
+   "question": "「일본」의 수도는?",
+   "word": "도쿄",
+   "aliases": [
+    "도쿄도",
+    "동경",
+    "동경도",
+    "도쿄 도",
+    "동경 도"
+   ],
+   "source": "위키데이터",
+   "score": 5834,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q148",
+   "genre": "수도",
+   "question": "「중국」의 수도는?",
+   "word": "베이징",
+   "aliases": [
+    "베이징시",
+    "북평",
+    "연경",
+    "베이핑",
+    "북경",
+    "북경시",
+    "북평시"
+   ],
+   "source": "위키데이터",
+   "score": 4733,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q30",
+   "genre": "수도",
+   "question": "「미국」의 수도는?",
+   "word": "워싱턴 D.C.",
+   "aliases": [
+    "워싱턴"
+   ],
+   "source": "위키데이터",
+   "score": 4542,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q38",
+   "genre": "수도",
+   "question": "「이탈리아」의 수도는?",
+   "word": "로마",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 3480,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q881",
+   "genre": "수도",
+   "question": "「베트남」의 수도는?",
+   "word": "하노이",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 3433,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q142",
+   "genre": "수도",
+   "question": "「프랑스」의 수도는?",
+   "word": "파리",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 3173,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q159",
+   "genre": "수도",
+   "question": "「러시아」의 수도는?",
+   "word": "모스크바",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 3007,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q145",
+   "genre": "수도",
+   "question": "「영국」의 수도는?",
+   "word": "런던",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2676,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q29",
+   "genre": "수도",
+   "question": "「스페인」의 수도는?",
+   "word": "마드리드",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2069,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q213",
+   "genre": "수도",
+   "question": "「체코」의 수도는?",
+   "word": "프라하",
+   "aliases": [
+    "쁘라하",
+    "프라그",
+    "프라하 시"
+   ],
+   "source": "위키데이터",
+   "score": 2058,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q16",
+   "genre": "수도",
+   "question": "「캐나다」의 수도는?",
+   "word": "오타와",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2003,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q35",
+   "genre": "수도",
+   "question": "「덴마크」의 수도는?",
+   "word": "코펜하겐",
+   "aliases": [
+    "쾨벤하운",
+    "쾨뻰하븐"
+   ],
+   "source": "위키데이터",
+   "score": 1917,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q40",
+   "genre": "수도",
+   "question": "「오스트리아」의 수도는?",
+   "word": "빈",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1900,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q869",
+   "genre": "수도",
+   "question": "「태국」의 수도는?",
+   "word": "방콕",
+   "aliases": [
+    "끄룽텝",
+    "끄룽텝 마하나콘"
+   ],
+   "source": "위키데이터",
+   "score": 1876,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q851",
+   "genre": "수도",
+   "question": "「사우디아라비아」의 수도는?",
+   "word": "리야드",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1780,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q183",
+   "genre": "수도",
+   "question": "「독일」의 수도는?",
+   "word": "베를린",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1741,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q739",
+   "genre": "수도",
+   "question": "「콜롬비아」의 수도는?",
+   "word": "보고타",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1642,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q41",
+   "genre": "수도",
+   "question": "「그리스」의 수도는?",
+   "word": "아테네",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1637,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q711",
+   "genre": "수도",
+   "question": "「몽골」의 수도는?",
+   "word": "울란바타르",
+   "aliases": [
+    "우르가",
+    "울란바따르",
+    "울란바타르 시",
+    "울란바토르",
+    "울란바토르 시",
+    "울랑바타르"
+   ],
+   "source": "위키데이터",
+   "score": 1569,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q28",
+   "genre": "수도",
+   "question": "「헝가리」의 수도는?",
+   "word": "부다페스트",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1549,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q34",
+   "genre": "수도",
+   "question": "「스웨덴」의 수도는?",
+   "word": "스톡홀름",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1436,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q298",
+   "genre": "수도",
+   "question": "「칠레」의 수도는?",
+   "word": "산티아고",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1434,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q45",
+   "genre": "수도",
+   "question": "「포르투갈」의 수도는?",
+   "word": "리스본",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1395,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q252",
+   "genre": "수도",
+   "question": "「인도네시아」의 수도는?",
+   "word": "자카르타",
+   "aliases": [
+    "자카르타특수지역",
+    "자카르타특수주"
+   ],
+   "source": "위키데이터",
+   "score": 1345,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q36",
+   "genre": "수도",
+   "question": "「폴란드」의 수도는?",
+   "word": "바르샤바",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1309,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q403",
+   "genre": "수도",
+   "question": "「세르비아」의 수도는?",
+   "word": "베오그라드",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1275,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q232",
+   "genre": "수도",
+   "question": "「카자흐스탄」의 수도는?",
+   "word": "아스타나",
+   "aliases": [
+    "누르술탄",
+    "누르쑬딴",
+    "아크몰라",
+    "아크몰린스크",
+    "첼리노그라드"
+   ],
+   "source": "위키데이터",
+   "score": 1263,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q115",
+   "genre": "수도",
+   "question": "「에티오피아」의 수도는?",
+   "word": "아디스아바바",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1206,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q79",
+   "genre": "수도",
+   "question": "「이집트」의 수도는?",
+   "word": "카이로",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1195,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q55",
+   "genre": "수도",
+   "question": "「네덜란드」의 수도는?",
+   "word": "암스테르담",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1188,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q668",
+   "genre": "수도",
+   "question": "「인도」의 수도는?",
+   "word": "뉴델리",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1165,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q27",
+   "genre": "수도",
+   "question": "「아일랜드」의 수도는?",
+   "word": "더블린",
+   "aliases": [
+    "더불린"
+   ],
+   "source": "위키데이터",
+   "score": 1154,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q833",
+   "genre": "수도",
+   "question": "「말레이시아」의 수도는?",
+   "word": "쿠알라룸푸르",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1129,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q878",
+   "genre": "수도",
+   "question": "「아랍에미리트」의 수도는?",
+   "word": "아부다비",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1123,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q928",
+   "genre": "수도",
+   "question": "「필리핀」의 수도는?",
+   "word": "마닐라",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1036,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q837",
+   "genre": "수도",
+   "question": "「네팔」의 수도는?",
+   "word": "카트만두",
+   "aliases": [
+    "까뜨만두"
+   ],
+   "source": "위키데이터",
+   "score": 1017,
+   "level": "쉬움"
+  },
+  {
+   "key": "capital:Q408",
+   "genre": "수도",
+   "question": "「호주」의 수도는?",
+   "word": "캔버라",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1006,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q419",
+   "genre": "수도",
+   "question": "「페루」의 수도는?",
+   "word": "리마",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1000,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q414",
+   "genre": "수도",
+   "question": "「아르헨티나」의 수도는?",
+   "word": "부에노스아이레스",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 979,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q230",
+   "genre": "수도",
+   "question": "「조지아」의 수도는?",
+   "word": "트빌리시",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 977,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q858",
+   "genre": "수도",
+   "question": "「시리아」의 수도는?",
+   "word": "다마스쿠스",
+   "aliases": [
+    "디마슈크",
+    "앗샴"
+   ],
+   "source": "위키데이터",
+   "score": 976,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q43",
+   "genre": "수도",
+   "question": "「튀르키예」의 수도는?",
+   "word": "앙카라",
+   "aliases": [
+    "앙까라"
+   ],
+   "source": "위키데이터",
+   "score": 949,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q33",
+   "genre": "수도",
+   "question": "「핀란드」의 수도는?",
+   "word": "헬싱키",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 912,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q227",
+   "genre": "수도",
+   "question": "「아제르바이잔」의 수도는?",
+   "word": "바쿠",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 901,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q39",
+   "genre": "수도",
+   "question": "「스위스」의 수도는?",
+   "word": "베른",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 864,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q902",
+   "genre": "수도",
+   "question": "「방글라데시」의 수도는?",
+   "word": "다카",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 858,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q819",
+   "genre": "수도",
+   "question": "「라오스」의 수도는?",
+   "word": "비엔티안",
+   "aliases": [
+    "비엔티엔"
+   ],
+   "source": "위키데이터",
+   "score": 849,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q212",
+   "genre": "수도",
+   "question": "「우크라이나」의 수도는?",
+   "word": "키이우",
+   "aliases": [
+    "크이우",
+    "키예프"
+   ],
+   "source": "위키데이터",
+   "score": 841,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q225",
+   "genre": "수도",
+   "question": "「보스니아헤르체고비나」의 수도는?",
+   "word": "사라예보",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 809,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q20",
+   "genre": "수도",
+   "question": "「노르웨이」의 수도는?",
+   "word": "오슬로",
+   "aliases": [
+    "크리스티아니아"
+   ],
+   "source": "위키데이터",
+   "score": 803,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q189",
+   "genre": "수도",
+   "question": "「아이슬란드」의 수도는?",
+   "word": "레이캬비크",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 787,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q114",
+   "genre": "수도",
+   "question": "「케냐」의 수도는?",
+   "word": "나이로비",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 782,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q736",
+   "genre": "수도",
+   "question": "「에콰도르」의 수도는?",
+   "word": "키토",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 760,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q214",
+   "genre": "수도",
+   "question": "「슬로바키아」의 수도는?",
+   "word": "브라티슬라바",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 726,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q664",
+   "genre": "수도",
+   "question": "「뉴질랜드」의 수도는?",
+   "word": "웰링턴",
+   "aliases": [
+    "웰링턴 시",
+    "웰링톤"
+   ],
+   "source": "위키데이터",
+   "score": 717,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q813",
+   "genre": "수도",
+   "question": "「키르기스스탄」의 수도는?",
+   "word": "비슈케크",
+   "aliases": [
+    "프룬제",
+    "비슈께크"
+   ],
+   "source": "위키데이터",
+   "score": 689,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q794",
+   "genre": "수도",
+   "question": "「이란」의 수도는?",
+   "word": "테헤란",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 688,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q219",
+   "genre": "수도",
+   "question": "「불가리아」의 수도는?",
+   "word": "소피아",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 670,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q224",
+   "genre": "수도",
+   "question": "「크로아티아」의 수도는?",
+   "word": "자그레브",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 597,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q843",
+   "genre": "수도",
+   "question": "「파키스탄」의 수도는?",
+   "word": "이슬라마바드",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 584,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q424",
+   "genre": "수도",
+   "question": "「캄보디아」의 수도는?",
+   "word": "프놈펜",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 584,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q796",
+   "genre": "수도",
+   "question": "「이라크」의 수도는?",
+   "word": "바그다드",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 548,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q399",
+   "genre": "수도",
+   "question": "「아르메니아」의 수도는?",
+   "word": "예레반",
+   "aliases": [
+    "예레브니",
+    "예리반"
+   ],
+   "source": "위키데이터",
+   "score": 532,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q215",
+   "genre": "수도",
+   "question": "「슬로베니아」의 수도는?",
+   "word": "류블랴나",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 527,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q836",
+   "genre": "수도",
+   "question": "「미얀마」의 수도는?",
+   "word": "네피도",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 526,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q822",
+   "genre": "수도",
+   "question": "「레바논」의 수도는?",
+   "word": "베이루트",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 523,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q191",
+   "genre": "수도",
+   "question": "「에스토니아」의 수도는?",
+   "word": "탈린",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 510,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q218",
+   "genre": "수도",
+   "question": "「루마니아」의 수도는?",
+   "word": "부쿠레슈티",
+   "aliases": [
+    "부가레스트",
+    "부꾸레슈띠",
+    "부카레스트",
+    "부크레슈티"
+   ],
+   "source": "위키데이터",
+   "score": 494,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q889",
+   "genre": "수도",
+   "question": "「아프가니스탄」의 수도는?",
+   "word": "카불",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 459,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q1045",
+   "genre": "수도",
+   "question": "「소말리아」의 수도는?",
+   "word": "모가디슈",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 444,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q974",
+   "genre": "수도",
+   "question": "「콩고 민주 공화국」의 수도는?",
+   "word": "킨샤사",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 429,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q948",
+   "genre": "수도",
+   "question": "「튀니지」의 수도는?",
+   "word": "튀니스",
+   "aliases": [
+    "뜌니스"
+   ],
+   "source": "위키데이터",
+   "score": 418,
+   "level": "어려움"
+  },
+  {
+   "key": "capital:Q1028",
+   "genre": "수도",
+   "question": "「모로코」의 수도는?",
+   "word": "라바트",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 397,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q38",
+   "genre": "화폐",
+   "question": "「이탈리아」의 화폐 단위는?",
+   "word": "유로",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 4539,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q183",
+   "genre": "화폐",
+   "question": "「독일」의 화폐 단위는?",
+   "word": "유로",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 4539,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q29",
+   "genre": "화폐",
+   "question": "「스페인」의 화폐 단위는?",
+   "word": "유로",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 4539,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q33",
+   "genre": "화폐",
+   "question": "「핀란드」의 화폐 단위는?",
+   "word": "유로",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 4153,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q17",
+   "genre": "화폐",
+   "question": "「일본」의 화폐 단위는?",
+   "word": "엔",
+   "aliases": [
+    "일본 엔",
+    "엔화",
+    "일본"
+   ],
+   "source": "위키데이터",
+   "score": 2508,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q252",
+   "genre": "화폐",
+   "question": "「인도네시아」의 화폐 단위는?",
+   "word": "루피아",
+   "aliases": [
+    "인도네시아 루피아",
+    "인도네시아"
+   ],
+   "source": "위키데이터",
+   "score": 2079,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q30",
+   "genre": "화폐",
+   "question": "「미국」의 화폐 단위는?",
+   "word": "달러",
+   "aliases": [
+    "미국 달러",
+    "미국"
+   ],
+   "source": "위키데이터",
+   "score": 1780,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q736",
+   "genre": "화폐",
+   "question": "「에콰도르」의 화폐 단위는?",
+   "word": "미국 달러",
+   "aliases": [
+    "미국",
+    "달러"
+   ],
+   "source": "위키데이터",
+   "score": 1780,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q881",
+   "genre": "화폐",
+   "question": "「베트남」의 화폐 단위는?",
+   "word": "동",
+   "aliases": [
+    "베트남 동",
+    "베트남"
+   ],
+   "source": "위키데이터",
+   "score": 1613,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q16",
+   "genre": "화폐",
+   "question": "「캐나다」의 화폐 단위는?",
+   "word": "달러",
+   "aliases": [
+    "캐나다 달러",
+    "캐나다"
+   ],
+   "source": "위키데이터",
+   "score": 1530,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q148",
+   "genre": "화폐",
+   "question": "「중국」의 화폐 단위는?",
+   "word": "런민비",
+   "aliases": [
+    "인민원",
+    "렌민비",
+    "렌민비 위안",
+    "인민폐",
+    "위안"
+   ],
+   "source": "위키데이터",
+   "score": 1148,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q39",
+   "genre": "화폐",
+   "question": "「스위스」의 화폐 단위는?",
+   "word": "프랑",
+   "aliases": [
+    "스위스 프랑",
+    "스위스프랑",
+    "스위스"
+   ],
+   "source": "위키데이터",
+   "score": 1123,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q347",
+   "genre": "화폐",
+   "question": "「리히텐슈타인」의 화폐 단위는?",
+   "word": "스위스 프랑",
+   "aliases": [
+    "스위스프랑",
+    "스위스",
+    "프랑"
+   ],
+   "source": "위키데이터",
+   "score": 1123,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q819",
+   "genre": "화폐",
+   "question": "「라오스」의 화폐 단위는?",
+   "word": "킵",
+   "aliases": [
+    "라오스 킵",
+    "라오스"
+   ],
+   "source": "위키데이터",
+   "score": 1064,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q218",
+   "genre": "화폐",
+   "question": "「루마니아」의 화폐 단위는?",
+   "word": "레우",
+   "aliases": [
+    "루마니아 레우",
+    "루마니아"
+   ],
+   "source": "위키데이터",
+   "score": 1008,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q334",
+   "genre": "화폐",
+   "question": "「싱가포르」의 화폐 단위는?",
+   "word": "달러",
+   "aliases": [
+    "싱가포르 달러",
+    "싱가포르"
+   ],
+   "source": "위키데이터",
+   "score": 904,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q145",
+   "genre": "화폐",
+   "question": "「영국」의 화폐 단위는?",
+   "word": "파운드 스털링",
+   "aliases": [
+    "영국 파운드",
+    "퀴드",
+    "파운드화기호",
+    "파운드화표기",
+    "파운드화표시",
+    "파운드",
+    "스털링",
+    "영국"
+   ],
+   "source": "위키데이터",
+   "score": 902,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q217",
+   "genre": "화폐",
+   "question": "「몰도바」의 화폐 단위는?",
+   "word": "레우",
+   "aliases": [
+    "몰도바 레우",
+    "몰도바"
+   ],
+   "source": "위키데이터",
+   "score": 844,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q408",
+   "genre": "화폐",
+   "question": "「호주」의 화폐 단위는?",
+   "word": "달러",
+   "aliases": [
+    "오스트레일리아 달러",
+    "오스트레일리아달러",
+    "호주 달러",
+    "호주달러",
+    "오스트레일리아",
+    "호주"
+   ],
+   "source": "위키데이터",
+   "score": 709,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q794",
+   "genre": "화폐",
+   "question": "「이란」의 화폐 단위는?",
+   "word": "리알",
+   "aliases": [
+    "이란 리알",
+    "이란"
+   ],
+   "source": "위키데이터",
+   "score": 660,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q28",
+   "genre": "화폐",
+   "question": "「헝가리」의 화폐 단위는?",
+   "word": "포린트",
+   "aliases": [
+    "헝가리 포린트",
+    "헝가리"
+   ],
+   "source": "위키데이터",
+   "score": 564,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q189",
+   "genre": "화폐",
+   "question": "「아이슬란드」의 화폐 단위는?",
+   "word": "크로나",
+   "aliases": [
+    "아이슬란드 크로나",
+    "아이슬란드"
+   ],
+   "source": "위키데이터",
+   "score": 523,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q836",
+   "genre": "화폐",
+   "question": "「미얀마」의 화폐 단위는?",
+   "word": "짯",
+   "aliases": [
+    "미얀마 짯",
+    "미얀마 차트",
+    "미얀마 찻",
+    "챠트",
+    "미얀마",
+    "차트"
+   ],
+   "source": "위키데이터",
+   "score": 516,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q664",
+   "genre": "화폐",
+   "question": "「뉴질랜드」의 화폐 단위는?",
+   "word": "달러",
+   "aliases": [
+    "뉴질랜드 달러",
+    "뉴질랜드"
+   ],
+   "source": "위키데이터",
+   "score": 506,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q213",
+   "genre": "화폐",
+   "question": "「체코」의 화폐 단위는?",
+   "word": "코루나",
+   "aliases": [
+    "체코 코루나",
+    "체코"
+   ],
+   "source": "위키데이터",
+   "score": 482,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q1028",
+   "genre": "화폐",
+   "question": "「모로코」의 화폐 단위는?",
+   "word": "디르함",
+   "aliases": [
+    "모로코 디르함",
+    "모로코디르함",
+    "모로코"
+   ],
+   "source": "위키데이터",
+   "score": 468,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q813",
+   "genre": "화폐",
+   "question": "「키르기스스탄」의 화폐 단위는?",
+   "word": "솜",
+   "aliases": [
+    "키르기스스탄 솜",
+    "키르기스스탄"
+   ],
+   "source": "위키데이터",
+   "score": 464,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q928",
+   "genre": "화폐",
+   "question": "「필리핀」의 화폐 단위는?",
+   "word": "페소",
+   "aliases": [
+    "필리핀 페소",
+    "필리핀"
+   ],
+   "source": "위키데이터",
+   "score": 458,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q43",
+   "genre": "화폐",
+   "question": "「튀르키예」의 화폐 단위는?",
+   "word": "리라",
+   "aliases": [
+    "터키 리라",
+    "신 터키 리라",
+    "터키 신 리라",
+    "터키"
+   ],
+   "source": "위키데이터",
+   "score": 440,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q837",
+   "genre": "화폐",
+   "question": "「네팔」의 화폐 단위는?",
+   "word": "루피",
+   "aliases": [
+    "네팔 루피",
+    "네팔"
+   ],
+   "source": "위키데이터",
+   "score": 437,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q79",
+   "genre": "화폐",
+   "question": "「이집트」의 화폐 단위는?",
+   "word": "파운드",
+   "aliases": [
+    "이집트 파운드",
+    "이집트파운드",
+    "이집트"
+   ],
+   "source": "위키데이터",
+   "score": 430,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q34",
+   "genre": "화폐",
+   "question": "「스웨덴」의 화폐 단위는?",
+   "word": "크로나",
+   "aliases": [
+    "스웨덴 크로나",
+    "스웨덴"
+   ],
+   "source": "위키데이터",
+   "score": 342,
+   "level": "쉬움"
+  },
+  {
+   "key": "currency:Q159",
+   "genre": "화폐",
+   "question": "「러시아」의 화폐 단위는?",
+   "word": "루블",
+   "aliases": [
+    "러시아 루블",
+    "코페이카",
+    "러시아"
+   ],
+   "source": "위키데이터",
+   "score": 321,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q902",
+   "genre": "화폐",
+   "question": "「방글라데시」의 화폐 단위는?",
+   "word": "타카",
+   "aliases": [
+    "방글라데시 타카",
+    "방글라데시"
+   ],
+   "source": "위키데이터",
+   "score": 310,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q801",
+   "genre": "화폐",
+   "question": "「이스라엘」의 화폐 단위는?",
+   "word": "신 셰켈",
+   "aliases": [
+    "이스라엘 신 셰켈",
+    "신 이스라엘 셰켈",
+    "이스라엘",
+    "셰켈"
+   ],
+   "source": "위키데이터",
+   "score": 280,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q739",
+   "genre": "화폐",
+   "question": "「콜롬비아」의 화폐 단위는?",
+   "word": "페소",
+   "aliases": [
+    "콜롬비아 페소",
+    "콜롬비아"
+   ],
+   "source": "위키데이터",
+   "score": 265,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q668",
+   "genre": "화폐",
+   "question": "「인도」의 화폐 단위는?",
+   "word": "루피",
+   "aliases": [
+    "인도 루피",
+    "인도"
+   ],
+   "source": "위키데이터",
+   "score": 248,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q851",
+   "genre": "화폐",
+   "question": "「사우디아라비아」의 화폐 단위는?",
+   "word": "리얄",
+   "aliases": [
+    "사우디아라비아 리얄",
+    "사우디 리알",
+    "사우디 리얄",
+    "사우디아라비아 리알",
+    "사우디아라비아",
+    "사우디",
+    "리알"
+   ],
+   "source": "위키데이터",
+   "score": 246,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q869",
+   "genre": "화폐",
+   "question": "「태국」의 화폐 단위는?",
+   "word": "밧",
+   "aliases": [
+    "태국 밧",
+    "바트",
+    "바트화",
+    "밧화",
+    "사땅",
+    "타이 바트",
+    "타이 밧",
+    "태국 바트",
+    "태국",
+    "타이"
+   ],
+   "source": "위키데이터",
+   "score": 213,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q833",
+   "genre": "화폐",
+   "question": "「말레이시아」의 화폐 단위는?",
+   "word": "링깃",
+   "aliases": [
+    "말레이시아 링깃",
+    "말레이시아"
+   ],
+   "source": "위키데이터",
+   "score": 207,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q424",
+   "genre": "화폐",
+   "question": "「캄보디아」의 화폐 단위는?",
+   "word": "리엘",
+   "aliases": [
+    "캄보디아 리엘",
+    "캄보디아"
+   ],
+   "source": "위키데이터",
+   "score": 206,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q711",
+   "genre": "화폐",
+   "question": "「몽골」의 화폐 단위는?",
+   "word": "투그릭",
+   "aliases": [
+    "몽골 투그릭",
+    "몽골투그릭",
+    "몽골"
+   ],
+   "source": "위키데이터",
+   "score": 202,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q232",
+   "genre": "화폐",
+   "question": "「카자흐스탄」의 화폐 단위는?",
+   "word": "텡게",
+   "aliases": [
+    "카자흐스탄 텡게",
+    "카자흐스탄"
+   ],
+   "source": "위키데이터",
+   "score": 198,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q96",
+   "genre": "화폐",
+   "question": "「멕시코」의 화폐 단위는?",
+   "word": "페소",
+   "aliases": [
+    "멕시코 페소",
+    "메히꼬 페소",
+    "멕시코",
+    "메히꼬"
+   ],
+   "source": "위키데이터",
+   "score": 183,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q227",
+   "genre": "화폐",
+   "question": "「아제르바이잔」의 화폐 단위는?",
+   "word": "마나트",
+   "aliases": [
+    "아제르바이잔 마나트",
+    "아제르바이잔"
+   ],
+   "source": "위키데이터",
+   "score": 181,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q77",
+   "genre": "화폐",
+   "question": "「우루과이」의 화폐 단위는?",
+   "word": "페소",
+   "aliases": [
+    "우루과이 페소",
+    "우루과이"
+   ],
+   "source": "위키데이터",
+   "score": 180,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q230",
+   "genre": "화폐",
+   "question": "「조지아」의 화폐 단위는?",
+   "word": "라리",
+   "aliases": [
+    "조지아 라리",
+    "그루지야 라리",
+    "조지아",
+    "그루지야"
+   ],
+   "source": "위키데이터",
+   "score": 178,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q225",
+   "genre": "화폐",
+   "question": "「보스니아헤르체고비나」의 화폐 단위는?",
+   "word": "태환 마르카",
+   "aliases": [
+    "보스니아 헤르체고비나 태환 마르카",
+    "보스니아 헤르체고비나 태환 마르크",
+    "보스니아",
+    "헤르체고비나",
+    "태환",
+    "마르카",
+    "마르크"
+   ],
+   "source": "위키데이터",
+   "score": 178,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q298",
+   "genre": "화폐",
+   "question": "「칠레」의 화폐 단위는?",
+   "word": "페소",
+   "aliases": [
+    "칠레 페소",
+    "칠레"
+   ],
+   "source": "위키데이터",
+   "score": 165,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q1019",
+   "genre": "화폐",
+   "question": "「마다가스카르」의 화폐 단위는?",
+   "word": "아리아리",
+   "aliases": [
+    "마다가스카르 아리아리",
+    "마다가스카르아리아리",
+    "마다가스카르"
+   ],
+   "source": "위키데이터",
+   "score": 153,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q155",
+   "genre": "화폐",
+   "question": "「브라질」의 화폐 단위는?",
+   "word": "헤알",
+   "aliases": [
+    "브라질 헤알",
+    "브라질 레알",
+    "브라질",
+    "레알"
+   ],
+   "source": "위키데이터",
+   "score": 148,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q184",
+   "genre": "화폐",
+   "question": "「벨라루스」의 화폐 단위는?",
+   "word": "루블",
+   "aliases": [
+    "벨라루스 루블",
+    "벨라루스"
+   ],
+   "source": "위키데이터",
+   "score": 145,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q805",
+   "genre": "화폐",
+   "question": "「예멘」의 화폐 단위는?",
+   "word": "리알",
+   "aliases": [
+    "예멘 리알",
+    "예멘 리얄",
+    "예멘리얄",
+    "예멘",
+    "리얄"
+   ],
+   "source": "위키데이터",
+   "score": 145,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q258",
+   "genre": "화폐",
+   "question": "「남아공」의 화폐 단위는?",
+   "word": "랜드",
+   "aliases": [
+    "남아프리카 공화국 랜드",
+    "남아프리카 공화국 란드",
+    "남아프리카공화국 랜드",
+    "남아프리카",
+    "공화국",
+    "란드",
+    "남아프리카공화국"
+   ],
+   "source": "위키데이터",
+   "score": 141,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q36",
+   "genre": "화폐",
+   "question": "「폴란드」의 화폐 단위는?",
+   "word": "즈워티",
+   "aliases": [
+    "폴란드 즈워티",
+    "즐로티",
+    "폴란드 즐로티",
+    "폴란드"
+   ],
+   "source": "위키데이터",
+   "score": 133,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q948",
+   "genre": "화폐",
+   "question": "「튀니지」의 화폐 단위는?",
+   "word": "디나르",
+   "aliases": [
+    "튀니지 디나르",
+    "튀니지"
+   ],
+   "source": "위키데이터",
+   "score": 121,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q924",
+   "genre": "화폐",
+   "question": "「탄자니아」의 화폐 단위는?",
+   "word": "실링",
+   "aliases": [
+    "탄자니아 실링",
+    "탄자니아"
+   ],
+   "source": "위키데이터",
+   "score": 120,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q414",
+   "genre": "화폐",
+   "question": "「아르헨티나」의 화폐 단위는?",
+   "word": "페소",
+   "aliases": [
+    "아르헨티나 페소",
+    "아르헨티나"
+   ],
+   "source": "위키데이터",
+   "score": 113,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q20",
+   "genre": "화폐",
+   "question": "「노르웨이」의 화폐 단위는?",
+   "word": "크로네",
+   "aliases": [
+    "노르웨이 크로네",
+    "노르웨이"
+   ],
+   "source": "위키데이터",
+   "score": 92,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q843",
+   "genre": "화폐",
+   "question": "「파키스탄」의 화폐 단위는?",
+   "word": "루피",
+   "aliases": [
+    "파키스탄 루피",
+    "파키스탄"
+   ],
+   "source": "위키데이터",
+   "score": 90,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q114",
+   "genre": "화폐",
+   "question": "「케냐」의 화폐 단위는?",
+   "word": "실링",
+   "aliases": [
+    "케냐 실링",
+    "케냐실링",
+    "케냐"
+   ],
+   "source": "위키데이터",
+   "score": 87,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q212",
+   "genre": "화폐",
+   "question": "「우크라이나」의 화폐 단위는?",
+   "word": "흐리우냐",
+   "aliases": [
+    "우크라이나 흐리우냐",
+    "우크라이나 흐리브냐",
+    "흐리브냐",
+    "우크라이나"
+   ],
+   "source": "위키데이터",
+   "score": 86,
+   "level": "어려움"
+  },
+  {
+   "key": "currency:Q1033",
+   "genre": "화폐",
+   "question": "「나이지리아」의 화폐 단위는?",
+   "word": "나이라",
+   "aliases": [
+    "나이지리아 나이라",
+    "나이지리아나이라",
+    "나이지리아"
+   ],
+   "source": "위키데이터",
+   "score": 86,
+   "level": "어려움"
+  },
+  {
+   "key": "element:8",
+   "genre": "원소",
+   "question": "원소 기호 「O」는 무슨 원소일까요?",
+   "word": "산소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2944,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:7",
+   "genre": "원소",
+   "question": "원소 기호 「N」는 무슨 원소일까요?",
+   "word": "질소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2426,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:79",
+   "genre": "원소",
+   "question": "원소 기호 「Au」는 무슨 원소일까요?",
+   "word": "금",
+   "aliases": [
+    "황금"
+   ],
+   "source": "위키데이터",
+   "score": 2204,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:10",
+   "genre": "원소",
+   "question": "원소 기호 「Ne」는 무슨 원소일까요?",
+   "word": "네온",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2120,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:1",
+   "genre": "원소",
+   "question": "원소 기호 「H」는 무슨 원소일까요?",
+   "word": "수소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 2046,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:29",
+   "genre": "원소",
+   "question": "원소 기호 「Cu」는 무슨 원소일까요?",
+   "word": "구리",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1933,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:13",
+   "genre": "원소",
+   "question": "원소 기호 「Al」는 무슨 원소일까요?",
+   "word": "알루미늄",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1704,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:2",
+   "genre": "원소",
+   "question": "원소 기호 「He」는 무슨 원소일까요?",
+   "word": "헬륨",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1654,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:6",
+   "genre": "원소",
+   "question": "원소 기호 「C」는 무슨 원소일까요?",
+   "word": "탄소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1502,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:17",
+   "genre": "원소",
+   "question": "원소 기호 「Cl」는 무슨 원소일까요?",
+   "word": "염소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1421,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:12",
+   "genre": "원소",
+   "question": "원소 기호 「Mg」는 무슨 원소일까요?",
+   "word": "마그네슘",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1358,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:14",
+   "genre": "원소",
+   "question": "원소 기호 「Si」는 무슨 원소일까요?",
+   "word": "규소",
+   "aliases": [
+    "실리콘"
+   ],
+   "source": "위키데이터",
+   "score": 1341,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:30",
+   "genre": "원소",
+   "question": "원소 기호 「Zn」는 무슨 원소일까요?",
+   "word": "아연",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1239,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:11",
+   "genre": "원소",
+   "question": "원소 기호 「Na」는 무슨 원소일까요?",
+   "word": "나트륨",
+   "aliases": [
+    "소듐",
+    "소디엄"
+   ],
+   "source": "위키데이터",
+   "score": 1200,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:26",
+   "genre": "원소",
+   "question": "원소 기호 「Fe」는 무슨 원소일까요?",
+   "word": "철",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1175,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:50",
+   "genre": "원소",
+   "question": "원소 기호 「Sn」는 무슨 원소일까요?",
+   "word": "주석",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1175,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:80",
+   "genre": "원소",
+   "question": "원소 기호 「Hg」는 무슨 원소일까요?",
+   "word": "수은",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1137,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:15",
+   "genre": "원소",
+   "question": "원소 기호 「P」는 무슨 원소일까요?",
+   "word": "인",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1030,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:18",
+   "genre": "원소",
+   "question": "원소 기호 「Ar」는 무슨 원소일까요?",
+   "word": "아르곤",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1022,
+   "level": "쉬움"
+  },
+  {
+   "key": "element:47",
+   "genre": "원소",
+   "question": "원소 기호 「Ag」는 무슨 원소일까요?",
+   "word": "은",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1009,
+   "level": "어려움"
+  },
+  {
+   "key": "element:92",
+   "genre": "원소",
+   "question": "원소 기호 「U」는 무슨 원소일까요?",
+   "word": "우라늄",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 993,
+   "level": "어려움"
+  },
+  {
+   "key": "element:53",
+   "genre": "원소",
+   "question": "원소 기호 「I」는 무슨 원소일까요?",
+   "word": "아이오딘",
+   "aliases": [
+    "옥소",
+    "요오드"
+   ],
+   "source": "위키데이터",
+   "score": 971,
+   "level": "어려움"
+  },
+  {
+   "key": "element:3",
+   "genre": "원소",
+   "question": "원소 기호 「Li」는 무슨 원소일까요?",
+   "word": "리튬",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 928,
+   "level": "어려움"
+  },
+  {
+   "key": "element:74",
+   "genre": "원소",
+   "question": "원소 기호 「W」는 무슨 원소일까요?",
+   "word": "텅스텐",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 891,
+   "level": "어려움"
+  },
+  {
+   "key": "element:20",
+   "genre": "원소",
+   "question": "원소 기호 「Ca」는 무슨 원소일까요?",
+   "word": "칼슘",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 862,
+   "level": "어려움"
+  },
+  {
+   "key": "element:19",
+   "genre": "원소",
+   "question": "원소 기호 「K」는 무슨 원소일까요?",
+   "word": "칼륨",
+   "aliases": [
+    "포타슘"
+   ],
+   "source": "위키데이터",
+   "score": 860,
+   "level": "어려움"
+  },
+  {
+   "key": "element:78",
+   "genre": "원소",
+   "question": "원소 기호 「Pt」는 무슨 원소일까요?",
+   "word": "백금",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 803,
+   "level": "어려움"
+  },
+  {
+   "key": "element:9",
+   "genre": "원소",
+   "question": "원소 기호 「F」는 무슨 원소일까요?",
+   "word": "플루오린",
+   "aliases": [
+    "불소",
+    "플루오르"
+   ],
+   "source": "위키데이터",
+   "score": 790,
+   "level": "어려움"
+  },
+  {
+   "key": "element:33",
+   "genre": "원소",
+   "question": "원소 기호 「As」는 무슨 원소일까요?",
+   "word": "비소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 787,
+   "level": "어려움"
+  },
+  {
+   "key": "element:28",
+   "genre": "원소",
+   "question": "원소 기호 「Ni」는 무슨 원소일까요?",
+   "word": "니켈",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 738,
+   "level": "어려움"
+  },
+  {
+   "key": "element:16",
+   "genre": "원소",
+   "question": "원소 기호 「S」는 무슨 원소일까요?",
+   "word": "황",
+   "aliases": [
+    "유황"
+   ],
+   "source": "위키데이터",
+   "score": 718,
+   "level": "어려움"
+  },
+  {
+   "key": "element:5",
+   "genre": "원소",
+   "question": "원소 기호 「B」는 무슨 원소일까요?",
+   "word": "붕소",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 708,
+   "level": "어려움"
+  },
+  {
+   "key": "element:82",
+   "genre": "원소",
+   "question": "원소 기호 「Pb」는 무슨 원소일까요?",
+   "word": "납",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 703,
+   "level": "어려움"
+  },
+  {
+   "key": "element:22",
+   "genre": "원소",
+   "question": "원소 기호 「Ti」는 무슨 원소일까요?",
+   "word": "타이타늄",
+   "aliases": [
+    "티탄",
+    "티타늄"
+   ],
+   "source": "위키데이터",
+   "score": 661,
+   "level": "어려움"
+  },
+  {
+   "key": "element:54",
+   "genre": "원소",
+   "question": "원소 기호 「Xe」는 무슨 원소일까요?",
+   "word": "제논",
+   "aliases": [
+    "크세논"
+   ],
+   "source": "위키데이터",
+   "score": 597,
+   "level": "어려움"
+  },
+  {
+   "key": "element:34",
+   "genre": "원소",
+   "question": "원소 기호 「Se」는 무슨 원소일까요?",
+   "word": "셀레늄",
+   "aliases": [
+    "셀렌"
+   ],
+   "source": "위키데이터",
+   "score": 567,
+   "level": "어려움"
+  },
+  {
+   "key": "element:27",
+   "genre": "원소",
+   "question": "원소 기호 「Co」는 무슨 원소일까요?",
+   "word": "코발트",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 563,
+   "level": "어려움"
+  },
+  {
+   "key": "element:24",
+   "genre": "원소",
+   "question": "원소 기호 「Cr」는 무슨 원소일까요?",
+   "word": "크로뮴",
+   "aliases": [
+    "크롬"
+   ],
+   "source": "위키데이터",
+   "score": 543,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q45585",
+   "genre": "명화",
+   "subject": "별이 빛나는 밤",
+   "question": "「별이 빛나는 밤」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Van%20Gogh%20-%20Starry%20Night%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 14946,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q328523",
+   "genre": "명화",
+   "subject": "인상, 해돋이",
+   "question": "「인상, 해돋이」를 그린 화가는?",
+   "word": "클로드 모네",
+   "aliases": [
+    "모네"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Monet%20-%20Impression%2C%20Sunrise.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 10543,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q12418",
+   "genre": "명화",
+   "subject": "모나리자",
+   "question": "「모나리자」를 그린 화가는?",
+   "word": "레오나르도 다 빈치",
+   "aliases": [
+    "빈치",
+    "다 빈치"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mona%20Lisa%2C%20by%20Leonardo%20da%20Vinci%2C%20from%20C2RMF%20retouched.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 6140,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q175036",
+   "genre": "명화",
+   "subject": "게르니카",
+   "question": "「게르니카」를 그린 화가는?",
+   "word": "파블로 피카소",
+   "aliases": [
+    "피카소"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mural%20del%20%22Guernica%22%20de%20Picasso.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 5022,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1464531",
+   "genre": "명화",
+   "subject": "론강의 별이 빛나는 밤",
+   "question": "「론강의 별이 빛나는 밤」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vincent%20van%20Gogh%20-%20Starry%20Night%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 4082,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1025704",
+   "genre": "명화",
+   "subject": "밤의 카페 테라스",
+   "question": "「밤의 카페 테라스」를 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Van%20Gogh%20-%20Terrace%20of%20a%20Caf%C3%A9%20at%20Night%20(Place%20du%20Forum)%201888.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 3972,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1044742",
+   "genre": "명화",
+   "subject": "그랑드자트섬의 일요일 오후",
+   "question": "「그랑드자트섬의 일요일 오후」를 그린 화가는?",
+   "word": "조르주 쇠라",
+   "aliases": [
+    "쇠라",
+    "조르주 피에르 쇠라",
+    "조르주-피에르 쇠라",
+    "조르주피에르 쇠라",
+    "조지 슈라"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20Sunday%20on%20La%20Grande%20Jatte%2C%20Georges%20Seurat%2C%201884.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 2931,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q185372",
+   "genre": "명화",
+   "subject": "진주 귀고리를 한 소녀",
+   "question": "「진주 귀고리를 한 소녀」를 그린 화가는?",
+   "word": "요하네스 페르메이르",
+   "aliases": [
+    "베르메르",
+    "얀 베르메르",
+    "얀 페르메이르",
+    "요하네스 베르메르",
+    "페르메이르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/1665%20Girl%20with%20a%20Pearl%20Earring.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 2659,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q698487",
+   "genre": "명화",
+   "subject": "키스",
+   "question": "「키스」를 그린 화가는?",
+   "word": "구스타프 클림트",
+   "aliases": [
+    "구스타브 클림트",
+    "클림트"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Kiss%20-%20Gustav%20Klimt%20-%20Google%20Cultural%20Institute.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 2540,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q512755",
+   "genre": "명화",
+   "subject": "돌아온 탕자",
+   "question": "「돌아온 탕자」를 그린 화가는?",
+   "word": "렘브란트",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20Harmensz%20van%20Rijn%20-%20Return%20of%20the%20Prodigal%20Son%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 2252,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q634122",
+   "genre": "명화",
+   "subject": "까마귀가 나는 밀밭",
+   "question": "「까마귀가 나는 밀밭」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Korenveld%20met%20kraaien%20-%20s0149V1962%20-%20Van%20Gogh%20Museum.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 2001,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q219831",
+   "genre": "명화",
+   "subject": "야경",
+   "question": "「야경」을 그린 화가는?",
+   "word": "렘브란트",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/La%20ronda%20de%20noche%2C%20por%20Rembrandt%20van%20Rijn.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1998,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q890678",
+   "genre": "명화",
+   "subject": "우리는 어디서 왔고, 우리는 무엇이며, 우리는 어디로 가는가",
+   "question": "「우리는 어디서 왔고, 우리는 무엇이며, 우리는 어디로 가는가」를 그린 화가는?",
+   "word": "폴 고갱",
+   "aliases": [
+    "고갱",
+    "폴고갱"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gauguin%20-%20Where%20Do%20We%20Come%20From%3F%20What%20Are%20We%3F%20Where%20Are%20We%20Going%3F%20(1897-98).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1915,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q25729",
+   "genre": "명화",
+   "subject": "기억의 지속",
+   "question": "「기억의 지속」을 그린 화가는?",
+   "word": "살바도르 달리",
+   "aliases": [
+    "달리"
+   ],
+   "source": "위키데이터",
+   "score": 1732,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q167605",
+   "genre": "명화",
+   "subject": "우유 짜는 여인",
+   "question": "「우유 짜는 여인」을 그린 화가는?",
+   "word": "요하네스 페르메이르",
+   "aliases": [
+    "베르메르",
+    "얀 베르메르",
+    "얀 페르메이르",
+    "요하네스 베르메르",
+    "페르메이르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Johannes%20Vermeer%20-%20Het%20melkmeisje%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1634,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q2629559",
+   "genre": "명화",
+   "subject": "그네",
+   "question": "「그네」를 그린 화가는?",
+   "word": "장오노레 프라고나르",
+   "aliases": [
+    "장 오노레 프라고나르",
+    "장-오노레 프라고나르",
+    "쟝 오노레 프라고나르",
+    "프라고나르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Fragonard%2C%20The%20Swing.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1630,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q636537",
+   "genre": "명화",
+   "subject": "마라의 죽음",
+   "question": "「마라의 죽음」을 그린 화가는?",
+   "word": "자크루이 다비드",
+   "aliases": [
+    "자크 다비드",
+    "자크 루이 다비드",
+    "다비드"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jacques-Louis%20David%20-%20Marat%20assassinated%20-%20Google%20Art%20Project%202.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1608,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q2282256",
+   "genre": "명화",
+   "subject": "붓꽃",
+   "question": "「붓꽃」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Irises-Vincent%20van%20Gogh.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1603,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q208758",
+   "genre": "명화",
+   "subject": "시녀들",
+   "question": "「시녀들」을 그린 화가는?",
+   "word": "디에고 벨라스케스",
+   "aliases": [
+    "벨라스케스"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Las%20Meninas%2C%20by%20Diego%20Vel%C3%A1zquez%2C%20from%20Prado%20in%20Google%20Earth.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1509,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1061035",
+   "genre": "명화",
+   "subject": "이미지의 배반",
+   "question": "「이미지의 배반」을 그린 화가는?",
+   "word": "르네 마그리트",
+   "aliases": [
+    "마그리트"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Magritte%20treachery.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1505,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q29530",
+   "genre": "명화",
+   "subject": "민중을 이끄는 자유의 여신",
+   "question": "「민중을 이끄는 자유의 여신」을 그린 화가는?",
+   "word": "외젠 들라크루아",
+   "aliases": [
+    "들라크루아"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/La%20Libert%C3%A9%20guidant%20le%20peuple%20-%20Eug%C3%A8ne%20Delacroix%20-%20Mus%C3%A9e%20du%20Louvre%20Peintures%20RF%20129%20-%20apr%C3%A8s%20restauration%202024.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1425,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1752990",
+   "genre": "명화",
+   "subject": "소크라테스의 죽음",
+   "question": "「소크라테스의 죽음」을 그린 화가는?",
+   "word": "자크루이 다비드",
+   "aliases": [
+    "자크 다비드",
+    "자크 루이 다비드",
+    "다비드"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Death%20of%20Socrates%20MET%20DP-13139-001.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1398,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q683274",
+   "genre": "명화",
+   "subject": "물랭 드 라 갈레트의 무도회",
+   "question": "「물랭 드 라 갈레트의 무도회」를 그린 화가는?",
+   "word": "오귀스트 르누아르",
+   "aliases": [
+    "피에르 오귀스트 르노와르",
+    "르누아르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Renoir%2C%20Pierre-Auguste%20-%20Dance%20at%20Le%20Moulin%20de%20la%20Galette%2C%201876.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1381,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q154469",
+   "genre": "명화",
+   "subject": "감자 먹는 사람들",
+   "question": "「감자 먹는 사람들」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/De%20aardappeleters%20-%20s0005V1962%20-%20Van%20Gogh%20Museum.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1098,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1065493",
+   "genre": "명화",
+   "subject": "오필리아",
+   "question": "「오필리아」를 그린 화가는?",
+   "word": "존 에버렛 밀레이",
+   "aliases": [
+    "밀레이",
+    "에버렛 밀레이"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/John%20Everett%20Millais%20-%20Ophelia%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1036,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q476458",
+   "genre": "명화",
+   "subject": "호라티우스 형제의 맹세",
+   "question": "「호라티우스 형제의 맹세」를 그린 화가는?",
+   "word": "자크루이 다비드",
+   "aliases": [
+    "자크 다비드",
+    "자크 루이 다비드",
+    "다비드"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Le%20Serment%20des%20Horaces%20-%20Jacques-Louis%20David%20-%20Mus%C3%A9e%20du%20Louvre%20Peintures%20INV%203692%20%3B%20MR%201432.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 1016,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q83872",
+   "genre": "명화",
+   "subject": "밤을 지새우는 사람들",
+   "question": "「밤을 지새우는 사람들」을 그린 화가는?",
+   "word": "에드워드 호퍼",
+   "aliases": [
+    "에드워드호퍼",
+    "호퍼"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Nighthawks%20by%20Edward%20Hopper%201942.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 957,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1213917",
+   "genre": "명화",
+   "subject": "오베르의 교회",
+   "question": "「오베르의 교회」를 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vincent%20van%20Gogh%20-%20The%20Church%20in%20Auvers-sur-Oise%2C%20View%20from%20the%20Chevet%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 943,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q2200610",
+   "genre": "명화",
+   "subject": "노란 집",
+   "question": "「노란 집」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vincent%20van%20Gogh%20-%20The%20yellow%20house%20('The%20street').jpg?width=1280",
+   "source": "위키데이터",
+   "score": 924,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1245354",
+   "genre": "명화",
+   "subject": "폴리베르제르의 바",
+   "question": "「폴리베르제르의 바」를 그린 화가는?",
+   "word": "에두아르 마네",
+   "aliases": [
+    "마네",
+    "에두아드 마네",
+    "에두아르드 마네"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Un%20bar%20aux%20Folies-Berg%C3%A8re%20d'E.%20Manet%20(Fondation%20Vuitton%2C%20Paris)%20(33539037428).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 903,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q549847",
+   "genre": "명화",
+   "subject": "봄",
+   "question": "「봄」을 그린 화가는?",
+   "word": "산드로 보티첼리",
+   "aliases": [
+    "보티첼리"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandro%20Botticelli%20-%20La%20Primavera%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 878,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q1091086",
+   "genre": "명화",
+   "subject": "1808년 5월 3일",
+   "question": "「1808년 5월 3일」을 그린 화가는?",
+   "word": "프란시스코 데 고야",
+   "aliases": [
+    "프란시스코 고야",
+    "고야",
+    "데 고야"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Francisco%20de%20Goya%20y%20Lucientes%20-%20Los%20fusilamientos%20del%20tres%20de%20mayo%20-%201814.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 860,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q910199",
+   "genre": "명화",
+   "subject": "아비뇽의 처녀들",
+   "question": "「아비뇽의 처녀들」을 그린 화가는?",
+   "word": "파블로 피카소",
+   "aliases": [
+    "피카소"
+   ],
+   "source": "위키데이터",
+   "score": 846,
+   "level": "쉬움"
+  },
+  {
+   "key": "painting:Q354396",
+   "genre": "명화",
+   "subject": "아델레 블로흐-바우어의 초상 I",
+   "question": "「아델레 블로흐-바우어의 초상 I」을(를) 그린 화가는?",
+   "word": "구스타프 클림트",
+   "aliases": [
+    "구스타브 클림트",
+    "클림트"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gustav%20Klimt%2C%201907%2C%20Adele%20Bloch-Bauer%20I%2C%20Neue%20Galerie%20New%20York.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 846,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1217213",
+   "genre": "명화",
+   "subject": "수태고지",
+   "question": "「수태고지」를 그린 화가는?",
+   "word": "레오나르도 다 빈치",
+   "aliases": [
+    "빈치",
+    "다 빈치"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Annunciation%20(Leonardo)%20(cropped).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 823,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1926628",
+   "genre": "명화",
+   "subject": "아를의 붉은 포도밭",
+   "question": "「아를의 붉은 포도밭」을 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Vincent%20van%20Gogh%20-%20Red%20Vineyard%20at%20Arles%20(1888).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 806,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q474338",
+   "genre": "명화",
+   "subject": "흰 족제비를 안은 여인",
+   "question": "「흰 족제비를 안은 여인」을 그린 화가는?",
+   "word": "레오나르도 다 빈치",
+   "aliases": [
+    "빈치",
+    "다 빈치"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Lady%20with%20an%20Ermine%20-%20Leonardo%20da%20Vinci%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 749,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q220859",
+   "genre": "명화",
+   "subject": "아르놀피니 부부의 초상",
+   "question": "「아르놀피니 부부의 초상」을 그린 화가는?",
+   "word": "얀 반 에이크",
+   "aliases": [
+    "에이크",
+    "반 에이크"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Van%20Eyck%20-%20Arnolfini%20Portrait.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 734,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1231009",
+   "genre": "명화",
+   "subject": "나폴레옹 1세의 대관식",
+   "question": "「나폴레옹 1세의 대관식」을 그린 화가는?",
+   "word": "자크루이 다비드",
+   "aliases": [
+    "자크 다비드",
+    "자크 루이 다비드",
+    "다비드"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Le%20Sacre%20de%20Napol%C3%A9on%20-%20Jacques-Louis%20David%20-%20Mus%C3%A9e%20du%20Louvre%20Peintures%20INV%203699%20%3B%20MR%201437.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 703,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q212616",
+   "genre": "명화",
+   "subject": "메두사호의 뗏목",
+   "question": "「메두사호의 뗏목」을 그린 화가는?",
+   "word": "테오도르 제리코",
+   "aliases": [
+    "제리코"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/JEAN%20LOUIS%20TH%C3%89ODORE%20G%C3%89RICAULT%20-%20La%20Balsa%20de%20la%20Medusa%20(Museo%20del%20Louvre%2C%201818-19).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 648,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1167907",
+   "genre": "명화",
+   "subject": "뱃놀이 일행의 점심",
+   "question": "「뱃놀이 일행의 점심」을 그린 화가는?",
+   "word": "오귀스트 르누아르",
+   "aliases": [
+    "피에르 오귀스트 르노와르",
+    "르누아르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pierre-Auguste%20Renoir%20-%20Luncheon%20of%20the%20Boating%20Party%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 642,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q523974",
+   "genre": "명화",
+   "subject": "델프트 풍경",
+   "question": "「델프트 풍경」을 그린 화가는?",
+   "word": "요하네스 페르메이르",
+   "aliases": [
+    "베르메르",
+    "얀 베르메르",
+    "얀 페르메이르",
+    "요하네스 베르메르",
+    "페르메이르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Johannes%20Vermeer%20-%20View%20of%20Delft%20-%2092%20-%20Mauritshuis.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 627,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1892745",
+   "genre": "명화",
+   "subject": "살바토르 문디",
+   "question": "「살바토르 문디」를 그린 화가는?",
+   "word": "레오나르도 다 빈치",
+   "aliases": [
+    "빈치",
+    "다 빈치"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%2C%20Salvator%20Mundi%2C%20c.1500%2C%20oil%20on%20walnut%2C%2045.4%20%C3%97%2065.6%20cm.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 546,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q2246489",
+   "genre": "명화",
+   "subject": "갈릴래아 호수의 폭풍",
+   "question": "「갈릴래아 호수의 폭풍」을 그린 화가는?",
+   "word": "렘브란트",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20Christ%20in%20the%20Storm%20on%20the%20Lake%20of%20Galilee.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 534,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1239950",
+   "genre": "명화",
+   "subject": "압생트",
+   "question": "「압생트」를 그린 화가는?",
+   "word": "에드가 드가",
+   "aliases": [
+    "드가",
+    "에드가르 드가",
+    "에드거 드가"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Edgar%20Degas%20-%20In%20a%20Caf%C3%A9%20-%20Google%20Art%20Project%202.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 504,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q321303",
+   "genre": "명화",
+   "subject": "세속적인 쾌락의 정원",
+   "question": "「세속적인 쾌락의 정원」을 그린 화가는?",
+   "word": "히에로니무스 보스",
+   "aliases": [
+    "히로니무스 판 애켄 보시",
+    "히에로니무스 보쉬",
+    "히에로니무스 보슈",
+    "보스"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Garden%20of%20Earthly%20Delights%20by%20Bosch%20High%20Resolution%202.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 480,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q661378",
+   "genre": "명화",
+   "subject": "니콜라스 튈프 박사의 해부학 수업",
+   "question": "「니콜라스 튈프 박사의 해부학 수업」을 그린 화가는?",
+   "word": "렘브란트",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20-%20The%20Anatomy%20Lesson%20of%20Dr%20Nicolaes%20Tulp.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 469,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q969377",
+   "genre": "명화",
+   "subject": "성 마태오를 부르심",
+   "question": "「성 마태오를 부르심」을 그린 화가는?",
+   "word": "카라바조",
+   "aliases": [
+    "미켈란젤로 메리시",
+    "카라바지오"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Caravaggio%20%E2%80%94%20The%20Calling%20of%20Saint%20Matthew.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 469,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q540488",
+   "genre": "명화",
+   "subject": "오르낭의 매장",
+   "question": "「오르낭의 매장」을 그린 화가는?",
+   "word": "귀스타브 쿠르베",
+   "aliases": [
+    "구스타브 쿠르베",
+    "쿠르베"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Gustave%20Courbet%20-%20A%20Burial%20at%20Ornans%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 446,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1170315",
+   "genre": "명화",
+   "subject": "검은 사각형",
+   "question": "「검은 사각형」을 그린 화가는?",
+   "word": "카지미르 말레비치",
+   "aliases": [
+    "말레비치"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%A7%D1%91%D1%80%D0%BD%D1%8B%D0%B9%20%D1%81%D1%83%D0%BF%D1%80%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BA%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82.%201915.%20%D0%93%D0%A2%D0%93.png?width=1280",
+   "source": "위키데이터",
+   "score": 437,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q500985",
+   "genre": "명화",
+   "subject": "눈 속의 사냥꾼",
+   "question": "「눈 속의 사냥꾼」을 그린 화가는?",
+   "word": "대 피터르 브뤼헐",
+   "aliases": [
+    "대 피테르 브뢰겔",
+    "브뤼헐",
+    "피터르 브뤼헐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pieter%20Bruegel%20the%20Elder%20-%20Hunters%20in%20the%20Snow%20(Winter)%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 389,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q588695",
+   "genre": "명화",
+   "subject": "회화의 기술",
+   "question": "「회화의 기술」을 그린 화가는?",
+   "word": "요하네스 페르메이르",
+   "aliases": [
+    "베르메르",
+    "얀 베르메르",
+    "얀 페르메이르",
+    "요하네스 베르메르",
+    "페르메이르"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jan%20Vermeer%20-%20The%20Art%20of%20Painting%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 389,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q2366825",
+   "genre": "명화",
+   "subject": "건초 마차",
+   "question": "「건초 마차」를 그린 화가는?",
+   "word": "존 컨스터블",
+   "aliases": [
+    "존 콘스터블",
+    "컨스터블"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/John%20Constable%20-%20The%20Hay%20Wain%20(1821).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 387,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q328079",
+   "genre": "명화",
+   "subject": "시스티나 마돈나",
+   "question": "「시스티나 마돈나」를 그린 화가는?",
+   "word": "라파엘로 산치오",
+   "aliases": [
+    "라파엘",
+    "라파엘 산치오",
+    "라파엘로",
+    "산치오"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Raphael%20-%20The%20Sistine%20Madonna%20-%20Google%20Arts%20%26%20Culture.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 341,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q920030",
+   "genre": "명화",
+   "subject": "카를로스 4세의 가족",
+   "question": "「카를로스 4세의 가족」을 그린 화가는?",
+   "word": "프란시스코 데 고야",
+   "aliases": [
+    "프란시스코 고야",
+    "고야",
+    "데 고야"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/La%20familia%20de%20Carlos%20IV%2C%20por%20Francisco%20de%20Goya.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 331,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1167178",
+   "genre": "명화",
+   "subject": "화가의 아틀리에",
+   "question": "「화가의 아틀리에」를 그린 화가는?",
+   "word": "귀스타브 쿠르베",
+   "aliases": [
+    "구스타브 쿠르베",
+    "쿠르베"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Courbet%20LAtelier%20du%20peintre.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 311,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q1212937",
+   "genre": "명화",
+   "subject": "대사들",
+   "question": "「대사들」을 그린 화가는?",
+   "word": "한스 홀바인",
+   "aliases": [
+    "홀바인"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hans%20Holbein%20the%20Younger%20-%20The%20Ambassadors%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 305,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q500951",
+   "genre": "명화",
+   "subject": "황색의 그리스도",
+   "question": "「황색의 그리스도」를 그린 화가는?",
+   "word": "폴 고갱",
+   "aliases": [
+    "고갱",
+    "폴고갱"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Paul%20Gauguin%20-%20The%20Yellow%20Christ%20(Le%20Christ%20jaune)%201889.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 283,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q766782",
+   "genre": "명화",
+   "subject": "유대인 신부",
+   "question": "「유대인 신부」를 그린 화가는?",
+   "word": "렘브란트",
+   "aliases": [],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt%20Harmensz.%20van%20Rijn%20-%20Portret%20van%20een%20paar%20als%20oudtestamentische%20figuren%2C%20genaamd%20'Het%20Joodse%20bruidje'%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 279,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q674846",
+   "genre": "명화",
+   "subject": "밤의 카페",
+   "question": "「밤의 카페」를 그린 화가는?",
+   "word": "빈센트 반 고흐",
+   "aliases": [
+    "반 고흐",
+    "고흐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Van%20Gogh%20-%20The%20Night%20Caf%C3%A9%20(1888).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 261,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q175628",
+   "genre": "명화",
+   "subject": "볼가강에서 배를 끄는 인부들",
+   "question": "「볼가강에서 배를 끄는 인부들」을 그린 화가는?",
+   "word": "일리야 레핀",
+   "aliases": [
+    "레핀"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ilya%20Repin%20-%20Barge%20Haulers%20on%20the%20Volga%20-%20Google%20Art%20Project.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 248,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q3869871",
+   "genre": "명화",
+   "subject": "언제 결혼하니?",
+   "question": "「언제 결혼하니?」을(를) 그린 화가는?",
+   "word": "폴 고갱",
+   "aliases": [
+    "고갱",
+    "폴고갱"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Paul%20Gauguin%2C%20Nafea%20Faa%20Ipoipo%3F%20(When%20Will%20You%20Marry%3F)%201892%2C%20oil%20on%20canvas%2C%20101%20x%2077%20cm.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 226,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q533619",
+   "genre": "명화",
+   "subject": "네덜란드 속담",
+   "question": "「네덜란드 속담」을 그린 화가는?",
+   "word": "대 피터르 브뤼헐",
+   "aliases": [
+    "대 피테르 브뢰겔",
+    "브뤼헐",
+    "피터르 브뤼헐"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Pieter%20Bruegel%20(der%20%C3%84ltere)%20(ca.%201525%20-%201569)%20-%20Die%20niederl%C3%A4ndischen%20Sprichw%C3%B6rter%20-%201720%20-%20Gem%C3%A4ldegalerie.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 203,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q464782",
+   "genre": "명화",
+   "subject": "아메리칸 고딕",
+   "question": "「아메리칸 고딕」을 그린 화가는?",
+   "word": "그랜트 우드",
+   "aliases": [
+    "우드"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Grant%20Wood%20-%20American%20Gothic%20(1930).jpg?width=1280",
+   "source": "위키데이터",
+   "score": 196,
+   "level": "어려움"
+  },
+  {
+   "key": "painting:Q687182",
+   "genre": "명화",
+   "subject": "휘슬러의 어머니",
+   "question": "「휘슬러의 어머니」를 그린 화가는?",
+   "word": "제임스 맥닐 휘슬러",
+   "aliases": [
+    "제임스 애벗 맥닐 휘슬러",
+    "휘슬러",
+    "맥닐 휘슬러"
+   ],
+   "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Whistlers%20Mother%20high%20res.jpg?width=1280",
+   "source": "위키데이터",
+   "score": 195,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q1125903",
+   "genre": "문학",
+   "subject": "시지프 신화",
+   "question": "「시지프 신화」를 쓴 작가는?",
+   "word": "알베르 카뮈",
+   "aliases": [
+    "까뮈",
+    "알베르 까뮤",
+    "카뮈"
+   ],
+   "source": "위키데이터",
+   "score": 2242,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q860577",
+   "genre": "문학",
+   "subject": "데미안",
+   "question": "「데미안」을 쓴 작가는?",
+   "word": "헤르만 헤세",
+   "aliases": [
+    "헤세",
+    "헤르만 카를 헤세"
+   ],
+   "source": "위키데이터",
+   "score": 1950,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q457289",
+   "genre": "문학",
+   "subject": "싯다르타",
+   "question": "「싯다르타」를 쓴 작가는?",
+   "word": "헤르만 헤세",
+   "aliases": [
+    "헤세",
+    "헤르만 카를 헤세"
+   ],
+   "source": "위키데이터",
+   "score": 1718,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q163297",
+   "genre": "문학",
+   "subject": "이방인",
+   "question": "「이방인」을 쓴 작가는?",
+   "word": "알베르 카뮈",
+   "aliases": [
+    "까뮈",
+    "알베르 까뮤",
+    "카뮈"
+   ],
+   "source": "위키데이터",
+   "score": 1627,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q19657306",
+   "genre": "문학",
+   "subject": "소년이 온다",
+   "question": "「소년이 온다」를 쓴 작가는?",
+   "word": "한강",
+   "aliases": [
+    "한강현"
+   ],
+   "source": "위키데이터",
+   "score": 1549,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q308918",
+   "genre": "문학",
+   "subject": "두 도시 이야기",
+   "question": "「두 도시 이야기」를 쓴 작가는?",
+   "word": "찰스 디킨스",
+   "aliases": [
+    "디킨스"
+   ],
+   "source": "위키데이터",
+   "score": 1505,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q180736",
+   "genre": "문학",
+   "subject": "레 미제라블",
+   "question": "「레 미제라블」을 쓴 작가는?",
+   "word": "빅토르 위고",
+   "aliases": [
+    "빅토르마리 위고",
+    "위고"
+   ],
+   "source": "위키데이터",
+   "score": 1503,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q849701",
+   "genre": "문학",
+   "subject": "에덴의 동쪽",
+   "question": "「에덴의 동쪽」을 쓴 작가는?",
+   "word": "존 스타인벡",
+   "aliases": [
+    "스타인벡"
+   ],
+   "source": "위키데이터",
+   "score": 1493,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q40185",
+   "genre": "문학",
+   "subject": "신곡",
+   "question": "「신곡」을 쓴 작가는?",
+   "word": "단테 알리기에리",
+   "aliases": [
+    "알리기에리"
+   ],
+   "source": "위키데이터",
+   "score": 1478,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q184222",
+   "genre": "문학",
+   "subject": "변신",
+   "question": "「변신」을 쓴 작가는?",
+   "word": "프란츠 카프카",
+   "aliases": [
+    "카프카"
+   ],
+   "source": "위키데이터",
+   "score": 1477,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q164974",
+   "genre": "문학",
+   "subject": "올리버 트위스트",
+   "question": "「올리버 트위스트」를 쓴 작가는?",
+   "word": "찰스 디킨스",
+   "aliases": [
+    "디킨스"
+   ],
+   "source": "위키데이터",
+   "score": 1465,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q199774",
+   "genre": "문학",
+   "subject": "차라투스트라는 이렇게 말했다",
+   "question": "「차라투스트라는 이렇게 말했다」를 쓴 작가는?",
+   "word": "프리드리히 니체",
+   "aliases": [
+    "니체",
+    "프리드리히 빌헬름 니체"
+   ],
+   "source": "위키데이터",
+   "score": 1450,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q170583",
+   "genre": "문학",
+   "subject": "오만과 편견",
+   "question": "「오만과 편견」을 쓴 작가는?",
+   "word": "제인 오스틴",
+   "aliases": [
+    "오스틴"
+   ],
+   "source": "위키데이터",
+   "score": 1398,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q1396889",
+   "genre": "문학",
+   "subject": "동물 농장",
+   "question": "「동물 농장」을 쓴 작가는?",
+   "word": "조지 오웰",
+   "aliases": [
+    "에릭 아서 블레어",
+    "오웰"
+   ],
+   "source": "위키데이터",
+   "score": 1396,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q165318",
+   "genre": "문학",
+   "subject": "죄와 벌",
+   "question": "「죄와 벌」을 쓴 작가는?",
+   "word": "표도르 도스토옙스키",
+   "aliases": [
+    "도스토옙스키",
+    "표도르 미하일로비치 도스토옙스키"
+   ],
+   "source": "위키데이터",
+   "score": 1380,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q150827",
+   "genre": "문학",
+   "subject": "프랑켄슈타인",
+   "question": "「프랑켄슈타인」을 쓴 작가는?",
+   "word": "메리 셸리",
+   "aliases": [
+    "메리 고드윈",
+    "메리 울스턴크래프트 고드윈",
+    "메리 울스턴크래프트 셸리",
+    "셸리"
+   ],
+   "source": "위키데이터",
+   "score": 1325,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q25338",
+   "genre": "문학",
+   "subject": "어린 왕자",
+   "question": "「어린 왕자」를 쓴 작가는?",
+   "word": "앙투안 드 생텍쥐페리",
+   "aliases": [
+    "생텍쥐페리",
+    "앙투안 장바티스트 마리 로제 드 생텍쥐페리",
+    "드 생텍쥐페리"
+   ],
+   "source": "위키데이터",
+   "score": 1283,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q151883",
+   "genre": "문학",
+   "subject": "젊은 베르테르의 슬픔",
+   "question": "「젊은 베르테르의 슬픔」을 쓴 작가는?",
+   "word": "요한 볼프강 폰 괴테",
+   "aliases": [
+    "괴테",
+    "요한 괴테",
+    "폰 괴테"
+   ],
+   "source": "위키데이터",
+   "score": 1278,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q12589737",
+   "genre": "문학",
+   "subject": "날개",
+   "question": "「날개」를 쓴 작가는?",
+   "word": "이상",
+   "aliases": [
+    "김해경",
+    "이 상"
+   ],
+   "source": "위키데이터",
+   "score": 1193,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q85985441",
+   "genre": "문학",
+   "subject": "죽고 싶지만 떡볶이는 먹고 싶어",
+   "question": "「죽고 싶지만 떡볶이는 먹고 싶어」를 쓴 작가는?",
+   "word": "백세희",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 1180,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q147787",
+   "genre": "문학",
+   "subject": "안나 카레니나",
+   "question": "「안나 카레니나」를 쓴 작가는?",
+   "word": "레프 톨스토이",
+   "aliases": [
+    "레오 톨스토이",
+    "레프 니콜라예비치 톨스토이",
+    "톨스토이"
+   ],
+   "source": "위키데이터",
+   "score": 1179,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q200920",
+   "genre": "문학",
+   "subject": "누구를 위하여 종은 울리나",
+   "question": "「누구를 위하여 종은 울리나」를 쓴 작가는?",
+   "word": "어니스트 헤밍웨이",
+   "aliases": [
+    "어니스트 밀러 헤밍웨이",
+    "헤밍웨이"
+   ],
+   "source": "위키데이터",
+   "score": 1178,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q917055",
+   "genre": "문학",
+   "subject": "참을 수 없는 존재의 가벼움",
+   "question": "「참을 수 없는 존재의 가벼움」을 쓴 작가는?",
+   "word": "밀란 쿤데라",
+   "aliases": [
+    "쿤데라"
+   ],
+   "source": "위키데이터",
+   "score": 1108,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q29478",
+   "genre": "문학",
+   "subject": "파우스트",
+   "question": "「파우스트」를 쓴 작가는?",
+   "word": "요한 볼프강 폰 괴테",
+   "aliases": [
+    "괴테",
+    "요한 괴테",
+    "폰 괴테"
+   ],
+   "source": "위키데이터",
+   "score": 1100,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q215983",
+   "genre": "문학",
+   "subject": "분노의 포도",
+   "question": "「분노의 포도」를 쓴 작가는?",
+   "word": "존 스타인벡",
+   "aliases": [
+    "스타인벡"
+   ],
+   "source": "위키데이터",
+   "score": 1033,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q131719",
+   "genre": "문학",
+   "subject": "군주론",
+   "question": "「군주론」을 쓴 작가는?",
+   "word": "니콜로 마키아벨리",
+   "aliases": [
+    "마키아벨리"
+   ],
+   "source": "위키데이터",
+   "score": 1001,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q863534",
+   "genre": "문학",
+   "subject": "월든",
+   "question": "「월든」을 쓴 작가는?",
+   "word": "헨리 데이비드 소로",
+   "aliases": [
+    "소로",
+    "헨리 데이비드 소로우",
+    "헨리 데이빗 소로",
+    "헨리 데이빗 소로우",
+    "데이비드 소로"
+   ],
+   "source": "위키데이터",
+   "score": 994,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q24082770",
+   "genre": "문학",
+   "subject": "채식주의자",
+   "question": "「채식주의자」를 쓴 작가는?",
+   "word": "한강",
+   "aliases": [
+    "한강현"
+   ],
+   "source": "위키데이터",
+   "score": 987,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q183157",
+   "genre": "문학",
+   "subject": "카라마조프의 형제",
+   "question": "「카라마조프의 형제」를 쓴 작가는?",
+   "word": "표도르 도스토옙스키",
+   "aliases": [
+    "도스토옙스키",
+    "표도르 미하일로비치 도스토옙스키"
+   ],
+   "source": "위키데이터",
+   "score": 944,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q206400",
+   "genre": "문학",
+   "subject": "베니스의 상인",
+   "question": "「베니스의 상인」을 쓴 작가는?",
+   "word": "윌리엄 셰익스피어",
+   "aliases": [
+    "셰익스피어"
+   ],
+   "source": "위키데이터",
+   "score": 933,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q214371",
+   "genre": "문학",
+   "subject": "위대한 개츠비",
+   "question": "「위대한 개츠비」를 쓴 작가는?",
+   "word": "F. 스콧 피츠제럴드",
+   "aliases": [
+    "프랜시스 스콧 피츠제럴드",
+    "스콧 피츠제럴드",
+    "프랜시스 스콧 키 피츠제럴드",
+    "피츠제럴드"
+   ],
+   "source": "위키데이터",
+   "score": 883,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q202975",
+   "genre": "문학",
+   "subject": "폭풍의 언덕",
+   "question": "「폭풍의 언덕」을 쓴 작가는?",
+   "word": "에밀리 브론테",
+   "aliases": [
+    "에밀리 제인 브론테",
+    "엘리스 벨",
+    "브론테"
+   ],
+   "source": "위키데이터",
+   "score": 825,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q56318699",
+   "genre": "문학",
+   "subject": "희랍어 시간",
+   "question": "「희랍어 시간」을 쓴 작가는?",
+   "word": "한강",
+   "aliases": [
+    "한강현"
+   ],
+   "source": "위키데이터",
+   "score": 816,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q15228",
+   "genre": "문학",
+   "subject": "반지의 제왕",
+   "question": "「반지의 제왕」을 쓴 작가는?",
+   "word": "J. R. R. 톨킨",
+   "aliases": [
+    "톨킨",
+    "존 로널드 루얼 톨킨"
+   ],
+   "source": "위키데이터",
+   "score": 778,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q26505",
+   "genre": "문학",
+   "subject": "노인과 바다",
+   "question": "「노인과 바다」를 쓴 작가는?",
+   "word": "어니스트 헤밍웨이",
+   "aliases": [
+    "어니스트 밀러 헤밍웨이",
+    "헤밍웨이"
+   ],
+   "source": "위키데이터",
+   "score": 752,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q62879",
+   "genre": "문학",
+   "subject": "크리스마스 캐럴",
+   "question": "「크리스마스 캐럴」을 쓴 작가는?",
+   "word": "찰스 디킨스",
+   "aliases": [
+    "디킨스"
+   ],
+   "source": "위키데이터",
+   "score": 749,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q82464",
+   "genre": "문학",
+   "subject": "도리언 그레이의 초상",
+   "question": "「도리언 그레이의 초상」을 쓴 작가는?",
+   "word": "오스카 와일드",
+   "aliases": [
+    "와일드",
+    "오스카와일드"
+   ],
+   "source": "위키데이터",
+   "score": 735,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q6511",
+   "genre": "문학",
+   "subject": "율리시스",
+   "question": "「율리시스」를 쓴 작가는?",
+   "word": "제임스 조이스",
+   "aliases": [
+    "제임스 오거스틴 앨로이시어스 조이스",
+    "조이스"
+   ],
+   "source": "위키데이터",
+   "score": 732,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q43361",
+   "genre": "문학",
+   "subject": "해리 포터와 마법사의 돌",
+   "question": "「해리 포터와 마법사의 돌」을 쓴 작가는?",
+   "word": "J. K. 롤링",
+   "aliases": [
+    "로버트 갤브레이스",
+    "조앤 K. 롤링",
+    "조앤 롤링",
+    "조앤 머리",
+    "조앤 캐슬린 롤링",
+    "롤링"
+   ],
+   "source": "위키데이터",
+   "score": 729,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q233562",
+   "genre": "문학",
+   "subject": "국부론",
+   "question": "「국부론」을 쓴 작가는?",
+   "word": "애덤 스미스",
+   "aliases": [
+    "스미스"
+   ],
+   "source": "위키데이터",
+   "score": 726,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q191949",
+   "genre": "문학",
+   "subject": "멋진 신세계",
+   "question": "「멋진 신세계」를 쓴 작가는?",
+   "word": "올더스 헉슬리",
+   "aliases": [
+    "헉슬리"
+   ],
+   "source": "위키데이터",
+   "score": 693,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q565911",
+   "genre": "문학",
+   "subject": "빨간 머리 앤",
+   "question": "「빨간 머리 앤」을 쓴 작가는?",
+   "word": "루시 모드 몽고메리",
+   "aliases": [
+    "루시 몽고메리",
+    "몽고메리",
+    "모드 몽고메리"
+   ],
+   "source": "위키데이터",
+   "score": 670,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q320372",
+   "genre": "문학",
+   "subject": "페스트",
+   "question": "「페스트」를 쓴 작가는?",
+   "word": "알베르 카뮈",
+   "aliases": [
+    "까뮈",
+    "알베르 까뮤",
+    "카뮈"
+   ],
+   "source": "위키데이터",
+   "score": 665,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q161531",
+   "genre": "문학",
+   "subject": "전쟁과 평화",
+   "question": "「전쟁과 평화」를 쓴 작가는?",
+   "word": "레프 톨스토이",
+   "aliases": [
+    "레오 톨스토이",
+    "레프 니콜라예비치 톨스토이",
+    "톨스토이"
+   ],
+   "source": "위키데이터",
+   "score": 663,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q464928",
+   "genre": "문학",
+   "subject": "잃어버린 시간을 찾아서",
+   "question": "「잃어버린 시간을 찾아서」를 쓴 작가는?",
+   "word": "마르셀 프루스트",
+   "aliases": [
+    "프루스트"
+   ],
+   "source": "위키데이터",
+   "score": 661,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q480",
+   "genre": "문학",
+   "subject": "돈키호테",
+   "question": "「돈키호테」를 쓴 작가는?",
+   "word": "미겔 데 세르반테스",
+   "aliases": [
+    "세르반테스",
+    "데 세르반테스"
+   ],
+   "source": "위키데이터",
+   "score": 648,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q11868",
+   "genre": "문학",
+   "subject": "미운 오리 새끼",
+   "question": "「미운 오리 새끼」를 쓴 작가는?",
+   "word": "한스 크리스티안 안데르센",
+   "aliases": [
+    "안데르센",
+    "크리스티안 안데르센"
+   ],
+   "source": "위키데이터",
+   "score": 640,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q235795",
+   "genre": "문학",
+   "subject": "무기여 잘 있거라",
+   "question": "「무기여 잘 있거라」를 쓴 작가는?",
+   "word": "어니스트 헤밍웨이",
+   "aliases": [
+    "어니스트 밀러 헤밍웨이",
+    "헤밍웨이"
+   ],
+   "source": "위키데이터",
+   "score": 637,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q1219561",
+   "genre": "문학",
+   "subject": "80일간의 세계 일주",
+   "question": "「80일간의 세계 일주」를 쓴 작가는?",
+   "word": "쥘 베른",
+   "aliases": [
+    "쥘 가브리엘 베른",
+    "베른"
+   ],
+   "source": "위키데이터",
+   "score": 591,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q58784",
+   "genre": "문학",
+   "subject": "자본론",
+   "question": "「자본론」을 쓴 작가는?",
+   "word": "카를 마르크스",
+   "aliases": [
+    "마르크스"
+   ],
+   "source": "위키데이터",
+   "score": 564,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q60220",
+   "genre": "문학",
+   "subject": "아이네이스",
+   "question": "「아이네이스」를 쓴 작가는?",
+   "word": "베르길리우스",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 553,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q140527",
+   "genre": "문학",
+   "subject": "삼총사",
+   "question": "「삼총사」를 쓴 작가는?",
+   "word": "알렉상드르 뒤마",
+   "aliases": [
+    "대 뒤마",
+    "대뒤마",
+    "뒤마 페르",
+    "알렉산드르 뒤마",
+    "뒤마"
+   ],
+   "source": "위키데이터",
+   "score": 549,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q191838",
+   "genre": "문학",
+   "subject": "몬테크리스토 백작",
+   "question": "「몬테크리스토 백작」을 쓴 작가는?",
+   "word": "알렉상드르 뒤마",
+   "aliases": [
+    "대 뒤마",
+    "대뒤마",
+    "뒤마 페르",
+    "알렉산드르 뒤마",
+    "뒤마"
+   ],
+   "source": "위키데이터",
+   "score": 549,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q174596",
+   "genre": "문학",
+   "subject": "모비딕",
+   "question": "「모비딕」을 쓴 작가는?",
+   "word": "허먼 멜빌",
+   "aliases": [
+    "멜빌",
+    "허만 멜빌",
+    "헤르만 멜빌"
+   ],
+   "source": "위키데이터",
+   "score": 548,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q11880",
+   "genre": "문학",
+   "subject": "눈의 여왕",
+   "question": "「눈의 여왕」을 쓴 작가는?",
+   "word": "한스 크리스티안 안데르센",
+   "aliases": [
+    "안데르센",
+    "크리스티안 안데르센"
+   ],
+   "source": "위키데이터",
+   "score": 532,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q11859",
+   "genre": "문학",
+   "subject": "인어공주",
+   "question": "「인어공주」를 쓴 작가는?",
+   "word": "한스 크리스티안 안데르센",
+   "aliases": [
+    "안데르센",
+    "크리스티안 안데르센"
+   ],
+   "source": "위키데이터",
+   "score": 528,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q28754",
+   "genre": "문학",
+   "subject": "실낙원",
+   "question": "「실낙원」을 쓴 작가는?",
+   "word": "존 밀턴",
+   "aliases": [
+    "존 밀튼",
+    "밀턴"
+   ],
+   "source": "위키데이터",
+   "score": 502,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q1152283",
+   "genre": "문학",
+   "subject": "명상록",
+   "question": "「명상록」을 쓴 작가는?",
+   "word": "마르쿠스 아우렐리우스",
+   "aliases": [
+    "아우렐리우스"
+   ],
+   "source": "위키데이터",
+   "score": 496,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q7204229",
+   "genre": "문학",
+   "subject": "엄마를 부탁해",
+   "question": "「엄마를 부탁해」를 쓴 작가는?",
+   "word": "신경숙",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 494,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q6911",
+   "genre": "문학",
+   "subject": "안네의 일기",
+   "question": "「안네의 일기」를 쓴 작가는?",
+   "word": "안네 프랑크",
+   "aliases": [
+    "프랑크"
+   ],
+   "source": "위키데이터",
+   "score": 488,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q466605",
+   "genre": "문학",
+   "subject": "찰리와 초콜릿 공장",
+   "question": "「찰리와 초콜릿 공장」을 쓴 작가는?",
+   "word": "로알드 달",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 467,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q1751870",
+   "genre": "문학",
+   "subject": "왕좌의 게임",
+   "question": "「왕좌의 게임」을 쓴 작가는?",
+   "word": "조지 R. R. 마틴",
+   "aliases": [
+    "조지 레이먼드 리처드 마틴",
+    "조지 마틴",
+    "마틴"
+   ],
+   "source": "위키데이터",
+   "score": 462,
+   "level": "쉬움"
+  },
+  {
+   "key": "book:Q751348",
+   "genre": "문학",
+   "subject": "노르웨이의 숲",
+   "question": "「노르웨이의 숲」을 쓴 작가는?",
+   "word": "무라카미 하루키",
+   "aliases": [
+    "촌상춘수",
+    "하루키"
+   ],
+   "source": "위키데이터",
+   "score": 456,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q191380",
+   "genre": "문학",
+   "subject": "노트르담의 꼽추",
+   "question": "「노트르담의 꼽추」를 쓴 작가는?",
+   "word": "빅토르 위고",
+   "aliases": [
+    "빅토르마리 위고",
+    "위고"
+   ],
+   "source": "위키데이터",
+   "score": 445,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q172850",
+   "genre": "문학",
+   "subject": "장미의 이름",
+   "question": "「장미의 이름」을 쓴 작가는?",
+   "word": "움베르토 에코",
+   "aliases": [
+    "에코"
+   ],
+   "source": "위키데이터",
+   "score": 435,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q192649",
+   "genre": "문학",
+   "subject": "적과 흑",
+   "question": "「적과 흑」을 쓴 작가는?",
+   "word": "스탕달",
+   "aliases": [
+    "앙리 베일"
+   ],
+   "source": "위키데이터",
+   "score": 424,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q219552",
+   "genre": "문학",
+   "subject": "위대한 유산",
+   "question": "「위대한 유산」을 쓴 작가는?",
+   "word": "찰스 디킨스",
+   "aliases": [
+    "디킨스"
+   ],
+   "source": "위키데이터",
+   "score": 423,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q70806",
+   "genre": "문학",
+   "subject": "삼국지연의",
+   "question": "「삼국지연의」를 쓴 작가는?",
+   "word": "나관중",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 422,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q54216228",
+   "genre": "문학",
+   "subject": "82년생 김지영",
+   "question": "「82년생 김지영」을 쓴 작가는?",
+   "word": "조남주",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 414,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q210784",
+   "genre": "문학",
+   "subject": "백치",
+   "question": "「백치」를 쓴 작가는?",
+   "word": "표도르 도스토옙스키",
+   "aliases": [
+    "도스토옙스키",
+    "표도르 미하일로비치 도스토옙스키"
+   ],
+   "source": "위키데이터",
+   "score": 412,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q131247017",
+   "genre": "문학",
+   "subject": "작별하지 않는다",
+   "question": "「작별하지 않는다」를 쓴 작가는?",
+   "word": "한강",
+   "aliases": [
+    "한강현"
+   ],
+   "source": "위키데이터",
+   "score": 408,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q8269",
+   "genre": "문학",
+   "subject": "겐지 이야기",
+   "question": "「겐지 이야기」를 쓴 작가는?",
+   "word": "무라사키 시키부",
+   "aliases": [
+    "시키부"
+   ],
+   "source": "위키데이터",
+   "score": 391,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q215410",
+   "genre": "문학",
+   "subject": "허클베리 핀의 모험",
+   "question": "「허클베리 핀의 모험」을 쓴 작가는?",
+   "word": "마크 트웨인",
+   "aliases": [
+    "새뮤얼 랭혼 클레먼스",
+    "트웨인"
+   ],
+   "source": "위키데이터",
+   "score": 384,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q326914",
+   "genre": "문학",
+   "subject": "톰 소여의 모험",
+   "question": "「톰 소여의 모험」을 쓴 작가는?",
+   "word": "마크 트웨인",
+   "aliases": [
+    "새뮤얼 랭혼 클레먼스",
+    "트웨인"
+   ],
+   "source": "위키데이터",
+   "score": 376,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q179021",
+   "genre": "문학",
+   "subject": "연금술사",
+   "question": "「연금술사」를 쓴 작가는?",
+   "word": "파울로 코엘료",
+   "aliases": [
+    "코엘료"
+   ],
+   "source": "위키데이터",
+   "score": 370,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q214132",
+   "genre": "문학",
+   "subject": "그리고 아무도 없었다",
+   "question": "「그리고 아무도 없었다」를 쓴 작가는?",
+   "word": "애거사 크리스티",
+   "aliases": [
+    "메리 웨스트매컷",
+    "아가사 크리스티",
+    "애거사 메리 클러리사 밀러 크리스티 맬로원",
+    "애거사 크리스티 맬로원",
+    "애거서 크리스티",
+    "애거서 크리스티 맬로원",
+    "에거서 크리스티",
+    "크리스티"
+   ],
+   "source": "위키데이터",
+   "score": 368,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q182961",
+   "genre": "문학",
+   "subject": "제인 에어",
+   "question": "「제인 에어」를 쓴 작가는?",
+   "word": "샬럿 브론테",
+   "aliases": [
+    "샬럿 니컬스",
+    "커러 벨",
+    "브론테"
+   ],
+   "source": "위키데이터",
+   "score": 365,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q217352",
+   "genre": "문학",
+   "subject": "지킬 박사와 하이드 씨",
+   "question": "「지킬 박사와 하이드 씨」를 쓴 작가는?",
+   "word": "로버트 루이스 스티븐슨",
+   "aliases": [
+    "루버트 루이스 밸푸어 스티븐슨",
+    "스티븐슨",
+    "루이스 스티븐슨"
+   ],
+   "source": "위키데이터",
+   "score": 359,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q92640",
+   "genre": "문학",
+   "subject": "이상한 나라의 앨리스",
+   "question": "「이상한 나라의 앨리스」를 쓴 작가는?",
+   "word": "루이스 캐럴",
+   "aliases": [
+    "루이스 캐롤",
+    "찰스 루트위지 도드슨",
+    "찰스 루트위지 도지슨",
+    "캐럴"
+   ],
+   "source": "위키데이터",
+   "score": 358,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q178869",
+   "genre": "문학",
+   "subject": "백년 동안의 고독",
+   "question": "「백년 동안의 고독」을 쓴 작가는?",
+   "word": "가브리엘 가르시아 마르케스",
+   "aliases": [
+    "가브리엘 호세 가르시아 마르케스",
+    "마르케스",
+    "가르시아 마르케스"
+   ],
+   "source": "위키데이터",
+   "score": 353,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q183565",
+   "genre": "문학",
+   "subject": "해저 2만리",
+   "question": "「해저 2만리」를 쓴 작가는?",
+   "word": "쥘 베른",
+   "aliases": [
+    "쥘 가브리엘 베른",
+    "베른"
+   ],
+   "source": "위키데이터",
+   "score": 350,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q212898",
+   "genre": "문학",
+   "subject": "마의 산",
+   "question": "「마의 산」을 쓴 작가는?",
+   "word": "토마스 만",
+   "aliases": [
+    "토머스 만"
+   ],
+   "source": "위키데이터",
+   "score": 347,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q523076",
+   "genre": "문학",
+   "subject": "작은 아씨들",
+   "question": "「작은 아씨들」을 쓴 작가는?",
+   "word": "루이자 메이 올컷",
+   "aliases": [
+    "올커트",
+    "올컷",
+    "메이 올컷"
+   ],
+   "source": "위키데이터",
+   "score": 344,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q185118",
+   "genre": "문학",
+   "subject": "보물섬",
+   "question": "「보물섬」을 쓴 작가는?",
+   "word": "로버트 루이스 스티븐슨",
+   "aliases": [
+    "루버트 루이스 밸푸어 스티븐슨",
+    "스티븐슨",
+    "루이스 스티븐슨"
+   ],
+   "source": "위키데이터",
+   "score": 339,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q193417",
+   "genre": "문학",
+   "subject": "보바리 부인",
+   "question": "「보바리 부인」을 쓴 작가는?",
+   "word": "귀스타브 플로베르",
+   "aliases": [
+    "귀스타브 프로베르",
+    "플로베르"
+   ],
+   "source": "위키데이터",
+   "score": 332,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q695116",
+   "genre": "문학",
+   "subject": "지하로부터의 수기",
+   "question": "「지하로부터의 수기」를 쓴 작가는?",
+   "word": "표도르 도스토옙스키",
+   "aliases": [
+    "도스토옙스키",
+    "표도르 미하일로비치 도스토옙스키"
+   ],
+   "source": "위키데이터",
+   "score": 328,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q183883",
+   "genre": "문학",
+   "subject": "호밀밭의 파수꾼",
+   "question": "「호밀밭의 파수꾼」을 쓴 작가는?",
+   "word": "제롬 데이비드 샐린저",
+   "aliases": [
+    "J. D. 샐린저",
+    "J.D. 샐린저",
+    "샐린저",
+    "데이비드 샐린저"
+   ],
+   "source": "위키데이터",
+   "score": 326,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q842337",
+   "genre": "문학",
+   "subject": "플루타르코스 영웅전",
+   "question": "「플루타르코스 영웅전」을 쓴 작가는?",
+   "word": "플루타르코스",
+   "aliases": [
+    "플루타르크"
+   ],
+   "source": "위키데이터",
+   "score": 317,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q11876",
+   "genre": "문학",
+   "subject": "성냥팔이 소녀",
+   "question": "「성냥팔이 소녀」를 쓴 작가는?",
+   "word": "한스 크리스티안 안데르센",
+   "aliases": [
+    "안데르센",
+    "크리스티안 안데르센"
+   ],
+   "source": "위키데이터",
+   "score": 314,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q457977",
+   "genre": "문학",
+   "subject": "생쥐와 인간",
+   "question": "「생쥐와 인간」을 쓴 작가는?",
+   "word": "존 스타인벡",
+   "aliases": [
+    "스타인벡"
+   ],
+   "source": "위키데이터",
+   "score": 313,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q19871",
+   "genre": "문학",
+   "subject": "고도를 기다리며",
+   "question": "「고도를 기다리며」를 쓴 작가는?",
+   "word": "사뮈엘 베케트",
+   "aliases": [
+    "베케트",
+    "새뮤얼 바클리 베켓"
+   ],
+   "source": "위키데이터",
+   "score": 303,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q907568",
+   "genre": "문학",
+   "subject": "주홍 글씨",
+   "question": "「주홍 글씨」를 쓴 작가는?",
+   "word": "너새니얼 호손",
+   "aliases": [
+    "나다니엘 호돈",
+    "나다니엘 호손",
+    "나다니엘 호오도온",
+    "나대니얼 호손",
+    "나타니엘 호손",
+    "너대니얼 호손",
+    "호손"
+   ],
+   "source": "위키데이터",
+   "score": 298,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q190192",
+   "genre": "문학",
+   "subject": "듄",
+   "question": "「듄」을 쓴 작가는?",
+   "word": "프랭크 허버트",
+   "aliases": [
+    "프랭클린 패트릭 허버트 주니어",
+    "허버트"
+   ],
+   "source": "위키데이터",
+   "score": 297,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q1541914",
+   "genre": "문학",
+   "subject": "시녀 이야기",
+   "question": "「시녀 이야기」를 쓴 작가는?",
+   "word": "마거릿 애트우드",
+   "aliases": [
+    "마거릿 엘리너 애트우드",
+    "애트우드"
+   ],
+   "source": "위키데이터",
+   "score": 297,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q274744",
+   "genre": "문학",
+   "subject": "이성과 감성",
+   "question": "「이성과 감성」을 쓴 작가는?",
+   "word": "제인 오스틴",
+   "aliases": [
+    "오스틴"
+   ],
+   "source": "위키데이터",
+   "score": 292,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q212340",
+   "genre": "문학",
+   "subject": "앵무새 죽이기",
+   "question": "「앵무새 죽이기」를 쓴 작가는?",
+   "word": "하퍼 리",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 287,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q220331",
+   "genre": "문학",
+   "subject": "거울 나라의 앨리스",
+   "question": "「거울 나라의 앨리스」를 쓴 작가는?",
+   "word": "루이스 캐럴",
+   "aliases": [
+    "루이스 캐롤",
+    "찰스 루트위지 도드슨",
+    "찰스 루트위지 도지슨",
+    "캐럴"
+   ],
+   "source": "위키데이터",
+   "score": 285,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q81689",
+   "genre": "문학",
+   "subject": "다빈치 코드",
+   "question": "「다빈치 코드」를 쓴 작가는?",
+   "word": "댄 브라운",
+   "aliases": [
+    "대니얼 거하드 브라운",
+    "브라운"
+   ],
+   "source": "위키데이터",
+   "score": 283,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q46758",
+   "genre": "문학",
+   "subject": "해리 포터와 죽음의 성물",
+   "question": "「해리 포터와 죽음의 성물」을 쓴 작가는?",
+   "word": "J. K. 롤링",
+   "aliases": [
+    "로버트 갤브레이스",
+    "조앤 K. 롤링",
+    "조앤 롤링",
+    "조앤 머리",
+    "조앤 캐슬린 롤링",
+    "롤링"
+   ],
+   "source": "위키데이터",
+   "score": 278,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q181488",
+   "genre": "문학",
+   "subject": "걸리버 여행기",
+   "question": "「걸리버 여행기」를 쓴 작가는?",
+   "word": "조너선 스위프트",
+   "aliases": [
+    "조나단 스위프트",
+    "스위프트"
+   ],
+   "source": "위키데이터",
+   "score": 272,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q189811",
+   "genre": "문학",
+   "subject": "데이비드 코퍼필드",
+   "question": "「데이비드 코퍼필드」를 쓴 작가는?",
+   "word": "찰스 디킨스",
+   "aliases": [
+    "디킨스"
+   ],
+   "source": "위키데이터",
+   "score": 264,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q11870",
+   "genre": "문학",
+   "subject": "엄지공주",
+   "question": "「엄지공주」를 쓴 작가는?",
+   "word": "한스 크리스티안 안데르센",
+   "aliases": [
+    "안데르센",
+    "크리스티안 안데르센"
+   ],
+   "source": "위키데이터",
+   "score": 262,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q215894",
+   "genre": "문학",
+   "subject": "캉디드",
+   "question": "「캉디드」를 쓴 작가는?",
+   "word": "볼테르",
+   "aliases": [],
+   "source": "위키데이터",
+   "score": 260,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q46751",
+   "genre": "문학",
+   "subject": "해리 포터와 불의 잔",
+   "question": "「해리 포터와 불의 잔」을 쓴 작가는?",
+   "word": "J. K. 롤링",
+   "aliases": [
+    "로버트 갤브레이스",
+    "조앤 K. 롤링",
+    "조앤 롤링",
+    "조앤 머리",
+    "조앤 캐슬린 롤링",
+    "롤링"
+   ],
+   "source": "위키데이터",
+   "score": 245,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q182502",
+   "genre": "문학",
+   "subject": "천사와 악마",
+   "question": "「천사와 악마」를 쓴 작가는?",
+   "word": "댄 브라운",
+   "aliases": [
+    "대니얼 거하드 브라운",
+    "브라운"
+   ],
+   "source": "위키데이터",
+   "score": 232,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q74287",
+   "genre": "문학",
+   "subject": "호빗",
+   "question": "「호빗」을 쓴 작가는?",
+   "word": "J. R. R. 톨킨",
+   "aliases": [
+    "톨킨",
+    "존 로널드 루얼 톨킨"
+   ],
+   "source": "위키데이터",
+   "score": 230,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q36097",
+   "genre": "문학",
+   "subject": "심판",
+   "question": "「심판」을 쓴 작가는?",
+   "word": "프란츠 카프카",
+   "aliases": [
+    "카프카"
+   ],
+   "source": "위키데이터",
+   "score": 224,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q2870",
+   "genre": "문학",
+   "subject": "바람과 함께 사라지다",
+   "question": "「바람과 함께 사라지다」를 쓴 작가는?",
+   "word": "마거릿 미첼",
+   "aliases": [
+    "마가렛 미첼",
+    "마거릿 머널린 미첼",
+    "미첼"
+   ],
+   "source": "위키데이터",
+   "score": 223,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q41542",
+   "genre": "문학",
+   "subject": "드라큘라",
+   "question": "「드라큘라」를 쓴 작가는?",
+   "word": "브램 스토커",
+   "aliases": [
+    "브람 스토커",
+    "에이브러햄 스토커",
+    "스토커"
+   ],
+   "source": "위키데이터",
+   "score": 222,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q207332",
+   "genre": "문학",
+   "subject": "서부 전선 이상 없다",
+   "question": "「서부 전선 이상 없다」를 쓴 작가는?",
+   "word": "에리히 마리아 레마르크",
+   "aliases": [
+    "레마르크",
+    "에리히 레마르크",
+    "마리아 레마르크"
+   ],
+   "source": "위키데이터",
+   "score": 211,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q865902",
+   "genre": "문학",
+   "subject": "이솝 우화",
+   "question": "「이솝 우화」를 쓴 작가는?",
+   "word": "아이소포스",
+   "aliases": [
+    "이솝"
+   ],
+   "source": "위키데이터",
+   "score": 207,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q55641363",
+   "genre": "문학",
+   "subject": "파친코",
+   "question": "「파친코」를 쓴 작가는?",
+   "word": "이민진",
+   "aliases": [
+    "민진 리"
+   ],
+   "source": "위키데이터",
+   "score": 205,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q845889",
+   "genre": "문학",
+   "subject": "오리엔트 특급 살인",
+   "question": "「오리엔트 특급 살인」을 쓴 작가는?",
+   "word": "애거사 크리스티",
+   "aliases": [
+    "메리 웨스트매컷",
+    "아가사 크리스티",
+    "애거사 메리 클러리사 밀러 크리스티 맬로원",
+    "애거사 크리스티 맬로원",
+    "애거서 크리스티",
+    "애거서 크리스티 맬로원",
+    "에거서 크리스티",
+    "크리스티"
+   ],
+   "source": "위키데이터",
+   "score": 201,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q111913999",
+   "genre": "문학",
+   "subject": "흰",
+   "question": "「흰」을 쓴 작가는?",
+   "word": "한강",
+   "aliases": [
+    "한강현"
+   ],
+   "source": "위키데이터",
+   "score": 197,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q483034",
+   "genre": "문학",
+   "subject": "로빈슨 크루소",
+   "question": "「로빈슨 크루소」를 쓴 작가는?",
+   "word": "대니얼 디포",
+   "aliases": [
+    "다니엘 디포",
+    "디포"
+   ],
+   "source": "위키데이터",
+   "score": 195,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q191663",
+   "genre": "문학",
+   "subject": "캔터베리 이야기",
+   "question": "「캔터베리 이야기」를 쓴 작가는?",
+   "word": "제프리 초서",
+   "aliases": [
+    "초서"
+   ],
+   "source": "위키데이터",
+   "score": 193,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q240617",
+   "genre": "문학",
+   "subject": "고리오 영감",
+   "question": "「고리오 영감」을 쓴 작가는?",
+   "word": "오노레 드 발자크",
+   "aliases": [
+    "발자크",
+    "드 발자크"
+   ],
+   "source": "위키데이터",
+   "score": 193,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q637839",
+   "genre": "문학",
+   "subject": "연을 쫓는 아이",
+   "question": "「연을 쫓는 아이」를 쓴 작가는?",
+   "word": "할레드 호세이니",
+   "aliases": [
+    "호세이니"
+   ],
+   "source": "위키데이터",
+   "score": 185,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q16438",
+   "genre": "문학",
+   "subject": "데카메론",
+   "question": "「데카메론」을 쓴 작가는?",
+   "word": "조반니 보카치오",
+   "aliases": [
+    "보카치오"
+   ],
+   "source": "위키데이터",
+   "score": 183,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q627333",
+   "genre": "문학",
+   "subject": "타임머신",
+   "question": "「타임머신」을 쓴 작가는?",
+   "word": "H. G. 웰스",
+   "aliases": [
+    "H. G. 웰즈",
+    "H.G. 웰스",
+    "H.G. 웰즈",
+    "H.G.웰스",
+    "H.G.웰즈",
+    "허버트 조지 웰스",
+    "허버트 조지 웰즈",
+    "웰스"
+   ],
+   "source": "위키데이터",
+   "score": 182,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q860633",
+   "genre": "문학",
+   "subject": "천 개의 찬란한 태양",
+   "question": "「천 개의 찬란한 태양」을 쓴 작가는?",
+   "word": "할레드 호세이니",
+   "aliases": [
+    "호세이니"
+   ],
+   "source": "위키데이터",
+   "score": 173,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q216578",
+   "genre": "문학",
+   "subject": "악의 꽃",
+   "question": "「악의 꽃」을 쓴 작가는?",
+   "word": "샤를 보들레르",
+   "aliases": [
+    "보들레르"
+   ],
+   "source": "위키데이터",
+   "score": 170,
+   "level": "어려움"
+  },
+  {
+   "key": "book:Q217073",
+   "genre": "문학",
+   "subject": "황야의 이리",
+   "question": "「황야의 이리」를 쓴 작가는?",
+   "word": "헤르만 헤세",
+   "aliases": [
+    "헤세",
+    "헤르만 카를 헤세"
+   ],
+   "source": "위키데이터",
+   "score": 161,
+   "level": "어려움"
+  }
+ ]
+}

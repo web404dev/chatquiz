@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=252" />
+  <link rel="stylesheet" href="./styles.css?v=253" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -163,6 +163,11 @@
                     <span class="format-card-art" aria-hidden="true">🍳</span>
                     <span class="format-card-name">레시피</span>
                     <span class="format-card-desc">재료·설명 보고 음식 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="trivia" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🧠</span>
+                    <span class="format-card-name">상식</span>
+                    <span class="format-card-desc">수도·원소·명화 문제 맞히기</span>
                   </button>
                 </div>
                 <div class="format-sub" id="scrambleUnitAxis" hidden>
@@ -548,6 +553,17 @@
             <figcaption id="recipeSource" class="recipe-source"></figcaption>
           </figure>
         </div>
+        <div id="triviaStage" class="recipe-stage trivia-stage" hidden>
+          <div id="triviaCard" class="recipe-card trivia-card">
+            <p class="recipe-head"><span id="triviaBadge" class="recipe-badge">🧠 상식</span><span class="recipe-ask">정답을 채팅에 쳐 주세요</span></p>
+            <p id="triviaQuestion" class="trivia-question"></p>
+            <p id="triviaHint" class="trivia-hint" hidden></p>
+          </div>
+          <figure id="triviaPhoto" class="recipe-photo" hidden>
+            <img id="triviaImg" class="recipe-img" alt="" decoding="async" referrerpolicy="no-referrer">
+            <figcaption id="triviaSource" class="recipe-source"></figcaption>
+          </figure>
+        </div>
         <p id="clueMeta" class="clue-meta" hidden></p>
         <div id="listenStage" class="listen-stage" hidden>
           <p id="listenKicker" class="listen-kicker">듣기 · 노래 제목</p>
@@ -922,6 +938,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=326"></script>
+  <script type="module" src="./boot.js?v=328"></script>
 </body>
 </html>

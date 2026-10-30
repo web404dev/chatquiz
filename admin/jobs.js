@@ -71,8 +71,8 @@ function live(id, label, hint) {
   };
 }
 
-export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes"];
-export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes"];
+export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia"];
+export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia"];
 export const SCHEDULE_DAYS = 20;
 
 export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
@@ -149,6 +149,16 @@ export const PACKS = {
     hint: "위키백과 한국어판 요리 분류(한식·중식·일식·양식·세계) → 최근 60일 많이 본 순 대중 요리 300개. 첫 문단에서 재료(3개 이상)와 설명 문장, 대표 사진 주소. 정답 이름만 가림. recipe-exclude.json 은 뺌. 출처 CC BY-SA.",
     group: "text",
     file: "recipes.json",
+    summarize: summarizeBank,
+  },
+  trivia: {
+    id: "trivia",
+    label: "상식",
+    script: "admin/refresh-trivia.mjs",
+    args: [],
+    hint: "위키데이터 질의(키 없음)로 수도·화폐(잘 알려진 나라 110개)·원소 기호(잘 알려진 것)·명화(그린 화가, 그림 주소)·문학(쓴 작가, 한국 소설 포함) 문제. 수도·화폐가 둘 이상이거나 답이 문제와 같은 것, 공저·같은 제목은 뺌. trivia-exclude.json 의 titles·questions·keys 는 뺌.",
+    group: "text",
+    file: "trivia.json",
     summarize: summarizeBank,
   },
   "all-games": {
