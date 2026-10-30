@@ -6205,7 +6205,7 @@ body.mode-desk .host-tutorial {
   border-color: #060912;
 }
 
-/* 유형: 그림·이름·한 줄 설명이 든 카드 4칸×2줄(사용자 2026-10-25 "카드형식으로해서 보여주게 하자 안에 그림 설명도 넣고", 레시피·상식이 더해져 8개).
+/* 유형: 그림·이름·한 줄 설명이 든 카드 3칸×3줄(사용자 2026-10-25 "카드형식으로해서 보여주게 하자 안에 그림 설명도 넣고", 레시피·상식·밈이 더해져 9개).
    뒤죽박죽 섞기는 카드 바로 아래, 고른 유형이 방송에 어떻게 나가는지 한 줄 */
 .broadcast-lobby .format-axis {
   flex: 1 1 100%;
@@ -6213,7 +6213,7 @@ body.mode-desk .host-tutorial {
 
 .broadcast-lobby .format-axis #formatSeg {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   width: 100%;
   border: 0;
