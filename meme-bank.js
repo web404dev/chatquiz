@@ -1,4 +1,4 @@
-import { triviaLengthHint, triviaStage } from "./trivia-bank.js?v=2";
+import { triviaLengthHint, triviaStage } from "./trivia-bank.js?v=3";
 
 /**
  * 밈 퀴즈: 마추기 아이오 밈 퀴즈(쉬운 유명 밈·밈 지박령·국내 밈 맞추기·2025 최신 릴스 밈 맞히기·2026 밈 맞추기)를 브라우저로 풀며

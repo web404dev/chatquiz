@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=255" />
+  <link rel="stylesheet" href="./styles.css?v=256" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -167,12 +167,17 @@
                   <button type="button" class="seg-btn format-card" data-format="trivia" aria-pressed="false">
                     <span class="format-card-art" aria-hidden="true">🧠</span>
                     <span class="format-card-name">상식</span>
-                    <span class="format-card-desc">수도·원소·명화 문제 맞히기</span>
+                    <span class="format-card-desc">수도·명화·일반 상식 맞히기</span>
                   </button>
                   <button type="button" class="seg-btn format-card" data-format="meme" aria-pressed="false">
                     <span class="format-card-art" aria-hidden="true">😂</span>
                     <span class="format-card-name">밈</span>
                     <span class="format-card-desc">짤 보고 밈 맞히기</span>
+                  </button>
+                  <button type="button" class="seg-btn format-card" data-format="nonsense" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🤪</span>
+                    <span class="format-card-name">넌센스</span>
+                    <span class="format-card-desc">말장난 문제 맞히기</span>
                   </button>
                 </div>
                 <div class="format-sub" id="scrambleUnitAxis" hidden>
@@ -313,6 +318,7 @@
                       <button type="button" class="listen-answer-opt" data-listen-answer="artist" role="option">가수</button>
                       <button type="button" class="listen-answer-opt" data-listen-answer="title" role="option">노래 제목</button>
                       <button type="button" class="listen-answer-opt" data-listen-answer="both" role="option">가수 + 노래 제목</button>
+                      <button type="button" class="listen-answer-opt" data-listen-answer="triple" role="option">세 곡 동시 (제목)</button>
                     </div>
                   </div>
                 </div>
@@ -560,7 +566,7 @@
         </div>
         <div id="triviaStage" class="recipe-stage trivia-stage" hidden>
           <div id="triviaCard" class="recipe-card trivia-card">
-            <p class="recipe-head"><span id="triviaBadge" class="recipe-badge">🧠 상식</span><span class="recipe-ask">정답을 채팅에 쳐 주세요</span></p>
+            <p class="recipe-head"><span id="triviaBadge" class="recipe-badge">🧠 상식</span><span id="triviaAsk" class="recipe-ask">정답을 채팅에 쳐 주세요</span></p>
             <p id="triviaQuestion" class="trivia-question"></p>
             <p id="triviaHint" class="trivia-hint" hidden></p>
           </div>
@@ -943,6 +949,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=331"></script>
+  <script type="module" src="./boot.js?v=332"></script>
 </body>
 </html>

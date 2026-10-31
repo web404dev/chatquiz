@@ -1,3 +1,5 @@
+import { GENERAL_TRIVIA_GENRE, GENERAL_TRIVIA_ITEMS } from "./general-trivia.js?v=1";
+
 export const TRIVIA_URL = "./trivia.json";
 
 /**
@@ -5,6 +7,9 @@ export const TRIVIA_URL = "./trivia.json";
  * 수도(「프랑스」의 수도는?)·화폐·원소 기호·명화(그린 화가)·문학(쓴 작가). 시간이 지나면 글자 수 → 초성 힌트.
  */
 export const TRIVIA_GENRES = ["수도", "화폐", "원소", "명화", "문학"];
+
+/** 고를 수 있는 갈래: 위키데이터 다섯 갈래 + 사람이 모은 「일반 상식」(general-trivia.js, trivia.json 갱신과 상관없이 늘 붙는다). */
+export const TRIVIA_PICK_GENRES = [...TRIVIA_GENRES, GENERAL_TRIVIA_GENRE];
 
 /**
  * 난이도(사용자 2026-10-31: "더 쉽게", "어렵고 쉬운거 섞어서"): 한국어 위키백과 최근 60일 조회수로 잰다.
@@ -196,12 +201,14 @@ export function pickTriviaEntries(pool, { exclude, genres } = {}, count = 1, ran
   return out;
 }
 
-export async function loadTriviaPool(fetchImpl = fetch) {
+export async function loadTriviaPool(fetchImpl = fetch, extra = GENERAL_TRIVIA_ITEMS) {
+  let raw = {};
   try {
     const res = await fetchImpl(TRIVIA_URL, { cache: "no-cache" });
     if (!res.ok) throw new Error(`trivia ${res.status}`);
-    return buildTriviaPool(await res.json());
+    raw = await res.json();
   } catch {
-    return buildTriviaPool({});
+    raw = {};
   }
+  return buildTriviaPool({ fetchedAt: raw?.fetchedAt, items: [...(Array.isArray(raw?.items) ? raw.items : []), ...extra] });
 }

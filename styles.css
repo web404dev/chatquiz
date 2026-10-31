@@ -2024,6 +2024,11 @@ textarea:focus-visible,
   grid-template-columns: minmax(0, 1fr) max-content;
 }
 
+/* 넌센스는 갈래가 없어 장르 칸을 숨긴다. */
+.auto-word-fields.is-nonsense .auto-word-genre {
+  display: none;
+}
+
 .listen-answer-list {
   position: absolute;
   left: 0;
@@ -6653,6 +6658,13 @@ body.mode-desk .host-tutorial {
 
 .trivia-card .recipe-head {
   text-align: left;
+}
+
+/* 정답 공개 때 출처(넌센스·일반 상식)는 길어서 작게, 오른쪽 맞춤으로 줄바꿈. */
+.trivia-card .recipe-ask.is-source {
+  min-width: 0;
+  font-size: 0.72em;
+  text-align: right;
 }
 
 .trivia-question {

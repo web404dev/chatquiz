@@ -70,8 +70,10 @@ export function songNeedles(song = {}) {
   };
 }
 
-export const LISTEN_ANSWER_MODES = ["all", "artist", "title", "both"];
+/** triple: 세 곡을 동시에 틀고 세 제목을 한 줄에 다 친 사람이 정답(사용자 2026-10-31 "음악에서 동시에 3개 틀어서 맞추기", "응, 만들어줘"). 「전체」 무작위에는 넣지 않는다. */
+export const LISTEN_ANSWER_MODES = ["all", "artist", "title", "both", "triple"];
 export const LISTEN_ANSWER_ROUNDS = ["artist", "title", "both"];
+export const TRIPLE_SONG_COUNT = 3;
 
 export function normalizeListenAnswerMode(mode) {
   return LISTEN_ANSWER_MODES.includes(mode) ? mode : "title";
@@ -81,6 +83,7 @@ export function listenAnswerModeLabel(mode) {
   if (mode === "artist") return "가수";
   if (mode === "both") return "가수 + 노래 제목";
   if (mode === "all") return "전체";
+  if (mode === "triple") return "세 곡 동시 (제목)";
   return "노래 제목";
 }
 
@@ -93,13 +96,80 @@ export function pickListenAnswerMode(selected = "title", rng = Math.random) {
 export function listenAnswerPrompt(mode) {
   if (mode === "artist") return "노래를 듣고 가수를 치세요";
   if (mode === "both") return "노래를 듣고 가수와 제목을 치세요";
+  if (mode === "triple") return "세 곡이 동시에 나와요! 세 노래 제목을 한 줄에 다 쳐 주세요";
   return "노래를 듣고 노래 제목을 치세요";
 }
 
 export function listenAnswerStatus(mode) {
   if (mode === "artist") return "듣기 · 가수를 채팅으로";
   if (mode === "both") return "듣기 · 가수와 제목을 채팅으로";
+  if (mode === "triple") return "듣기 · 세 곡 제목을 한 줄에";
   return "듣기 · 노래 제목을 채팅으로";
+}
+
+/**
+ * 세 곡 모드에서 그 곡 제목으로 받는 글자들. 가수 영어 이름이 제목 쪽에도 섞여 들어간 것(Red Velvet 등)은 빼서 제목만 받는다.
+ * 긴 것부터(먼저 긴 제목을 잘라 내야 남은 글 검사가 맞다).
+ */
+export function tripleTitleNeedles(song = {}) {
+  const { artists, titles } = songNeedles(song);
+  return titles.filter((item) => !artists.includes(item)).sort((a, b) => b.length - a.length);
+}
+
+/** 한두 글자 영어 제목(I·TT)은 아무 채팅에나 걸려서 세 곡 모드에 내지 않는다. */
+export function canJoinTriple(song = {}) {
+  const main = foldSong(song.titleKo);
+  if (!main || !tripleTitleNeedles(song).length) return false;
+  return !(/^[0-9a-z]+$/.test(main) && main.length <= 2);
+}
+
+/** 같이 틀 두 곡: 제목이 같거나 한쪽 제목이 다른 쪽 안에 들어 있으면(TT·Attention) 같이 내지 않는다. */
+export function canPlayTogether(a = {}, b = {}) {
+  if (a.id && a.id === b.id) return false;
+  const x = tripleTitleNeedles(a);
+  const y = tripleTitleNeedles(b);
+  return !x.some((p) => y.some((q) => p.includes(q) || q.includes(p)));
+}
+
+export function tripleSongPool(songs, selected) {
+  return filterSongs(songs, selected).filter(canJoinTriple);
+}
+
+/** 서로 헷갈리지 않는 세 곡. 아직 안 낸 곡을 먼저 쓰고, 모자라면 낸 곡에서도 고른다. */
+export function pickSongGroup(songs, used = new Set(), selected, count = TRIPLE_SONG_COUNT, rng = Math.random) {
+  const all = tripleSongPool(songs, selected);
+  const fresh = all.filter((song) => !used.has(song.id));
+  const out = [];
+  for (const pool of [fresh, all]) {
+    const left = pool.slice();
+    while (out.length < count && left.length) {
+      const song = left.splice(Math.floor(rng() * left.length), 1)[0];
+      if (out.every((other) => canPlayTogether(song, other))) out.push(song);
+    }
+  }
+  if (out.length < count) throw new Error("세 곡을 같이 낼 노래가 모자랍니다");
+  return out;
+}
+
+/** 남은 글에서 다른 노래 제목을 찾을 때 쓰는 글자: 너무 짧은 영어(i·tt)나 한 글자 한글은 아무 데나 걸려서 뺀다. */
+function stuffingNeedles(song) {
+  return tripleTitleNeedles(song).filter((item) => (/^[0-9a-z]+$/.test(item) ? item.length >= 3 : item.length >= 2));
+}
+
+/**
+ * 세 곡 정답: 특수문자·띄어쓰기를 지운 한 줄에 세 곡 제목이 다 들어 있어야 한다(순서·구분 기호 상관없음).
+ * 세 제목을 잘라 낸 나머지에 다른 노래 제목이 또 있으면 제목을 잔뜩 붙여 넣은 줄로 보고 무효.
+ */
+export function isTripleSongCorrect(guess, songs = [], others = []) {
+  let rest = foldSong(guess);
+  if (!rest || !songs.length) return false;
+  for (const song of songs) {
+    const hit = tripleTitleNeedles(song).find((item) => rest.includes(item));
+    if (!hit) return false;
+    rest = rest.replace(hit, " ");
+  }
+  const playing = new Set(songs.map((song) => song.id));
+  return !others.some((song) => !playing.has(song.id) && stuffingNeedles(song).some((item) => rest.includes(item)));
 }
 
 export function isSongCorrect(guess, song, mode = "both") {

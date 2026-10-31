@@ -19,6 +19,11 @@ export function takeSongSync(used = new Set(), genres) {
   return pickSong(cache, used, genres);
 }
 
+/** 불러온 노래 전체(세 곡 모드가 고르기·붙여넣기 검사에 쓴다). */
+export function allSongsSync() {
+  return cache || [];
+}
+
 export function songCount(genres) {
   return filterSongs(cache || [], genres).length;
 }
