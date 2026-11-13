@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ASSOC_MIN_HINTS, buildAssocPool, chooseAssocHints, isDisambiguationHtml, linkTitlesFromHtml, pageTitleFromHtml } from "../assoc-bank.js";
+import { ASSOC_MIN_HINTS, buildAssocPool, chooseAssocHints, isDisambiguationHtml, isUsableHintPhoto, linkTitlesFromHtml, pageTitleFromHtml } from "../assoc-bank.js";
 
 // 연상 퀴즈: 정답 단어마다 한국어 위키백과 문서 앞부분의 링크 단어를 힌트로 모은다(키 없음). 문서는 저장하지 않고 링크 제목만 남긴다.
 // 정답 후보: zoom-pics.json 의 사물 단어(연예인 제외, 위키데이터 → 한국어 문서) + words.json 단어 은행(같은 제목 문서가 있을 때).
@@ -10,9 +10,12 @@ const outPath = join(root, "assoc.json");
 const excludePath = join(root, "assoc-exclude.json");
 const WIKIDATA = "https://www.wikidata.org/w/api.php";
 const PAGE_HTML = "https://ko.wikipedia.org/api/rest_v1/page/html/";
+const KOWIKI_API = "https://ko.wikipedia.org/w/api.php";
 const UA = "chatquiz-assoc/1.0 (https://web404dev.github.io/chatquiz/)";
 const MIN_ITEMS = 60;
 const GAP_MS = 1100;
+/** 사진 힌트: 힌트 단어 문서의 대표 사진(pageimages) 썸네일 폭. 사진 파일은 받지 않고 주소만 남긴다. */
+const PHOTO_SIZE = 480;
 
 const pause = (ms) => new Promise((ok) => setTimeout(ok, ms));
 
@@ -100,8 +103,88 @@ async function fetchRows(rows) {
   return fetched;
 }
 
+/** 위키백과 문서 제목들 → Map(원래 제목 → { file, url, en }). 넘겨주기·표기 정리를 따라간 뒤 원래 제목으로 돌려 놓는다. en: 영어판 문서 제목. */
+async function pageImages(titles, { en = false } = {}) {
+  const out = new Map();
+  const list = [...new Set(titles.filter(Boolean))];
+  for (let i = 0; i < list.length; i += 50) {
+    const batch = list.slice(i, i + 50);
+    const params = new URLSearchParams({
+      action: "query",
+      format: "json",
+      formatversion: "2",
+      redirects: "1",
+      prop: en ? "pageimages|langlinks" : "pageimages",
+      piprop: "thumbnail|name",
+      pithumbsize: String(PHOTO_SIZE),
+      pilimit: "50",
+      titles: batch.join("|"),
+    });
+    if (en) {
+      params.set("lllang", "en");
+      params.set("lllimit", "500");
+    }
+    const data = await (await fetchRetry(`${KOWIKI_API}?${params}`)).json();
+    const q = data?.query || {};
+    const from = new Map();
+    const addFrom = (to, name) => from.set(to, [...(from.get(to) || []), name]);
+    const normalized = new Map((q.normalized || []).map((n) => [n.to, n.from]));
+    for (const title of batch) if (![...normalized.values()].includes(title)) addFrom(title, title);
+    for (const [to, orig] of normalized) addFrom(to, orig);
+    for (const r of q.redirects || []) for (const orig of from.get(r.from) || [r.from]) addFrom(r.to, orig);
+    for (const page of q.pages || []) {
+      const info = { file: page.pageimage || "", url: String(page.thumbnail?.source || "").split("?")[0], en: (page.langlinks || [])[0]?.title || "" };
+      for (const orig of from.get(page.title) || [page.title]) out.set(orig, info);
+    }
+    await pause(GAP_MS);
+  }
+  return out;
+}
+
+/**
+ * 힌트 단어마다 문서 대표 사진 주소를 붙인다(photos: { 힌트: 주소 }). 정답이 보일 만한 사진(정답 문서와 같은 사진,
+ * 파일 이름에 정답 한글·영어 이름)과 assoc-exclude.json 의 photos(파일 이름)는 뺀다. 한 문제에서 같은 사진은 한 번만.
+ */
+async function addHintPhotos(items, excludeFiles = []) {
+  const answers = await pageImages(items.map((row) => row.page || row.word), { en: true });
+  const images = await pageImages(items.flatMap((row) => row.hints || []));
+  let kept = 0;
+  let dropped = 0;
+  const out = items.map(({ photos: _old, ...row }) => {
+    const answer = answers.get(row.page || row.word) || {};
+    const answerNames = [row.word, row.page, ...(row.aliases || []), answer.en].filter(Boolean);
+    const photos = {};
+    const used = new Set();
+    for (const hint of row.hints || []) {
+      const img = images.get(hint);
+      if (!img?.url || used.has(img.url)) continue;
+      if (!isUsableHintPhoto(img.file, { answerFile: answer.file, answerNames, exclude: excludeFiles, word: row.word })) {
+        dropped += 1;
+        continue;
+      }
+      used.add(img.url);
+      photos[hint] = img.url;
+      kept += 1;
+    }
+    return { ...row, photos };
+  });
+  const ready = out.filter((row) => Object.keys(row.photos).length >= ASSOC_MIN_HINTS).length;
+  console.log(`힌트 사진 ${kept}장 · 정답이 보일 만한 사진·제외 목록 ${dropped}장 뺌 · 사진 ${ASSOC_MIN_HINTS}장 이상 문제 ${ready}개`);
+  return out;
+}
+
+/** --photos-only: 힌트는 그대로 두고 사진만 다시 받는다(제외 목록을 고친 뒤 등). */
+async function refreshPhotosOnly(exclude) {
+  const current = await readJson(outPath, null);
+  if (!current?.items?.length) throw new Error("assoc.json 이 없어 사진만 받을 수 없습니다");
+  const items = await addHintPhotos(current.items, exclude.photos || []);
+  await writeFile(outPath, `${JSON.stringify({ ...current, photosAt: Date.now(), items }, null, 1)}\n`);
+  console.log(`assoc.json 사진만 저장: ${items.length}개`);
+}
+
 async function main() {
   const exclude = await readJson(excludePath, {});
+  if (process.argv.includes("--photos-only")) return refreshPhotosOnly(exclude);
   const dropWords = new Set(exclude.words || []);
   const dropHints = new Set(exclude.hints || []);
   const rows = candidates(await readJson(join(root, "zoom-pics.json"), []), await readJson(join(root, "words.json"), []));
@@ -120,7 +203,8 @@ async function main() {
   const items = chosen.filter((row) => keep.has(row.word)).map(({ word, genre, aliases, page, hints }) => ({ word, genre, aliases, page, hints }));
   console.log(`정답 후보 ${rows.length} · 문서 ${fetched.length} · 힌트 ${ASSOC_MIN_HINTS}개 이상 ${items.length}`);
   if (items.length < MIN_ITEMS) throw new Error(`연상 문제가 ${items.length}개뿐이라 저장하지 않습니다`);
-  await writeFile(outPath, `${JSON.stringify({ fetchedAt: Date.now(), source: "ko.wikipedia.org (CC BY-SA 4.0)", items }, null, 1)}\n`);
+  const withPhotos = await addHintPhotos(items, exclude.photos || []);
+  await writeFile(outPath, `${JSON.stringify({ fetchedAt: Date.now(), photosAt: Date.now(), source: "ko.wikipedia.org (CC BY-SA 4.0)", items: withPhotos }, null, 1)}\n`);
   console.log(`assoc.json 저장: ${items.length}개`);
 }
 

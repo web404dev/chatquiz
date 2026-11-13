@@ -167,7 +167,7 @@ export const PACKS = {
     label: "연상",
     script: "admin/refresh-assoc.mjs",
     args: [],
-    hint: "정답(확대 사진 단어·단어 은행)마다 한국어 위키백과 문서 앞부분의 링크 단어를 힌트로 모은다(키 없음). 언어 이름·분류학 이름·정답 글자가 든 것·너무 흔한 것은 빼고 힌트 4개 이상만. 확대(zoom-pics.json)를 먼저 갱신. 빼기: assoc-exclude.json.",
+    hint: "정답(확대 사진 단어·단어 은행)마다 한국어 위키백과 문서 앞부분의 링크 단어를 힌트로 모은다(키 없음). 언어 이름·분류학 이름·정답 글자가 든 것·너무 흔한 것은 빼고 힌트 4개 이상만. 힌트 단어 문서 대표 사진 주소도 받는다(사진 힌트, 정답이 보일 만한 사진 뺌). 확대(zoom-pics.json)를 먼저 갱신. 빼기: assoc-exclude.json.",
     group: "text",
     file: "assoc.json",
     summarize: summarizeBank,

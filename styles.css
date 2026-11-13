@@ -1583,6 +1583,40 @@ textarea:focus-visible,
   to { height: 28px; }
 }
 
+/* 미리듣기 진행(사용자 2026-11-14 "노래에 원형 프로그레스바"): 미리듣기 한 번에 원이 한 바퀴 차고, 끝나면 처음부터 다시 돈다. */
+.listen-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(84px, 11cqw, 132px);
+  aspect-ratio: 1;
+}
+
+.listen-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.listen-ring-track,
+.listen-ring-bar {
+  fill: none;
+  stroke-width: 8;
+}
+
+.listen-ring-track {
+  stroke: rgba(139, 231, 255, 0.18);
+}
+
+.listen-ring-bar {
+  stroke: #8be7ff;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
 .caption.is-clue,
 .caption.is-clue.hit,
 .caption.is-clue.miss {
@@ -6712,6 +6746,50 @@ body.mode-desk .host-tutorial {
 
 .trivia-stage.with-photo .trivia-hint {
   margin-top: 1.2cqh;
+}
+
+/* 연상 사진 힌트: 힌트 단어 대신 사진이 한 줄에 하나씩 열린다. 도표·국기처럼 투명한 그림도 보이게 바탕은 흰색. 정답 공개 때 사진 아래 힌트 단어. */
+.assoc-photos {
+  display: flex;
+  justify-content: center;
+  gap: 1.2cqw;
+  margin: 1.6cqh 0 0.4cqh;
+}
+
+.assoc-photos[hidden],
+.assoc-photo[hidden],
+.assoc-photo figcaption[hidden] {
+  display: none;
+}
+
+.assoc-photo {
+  display: flex;
+  flex: 0 1 16cqw;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6cqh;
+  min-width: 0;
+  margin: 0;
+  animation: recipe-in 0.4s ease;
+}
+
+.assoc-photo img {
+  display: block;
+  width: 100%;
+  height: 32cqh;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.75);
+  object-fit: contain;
+}
+
+.assoc-photo figcaption {
+  color: #141414;
+  font-size: clamp(14px, 1.8cqw, 24px);
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  word-break: keep-all;
 }
 
 .recipe-source {

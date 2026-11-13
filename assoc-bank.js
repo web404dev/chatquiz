@@ -133,9 +133,73 @@ export function buildAssocPool(raw = {}) {
     if (!/^[가-힣]+( [가-힣]+)?$/.test(word) || hints.length < ASSOC_MIN_HINTS || seen.has(word)) continue;
     seen.add(word);
     const aliases = Array.isArray(row.aliases) ? row.aliases.map((a) => String(a || "").trim()).filter(Boolean) : [];
-    items.push({ key: `assoc:${word}`, word, aliases, hints, genre: String(row.genre || ""), page: String(row.page || word) });
+    const photos = {};
+    for (const hint of hints) {
+      const url = String(row?.photos?.[hint] || "").trim();
+      if (/^https:\/\/[a-z0-9.-]*wikimedia\.org\//.test(url)) photos[hint] = url;
+    }
+    const photoHints = hints.filter((hint) => photos[hint]);
+    items.push({ key: `assoc:${word}`, word, aliases, hints, photos, photoHints, genre: String(row.genre || ""), page: String(row.page || word) });
   }
   return { fetchedAt: Number(raw?.fetchedAt) || 0, items };
+}
+
+/**
+ * 사진 힌트(사용자 2026-11-14 "연상에 사진 보고 연상되는거 맞추는것도 추가로", "api를 이용해야돼", 「연상 안에 단어/사진 고르기」·「사진만」).
+ * 힌트 단어마다 한국어 위키백과 문서 대표 사진(API pageimages, 키 없음)을 쓰고, 사진이 ASSOC_MIN_HINTS 장 이상인 문제만 낸다.
+ */
+export const ASSOC_HINT_UNITS = ["word", "photo"];
+
+export function normalizeAssocHintUnit(unit) {
+  return unit === "photo" ? "photo" : "word";
+}
+
+export function isAssocPhotoReady(item) {
+  return Array.isArray(item?.photoHints) && item.photoHints.length >= ASSOC_MIN_HINTS;
+}
+
+/** 이 힌트 방식으로 낼 수 있는 문제(사진이면 사진 힌트가 넉넉한 것만). */
+export function assocPoolFor(pool, unit = "word") {
+  const items = pool?.items || [];
+  return normalizeAssocHintUnit(unit) === "photo" ? items.filter(isAssocPhotoReady) : items;
+}
+
+/** 파일 이름 「Cat_claw_closeup.jpg」 → ["cat", "claw", "closeup"] (확장자 빼고, 영문은 소문자). */
+function fileWords(file) {
+  return String(file || "")
+    .replace(/^(file|파일):/i, "")
+    .replace(/\.[a-z0-9]+$/i, "")
+    .toLowerCase()
+    .split(/[^0-9a-z가-힣]+/)
+    .filter(Boolean);
+}
+
+/**
+ * 힌트 사진이 정답을 그대로 보여 줄 것 같으면 쓰지 않는다:
+ * 정답 문서의 대표 사진과 같은 파일, 파일 이름에 정답 이름(한글·영어 문서 제목, 복수형 s 포함)이 든 것, 제외 목록(exclude)의 파일.
+ * 제외 목록은 「파일」(모든 문제에서 뺌) 또는 「정답|파일」(그 정답 문제에서만 뺌. 동물 모음 사진처럼 어떤 문제에서만 정답이 보이는 것).
+ */
+export function isUsableHintPhoto(file, { answerFile = "", answerNames = [], exclude = [], word = "" } = {}) {
+  const name = String(file || "").replace(/^(file|파일):/i, "").replace(/ /g, "_");
+  if (!name) return false;
+  const norm = (f) => String(f || "").replace(/^(file|파일):/i, "").replace(/ /g, "_");
+  if (answerFile && norm(answerFile) === name) return false;
+  const excluded = exclude.some((entry) => {
+    const bar = String(entry || "").indexOf("|");
+    if (bar < 0) return norm(entry) === name;
+    return String(entry).slice(0, bar).trim() === String(word || "").trim() && norm(String(entry).slice(bar + 1)) === name;
+  });
+  if (excluded) return false;
+  const words = fileWords(name);
+  const joined = ` ${words.join(" ")} `;
+  for (const raw of answerNames) {
+    const target = fileWords(raw).join(" ");
+    if (!target) continue;
+    if (joined.includes(` ${target} `) || joined.includes(` ${target}s `) || joined.includes(` ${target}es `)) return false;
+    // 한글 이름은 붙어 있는 경우(고양이발톱)도 본다.
+    if (/[가-힣]/.test(target) && name.replace(/_/g, "").includes(target.replace(/ /g, ""))) return false;
+  }
+  return true;
 }
 
 /** 남은 시간 비율 → 지금 보일 힌트 수. 처음엔 하나, 남은 시간 25%가 되면 전부. */
@@ -147,9 +211,9 @@ export function assocVisibleCount(remainingRatio, total) {
   return Math.min(n, 1 + Math.floor(passed * (n - 1) + 1e-9));
 }
 
-export function pickAssocEntries(pool, { exclude } = {}, count = 1) {
+export function pickAssocEntries(pool, { exclude, unit = "word" } = {}, count = 1) {
   const n = Math.max(1, Math.min(3, Math.floor(Number(count) || 1)));
-  const all = (pool?.items || []).slice();
+  const all = assocPoolFor(pool, unit).slice();
   let left = exclude instanceof Set ? all.filter((row) => !exclude.has(row.key)) : all.slice();
   if (!left.length && all.length && exclude instanceof Set) {
     for (const row of all) exclude.delete(row.key);
@@ -164,6 +228,11 @@ export function pickAssocEntries(pool, { exclude } = {}, count = 1) {
 /** 정답 공개 때 카드 위쪽에 붙일 출처(위키백과 글은 CC BY-SA 4.0). */
 export function assocSourceLine(page) {
   return `출처 · 한국어 위키백과 「${page}」 문서 링크 (CC BY-SA 4.0)`;
+}
+
+/** 사진 힌트: 글은 위키백과, 사진은 각 힌트 문서의 위키미디어 공용 사진(사진마다 라이선스가 다르다). */
+export function assocPhotoSourceLine(page) {
+  return `출처 · 한국어 위키백과 「${page}」 문서 링크 (CC BY-SA 4.0) · 사진 위키미디어 공용`;
 }
 
 export async function loadAssocPool(fetchImpl = fetch) {

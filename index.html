@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://www.dota2.com" />
   <link rel="preconnect" href="https://overfast-api.tekrop.fr" />
   <link rel="preconnect" href="https://fortnite-api.com" />
-  <link rel="stylesheet" href="./styles.css?v=256" />
+  <link rel="stylesheet" href="./styles.css?v=257" />
 </head>
 <body class="arena is-desk-locked">
   <a class="skip-link" href="#appMain">본문으로 건너뛰기</a>
@@ -190,6 +190,13 @@
                   <div class="seg" id="scrambleUnitSeg" role="group" aria-label="섞기">
                     <button type="button" class="seg-btn active" data-scramble-unit="word" aria-pressed="true">단어</button>
                     <button type="button" class="seg-btn" data-scramble-unit="sentence" aria-pressed="false">문장</button>
+                  </div>
+                </div>
+                <div class="format-sub" id="assocHintAxis" hidden>
+                  <span class="axis-label">힌트</span>
+                  <div class="seg" id="assocHintSeg" role="group" aria-label="연상 힌트">
+                    <button type="button" class="seg-btn active" data-assoc-hint="word" aria-pressed="true">단어</button>
+                    <button type="button" class="seg-btn" data-assoc-hint="photo" aria-pressed="false">사진</button>
                   </div>
                 </div>
                 <p id="formatDesc" class="format-desc"></p>
@@ -574,6 +581,7 @@
           <div id="triviaCard" class="recipe-card trivia-card">
             <p class="recipe-head"><span id="triviaBadge" class="recipe-badge">🧠 상식</span><span id="triviaAsk" class="recipe-ask">정답을 채팅에 쳐 주세요</span></p>
             <p id="triviaQuestion" class="trivia-question"></p>
+            <div id="triviaPhotos" class="assoc-photos" hidden></div>
             <p id="triviaHint" class="trivia-hint" hidden></p>
           </div>
           <figure id="triviaPhoto" class="recipe-photo" hidden>
@@ -585,7 +593,13 @@
         <div id="listenStage" class="listen-stage" hidden>
           <p id="listenKicker" class="listen-kicker">듣기 · 노래 제목</p>
           <p id="listenLine" class="listen-line">노래를 듣고 노래 제목을 치세요</p>
-          <div class="listen-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="listen-ring" aria-hidden="true">
+            <svg class="listen-ring-svg" viewBox="0 0 100 100">
+              <circle class="listen-ring-track" cx="50" cy="50" r="44"></circle>
+              <circle id="listenRingBar" class="listen-ring-bar" cx="50" cy="50" r="44" pathLength="100"></circle>
+            </svg>
+            <div class="listen-eq"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
         </div>
         <span id="promptText"></span>
         <div id="listenMv" class="listen-mv" hidden>
@@ -955,6 +969,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=334"></script>
+  <script type="module" src="./boot.js?v=335"></script>
 </body>
 </html>

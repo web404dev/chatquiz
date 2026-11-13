@@ -13,7 +13,13 @@
     "생쥐",
     "동물의 발톱",
     "육식 동물"
-   ]
+   ],
+   "photos": {
+    "야생화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/CSIRO_ScienceImage_1515_Feral_pig.jpg/500px-CSIRO_ScienceImage_1515_Feral_pig.jpg",
+    "래트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Brown_Rat_%28Rattus_norvegicus%29.jpg/500px-Brown_Rat_%28Rattus_norvegicus%29.jpg",
+    "생쥐": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/%D0%94%D0%BE%D0%BC%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D1%8B%D1%88%D1%8C_%28Mus_musculus%29%2C_%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0.jpg/500px-%D0%94%D0%BE%D0%BC%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D1%8B%D1%88%D1%8C_%28Mus_musculus%29%2C_%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0.jpg",
+    "육식 동물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Carnivore-lion.jpg/500px-Carnivore-lion.jpg"
+   }
   },
   {
    "word": "강아지",
@@ -26,7 +32,11 @@
     "체형",
     "성체",
     "새끼"
-   ]
+   ],
+   "photos": {
+    "개": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Coat_types_3.jpg/500px-Coat_types_3.jpg",
+    "성체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Juan_de_Juanes_002.jpg/500px-Juan_de_Juanes_002.jpg"
+   }
   },
   {
    "word": "얼룩말",
@@ -39,7 +49,14 @@
     "지문",
     "사자",
     "당나귀"
-   ]
+   ],
+   "photos": {
+    "아프리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Africa_%28orthographic_projection%29.svg/500px-Africa_%28orthographic_projection%29.svg.png",
+    "가축화": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Shepherd_Dog.jpg",
+    "지문": "https://upload.wikimedia.org/wikipedia/commons/1/10/Fingerprintforcriminologystubs.jpg",
+    "사자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg/500px-020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg",
+    "당나귀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Donkey_%28Equus_asinus%29_at_Disney%27s_Animal_Kingdom_%2816-01-2005%29.jpg/500px-Donkey_%28Equus_asinus%29_at_Disney%27s_Animal_Kingdom_%2816-01-2005%29.jpg"
+   }
   },
   {
    "word": "코끼리",
@@ -52,7 +69,13 @@
     "멸종",
     "육상동물",
     "매머드"
-   ]
+   ],
+   "photos": {
+    "동남아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Southeast_Asia_%28orthographic_projection%29.svg/500px-Southeast_Asia_%28orthographic_projection%29.svg.png",
+    "남아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/South_Asia_%28orthographic_projection%29_without_national_boundaries.svg/500px-South_Asia_%28orthographic_projection%29_without_national_boundaries.svg.png",
+    "멸종": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/CollapsedtreeLabels-simplified.svg/500px-CollapsedtreeLabels-simplified.svg.png",
+    "매머드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Mammuthus_columbi_Sergiodlarosa.jpg/500px-Mammuthus_columbi_Sergiodlarosa.jpg"
+   }
   },
   {
    "word": "펭귄",
@@ -65,7 +88,14 @@
     "남극",
     "뉴질랜드",
     "남아프리카"
-   ]
+   ],
+   "photos": {
+    "오스트레일리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/500px-Flag_of_Australia_%28converted%29.svg.png",
+    "남아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/South_America_%28orthographic_projection%29.svg/500px-South_America_%28orthographic_projection%29.svg.png",
+    "남극": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Antarctica_%28orthographic_projection%29.svg/500px-Antarctica_%28orthographic_projection%29.svg.png",
+    "뉴질랜드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/500px-Flag_of_New_Zealand.svg.png",
+    "남아프리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Africa-countries-southern.svg/500px-Africa-countries-southern.svg.png"
+   }
   },
   {
    "word": "호랑이",
@@ -78,7 +108,13 @@
     "숲",
     "백호",
     "아무르표범"
-   ]
+   ],
+   "photos": {
+    "중국 동북부": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Northeast_China.svg/500px-Northeast_China.svg.png",
+    "러시아 극동": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Far_Eastern_in_Russia.svg/500px-Far_Eastern_in_Russia.svg.png",
+    "숲": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Picea_glauca_taiga.jpg/500px-Picea_glauca_taiga.jpg",
+    "아무르표범": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Panthera_pardus_orientalis_Colchester_Zoo_%281%29.jpg/500px-Panthera_pardus_orientalis_Colchester_Zoo_%281%29.jpg"
+   }
   },
   {
    "word": "사자",
@@ -91,7 +127,14 @@
     "사바나",
     "갈기",
     "성적 이형성"
-   ]
+   ],
+   "photos": {
+    "초원": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Konza1.jpg/500px-Konza1.jpg",
+    "관목지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Starr_010831-0016_Morella_faya.jpg/500px-Starr_010831-0016_Morella_faya.jpg",
+    "사바나": "https://upload.wikimedia.org/wikipedia/commons/3/37/Australian_savanna.jpg",
+    "갈기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Schwarzwaelder-kaltblut.jpg/500px-Schwarzwaelder-kaltblut.jpg",
+    "성적 이형성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Male_and_female_pheasant.jpg/500px-Male_and_female_pheasant.jpg"
+   }
   },
   {
    "word": "코알라",
@@ -104,7 +147,14 @@
     "뉴사우스웨일스",
     "퀸즐랜드",
     "웜뱃"
-   ]
+   ],
+   "photos": {
+    "오스트레일리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/500px-Flag_of_Australia_%28converted%29.svg.png",
+    "유대류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Kangaroo_and_joey03.jpg/500px-Kangaroo_and_joey03.jpg",
+    "뉴사우스웨일스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_New_South_Wales.svg/500px-Flag_of_New_South_Wales.svg.png",
+    "퀸즐랜드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Flag_of_Queensland.svg/500px-Flag_of_Queensland.svg.png",
+    "웜뱃": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Vombatus_ursinus_%28Wombat_in_snow%29.jpg/500px-Vombatus_ursinus_%28Wombat_in_snow%29.jpg"
+   }
   },
   {
    "word": "캥거루",
@@ -117,7 +167,12 @@
     "유대류",
     "애버리진",
     "왈라비"
-   ]
+   ],
+   "photos": {
+    "오스트레일리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/500px-Flag_of_Australia_%28converted%29.svg.png",
+    "단백질": "https://upload.wikimedia.org/wikipedia/commons/9/90/G-Protein.png",
+    "애버리진": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Australian_Aboriginal_Flag.svg/500px-Australian_Aboriginal_Flag.svg.png"
+   }
   },
   {
    "word": "하마",
@@ -130,7 +185,13 @@
     "우제류",
     "습지",
     "반수생"
-   ]
+   ],
+   "photos": {
+    "강": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/MariaValeriaBridge.jpg/500px-MariaValeriaBridge.jpg",
+    "호수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG/500px-Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG",
+    "우제류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg/500px-07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg",
+    "반수생": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Wild_Platypus_4.jpg/500px-Wild_Platypus_4.jpg"
+   }
   },
   {
    "word": "코뿔소",
@@ -143,7 +204,13 @@
     "아랍 연맹",
     "한방",
     "네팔"
-   ]
+   ],
+   "photos": {
+    "아프리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Africa_%28orthographic_projection%29.svg/500px-Africa_%28orthographic_projection%29.svg.png",
+    "코끼리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Elephant_near_ndutu.jpg/500px-Elephant_near_ndutu.jpg",
+    "아랍 연맹": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Flag_of_the_Arab_League.svg/500px-Flag_of_the_Arab_League.svg.png",
+    "네팔": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Nepal_%28orthographic_projection%29.svg/500px-Nepal_%28orthographic_projection%29.svg.png"
+   }
   },
   {
    "word": "낙타",
@@ -156,7 +223,13 @@
     "라마",
     "사막",
     "북아프리카"
-   ]
+   ],
+   "photos": {
+    "서아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Western_Asia_%28orthographic_projection%29.svg/500px-Western_Asia_%28orthographic_projection%29.svg.png",
+    "라마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Lama3.jpg/500px-Lama3.jpg",
+    "사막": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Libya_5230_Wan_Caza_Dunes_Luca_Galuzzi_2007.jpg/500px-Libya_5230_Wan_Caza_Dunes_Luca_Galuzzi_2007.jpg",
+    "북아프리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/North_Africa_%28orthographic_projection%29.svg/500px-North_Africa_%28orthographic_projection%29.svg.png"
+   }
   },
   {
    "word": "원숭이",
@@ -169,7 +242,12 @@
     "협비원류",
     "유인원",
     "광비원류"
-   ]
+   ],
+   "photos": {
+    "인간": "https://upload.wikimedia.org/wikipedia/commons/6/68/Akha_cropped_hires.JPG",
+    "영장류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Lemur_catta_001.jpg/500px-Lemur_catta_001.jpg",
+    "협비원류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Drill_and_Gorilla_.jpg/500px-Drill_and_Gorilla_.jpg"
+   }
   },
   {
    "word": "고릴라",
@@ -182,7 +260,14 @@
     "비룽가산맥",
     "침팬지속",
     "초식 동물"
-   ]
+   ],
+   "photos": {
+    "영장류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Lemur_catta_001.jpg/500px-Lemur_catta_001.jpg",
+    "운무림": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Cloud_forest_world_distribution.jpg/500px-Cloud_forest_world_distribution.jpg",
+    "비룽가산맥": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Nyiragongo2004.jpg/500px-Nyiragongo2004.jpg",
+    "침팬지속": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Composite_image_of_male_chimpanzee_%28left%29_and_male_bonobo_%28right%29.jpg/500px-Composite_image_of_male_chimpanzee_%28left%29_and_male_bonobo_%28right%29.jpg",
+    "초식 동물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/White-tailed_deer_%28Odocoileus_virginianus%29_grazing_-_20050809.jpg/500px-White-tailed_deer_%28Odocoileus_virginianus%29_grazing_-_20050809.jpg"
+   }
   },
   {
    "word": "여우",
@@ -195,7 +280,12 @@
     "귀",
     "개",
     "주둥이"
-   ]
+   ],
+   "photos": {
+    "털": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Borsten_ausgewachsenes_Mangalitza-Schwein.JPG/500px-Borsten_ausgewachsenes_Mangalitza-Schwein.JPG",
+    "개": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Coat_types_3.jpg/500px-Coat_types_3.jpg",
+    "주둥이": "https://upload.wikimedia.org/wikipedia/commons/4/44/Mouth_by_David_Shankbone.jpg"
+   }
   },
   {
    "word": "북극곰",
@@ -208,7 +298,14 @@
     "육식성",
     "북극권",
     "북빙양"
-   ]
+   ],
+   "photos": {
+    "잡종": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Juancito.jpg/500px-Juancito.jpg",
+    "불곰": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/500px-2010-kodiak-bear-1.jpg",
+    "육식성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Carnivore-lion.jpg/500px-Carnivore-lion.jpg",
+    "북극권": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/World_map_with_arctic_circle.svg/500px-World_map_with_arctic_circle.svg.png",
+    "북빙양": "https://upload.wikimedia.org/wikipedia/commons/5/59/Arctic_Ocean_-_en.png"
+   }
   },
   {
    "word": "너구리",
@@ -221,7 +318,13 @@
     "훈몽자회",
     "침입종",
     "훈민정음해례"
-   ]
+   ],
+   "photos": {
+    "동아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/East_Asia_%28orthographic_projection%29.svg/500px-East_Asia_%28orthographic_projection%29.svg.png",
+    "훈몽자회": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/%ED%9B%88%EB%AA%BD%EC%9E%90%ED%9A%8C%281%29.jpg/500px-%ED%9B%88%EB%AA%BD%EC%9E%90%ED%9A%8C%281%29.jpg",
+    "침입종": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Beaver_dam_in_Tierra_del_Fuego.jpg/500px-Beaver_dam_in_Tierra_del_Fuego.jpg",
+    "훈민정음해례": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Hunminjeongum.jpg/500px-Hunminjeongum.jpg"
+   }
   },
   {
    "word": "다람쥐",
@@ -236,7 +339,12 @@
     "땅청서",
     "오세아니아",
     "청설모"
-   ]
+   ],
+   "photos": {
+    "남극": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Antarctica_%28orthographic_projection%29.svg/500px-Antarctica_%28orthographic_projection%29.svg.png",
+    "마못": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Alpine_Marmot.jpg/500px-Alpine_Marmot.jpg",
+    "오세아니아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Oceania_%28orthographic_projection%29.svg/500px-Oceania_%28orthographic_projection%29.svg.png"
+   }
   },
   {
    "word": "거북",
@@ -248,7 +356,12 @@
     "식물",
     "파충류",
     "생태계"
-   ]
+   ],
+   "photos": {
+    "물고기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Georgia_Aquarium_-_Giant_Grouper_edit.jpg/500px-Georgia_Aquarium_-_Giant_Grouper_edit.jpg",
+    "식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/500px-Diversity_of_plants_%28Streptophyta%29_version_2.png",
+    "생태계": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Blue_Linckia_Starfish.JPG/500px-Blue_Linckia_Starfish.JPG"
+   }
   },
   {
    "word": "악어",
@@ -261,7 +374,11 @@
     "누",
     "가젤",
     "공룡"
-   ]
+   ],
+   "photos": {
+    "가젤": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Chinkara_-_Shreeram_M_V_-_Bikaner.jpg/500px-Chinkara_-_Shreeram_M_V_-_Bikaner.jpg",
+    "공룡": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Various_dinosaurs.png/500px-Various_dinosaurs.png"
+   }
   },
   {
    "word": "홍학",
@@ -274,7 +391,12 @@
     "베타카로틴",
     "신조류",
     "고악류"
-   ]
+   ],
+   "photos": {
+    "베타카로틴": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/%CE%92-Carotene_powder.jpg/500px-%CE%92-Carotene_powder.jpg",
+    "신조류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Toulouse_-_Sturnus_vulgaris_-_2012-02-26_-_3.jpg/500px-Toulouse_-_Sturnus_vulgaris_-_2012-02-26_-_3.jpg",
+    "고악류": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Kiwifugl.jpg"
+   }
   },
   {
    "word": "비둘기",
@@ -287,7 +409,11 @@
     "월인석보",
     "비오리",
     "평화"
-   ]
+   ],
+   "photos": {
+    "닭": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Male_and_female_chicken_sitting_together.jpg/500px-Male_and_female_chicken_sitting_together.jpg",
+    "비오리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Mergus_merganser%2C_female_and_male%2C_Vaxholm%2C_Sweden.jpg/500px-Mergus_merganser%2C_female_and_male%2C_Vaxholm%2C_Sweden.jpg"
+   }
   },
   {
    "word": "참새",
@@ -299,7 +425,12 @@
     "시베리아",
     "대만",
     "텃새"
-   ]
+   ],
+   "photos": {
+    "유라시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Eurasia_%28orthographic_projection%29.svg/500px-Eurasia_%28orthographic_projection%29.svg.png",
+    "시베리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Siberia_%28orthographic_projection%29.svg/500px-Siberia_%28orthographic_projection%29.svg.png",
+    "대만": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Taiwan_NASA_Terra_MODIS_23791.jpg/500px-Taiwan_NASA_Terra_MODIS_23791.jpg"
+   }
   },
   {
    "word": "오리",
@@ -312,7 +443,13 @@
     "벌레",
     "논밭",
     "원앙"
-   ]
+   ],
+   "photos": {
+    "벼": "https://upload.wikimedia.org/wikipedia/commons/2/27/Oryza_sativa_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-232.jpg",
+    "농사": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Tomb_of_Nakht_%282%29.jpg/500px-Tomb_of_Nakht_%282%29.jpg",
+    "벌레": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Regenwurm1.jpg/500px-Regenwurm1.jpg",
+    "논밭": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Iglesia_de_Nuestra_Se%C3%B1ora_de_La_Blanca%2C_Cardej%C3%B3n%2C_Espa%C3%B1a%2C_2012-09-01%2C_DD_02.JPG/500px-Iglesia_de_Nuestra_Se%C3%B1ora_de_La_Blanca%2C_Cardej%C3%B3n%2C_Espa%C3%B1a%2C_2012-09-01%2C_DD_02.JPG"
+   }
   },
   {
    "word": "닭",
@@ -325,7 +462,12 @@
     "가축화",
     "알",
     "적색야계"
-   ]
+   ],
+   "photos": {
+    "가축": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Sheep_and_cow_in_South_Africa.jpg/500px-Sheep_and_cow_in_South_Africa.jpg",
+    "가축화": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Shepherd_Dog.jpg",
+    "알": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Adolphe_Millot_oeufs-fixed.jpg/500px-Adolphe_Millot_oeufs-fixed.jpg"
+   }
   },
   {
    "word": "펠리컨",
@@ -340,7 +482,12 @@
     "회색사다새",
     "갈색사다새",
     "부리"
-   ]
+   ],
+   "photos": {
+    "온대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Four_seasons.jpg/500px-Four_seasons.jpg",
+    "회색사다새": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Pelecanus_Philippensis.JPG/500px-Pelecanus_Philippensis.JPG",
+    "갈색사다새": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Brown_Pelican21K.jpg/500px-Brown_Pelican21K.jpg"
+   }
   },
   {
    "word": "돌고래",
@@ -353,7 +500,11 @@
     "꼬리지느러미",
     "범고래",
     "이빨고래류"
-   ]
+   ],
+   "photos": {
+    "꼬리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/White-tailed_deer%2C_tail_up.jpg/500px-White-tailed_deer%2C_tail_up.jpg",
+    "꼬리지느러미": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Barb_gonio_080525_9610_ltn_Cf.jpg/500px-Barb_gonio_080525_9610_ltn_Cf.jpg"
+   }
   },
   {
    "word": "고래",
@@ -366,7 +517,12 @@
     "피하지방",
     "척추",
     "분수공"
-   ]
+   ],
+   "photos": {
+    "꼬리지느러미": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Barb_gonio_080525_9610_ltn_Cf.jpg/500px-Barb_gonio_080525_9610_ltn_Cf.jpg",
+    "피하지방": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Skin.png/500px-Skin.png",
+    "분수공": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Taeniura_lymma_by_Marek_Jakubowski.jpg/500px-Taeniura_lymma_by_Marek_Jakubowski.jpg"
+   }
   },
   {
    "word": "상어",
@@ -379,7 +535,11 @@
     "백상아리",
     "어류",
     "연골어류"
-   ]
+   ],
+   "photos": {
+    "고래": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Baleine_%C3%A0_bosse_et_son_baleineau_2.jpg/500px-Baleine_%C3%A0_bosse_et_son_baleineau_2.jpg",
+    "어류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Georgia_Aquarium_-_Giant_Grouper_edit.jpg/500px-Georgia_Aquarium_-_Giant_Grouper_edit.jpg"
+   }
   },
   {
    "word": "오징어",
@@ -392,7 +552,12 @@
     "한치",
     "낙지",
     "꼴뚜기"
-   ]
+   ],
+   "photos": {
+    "한반도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Korea_satelliet.jpg/500px-Korea_satelliet.jpg",
+    "연체동물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Common_snail.jpg/500px-Common_snail.jpg",
+    "낙지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Octopus_minor_by_OpenCage.jpg/500px-Octopus_minor_by_OpenCage.jpg"
+   }
   },
   {
    "word": "해파리",
@@ -405,7 +570,13 @@
     "젤리",
     "골격",
     "무척추동물"
-   ]
+   ],
+   "photos": {
+    "종이": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Paper_450x450.jpg",
+    "부력": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Buoyancy.svg/500px-Buoyancy.svg.png",
+    "젤리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Rainbow-Jello-Cut-2004-Jul-30.jpg/500px-Rainbow-Jello-Cut-2004-Jul-30.jpg",
+    "골격": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Horse_and_Man.jpg/500px-Horse_and_Man.jpg"
+   }
   },
   {
    "word": "게",
@@ -418,7 +589,13 @@
     "디스토마",
     "조개류",
     "관절"
-   ]
+   ],
+   "photos": {
+    "갑각류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Nur01521_-_Flickr_-_NOAA_Photo_Library.jpg/500px-Nur01521_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "디스토마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Botulus_microporus.jpg/500px-Botulus_microporus.jpg",
+    "조개류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Seashells_in_the_basket.jpg/500px-Seashells_in_the_basket.jpg",
+    "관절": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Carpus.png/500px-Carpus.png"
+   }
   },
   {
    "word": "새우",
@@ -431,7 +608,13 @@
     "소라게",
     "연갑류",
     "절지동물"
-   ]
+   ],
+   "photos": {
+    "게": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Eriphia_verrucosa_male_2009_G5.jpg/500px-Eriphia_verrucosa_male_2009_G5.jpg",
+    "갑각류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Nur01521_-_Flickr_-_NOAA_Photo_Library.jpg/500px-Nur01521_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "소라게": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Calliactis_and_Dardanus_001.JPG/500px-Calliactis_and_Dardanus_001.JPG",
+    "연갑류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/EriocheirSinensis1.jpg/500px-EriocheirSinensis1.jpg"
+   }
   },
   {
    "word": "나비",
@@ -444,7 +627,13 @@
     "화석",
     "생물다양성",
     "대형나방류"
-   ]
+   ],
+   "photos": {
+    "곤충": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Insect_collage.png/500px-Insect_collage.png",
+    "속씨식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Rosa_arvensis%2C_flower.jpg/500px-Rosa_arvensis%2C_flower.jpg",
+    "화석": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Palais_de_la_Decouverte_Tyrannosaurus_rex_p1050042.jpg/500px-Palais_de_la_Decouverte_Tyrannosaurus_rex_p1050042.jpg",
+    "대형나방류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Acronicta.psi.7153.jpg/500px-Acronicta.psi.7153.jpg"
+   }
   },
   {
    "word": "무당벌레",
@@ -457,7 +646,14 @@
     "진딧물",
     "동아시아",
     "깍지벌레"
-   ]
+   ],
+   "photos": {
+    "북아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Location_North_America.svg/500px-Location_North_America.svg.png",
+    "곤충": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Insect_collage.png/500px-Insect_collage.png",
+    "진딧물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Aphidoidea_fight.jpg/500px-Aphidoidea_fight.jpg",
+    "동아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/East_Asia_%28orthographic_projection%29.svg/500px-East_Asia_%28orthographic_projection%29.svg.png",
+    "깍지벌레": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Wax_Scale.jpg/500px-Wax_Scale.jpg"
+   }
   },
   {
    "word": "잠자리",
@@ -470,7 +666,13 @@
     "곤충",
     "각다귀",
     "올챙이"
-   ]
+   ],
+   "photos": {
+    "물고기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Georgia_Aquarium_-_Giant_Grouper_edit.jpg/500px-Georgia_Aquarium_-_Giant_Grouper_edit.jpg",
+    "알": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Adolphe_Millot_oeufs-fixed.jpg/500px-Adolphe_Millot_oeufs-fixed.jpg",
+    "곤충": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Insect_collage.png/500px-Insect_collage.png",
+    "올챙이": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Bullfrog_Tadpole.jpg/500px-Bullfrog_Tadpole.jpg"
+   }
   },
   {
    "word": "개미",
@@ -483,7 +685,13 @@
     "진화",
     "벌",
     "사회성 곤충"
-   ]
+   ],
+   "photos": {
+    "백악기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Mollweide_Paleographic_Map_of_Earth%2C_105_Ma_%28Albian_Age%29.png/500px-Mollweide_Paleographic_Map_of_Earth%2C_105_Ma_%28Albian_Age%29.png",
+    "속씨식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Rosa_arvensis%2C_flower.jpg/500px-Rosa_arvensis%2C_flower.jpg",
+    "진화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/CollapsedtreeLabels-simplified.svg/500px-CollapsedtreeLabels-simplified.svg.png",
+    "사회성 곤충": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Revisando_las_larvas_de_una_colmenas.jpg/500px-Revisando_las_larvas_de_una_colmenas.jpg"
+   }
   },
   {
    "word": "달팽이",
@@ -496,7 +704,11 @@
     "복족류",
     "석탄기",
     "병안류"
-   ]
+   ],
+   "photos": {
+    "고생대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Mollweide_Paleographic_Map_of_Earth%2C_390_Ma_%28Eifelian_Age%29.png/500px-Mollweide_Paleographic_Map_of_Earth%2C_390_Ma_%28Eifelian_Age%29.png",
+    "석탄기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Mollweide_Paleographic_Map_of_Earth%2C_330_Ma_%28Serpukhovian_Age%29.png/500px-Mollweide_Paleographic_Map_of_Earth%2C_330_Ma_%28Serpukhovian_Age%29.png"
+   }
   },
   {
    "word": "소",
@@ -509,7 +721,13 @@
     "가축",
     "돼지고기",
     "초식동물"
-   ]
+   ],
+   "photos": {
+    "이집트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/500px-Flag_of_Egypt.svg.png",
+    "가축화": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Shepherd_Dog.jpg",
+    "돼지고기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Schweinebauch-2.jpg/500px-Schweinebauch-2.jpg",
+    "초식동물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/White-tailed_deer_%28Odocoileus_virginianus%29_grazing_-_20050809.jpg/500px-White-tailed_deer_%28Odocoileus_virginianus%29_grazing_-_20050809.jpg"
+   }
   },
   {
    "word": "말",
@@ -522,7 +740,12 @@
     "마콩",
     "신석기",
     "에오히푸스"
-   ]
+   ],
+   "photos": {
+    "가축": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Sheep_and_cow_in_South_Africa.jpg/500px-Sheep_and_cow_in_South_Africa.jpg",
+    "마콩": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Localisation_de_M%C3%A2con_%2871%29.svg/500px-Localisation_de_M%C3%A2con_%2871%29.svg.png",
+    "신석기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Prehistoric_life-amsa_exhibition.jpg/500px-Prehistoric_life-amsa_exhibition.jpg"
+   }
   },
   {
    "word": "돼지",
@@ -535,7 +758,13 @@
     "야생화",
     "근동",
     "돌고래"
-   ]
+   ],
+   "photos": {
+    "가축화": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Shepherd_Dog.jpg",
+    "뉴질랜드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/500px-Flag_of_New_Zealand.svg.png",
+    "근동": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Ancient_Orient.png/500px-Ancient_Orient.png",
+    "돌고래": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/NMMP_dolphin_with_locator.jpeg/500px-NMMP_dolphin_with_locator.jpeg"
+   }
   },
   {
    "word": "양",
@@ -548,7 +777,12 @@
     "농업",
     "무플론",
     "아르갈리"
-   ]
+   ],
+   "photos": {
+    "가축화": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Shepherd_Dog.jpg",
+    "우제류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg/500px-07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg",
+    "농업": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Tomb_of_Nakht_%282%29.jpg/500px-Tomb_of_Nakht_%282%29.jpg"
+   }
   },
   {
    "word": "염소",
@@ -561,7 +795,13 @@
     "토겐부르크",
     "자넨",
     "양"
-   ]
+   ],
+   "photos": {
+    "스위스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/500px-Flag_of_Switzerland_%28Pantone%29.svg.png",
+    "토겐부르크": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Toggenburg_Ostende.jpg/500px-Toggenburg_Ostende.jpg",
+    "자넨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Saanen_Winter.jpg/500px-Saanen_Winter.jpg",
+    "양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Flock_of_sheep.jpg/500px-Flock_of_sheep.jpg"
+   }
   },
   {
    "word": "사슴",
@@ -574,7 +814,12 @@
     "사불상",
     "순록",
     "노루"
-   ]
+   ],
+   "photos": {
+    "우제류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg/500px-07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg",
+    "고라니": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Hydropotes_inermis_male.JPG/500px-Hydropotes_inermis_male.JPG",
+    "순록": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Reinbukken_p%C3%A5_frisk_gr%C3%B8nt_beite._-_panoramio.jpg/500px-Reinbukken_p%C3%A5_frisk_gr%C3%B8nt_beite._-_panoramio.jpg"
+   }
   },
   {
    "word": "알파카",
@@ -587,7 +832,11 @@
     "페루",
     "비쿠냐",
     "라마"
-   ]
+   ],
+   "photos": {
+    "남아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/South_America_%28orthographic_projection%29.svg/500px-South_America_%28orthographic_projection%29.svg.png",
+    "페루": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Flag_of_Peru.svg/500px-Flag_of_Peru.svg.png"
+   }
   },
   {
    "word": "수달",
@@ -600,7 +849,12 @@
     "귀",
     "근육",
     "족제비"
-   ]
+   ],
+   "photos": {
+    "꼬리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/White-tailed_deer%2C_tail_up.jpg/500px-White-tailed_deer%2C_tail_up.jpg",
+    "근육": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Musculi_colli_stylohyoideus.svg/500px-Musculi_colli_stylohyoideus.svg.png",
+    "족제비": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Siberian_weasel.jpeg/500px-Siberian_weasel.jpeg"
+   }
   },
   {
    "word": "공룡",
@@ -613,7 +867,10 @@
     "수장룡",
     "어룡",
     "익룡"
-   ]
+   ],
+   "photos": {
+    "트라이아스기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Mollweide_Paleographic_Map_of_Earth%2C_225_Ma_%28Norian_Age%29.png/500px-Mollweide_Paleographic_Map_of_Earth%2C_225_Ma_%28Norian_Age%29.png"
+   }
   },
   {
    "word": "파인애플",
@@ -626,7 +883,12 @@
     "여러해살이풀",
     "온실",
     "겹열매"
-   ]
+   ],
+   "photos": {
+    "남아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/South_America_%28orthographic_projection%29.svg/500px-South_America_%28orthographic_projection%29.svg.png",
+    "여러해살이풀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Rosmarinus_officinalis133095382.jpg/500px-Rosmarinus_officinalis133095382.jpg",
+    "온실": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Botanischer_Garten_BS.Seerosen.jpg/500px-Botanischer_Garten_BS.Seerosen.jpg"
+   }
   },
   {
    "word": "옥수수",
@@ -639,7 +901,12 @@
     "펠라그라병",
     "사료",
     "한해살이 식물"
-   ]
+   ],
+   "photos": {
+    "밀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Naked_wheat%28Triticum_aestivum%29_in_Nepal-September_27%2C_2016-IMG_8015.jpg/500px-Naked_wheat%28Triticum_aestivum%29_in_Nepal-September_27%2C_2016-IMG_8015.jpg",
+    "펠라그라병": "https://upload.wikimedia.org/wikipedia/commons/1/13/Pellagra_NIH.jpg",
+    "한해살이 식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Doperwt_rijserwt_peulen_Pisum_sativum.jpg/500px-Doperwt_rijserwt_peulen_Pisum_sativum.jpg"
+   }
   },
   {
    "word": "바나나",
@@ -652,7 +919,12 @@
     "브라질",
     "말레이시아",
     "필리핀"
-   ]
+   ],
+   "photos": {
+    "브라질": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/500px-Flag_of_Brazil.svg.png",
+    "말레이시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Flag_of_Malaysia.svg/500px-Flag_of_Malaysia.svg.png",
+    "필리핀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Flag_of_the_Philippines.svg/500px-Flag_of_the_Philippines.svg.png"
+   }
   },
   {
    "word": "아보카도",
@@ -665,7 +937,12 @@
     "불포화 지방산",
     "아메리카",
     "항산화물질"
-   ]
+   ],
+   "photos": {
+    "페루": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Flag_of_Peru.svg/500px-Flag_of_Peru.svg.png",
+    "베타카로틴": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/%CE%92-Carotene_powder.jpg/500px-%CE%92-Carotene_powder.jpg",
+    "아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Americas_%28orthographic_projection%29.svg/500px-Americas_%28orthographic_projection%29.svg.png"
+   }
   },
   {
    "word": "피자",
@@ -678,7 +955,12 @@
     "이탈리아 요리",
     "도우",
     "나폴리 요리"
-   ]
+   ],
+   "photos": {
+    "토마토": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Lycopersicum_philippinarum_Blanco1.43b.jpg/500px-Lycopersicum_philippinarum_Blanco1.43b.jpg",
+    "이탈리아 요리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Tagliatelle_al_rag%C3%B9_%28image_modified%29.jpg/500px-Tagliatelle_al_rag%C3%B9_%28image_modified%29.jpg",
+    "나폴리 요리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Spaghetti_vongole_2.jpg/500px-Spaghetti_vongole_2.jpg"
+   }
   },
   {
    "word": "김밥",
@@ -691,7 +973,14 @@
     "당근",
     "단무지",
     "시금치"
-   ]
+   ],
+   "photos": {
+    "소금": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Table_salt_with_salt_shaker_V1.jpg/500px-Table_salt_with_salt_shaker_V1.jpg",
+    "참기름": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Sesame_oil.jpg/500px-Sesame_oil.jpg",
+    "당근": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Carrots_with_stems.jpg/500px-Carrots_with_stems.jpg",
+    "단무지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Takuan_by_-puamelia-.jpg/500px-Takuan_by_-puamelia-.jpg",
+    "시금치": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/500px-Spinacia_oleracea_Spinazie_bloeiend.jpg"
+   }
   },
   {
    "word": "레몬",
@@ -704,7 +993,12 @@
     "시트론",
     "쓴귤",
     "교잡"
-   ]
+   ],
+   "photos": {
+    "잡종": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Juancito.jpg/500px-Juancito.jpg",
+    "상록식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Abies_alba_02.jpg/500px-Abies_alba_02.jpg",
+    "쓴귤": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Bitter_oranges.jpg/500px-Bitter_oranges.jpg"
+   }
   },
   {
    "word": "사과",
@@ -717,7 +1011,14 @@
     "커리",
     "샐러드",
     "사이안화물"
-   ]
+   ],
+   "photos": {
+    "그리스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/500px-Flag_of_Greece.svg.png",
+    "번식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Kalanchoe_veg.jpg/500px-Kalanchoe_veg.jpg",
+    "커리": "https://upload.wikimedia.org/wikipedia/commons/6/69/Curry_-_Indian_cuisine.jpg",
+    "샐러드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Salad_platter.jpg/500px-Salad_platter.jpg",
+    "사이안화물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Cyanide-montage.png/500px-Cyanide-montage.png"
+   }
   },
   {
    "word": "체리",
@@ -732,7 +1033,13 @@
     "앵두",
     "제주벚나무",
     "양벚나무"
-   ]
+   ],
+   "photos": {
+    "벚나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/20150318Prunus_serrulata3.jpg/500px-20150318Prunus_serrulata3.jpg",
+    "앵두": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Prunus_tomentosa_leaves.jpg/500px-Prunus_tomentosa_leaves.jpg",
+    "제주벚나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Prunus_%C3%97_nudiflora_flower.jpg/500px-Prunus_%C3%97_nudiflora_flower.jpg",
+    "양벚나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Vitoria_-_Huertas_de_Ol%C3%A1rizu_-_Prunus_avium_-BT-_01.jpg/500px-Vitoria_-_Huertas_de_Ol%C3%A1rizu_-_Prunus_avium_-BT-_01.jpg"
+   }
   },
   {
    "word": "복숭아",
@@ -745,7 +1052,12 @@
     "사과나무",
     "간쑤성",
     "산시성"
-   ]
+   ],
+   "photos": {
+    "사과나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/Apple_Tree_Flower_Blossoms_Macro_PLT-FL-AB-6.jpg/500px-Apple_Tree_Flower_Blossoms_Macro_PLT-FL-AB-6.jpg",
+    "간쑤성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/JiayuguanFort.jpg/500px-JiayuguanFort.jpg",
+    "산시성": "https://upload.wikimedia.org/wikipedia/commons/a/a6/China-Shaanxi.png"
+   }
   },
   {
    "word": "망고",
@@ -758,7 +1070,12 @@
     "카로틴",
     "후식",
     "음료수"
-   ]
+   ],
+   "photos": {
+    "아이스크림": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Ice_cream_with_whipped_cream%2C_chocolate_syrup%2C_and_a_wafer_%28cropped%29.jpg/500px-Ice_cream_with_whipped_cream%2C_chocolate_syrup%2C_and_a_wafer_%28cropped%29.jpg",
+    "후식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Desserts.jpg/500px-Desserts.jpg",
+    "음료수": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Drinking_water.jpg"
+   }
   },
   {
    "word": "귤",
@@ -773,7 +1090,12 @@
     "라임",
     "레몬",
     "오렌지"
-   ]
+   ],
+   "photos": {
+    "구연산": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Citric-acid-3D-balls.png/500px-Citric-acid-3D-balls.png",
+    "유자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Yuzu_oranges_%286459456959%29.jpg/500px-Yuzu_oranges_%286459456959%29.jpg",
+    "오렌지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Oranges_-_whole-halved-segment.jpg/500px-Oranges_-_whole-halved-segment.jpg"
+   }
   },
   {
    "word": "블루베리",
@@ -786,7 +1108,13 @@
     "산앵도나무",
     "포도",
     "쌍떡잎식물"
-   ]
+   ],
+   "photos": {
+    "북아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Location_North_America.svg/500px-Location_North_America.svg.png",
+    "산앵도나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Vaccinium_koreanum%2C_Korean_bluberry_1.jpg/500px-Vaccinium_koreanum%2C_Korean_bluberry_1.jpg",
+    "포도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Abhar-iran.JPG/500px-Abhar-iran.JPG",
+    "쌍떡잎식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Young_castor_bean_plant_showing_prominent_cotyledons.jpg/500px-Young_castor_bean_plant_showing_prominent_cotyledons.jpg"
+   }
   },
   {
    "word": "석류",
@@ -801,7 +1129,14 @@
     "구충제",
     "청량음료",
     "파키스탄"
-   ]
+   ],
+   "photos": {
+    "남아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/South_Asia_%28orthographic_projection%29_without_national_boundaries.svg/500px-South_Asia_%28orthographic_projection%29_without_national_boundaries.svg.png",
+    "이란": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Flag_of_Iran.svg/500px-Flag_of_Iran.svg.png",
+    "구충제": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Anthelmintic_effect_of_papain_on_Heligmosomoides_bakeri.ogv/330px--Anthelmintic_effect_of_papain_on_Heligmosomoides_bakeri.ogv.jpg",
+    "청량음료": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Tumbler_of_cola_with_ice.jpg",
+    "파키스탄": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Flag_of_Pakistan.svg/500px-Flag_of_Pakistan.svg.png"
+   }
   },
   {
    "word": "토마토",
@@ -814,7 +1149,12 @@
     "식물",
     "노란색",
     "라틴아메리카"
-   ]
+   ],
+   "photos": {
+    "꽃": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Flores.gif",
+    "식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/500px-Diversity_of_plants_%28Streptophyta%29_version_2.png",
+    "라틴아메리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Latin_America_%28orthographic_projection%29.svg/500px-Latin_America_%28orthographic_projection%29.svg.png"
+   }
   },
   {
    "word": "마늘",
@@ -827,7 +1167,14 @@
     "여러해살이풀",
     "장건",
     "삼국유사"
-   ]
+   ],
+   "photos": {
+    "중앙아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Central_Asia_%28orthographic_projection%29.svg/500px-Central_Asia_%28orthographic_projection%29.svg.png",
+    "한나라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Han_Dynasty_60_BC_%28orthographic_projection%29.png/500px-Han_Dynasty_60_BC_%28orthographic_projection%29.png",
+    "여러해살이풀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Rosmarinus_officinalis133095382.jpg/500px-Rosmarinus_officinalis133095382.jpg",
+    "장건": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/ZhangQianTravels.jpg/500px-ZhangQianTravels.jpg",
+    "삼국유사": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/%EC%82%BC%EA%B5%AD%EC%9C%A0%EC%82%AC_%EA%B6%8C1~2_04.jpg/500px-%EC%82%BC%EA%B5%AD%EC%9C%A0%EC%82%AC_%EA%B6%8C1~2_04.jpg"
+   }
   },
   {
    "word": "감자",
@@ -840,7 +1187,13 @@
     "고구마",
     "옥수수",
     "여러해살이 식물"
-   ]
+   ],
+   "photos": {
+    "밀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Naked_wheat%28Triticum_aestivum%29_in_Nepal-September_27%2C_2016-IMG_8015.jpg/500px-Naked_wheat%28Triticum_aestivum%29_in_Nepal-September_27%2C_2016-IMG_8015.jpg",
+    "벼": "https://upload.wikimedia.org/wikipedia/commons/2/27/Oryza_sativa_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-232.jpg",
+    "고구마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Ipomoea_batatasL_ja01.jpg/500px-Ipomoea_batatasL_ja01.jpg",
+    "여러해살이 식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Rosmarinus_officinalis133095382.jpg/500px-Rosmarinus_officinalis133095382.jpg"
+   }
   },
   {
    "word": "호박",
@@ -853,7 +1206,14 @@
     "덩굴식물",
     "류큐국",
     "성종실록"
-   ]
+   ],
+   "photos": {
+    "일제강점기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_Japan_%281870%E2%80%931999%29.svg/500px-Flag_of_Japan_%281870%E2%80%931999%29.svg.png",
+    "임진왜란": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Busanjinsunjeoldo.jpg/500px-Busanjinsunjeoldo.jpg",
+    "덩굴식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Vine.jpg/500px-Vine.jpg",
+    "류큐국": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Fictional_Flag_of_Ryukyu.svg/500px-Fictional_Flag_of_Ryukyu.svg.png",
+    "성종실록": "https://upload.wikimedia.org/wikipedia/commons/3/39/%EC%84%B1%EC%A2%85%EC%8B%A4%EB%A1%9D_%ED%91%9C%EC%A7%80.gif"
+   }
   },
   {
    "word": "오이",
@@ -866,7 +1226,14 @@
     "전라남도",
     "인제군",
     "한해살이"
-   ]
+   ],
+   "photos": {
+    "강원도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Gangwon_Province_%28June_22%2C_1895%29.png/500px-Gangwon_Province_%28June_22%2C_1895%29.png",
+    "덩굴식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Vine.jpg/500px-Vine.jpg",
+    "전라남도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/South_Korea-South_Jeolla.svg/500px-South_Korea-South_Jeolla.svg.png",
+    "인제군": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Map_Inje-gun.PNG/500px-Map_Inje-gun.PNG",
+    "한해살이": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Doperwt_rijserwt_peulen_Pisum_sativum.jpg/500px-Doperwt_rijserwt_peulen_Pisum_sativum.jpg"
+   }
   },
   {
    "word": "가지",
@@ -879,7 +1246,14 @@
     "열대 기후",
     "신라",
     "온대 기후"
-   ]
+   ],
+   "photos": {
+    "나물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/KOCIS_Korea_President_Park_Arirang_Concert_07_%2810552593495%29.jpg/500px-KOCIS_Korea_President_Park_Arirang_Concert_07_%2810552593495%29.jpg",
+    "어원": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/The_story_of_a_word.jpg/500px-The_story_of_a_word.jpg",
+    "열대 기후": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Koppen_classification_worldmap_A.png/500px-Koppen_classification_worldmap_A.png",
+    "신라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Map_of_Silla_%286C%29.png/500px-Map_of_Silla_%286C%29.png",
+    "온대 기후": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Four_seasons.jpg/500px-Four_seasons.jpg"
+   }
   },
   {
    "word": "버섯",
@@ -892,7 +1266,12 @@
     "야생동물",
     "자낭균류",
     "담자균류"
-   ]
+   ],
+   "photos": {
+    "곤충": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Insect_collage.png/500px-Insect_collage.png",
+    "독": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/GHS-pictogram-skull.svg/500px-GHS-pictogram-skull.svg.png",
+    "야생동물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/White-tailed_deer.jpg/500px-White-tailed_deer.jpg"
+   }
   },
   {
    "word": "배추",
@@ -905,7 +1284,13 @@
     "김치",
     "강원특별자치도",
     "순무"
-   ]
+   ],
+   "photos": {
+    "칼슘": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Calcium_unter_Argon_Schutzgasatmosph%C3%A4re.jpg/500px-Calcium_unter_Argon_Schutzgasatmosph%C3%A4re.jpg",
+    "전라도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Jeolla_Province_%28June_22%2C_1895%29.png/500px-Jeolla_Province_%28June_22%2C_1895%29.png",
+    "김치": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Various_kimchi.jpg/500px-Various_kimchi.jpg",
+    "강원특별자치도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/South_Korea-Gangwon.svg/500px-South_Korea-Gangwon.svg.png"
+   }
   },
   {
    "word": "호두",
@@ -918,7 +1303,13 @@
     "사탕",
     "탄수화물",
     "필수 지방산"
-   ]
+   ],
+   "photos": {
+    "우유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Milk_glass.jpg/500px-Milk_glass.jpg",
+    "단백질": "https://upload.wikimedia.org/wikipedia/commons/9/90/G-Protein.png",
+    "사탕": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Candy_in_Damascus.jpg/500px-Candy_in_Damascus.jpg",
+    "탄수화물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Lactose_Haworth.svg/500px-Lactose_Haworth.svg.png"
+   }
   },
   {
    "word": "빵",
@@ -931,7 +1322,13 @@
     "음식",
     "버터",
     "반죽"
-   ]
+   ],
+   "photos": {
+    "소금": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Table_salt_with_salt_shaker_V1.jpg/500px-Table_salt_with_salt_shaker_V1.jpg",
+    "음식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/500px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+    "버터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/NCI_butter.jpg/500px-NCI_butter.jpg",
+    "반죽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Dough.jpg/500px-Dough.jpg"
+   }
   },
   {
    "word": "케이크",
@@ -944,7 +1341,12 @@
     "글루텐",
     "알부민",
     "디저트"
-   ]
+   ],
+   "photos": {
+    "페이스트리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Palmeras_de_hojaldre_1.jpg/500px-Palmeras_de_hojaldre_1.jpg",
+    "글루텐": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Pain_sans_gluten_%C3%A0_la_farine_de_ch%C3%A2taigne_et_charcuterie_corse.jpg/500px-Pain_sans_gluten_%C3%A0_la_farine_de_ch%C3%A2taigne_et_charcuterie_corse.jpg",
+    "알부민": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/PDB_1ao6_EBI.jpg/500px-PDB_1ao6_EBI.jpg"
+   }
   },
   {
    "word": "도넛",
@@ -957,7 +1359,13 @@
     "기름",
     "아침밥",
     "막대"
-   ]
+   ],
+   "photos": {
+    "과자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chum_chums.jpg/500px-Chum_chums.jpg",
+    "캐나다": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/500px-Flag_of_Canada_%28Pantone%29.svg.png",
+    "기름": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Mobil_1_motor_oil.jpg/500px-Mobil_1_motor_oil.jpg",
+    "아침밥": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Floris_Claesz._van_Dyck_001.jpg/500px-Floris_Claesz._van_Dyck_001.jpg"
+   }
   },
   {
    "word": "마카롱",
@@ -970,7 +1378,13 @@
     "아몬드",
     "머랭",
     "흰자"
-   ]
+   ],
+   "photos": {
+    "과자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chum_chums.jpg/500px-Chum_chums.jpg",
+    "아몬드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Almendras_%28Prunus_dulcis%29%2C_Hu%C3%A9rmeda%2C_Espa%C3%B1a_2012-05-19%2C_DD_01.JPG/500px-Almendras_%28Prunus_dulcis%29%2C_Hu%C3%A9rmeda%2C_Espa%C3%B1a_2012-05-19%2C_DD_01.JPG",
+    "머랭": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/Meringues_9027.jpg/500px-Meringues_9027.jpg",
+    "흰자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Chicken_egg01_monovular.jpg/500px-Chicken_egg01_monovular.jpg"
+   }
   },
   {
    "word": "아이스크림",
@@ -983,7 +1397,13 @@
     "코코아",
     "감미료",
     "젖"
-   ]
+   ],
+   "photos": {
+    "초콜릿": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Cocoa_Powder_and_Chocolate_on_Marble_Background.jpg/500px-Cocoa_Powder_and_Chocolate_on_Marble_Background.jpg",
+    "바닐라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Vanilla_6beans.JPG/500px-Vanilla_6beans.JPG",
+    "감미료": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Assugrin_f3453504.jpg/500px-Assugrin_f3453504.jpg",
+    "젖": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Milk_glass.jpg/500px-Milk_glass.jpg"
+   }
   },
   {
    "word": "초콜릿",
@@ -996,7 +1416,14 @@
     "카카오 매스",
     "콩",
     "카카오"
-   ]
+   ],
+   "photos": {
+    "마야 문명": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/500px-Chichen_Itza_3.jpg",
+    "코코아 버터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Cocoa_butter_p1410148.JPG/500px-Cocoa_butter_p1410148.JPG",
+    "카카오 매스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Chocolateliquor.jpg/500px-Chocolateliquor.jpg",
+    "콩": "https://upload.wikimedia.org/wikipedia/commons/1/18/%EC%BD%A9%EA%B9%8D%EC%A7%80.jpg",
+    "카카오": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Cacao_mexico_2008-11-3.jpg/500px-Cacao_mexico_2008-11-3.jpg"
+   }
   },
   {
    "word": "사탕",
@@ -1009,7 +1436,14 @@
     "초콜릿",
     "설탕 대체물",
     "껌"
-   ]
+   ],
+   "photos": {
+    "과자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chum_chums.jpg/500px-Chum_chums.jpg",
+    "채소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Vegetables_2.jpg/500px-Vegetables_2.jpg",
+    "초콜릿": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Cocoa_Powder_and_Chocolate_on_Marble_Background.jpg/500px-Cocoa_Powder_and_Chocolate_on_Marble_Background.jpg",
+    "설탕 대체물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/No-Calorie-Sweetener-Packets.jpg/500px-No-Calorie-Sweetener-Packets.jpg",
+    "껌": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Kaugummis.jpg/500px-Kaugummis.jpg"
+   }
   },
   {
    "word": "햄버거",
@@ -1022,7 +1456,12 @@
     "롤빵",
     "패티",
     "분쇄육"
-   ]
+   ],
+   "photos": {
+    "빵": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Korb_mit_Br%C3%B6tchen.JPG/500px-Korb_mit_Br%C3%B6tchen.JPG",
+    "쇠고기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Standing-rib-roast-MCB.jpg/500px-Standing-rib-roast-MCB.jpg",
+    "롤빵": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Basket_of_rolls.jpg/500px-Basket_of_rolls.jpg"
+   }
   },
   {
    "word": "핫도그",
@@ -1035,7 +1474,14 @@
     "겨자 소스",
     "비너 뷔르스트헨",
     "소시지"
-   ]
+   ],
+   "photos": {
+    "케첩": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Ketchup_20160918_181342_%28cropped%29.jpg/500px-Ketchup_20160918_181342_%28cropped%29.jpg",
+    "타르타르 소스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Chicken_with_tartar_sauce.jpg/500px-Chicken_with_tartar_sauce.jpg",
+    "겨자 소스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/%EA%B2%A8%EC%9E%90%EB%A7%8C.jpg/500px-%EA%B2%A8%EC%9E%90%EB%A7%8C.jpg",
+    "비너 뷔르스트헨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Wiener_Wuerstchen_%28fcm%29.jpg/500px-Wiener_Wuerstchen_%28fcm%29.jpg",
+    "소시지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Kielbasa7.jpg/500px-Kielbasa7.jpg"
+   }
   },
   {
    "word": "샌드위치",
@@ -1048,7 +1494,14 @@
     "치즈",
     "잼",
     "햄"
-   ]
+   ],
+   "photos": {
+    "채소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Vegetables_2.jpg/500px-Vegetables_2.jpg",
+    "버터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/NCI_butter.jpg/500px-NCI_butter.jpg",
+    "치즈": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Cheese_%281105942243%29.jpg/500px-Cheese_%281105942243%29.jpg",
+    "잼": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Marmeladesorten.jpg/500px-Marmeladesorten.jpg",
+    "햄": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/NCI_clove_ham.jpg/500px-NCI_clove_ham.jpg"
+   }
   },
   {
    "word": "스파게티",
@@ -1061,7 +1514,12 @@
     "토마토 소스",
     "파스타",
     "수"
-   ]
+   ],
+   "photos": {
+    "이탈리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/500px-Flag_of_Italy.svg.png",
+    "이탈리아 요리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Tagliatelle_al_rag%C3%B9_%28image_modified%29.jpg/500px-Tagliatelle_al_rag%C3%B9_%28image_modified%29.jpg",
+    "파스타": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/%28Pasta%29_by_David_Adam_Kess_%28pic.2%29.jpg/500px-%28Pasta%29_by_David_Adam_Kess_%28pic.2%29.jpg"
+   }
   },
   {
    "word": "라면",
@@ -1074,7 +1532,10 @@
     "안도 모모후쿠",
     "인스턴트 식품",
     "국수"
-   ]
+   ],
+   "photos": {
+    "국수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Dalian_Liaoning_China_Noodlemaker-01.jpg/500px-Dalian_Liaoning_China_Noodlemaker-01.jpg"
+   }
   },
   {
    "word": "만두",
@@ -1089,7 +1550,13 @@
     "녹말",
     "감자",
     "쌀가루"
-   ]
+   ],
+   "photos": {
+    "빵": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Korb_mit_Br%C3%B6tchen.JPG/500px-Korb_mit_Br%C3%B6tchen.JPG",
+    "녹말": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Cornstarch_mixed_with_water.jpg/500px-Cornstarch_mixed_with_water.jpg",
+    "감자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/234_Solanum_tuberosum_L.jpg/500px-234_Solanum_tuberosum_L.jpg",
+    "쌀가루": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Picture_of_homemade_Rice_flour.JPG/500px-Picture_of_homemade_Rice_flour.JPG"
+   }
   },
   {
    "word": "김치",
@@ -1102,7 +1569,13 @@
     "절이기",
     "굵은 소금",
     "발효식품"
-   ]
+   ],
+   "photos": {
+    "반찬": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/%ED%99%8D%EC%B2%9C%EA%B5%B0_%EB%93%A4%EA%BD%83%EC%8C%88%EB%B0%A5_%EC%82%AC%EA%B3%A8%EC%9A%B0%EA%B1%B0%EC%A7%80%EA%B5%AD_%EB%B0%98%EC%B0%AC_%EB%B0%A5_Wild_Flower_Ssambap_Banchan_IMG_0150.jpg/500px-%ED%99%8D%EC%B2%9C%EA%B5%B0_%EB%93%A4%EA%BD%83%EC%8C%88%EB%B0%A5_%EC%82%AC%EA%B3%A8%EC%9A%B0%EA%B1%B0%EC%A7%80%EA%B5%AD_%EB%B0%98%EC%B0%AC_%EB%B0%A5_Wild_Flower_Ssambap_Banchan_IMG_0150.jpg",
+    "절이기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Pickled_Vegetables.JPG/500px-Pickled_Vegetables.JPG",
+    "굵은 소금": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Korean_sea_salt.jpg/500px-Korean_sea_salt.jpg",
+    "발효식품": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Tomb_of_Nakht_%2813%29.jpg/500px-Tomb_of_Nakht_%2813%29.jpg"
+   }
   },
   {
    "word": "비빔밥",
@@ -1115,7 +1588,14 @@
     "국민 음식",
     "나물",
     "쌀밥"
-   ]
+   ],
+   "photos": {
+    "양념": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Korean_condiments.png/500px-Korean_condiments.png",
+    "고기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/FoodMeat.jpg/500px-FoodMeat.jpg",
+    "국민 음식": "https://upload.wikimedia.org/wikipedia/commons/3/30/Kimchi_11.jpg",
+    "나물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/KOCIS_Korea_President_Park_Arirang_Concert_07_%2810552593495%29.jpg/500px-KOCIS_Korea_President_Park_Arirang_Concert_07_%2810552593495%29.jpg",
+    "쌀밥": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Meshi_001.jpg/500px-Meshi_001.jpg"
+   }
   },
   {
    "word": "초밥",
@@ -1130,7 +1610,11 @@
     "니기리즈시",
     "스메시",
     "와사비"
-   ]
+   ],
+   "photos": {
+    "해산물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Pesce_al_mercato_1.JPG/500px-Pesce_al_mercato_1.JPG",
+    "와사비": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Wasabi_002.jpg/500px-Wasabi_002.jpg"
+   }
   },
   {
    "word": "치즈",
@@ -1143,7 +1627,13 @@
     "터키",
     "양젖",
     "염소젖"
-   ]
+   ],
+   "photos": {
+    "우유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Milk_glass.jpg/500px-Milk_glass.jpg",
+    "터키": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/500px-Flag_of_Turkey.svg.png",
+    "양젖": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Sheep_milking_at_Great_Bircham_Windmill.jpg/500px-Sheep_milking_at_Great_Bircham_Windmill.jpg",
+    "염소젖": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Geitenmelk.jpg/500px-Geitenmelk.jpg"
+   }
   },
   {
    "word": "달걀",
@@ -1156,7 +1646,12 @@
     "닭",
     "부화",
     "세포"
-   ]
+   ],
+   "photos": {
+    "요리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Wiener-Schnitzel02.jpg/500px-Wiener-Schnitzel02.jpg",
+    "닭": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Male_and_female_chicken_sitting_together.jpg/500px-Male_and_female_chicken_sitting_together.jpg",
+    "세포": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Wilson1900Fig2.jpg/500px-Wilson1900Fig2.jpg"
+   }
   },
   {
    "word": "커피",
@@ -1169,7 +1664,12 @@
     "프렌치 프레스",
     "에스프레소",
     "카페인"
-   ]
+   ],
+   "photos": {
+    "음료": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Floris_Claesz._van_Dyck_001.jpg/500px-Floris_Claesz._van_Dyck_001.jpg",
+    "프렌치 프레스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Frenchpress-wiki.jpg/500px-Frenchpress-wiki.jpg",
+    "카페인": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Caffeine_structure.svg/500px-Caffeine_structure.svg.png"
+   }
   },
   {
    "word": "꿀",
@@ -1184,7 +1684,12 @@
     "효소",
     "감로",
     "점성도"
-   ]
+   ],
+   "photos": {
+    "진딧물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Aphidoidea_fight.jpg/500px-Aphidoidea_fight.jpg",
+    "벌통": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Beehives_in_Mankato%2C_Minnesota.jpg/500px-Beehives_in_Mankato%2C_Minnesota.jpg",
+    "효소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Glucosidase_enzyme.png/500px-Glucosidase_enzyme.png"
+   }
   },
   {
    "word": "팝콘",
@@ -1197,7 +1702,14 @@
     "식용유",
     "식품",
     "옥수수 알"
-   ]
+   ],
+   "photos": {
+    "소금": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Table_salt_with_salt_shaker_V1.jpg/500px-Table_salt_with_salt_shaker_V1.jpg",
+    "버터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/NCI_butter.jpg/500px-NCI_butter.jpg",
+    "식용유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Butter_and_Oil_-_NCI_Visuals_Online.jpg/500px-Butter_and_Oil_-_NCI_Visuals_Online.jpg",
+    "식품": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/500px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+    "옥수수 알": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Ab_food_06.jpg/500px-Ab_food_06.jpg"
+   }
   },
   {
    "word": "크루아상",
@@ -1210,7 +1722,14 @@
     "효모",
     "오스트리아",
     "페이스트리"
-   ]
+   ],
+   "photos": {
+    "과자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chum_chums.jpg/500px-Chum_chums.jpg",
+    "빵": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Korb_mit_Br%C3%B6tchen.JPG/500px-Korb_mit_Br%C3%B6tchen.JPG",
+    "효모": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/S_cerevisiae_under_DIC_microscopy.jpg/500px-S_cerevisiae_under_DIC_microscopy.jpg",
+    "오스트리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Austria.svg/500px-Flag_of_Austria.svg.png",
+    "페이스트리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Palmeras_de_hojaldre_1.jpg/500px-Palmeras_de_hojaldre_1.jpg"
+   }
   },
   {
    "word": "피아노",
@@ -1223,7 +1742,11 @@
     "현",
     "클라비코드",
     "쳄발로"
-   ]
+   ],
+   "photos": {
+    "독일": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/500px-Flag_of_Germany.svg.png",
+    "이탈리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/500px-Flag_of_Italy.svg.png"
+   }
   },
   {
    "word": "우산",
@@ -1238,7 +1761,12 @@
     "우박",
     "햇볕",
     "비"
-   ]
+   ],
+   "photos": {
+    "몸": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Human_body_features-en.svg/500px-Human_body_features-en.svg.png",
+    "우박": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Granizo.jpg/500px-Granizo.jpg",
+    "햇볕": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Soleil_couchant_sur_le_Vercors.jpg/500px-Soleil_couchant_sur_le_Vercors.jpg"
+   }
   },
   {
    "word": "안경",
@@ -1251,7 +1779,12 @@
     "선글라스",
     "돋보기",
     "굴절 이상"
-   ]
+   ],
+   "photos": {
+    "안구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Amur_Tiger_Panthera_tigris_altaica_Eye_2112px_edit.jpg/500px-Amur_Tiger_Panthera_tigris_altaica_Eye_2112px_edit.jpg",
+    "선글라스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/RayBanWayfarer.jpg/500px-RayBanWayfarer.jpg",
+    "돋보기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Lupa.na.encyklopedii.jpg/500px-Lupa.na.encyklopedii.jpg"
+   }
   },
   {
    "word": "전구",
@@ -1266,7 +1799,13 @@
     "아르곤",
     "텅스텐",
     "필라멘트"
-   ]
+   ],
+   "photos": {
+    "질소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Liquidnitrogen.jpg/500px-Liquidnitrogen.jpg",
+    "토머스 에디슨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Thomas_Edison2.jpg/500px-Thomas_Edison2.jpg",
+    "아르곤": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Argon_discharge_tube.jpg/500px-Argon_discharge_tube.jpg",
+    "텅스텐": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Wolfram_evaporated_crystals_and_1cm3_cube.jpg/500px-Wolfram_evaporated_crystals_and_1cm3_cube.jpg"
+   }
   },
   {
    "word": "축구공",
@@ -1279,7 +1818,12 @@
     "오각형",
     "게일릭 풋볼",
     "유니세프"
-   ]
+   ],
+   "photos": {
+    "가죽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Tanned_leather.JPG/500px-Tanned_leather.JPG",
+    "게일릭 풋볼": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Aidan_O%27Mahony_%26_Eoin_Bradley.jpg/500px-Aidan_O%27Mahony_%26_Eoin_Bradley.jpg",
+    "유니세프": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Flag_of_UNICEF.svg/500px-Flag_of_UNICEF.svg.png"
+   }
   },
   {
    "word": "주사위",
@@ -1292,7 +1836,12 @@
     "롤플레잉 게임",
     "보드 게임",
     "확률 게임"
-   ]
+   ],
+   "photos": {
+    "테이블 게임": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Juego_de_Domin%C3%B3.JPG/500px-Juego_de_Domin%C3%B3.JPG",
+    "보드 게임": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/US_Navy_110713-N-NT881-124_Personnel_Specialist_2nd_Class_James_Vail%2C_left%2C_and_Boatswain%27s_Mate_2nd_Class_Nathaniel_Eaton_play_board_games_with_ch.jpg/500px-US_Navy_110713-N-NT881-124_Personnel_Specialist_2nd_Class_James_Vail%2C_left%2C_and_Boatswain%27s_Mate_2nd_Class_Nathaniel_Eaton_play_board_games_with_ch.jpg",
+    "확률 게임": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Playing_roulette%2C_Las_Vegas%2C_Nevada_%2874663%29.jpg/500px-Playing_roulette%2C_Las_Vegas%2C_Nevada_%2874663%29.jpg"
+   }
   },
   {
    "word": "가위",
@@ -1305,7 +1854,12 @@
     "라틴",
     "지레",
     "날"
-   ]
+   ],
+   "photos": {
+    "기원전": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Austria_Klagenfurt_Dome_12.jpg/500px-Austria_Klagenfurt_Dome_12.jpg",
+    "메소포타미아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/N-Mesopotamia_and_Syria_english.svg/500px-N-Mesopotamia_and_Syria_english.svg.png",
+    "지레": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/LeverPrincleple.svg/500px-LeverPrincleple.svg.png"
+   }
   },
   {
    "word": "시계",
@@ -1317,7 +1871,12 @@
     "규표",
     "아테지",
     "건전지"
-   ]
+   ],
+   "photos": {
+    "규표": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Ancient_Beijing_observatory_05.jpg/500px-Ancient_Beijing_observatory_05.jpg",
+    "아테지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/%E8%AD%B7%E7%BE%8E%E5%85%A5%E3%82%8C_%287077056371%29.jpg/500px-%E8%AD%B7%E7%BE%8E%E5%85%A5%E3%82%8C_%287077056371%29.jpg",
+    "건전지": "https://upload.wikimedia.org/wikipedia/commons/1/19/Drycell.jpg"
+   }
   },
   {
    "word": "연필",
@@ -1330,7 +1889,13 @@
     "흑연",
     "지우개",
     "삼나무"
-   ]
+   ],
+   "photos": {
+    "종이": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Paper_450x450.jpg",
+    "흑연": "https://upload.wikimedia.org/wikipedia/commons/f/f3/GraphiteUSGOV.jpg",
+    "지우개": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Faber_Castell_Erasers.jpg/500px-Faber_Castell_Erasers.jpg",
+    "삼나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Jhomonsugi_in_Yaku_Island_Japan_001.JPG/500px-Jhomonsugi_in_Yaku_Island_Japan_001.JPG"
+   }
   },
   {
    "word": "지우개",
@@ -1343,7 +1908,13 @@
     "흑연",
     "연필",
     "샤프"
-   ]
+   ],
+   "photos": {
+    "도구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Hammer2.jpg/500px-Hammer2.jpg",
+    "고무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Latex_dripping.JPG/500px-Latex_dripping.JPG",
+    "흑연": "https://upload.wikimedia.org/wikipedia/commons/f/f3/GraphiteUSGOV.jpg",
+    "연필": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Bleistift1.jpg/500px-Bleistift1.jpg"
+   }
   },
   {
    "word": "공책",
@@ -1356,7 +1927,13 @@
     "스케치북",
     "스크랩북",
     "소묘"
-   ]
+   ],
+   "photos": {
+    "연필": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Bleistift1.jpg/500px-Bleistift1.jpg",
+    "쓰기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Rosetta_Stone.JPG/500px-Rosetta_Stone.JPG",
+    "스크랩북": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Vintage_Scrapbook.jpg/500px-Vintage_Scrapbook.jpg",
+    "소묘": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Rembrandt-A-Lion-Lying-Down-207063_detail.jpg/500px-Rembrandt-A-Lion-Lying-Down-207063_detail.jpg"
+   }
   },
   {
    "word": "가방",
@@ -1369,7 +1946,13 @@
     "피혁",
     "도구",
     "대나무"
-   ]
+   ],
+   "photos": {
+    "종이": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Paper_450x450.jpg",
+    "피혁": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Leathertools.jpg/500px-Leathertools.jpg",
+    "도구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Hammer2.jpg/500px-Hammer2.jpg",
+    "대나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/View_of_Bamboo_trees_in_Andhra_University_campus.jpg/500px-View_of_Bamboo_trees_in_Andhra_University_campus.jpg"
+   }
   },
   {
    "word": "신발",
@@ -1382,7 +1965,12 @@
     "가죽",
     "고무",
     "풋웨어"
-   ]
+   ],
+   "photos": {
+    "나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/SV100408.JPG/500px-SV100408.JPG",
+    "직물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Denim-closeup.jpg/500px-Denim-closeup.jpg",
+    "고무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Latex_dripping.JPG/500px-Latex_dripping.JPG"
+   }
   },
   {
    "word": "모자",
@@ -1395,7 +1983,12 @@
     "쓰개",
     "장신구",
     "연대"
-   ]
+   ],
+   "photos": {
+    "군대": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zhan_zhuanshu.png",
+    "쓰개": "https://upload.wikimedia.org/wikipedia/commons/8/81/Headgear-ama.jpg",
+    "장신구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Ammolite_jewellery.jpg/500px-Ammolite_jewellery.jpg"
+   }
   },
   {
    "word": "장갑",
@@ -1408,7 +2001,14 @@
     "손가락",
     "엄지손가락",
     "손"
-   ]
+   ],
+   "photos": {
+    "펠트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Colored_felt_cloth.jpg/500px-Colored_felt_cloth.jpg",
+    "옷": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Clothes.jpg/500px-Clothes.jpg",
+    "손가락": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Finger.agr.jpg/500px-Finger.agr.jpg",
+    "엄지손가락": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Duim.jpg/500px-Duim.jpg",
+    "손": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Walnut_hand_stain.jpg"
+   }
   },
   {
    "word": "양말",
@@ -1421,7 +2021,14 @@
     "풋웨어",
     "육지면",
     "발"
-   ]
+   ],
+   "photos": {
+    "도구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Hammer2.jpg/500px-Hammer2.jpg",
+    "땀": "https://upload.wikimedia.org/wikipedia/commons/3/37/Amanda_Fran%C3%A7ozo_At_The_Runner_Sports_Fragment.jpg",
+    "풋웨어": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/King_Street_Sneak.JPG/500px-King_Street_Sneak.JPG",
+    "육지면": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/CottonPlant.JPG/500px-CottonPlant.JPG",
+    "발": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Foot_on_white_background.jpg/500px-Foot_on_white_background.jpg"
+   }
   },
   {
    "word": "단추",
@@ -1434,7 +2041,14 @@
     "패션 디자인",
     "패스너",
     "단춧구멍"
-   ]
+   ],
+   "photos": {
+    "직물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Denim-closeup.jpg/500px-Denim-closeup.jpg",
+    "옷": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Clothes.jpg/500px-Clothes.jpg",
+    "패션 디자인": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Bundesarchiv_Bild_183-N0409-0320%2C_VEB_Bekleidungswerk_%22Steppke%22_G%C3%B6rlitz%2C_Gestaltung_Kinderkonfektion.jpg/500px-Bundesarchiv_Bild_183-N0409-0320%2C_VEB_Bekleidungswerk_%22Steppke%22_G%C3%B6rlitz%2C_Gestaltung_Kinderkonfektion.jpg",
+    "패스너": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Screws.jpg",
+    "단춧구멍": "https://upload.wikimedia.org/wikipedia/commons/d/df/Keyhole_buttonhole.jpg"
+   }
   },
   {
    "word": "칫솔",
@@ -1447,7 +2061,12 @@
     "잇몸",
     "이",
     "치약"
-   ]
+   ],
+   "photos": {
+    "불소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fluoro_liquido_a_-196%C2%B0C_1.jpg/500px-Fluoro_liquido_a_-196%C2%B0C_1.jpg",
+    "치면세균막": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Plaque-Tooth.jpg",
+    "잇몸": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Blausen_0863_ToothAnatomy_02.png/500px-Blausen_0863_ToothAnatomy_02.png"
+   }
   },
   {
    "word": "비누",
@@ -1460,7 +2079,13 @@
     "수산화 나트륨",
     "빨래",
     "세수"
-   ]
+   ],
+   "photos": {
+    "지방": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Trimyristin-3D-vdW.png/500px-Trimyristin-3D-vdW.png",
+    "계면활성제": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Micelle.png",
+    "수산화 나트륨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sodium-hydroxide-crystal-3D-vdW.png/500px-Sodium-hydroxide-crystal-3D-vdW.png",
+    "빨래": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Italian_hanging_laundry.jpg/500px-Italian_hanging_laundry.jpg"
+   }
   },
   {
    "word": "수건",
@@ -1473,7 +2098,13 @@
     "걸레",
     "선수트레이너",
     "권투"
-   ]
+   ],
+   "photos": {
+    "그릇": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Pots_for_sale_in_Kenya.jpg/500px-Pots_for_sale_in_Kenya.jpg",
+    "직물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Denim-closeup.jpg/500px-Denim-closeup.jpg",
+    "선수트레이너": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Nate_Lucero_and_George_Springer_in_June_2014.jpg/500px-Nate_Lucero_and_George_Springer_in_June_2014.jpg",
+    "권투": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Savate_pictogram.svg/500px-Savate_pictogram.svg.png"
+   }
   },
   {
    "word": "컵",
@@ -1488,7 +2119,14 @@
     "금속",
     "점토",
     "음료"
-   ]
+   ],
+   "photos": {
+    "유리": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Glass-Ball.jpg",
+    "목재": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/16_wood_samples.jpg/500px-16_wood_samples.jpg",
+    "금속": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Iron_electrolytic_and_1cm3_cube.jpg/500px-Iron_electrolytic_and_1cm3_cube.jpg",
+    "점토": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Gay_head_cliffs_MV.JPG/500px-Gay_head_cliffs_MV.JPG",
+    "음료": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Floris_Claesz._van_Dyck_001.jpg/500px-Floris_Claesz._van_Dyck_001.jpg"
+   }
   },
   {
    "word": "접시",
@@ -1501,7 +2139,14 @@
     "그릇",
     "반찬",
     "흙"
-   ]
+   ],
+   "photos": {
+    "과자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chum_chums.jpg/500px-Chum_chums.jpg",
+    "음식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/500px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+    "그릇": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Pots_for_sale_in_Kenya.jpg/500px-Pots_for_sale_in_Kenya.jpg",
+    "반찬": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/%ED%99%8D%EC%B2%9C%EA%B5%B0_%EB%93%A4%EA%BD%83%EC%8C%88%EB%B0%A5_%EC%82%AC%EA%B3%A8%EC%9A%B0%EA%B1%B0%EC%A7%80%EA%B5%AD_%EB%B0%98%EC%B0%AC_%EB%B0%A5_Wild_Flower_Ssambap_Banchan_IMG_0150.jpg/500px-%ED%99%8D%EC%B2%9C%EA%B5%B0_%EB%93%A4%EA%BD%83%EC%8C%88%EB%B0%A5_%EC%82%AC%EA%B3%A8%EC%9A%B0%EA%B1%B0%EC%A7%80%EA%B5%AD_%EB%B0%98%EC%B0%AC_%EB%B0%A5_Wild_Flower_Ssambap_Banchan_IMG_0150.jpg",
+    "흙": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/L%C3%B6ssacker.jpg/500px-L%C3%B6ssacker.jpg"
+   }
   },
   {
    "word": "숟가락",
@@ -1514,7 +2159,12 @@
     "젓가락",
     "액체",
     "주나라"
-   ]
+   ],
+   "photos": {
+    "음식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/500px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+    "액체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Glass_with_liquid.jpg/500px-Glass_with_liquid.jpg",
+    "주나라": "https://upload.wikimedia.org/wikipedia/commons/8/89/Zhou_dynasty_1000_BC.png"
+   }
   },
   {
    "word": "포크",
@@ -1527,7 +2177,14 @@
     "베네치아",
     "동양",
     "식기"
-   ]
+   ],
+   "photos": {
+    "서양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Western_World_Latin_America_torn_countries.png/500px-Western_World_Latin_America_torn_countries.png",
+    "젓가락": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Many-chopsticks.jpg/500px-Many-chopsticks.jpg",
+    "베네치아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Collage_Venezia.jpg/500px-Collage_Venezia.jpg",
+    "동양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Modern_Asia_%281796%29.tif/lossy-page1-500px-Modern_Asia_%281796%29.tif.jpg",
+    "식기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Oredanci%C3%B3n_de_una_mesa-Mad_ek.jpg/500px-Oredanci%C3%B3n_de_una_mesa-Mad_ek.jpg"
+   }
   },
   {
    "word": "젓가락",
@@ -1540,7 +2197,14 @@
     "중화인민공화국",
     "동아시아",
     "베트남"
-   ]
+   ],
+   "photos": {
+    "동남아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Southeast_Asia_%28orthographic_projection%29.svg/500px-Southeast_Asia_%28orthographic_projection%29.svg.png",
+    "음식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/500px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+    "중화인민공화국": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/500px-Flag_of_the_People%27s_Republic_of_China.svg.png",
+    "동아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/East_Asia_%28orthographic_projection%29.svg/500px-East_Asia_%28orthographic_projection%29.svg.png",
+    "베트남": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/500px-Flag_of_Vietnam.svg.png"
+   }
   },
   {
    "word": "냄비",
@@ -1555,7 +2219,12 @@
     "풍로",
     "시트 팬",
     "주방"
-   ]
+   ],
+   "photos": {
+    "오븐": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Oven.agr.jpg/500px-Oven.agr.jpg",
+    "시트 팬": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/USS_John_C._Stennis_baker.jpg/500px-USS_John_C._Stennis_baker.jpg",
+    "주방": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/La_cuisine_%28mus%C3%A9e_dart_nouveau%2C_Riga%29_%287563655820%29.jpg/500px-La_cuisine_%28mus%C3%A9e_dart_nouveau%2C_Riga%29_%287563655820%29.jpg"
+   }
   },
   {
    "word": "주전자",
@@ -1568,7 +2237,13 @@
     "커피",
     "지리",
     "부엌"
-   ]
+   ],
+   "photos": {
+    "강철": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Poland_Ustron_-_museum.jpg/500px-Poland_Ustron_-_museum.jpg",
+    "커피": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Latte_and_dark_coffee.jpg/500px-Latte_and_dark_coffee.jpg",
+    "지리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/World_map.png/500px-World_map.png",
+    "부엌": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/La_cuisine_%28mus%C3%A9e_dart_nouveau%2C_Riga%29_%287563655820%29.jpg/500px-La_cuisine_%28mus%C3%A9e_dart_nouveau%2C_Riga%29_%287563655820%29.jpg"
+   }
   },
   {
    "word": "의자",
@@ -1581,7 +2256,12 @@
     "팔걸이",
     "실내 장식",
     "좌석"
-   ]
+   ],
+   "photos": {
+    "목재": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/16_wood_samples.jpg/500px-16_wood_samples.jpg",
+    "금속": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Iron_electrolytic_and_1cm3_cube.jpg/500px-Iron_electrolytic_and_1cm3_cube.jpg",
+    "실내 장식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/30th_Street_Station_concourse_March_2019.jpeg/500px-30th_Street_Station_concourse_March_2019.jpeg"
+   }
   },
   {
    "word": "침대",
@@ -1594,7 +2274,12 @@
     "베개",
     "이불",
     "침낭"
-   ]
+   ],
+   "photos": {
+    "가구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Dining_table_for_two.jpg/500px-Dining_table_for_two.jpg",
+    "이불": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Summit_silk_bedding_comforter.jpg",
+    "침낭": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Mummy_bag.jpg/500px-Mummy_bag.jpg"
+   }
   },
   {
    "word": "소파",
@@ -1607,7 +2292,13 @@
     "모양",
     "라운지",
     "방석"
-   ]
+   ],
+   "photos": {
+    "가죽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Tanned_leather.JPG/500px-Tanned_leather.JPG",
+    "침대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Bedroom_twin_beds.jpg/500px-Bedroom_twin_beds.jpg",
+    "모양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Congruent_non-congruent_triangles.svg/500px-Congruent_non-congruent_triangles.svg.png",
+    "방석": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Cushions.jpg"
+   }
   },
   {
    "word": "냉장고",
@@ -1620,7 +2311,12 @@
     "액체",
     "기계",
     "미국 식품의약국"
-   ]
+   ],
+   "photos": {
+    "얼음": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Tree_branch_after_ice_storm.JPG/500px-Tree_branch_after_ice_storm.JPG",
+    "기화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Phase_change_-_ko.svg/500px-Phase_change_-_ko.svg.png",
+    "액체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Glass_with_liquid.jpg/500px-Glass_with_liquid.jpg"
+   }
   },
   {
    "word": "카메라",
@@ -1635,7 +2331,13 @@
     "영화",
     "동영상",
     "촬영"
-   ]
+   ],
+   "photos": {
+    "빛": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Total_internal_reflection.jpg/500px-Total_internal_reflection.jpg",
+    "가시광선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Light_dispersion_of_a_mercury-vapor_lamp_with_a_flint_glass_prism_IPNr%C2%B00125.jpg/500px-Light_dispersion_of_a_mercury-vapor_lamp_with_a_flint_glass_prism_IPNr%C2%B00125.jpg",
+    "영화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Le_Voyage_dans_la_Lune_%281902%29.webm/500px--Le_Voyage_dans_la_Lune_%281902%29.webm.jpg",
+    "동영상": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/WikiNYC-picnic-mystery-videographer.jpg/500px-WikiNYC-picnic-mystery-videographer.jpg"
+   }
   },
   {
    "word": "노트북",
@@ -1650,7 +2352,13 @@
     "평판 디스플레이",
     "클램셸 디자인",
     "개인용 컴퓨터"
-   ]
+   ],
+   "photos": {
+    "컴퓨터 스크린": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/MonitorLCDlcd.svg/500px-MonitorLCDlcd.svg.png",
+    "평판 디스플레이": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Z%C3%BCrich_Hauptbahnhof_%28Ank_Kumar_Infy%29_20.jpg/500px-Z%C3%BCrich_Hauptbahnhof_%28Ank_Kumar_Infy%29_20.jpg",
+    "클램셸 디자인": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Clams_on_Sandy_Hook_beaches_-_panoramio.jpg/500px-Clams_on_Sandy_Hook_beaches_-_panoramio.jpg",
+    "개인용 컴퓨터": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Crystal_Project_computer.png"
+   }
   },
   {
    "word": "키보드",
@@ -1665,7 +2373,12 @@
     "버튼",
     "전자교환기",
     "입력 장치"
-   ]
+   ],
+   "photos": {
+    "천공 카드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Blue-punch-card-front-horiz.png/500px-Blue-punch-card-front-horiz.png",
+    "타자기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/MEK_II-371.jpg/500px-MEK_II-371.jpg",
+    "버튼": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Arcade_video_game_buttons.jpg/500px-Arcade_video_game_buttons.jpg"
+   }
   },
   {
    "word": "헤드폰",
@@ -1678,7 +2391,13 @@
     "전기 신호",
     "트랜스듀서",
     "스피커 드라이버"
-   ]
+   ],
+   "photos": {
+    "바깥귀길": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Ear-anatomy-text-small-en.svg/500px-Ear-anatomy-text-small-en.svg.png",
+    "스피커": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Electrodynamic-loudspeaker.png/500px-Electrodynamic-loudspeaker.png",
+    "전기 신호": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/William_Powell_Frith_The_signal_1858.jpg/500px-William_Powell_Frith_The_signal_1858.jpg",
+    "스피커 드라이버": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/PAudioChallengerFrontRear.JPG/500px-PAudioChallengerFrontRear.JPG"
+   }
   },
   {
    "word": "바이올린",
@@ -1691,7 +2410,12 @@
     "첼로",
     "비올라",
     "음정"
-   ]
+   ],
+   "photos": {
+    "찰현악기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Viola_Profonda_comparison.jpg/500px-Viola_Profonda_comparison.jpg",
+    "첼로": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cello_front_side.jpg",
+    "비올라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Bratsche.jpg/500px-Bratsche.jpg"
+   }
   },
   {
    "word": "드럼",
@@ -1706,7 +2430,10 @@
     "심벌즈",
     "북",
     "대중음악"
-   ]
+   ],
+   "photos": {
+    "심벌즈": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Sabian_AA_10_Splash.jpg/500px-Sabian_AA_10_Splash.jpg"
+   }
   },
   {
    "word": "트럼펫",
@@ -1719,7 +2446,13 @@
     "코넷",
     "목관 악기",
     "금관 악기"
-   ]
+   ],
+   "photos": {
+    "오케스트라": "https://upload.wikimedia.org/wikipedia/ko/3/3f/Orchestra.jpg",
+    "바로크 음악": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Baschenis_-_Musical_Instruments.jpg/500px-Baschenis_-_Musical_Instruments.jpg",
+    "목관 악기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Mandoura_zhaleika_chalumeau_birbyne.jpg/500px-Mandoura_zhaleika_chalumeau_birbyne.jpg",
+    "금관 악기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Trumpets02262006.jpg/500px-Trumpets02262006.jpg"
+   }
   },
   {
    "word": "양초",
@@ -1732,7 +2465,13 @@
     "심지",
     "고체",
     "파라핀"
-   ]
+   ],
+   "photos": {
+    "광원": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Total_internal_reflection.jpg/500px-Total_internal_reflection.jpg",
+    "밀랍": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Honey_comb.jpg/500px-Honey_comb.jpg",
+    "고체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Fcc_lattice_4.jpg/500px-Fcc_lattice_4.jpg",
+    "파라핀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Paraffin.jpg/500px-Paraffin.jpg"
+   }
   },
   {
    "word": "풍선",
@@ -1745,7 +2484,14 @@
     "아산화 질소",
     "수소",
     "헬륨"
-   ]
+   ],
+   "photos": {
+    "지구 대기권": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Endeavour_silhouette_STS-130.jpg/500px-Endeavour_silhouette_STS-130.jpg",
+    "산소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Liquid_oxygen_in_a_beaker_4.jpg/500px-Liquid_oxygen_in_a_beaker_4.jpg",
+    "아산화 질소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Nitrous-oxide-dimensions-3D-balls.png/500px-Nitrous-oxide-dimensions-3D-balls.png",
+    "수소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Electron_shell_001_Hydrogen_-_no_label.svg/500px-Electron_shell_001_Hydrogen_-_no_label.svg.png",
+    "헬륨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Helium_discharge_tube.jpg/500px-Helium_discharge_tube.jpg"
+   }
   },
   {
    "word": "인형",
@@ -1758,7 +2504,14 @@
     "로마",
     "예술",
     "선사시대"
-   ]
+   ],
+   "photos": {
+    "이집트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/500px-Flag_of_Egypt.svg.png",
+    "동물": "https://upload.wikimedia.org/wikipedia/commons/1/14/Animal_diversity.png",
+    "로마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/RomaMontage1..jpg/500px-RomaMontage1..jpg",
+    "예술": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Art-portrait-collage_2.jpg/500px-Art-portrait-collage_2.jpg",
+    "선사시대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/SantaCruz-CuevaManos-P2210651b.jpg/500px-SantaCruz-CuevaManos-P2210651b.jpg"
+   }
   },
   {
    "word": "야구공",
@@ -1771,7 +2524,12 @@
     "슬라이더",
     "커브",
     "소가죽"
-   ]
+   ],
+   "photos": {
+    "포심 속구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Four-seam_fastball_1.JPG/500px-Four-seam_fastball_1.JPG",
+    "투심 속구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Two-seam_fastball_1.JPG/500px-Two-seam_fastball_1.JPG",
+    "소가죽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Cowhide_fur_skin_in_a_furrier%27s_shop%2C_2011.jpg/500px-Cowhide_fur_skin_in_a_furrier%27s_shop%2C_2011.jpg"
+   }
   },
   {
    "word": "배낭",
@@ -1784,7 +2542,13 @@
     "질량",
     "손가방",
     "하이킹"
-   ]
+   ],
+   "photos": {
+    "학생": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/High_school_students%2C_SAS_Pudong.jpg/500px-High_school_students%2C_SAS_Pudong.jpg",
+    "귀리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Illustration_Avena_sativa0.jpg/500px-Illustration_Avena_sativa0.jpg",
+    "질량": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/CGKilogram.jpg/500px-CGKilogram.jpg",
+    "하이킹": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Eaglecreek-28July2006.jpg/500px-Eaglecreek-28July2006.jpg"
+   }
   },
   {
    "word": "지갑",
@@ -1797,7 +2561,13 @@
     "신용카드",
     "직불카드",
     "현금"
-   ]
+   ],
+   "photos": {
+    "운전면허증": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Driving_licence_Poland_2013_recto.png/500px-Driving_licence_Poland_2013_recto.png",
+    "신용카드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Credit-cards.jpg/500px-Credit-cards.jpg",
+    "직불카드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/CCardFront.svg/500px-CCardFront.svg.png",
+    "현금": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Euro_coins_and_banknotes_%28cropped%29.jpg/500px-Euro_coins_and_banknotes_%28cropped%29.jpg"
+   }
   },
   {
    "word": "반지",
@@ -1810,7 +2580,14 @@
     "뼈",
     "팔찌",
     "주얼리"
-   ]
+   ],
+   "photos": {
+    "금속": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Iron_electrolytic_and_1cm3_cube.jpg/500px-Iron_electrolytic_and_1cm3_cube.jpg",
+    "암석": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/DirkvdM_rocks.jpg/500px-DirkvdM_rocks.jpg",
+    "뼈": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Foot_bones.jpg/500px-Foot_bones.jpg",
+    "팔찌": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Gold_charm_bracelet.JPG/500px-Gold_charm_bracelet.JPG",
+    "주얼리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Amber.pendants.800pix.050203.jpg/500px-Amber.pendants.800pix.050203.jpg"
+   }
   },
   {
    "word": "왕관",
@@ -1823,7 +2600,12 @@
     "로마제국",
     "제관",
     "군주"
-   ]
+   ],
+   "photos": {
+    "이집트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/500px-Flag_of_Egypt.svg.png",
+    "쓰개": "https://upload.wikimedia.org/wikipedia/commons/8/81/Headgear-ama.jpg",
+    "로마제국": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Roman_Empire_Trajan_117AD.png/500px-Roman_Empire_Trajan_117AD.png"
+   }
   },
   {
    "word": "망원경",
@@ -1836,7 +2618,14 @@
     "적외선",
     "렌즈",
     "거울"
-   ]
+   ],
+   "photos": {
+    "가시광선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Light_dispersion_of_a_mercury-vapor_lamp_with_a_flint_glass_prism_IPNr%C2%B00125.jpg/500px-Light_dispersion_of_a_mercury-vapor_lamp_with_a_flint_glass_prism_IPNr%C2%B00125.jpg",
+    "자외선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Pipefitter_welder_kutzo.jpg/500px-Pipefitter_welder_kutzo.jpg",
+    "적외선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Ir_girl.png/500px-Ir_girl.png",
+    "렌즈": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Convex_lens_flipped_image.JPG/500px-Convex_lens_flipped_image.JPG",
+    "거울": "https://upload.wikimedia.org/wikipedia/commons/5/52/Mirror.jpg"
+   }
   },
   {
    "word": "현미경",
@@ -1848,7 +2637,12 @@
     "개구수",
     "회절",
     "분해능"
-   ]
+   ],
+   "photos": {
+    "개구수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Numerical_aperture.svg/500px-Numerical_aperture.svg.png",
+    "회절": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Square_diffraction.jpg",
+    "분해능": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Angular_resolution.png/500px-Angular_resolution.png"
+   }
   },
   {
    "word": "나침반",
@@ -1861,7 +2655,14 @@
     "지자기",
     "자이로스코프",
     "자석"
-   ]
+   ],
+   "photos": {
+    "지구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/500px-The_Blue_Marble_%28remastered%29.jpg",
+    "인공위성": "https://upload.wikimedia.org/wikipedia/commons/9/9c/ConstellationGPS.gif",
+    "지자기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Geodynamo_Between_Reversals.gif/500px-Geodynamo_Between_Reversals.gif",
+    "자이로스코프": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/3D_Gyroscope.png/500px-3D_Gyroscope.png",
+    "자석": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Dipolaire-magneet-schema.svg/500px-Dipolaire-magneet-schema.svg.png"
+   }
   },
   {
    "word": "빗자루",
@@ -1874,7 +2675,13 @@
     "화학섬유",
     "싸리나무",
     "쓰레받기"
-   ]
+   ],
+   "photos": {
+    "도로": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Erlangen_Bundesautobahn_73_Auffahrt_Luftbild-20230422-RM-165734.jpg/500px-Erlangen_Bundesautobahn_73_Auffahrt_Luftbild-20230422-RM-165734.jpg",
+    "털": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Borsten_ausgewachsenes_Mangalitza-Schwein.JPG/500px-Borsten_ausgewachsenes_Mangalitza-Schwein.JPG",
+    "화학섬유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Polyester_cones_and_Zaari.jpg/500px-Polyester_cones_and_Zaari.jpg",
+    "싸리나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Lespedeza_ja01.jpg/500px-Lespedeza_ja01.jpg"
+   }
   },
   {
    "word": "바구니",
@@ -1887,7 +2694,14 @@
     "대나무",
     "버드나무",
     "섬유"
-   ]
+   ],
+   "photos": {
+    "목재": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/16_wood_samples.jpg/500px-16_wood_samples.jpg",
+    "그릇": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Pots_for_sale_in_Kenya.jpg/500px-Pots_for_sale_in_Kenya.jpg",
+    "대나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/View_of_Bamboo_trees_in_Andhra_University_campus.jpg/500px-View_of_Bamboo_trees_in_Andhra_University_campus.jpg",
+    "버드나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Salix_koreensis_01.JPG/500px-Salix_koreensis_01.JPG",
+    "섬유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Carbon_fiber.jpg/500px-Carbon_fiber.jpg"
+   }
   },
   {
    "word": "자전거",
@@ -1900,7 +2714,13 @@
     "중화민국",
     "스코틀랜드",
     "크랭크"
-   ]
+   ],
+   "photos": {
+    "독일": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/500px-Flag_of_Germany.svg.png",
+    "바퀴": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Wheel_Iran.jpg",
+    "중화민국": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Flag_of_the_Republic_of_China.svg/500px-Flag_of_the_Republic_of_China.svg.png",
+    "스코틀랜드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/500px-Flag_of_Scotland.svg.png"
+   }
   },
   {
    "word": "버스",
@@ -1912,7 +2732,12 @@
     "교통",
     "가공 전차선",
     "대구광역시"
-   ]
+   ],
+   "photos": {
+    "독일": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/500px-Flag_of_Germany.svg.png",
+    "교통": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg/500px-Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg",
+    "대구광역시": "https://upload.wikimedia.org/wikipedia/commons/5/52/Daegu_montage.png"
+   }
   },
   {
    "word": "트럭",
@@ -1925,7 +2750,12 @@
     "소방차",
     "프레임 차체",
     "모터 비클"
-   ]
+   ],
+   "photos": {
+    "자동차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/VW_K%C3%A4fer_blue_1956_vr_TCE.jpg/500px-VW_K%C3%A4fer_blue_1956_vr_TCE.jpg",
+    "화물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Discharging_frozen_mutton_and_lamb_from_Australia_on_the_Clan_Macdougall_%286105964558%29.jpg/500px-Discharging_frozen_mutton_and_lamb_from_Australia_on_the_Clan_Macdougall_%286105964558%29.jpg",
+    "모터 비클": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/I-80_Eastshore_Fwy.jpg/500px-I-80_Eastshore_Fwy.jpg"
+   }
   },
   {
    "word": "지하철",
@@ -1938,7 +2768,12 @@
     "버스",
     "트램",
     "도시 철도"
-   ]
+   ],
+   "photos": {
+    "철도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg/500px-D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg",
+    "런던": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/London_Montage_A.jpg/500px-London_Montage_A.jpg",
+    "버스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/LT_471_%28LTZ_1471%29_Arriva_London_New_Routemaster_%2819522859218%29.jpg/500px-LT_471_%28LTZ_1471%29_Arriva_London_New_Routemaster_%2819522859218%29.jpg"
+   }
   },
   {
    "word": "비행기",
@@ -1951,7 +2786,11 @@
     "양력",
     "인공",
     "날개"
-   ]
+   ],
+   "photos": {
+    "하늘": "https://upload.wikimedia.org/wikipedia/commons/9/95/Skyshot.jpg",
+    "날개": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Swan.spreads.wings.arp.jpg/500px-Swan.spreads.wings.arp.jpg"
+   }
   },
   {
    "word": "헬리콥터",
@@ -1964,7 +2803,13 @@
     "고정익기",
     "글라이더",
     "비행기"
-   ]
+   ],
+   "photos": {
+    "양력": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Boeing_747-8_N747EX_First_Flight.jpg/500px-Boeing_747-8_N747EX_First_Flight.jpg",
+    "고정익기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Tarom.b737-700.yr-bgg.arp.jpg/500px-Tarom.b737-700.yr-bgg.arp.jpg",
+    "글라이더": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/PH-1274_Rolladen-Schneider_LS-4b.JPG/500px-PH-1274_Rolladen-Schneider_LS-4b.JPG",
+    "비행기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/P-51_Mustang_edit1.jpg/500px-P-51_Mustang_edit1.jpg"
+   }
   },
   {
    "word": "잠수함",
@@ -1977,7 +2822,12 @@
     "해군",
     "잠수정",
     "워터크래프트"
-   ]
+   ],
+   "photos": {
+    "해양 과학": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Thermohaline_Circulation_2.png/500px-Thermohaline_Circulation_2.png",
+    "해군": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Fleet_5_nations.jpg/500px-Fleet_5_nations.jpg",
+    "워터크래프트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Portland_Pudgy_safety_dinghy%2C_rowing.JPG/500px-Portland_Pudgy_safety_dinghy%2C_rowing.JPG"
+   }
   },
   {
    "word": "오토바이",
@@ -1992,7 +2842,13 @@
     "자전거 발판",
     "자전거",
     "이륜자동차"
-   ]
+   ],
+   "photos": {
+    "바퀴": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Wheel_Iran.jpg",
+    "엔진": "https://upload.wikimedia.org/wikipedia/commons/d/dc/4StrokeEngine_Ortho_3D_Small.gif",
+    "자전거 발판": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Bicycle_pedal_animation.gif/500px-Bicycle_pedal_animation.gif",
+    "자전거": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/DownhillMountainBike_2010_Commencal_Supreme_DH_v2.jpg/500px-DownhillMountainBike_2010_Commencal_Supreme_DH_v2.jpg"
+   }
   },
   {
    "word": "트랙터",
@@ -2005,7 +2861,14 @@
     "건설",
     "차량",
     "돌림힘"
-   ]
+   ],
+   "photos": {
+    "공항": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/02-NOV-2023_-_KC910_ICN-ALA_%28EI-KEB_-_B767-300%29_%2803%29_%28cropped%29.jpg/500px-02-NOV-2023_-_KC910_ICN-ALA_%28EI-KEB_-_B767-300%29_%2803%29_%28cropped%29.jpg",
+    "농업": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Tomb_of_Nakht_%282%29.jpg/500px-Tomb_of_Nakht_%282%29.jpg",
+    "건설": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Sky_scraper_construction.jpg/500px-Sky_scraper_construction.jpg",
+    "차량": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Bikes%2C_buses_and_cars_-_geograph.org.uk_-_1516362.jpg/500px-Bikes%2C_buses_and_cars_-_geograph.org.uk_-_1516362.jpg",
+    "돌림힘": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Fysik_vridmoment.png"
+   }
   },
   {
    "word": "불도저",
@@ -2018,7 +2881,12 @@
     "광업",
     "공사",
     "트랙터"
-   ]
+   ],
+   "photos": {
+    "채석장": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/PortlandQuarry.jpg/500px-PortlandQuarry.jpg",
+    "광업": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Chuquicamata-002.jpg/500px-Chuquicamata-002.jpg",
+    "트랙터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Modern_John_Deere_Tractor_IMG_0401.JPG/500px-Modern_John_Deere_Tractor_IMG_0401.JPG"
+   }
   },
   {
    "word": "소방차",
@@ -2031,7 +2899,14 @@
     "산불 진압",
     "소방 훈련",
     "트럭"
-   ]
+   ],
+   "photos": {
+    "소방관": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/FiremenFightBurningBarn.jpg/500px-FiremenFightBurningBarn.jpg",
+    "탈것": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Bikes%2C_buses_and_cars_-_geograph.org.uk_-_1516362.jpg/500px-Bikes%2C_buses_and_cars_-_geograph.org.uk_-_1516362.jpg",
+    "산불 진압": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Deer_Mountain_Fire_2002.jpg/500px-Deer_Mountain_Fire_2002.jpg",
+    "소방 훈련": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Fire_drill_in_a_smoke_trailer%2C_Naples%2C_Italy_-_081007-N-4044H-271.jpg/500px-Fire_drill_in_a_smoke_trailer%2C_Naples%2C_Italy_-_081007-N-4044H-271.jpg",
+    "트럭": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Freightliner_M2_106_6x4_2014_%2814240376744%29.jpg/500px-Freightliner_M2_106_6x4_2014_%2814240376744%29.jpg"
+   }
   },
   {
    "word": "구급차",
@@ -2044,7 +2919,14 @@
     "응급처치",
     "병원",
     "환자"
-   ]
+   ],
+   "photos": {
+    "자동차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/VW_K%C3%A4fer_blue_1956_vr_TCE.jpg/500px-VW_K%C3%A4fer_blue_1956_vr_TCE.jpg",
+    "침대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Bedroom_twin_beds.jpg/500px-Bedroom_twin_beds.jpg",
+    "응급처치": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/ISO_7010_E003_-_First_aid_sign.svg/500px-ISO_7010_E003_-_First_aid_sign.svg.png",
+    "병원": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Hospital-de-Bellvitge.jpg/500px-Hospital-de-Bellvitge.jpg",
+    "환자": "https://upload.wikimedia.org/wikipedia/commons/d/dd/BloodPressure2.jpg"
+   }
   },
   {
    "word": "경찰차",
@@ -2057,7 +2939,14 @@
     "견인차",
     "폭행",
     "사이렌"
-   ]
+   ],
+   "photos": {
+    "자동차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/VW_K%C3%A4fer_blue_1956_vr_TCE.jpg/500px-VW_K%C3%A4fer_blue_1956_vr_TCE.jpg",
+    "문": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/L-door.png/500px-L-door.png",
+    "견인차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Cronacher.haltend.JPG/500px-Cronacher.haltend.JPG",
+    "폭행": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Southern_Chivalry.jpg/500px-Southern_Chivalry.jpg",
+    "사이렌": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/FireEngineSiren-5248.jpg/500px-FireEngineSiren-5248.jpg"
+   }
   },
   {
    "word": "탱크",
@@ -2072,7 +2961,13 @@
     "영국 해군성",
     "보헤미아",
     "기갑전투차량"
-   ]
+   ],
+   "photos": {
+    "중세": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/JuengeresMathildenkreuz.jpg/500px-JuengeresMathildenkreuz.jpg",
+    "무한궤도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Caterpillar_track_shingle.JPG/500px-Caterpillar_track_shingle.JPG",
+    "영국 해군성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Royal_Coat_of_Arms_of_the_United_Kingdom_%28HM_Government%29_%28Tudor_Crown%29.svg/500px-Royal_Coat_of_Arms_of_the_United_Kingdom_%28HM_Government%29_%28Tudor_Crown%29.svg.png",
+    "보헤미아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/CZ-cleneni-Cechy-wl.png/500px-CZ-cleneni-Cechy-wl.png"
+   }
   },
   {
    "word": "열기구",
@@ -2085,7 +2980,12 @@
     "버너",
     "곤돌라",
     "캡슐"
-   ]
+   ],
+   "photos": {
+    "양력": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Boeing_747-8_N747EX_First_Flight.jpg/500px-Boeing_747-8_N747EX_First_Flight.jpg",
+    "이상기체 법칙": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Ideal_gas_isotherms.svg/500px-Ideal_gas_isotherms.svg.png",
+    "곤돌라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Gondole_Venezia.JPG/500px-Gondole_Venezia.JPG"
+   }
   },
   {
    "word": "로켓",
@@ -2098,7 +2998,12 @@
     "탄두",
     "우주선",
     "미사일"
-   ]
+   ],
+   "photos": {
+    "항공기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Cessna172-CatalinaTakeOff.JPG/500px-Cessna172-CatalinaTakeOff.JPG",
+    "탄두": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/B-61_bomb_%28DOE%29.jpg/500px-B-61_bomb_%28DOE%29.jpg",
+    "우주선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Soyuz_TMA-7_spacecraft2edit1.jpg/500px-Soyuz_TMA-7_spacecraft2edit1.jpg"
+   }
   },
   {
    "word": "롤러코스터",
@@ -2111,7 +3016,11 @@
     "구심력",
     "위치에너지",
     "선로"
-   ]
+   ],
+   "photos": {
+    "위치에너지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Trebuchet.jpg/500px-Trebuchet.jpg",
+    "선로": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Close-up_of_railway_track.jpg/500px-Close-up_of_railway_track.jpg"
+   }
   },
   {
    "word": "휠체어",
@@ -2124,7 +3033,13 @@
     "독일 르네상스",
     "장애인",
     "질병"
-   ]
+   ],
+   "photos": {
+    "걷기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Women_walking_in_Hyderabad_street.jpg/500px-Women_walking_in_Hyderabad_street.jpg",
+    "패럴림픽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/IPC_logo_%282019%29.svg/500px-IPC_logo_%282019%29.svg.png",
+    "독일 르네상스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Da_Vinci_Vitruve_Luc_Viatour.jpg/500px-Da_Vinci_Vitruve_Luc_Viatour.jpg",
+    "질병": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Gabriel_von_Max_Die_ekstatische_Jungfrau_Katharina_Emmerich.jpg/500px-Gabriel_von_Max_Die_ekstatische_Jungfrau_Katharina_Emmerich.jpg"
+   }
   },
   {
    "word": "마차",
@@ -2137,7 +3052,11 @@
     "수레",
     "말",
     "교통수단"
-   ]
+   ],
+   "photos": {
+    "바퀴": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Wheel_Iran.jpg",
+    "버스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/LT_471_%28LTZ_1471%29_Arriva_London_New_Routemaster_%2819522859218%29.jpg/500px-LT_471_%28LTZ_1471%29_Arriva_London_New_Routemaster_%2819522859218%29.jpg"
+   }
   },
   {
    "word": "증기기관차",
@@ -2152,7 +3071,13 @@
     "수증기",
     "가스",
     "석탄"
-   ]
+   ],
+   "photos": {
+    "목재": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/16_wood_samples.jpg/500px-16_wood_samples.jpg",
+    "석유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Petroleum_sample.jpg/500px-Petroleum_sample.jpg",
+    "수증기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/St_Johns_Fog.jpg/500px-St_Johns_Fog.jpg",
+    "석탄": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Coal.jpg"
+   }
   },
   {
    "word": "모노레일",
@@ -2165,7 +3090,14 @@
     "노면전차",
     "경전철",
     "관광"
-   ]
+   ],
+   "photos": {
+    "철도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg/500px-D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg",
+    "대중교통": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/TRTC381_in_Beitou_Station.JPG/500px-TRTC381_in_Beitou_Station.JPG",
+    "노면전차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Pesa_120N_3113%2C_tram_line_9%2C_Warsaw%2C_2009.jpg/500px-Pesa_120N_3113%2C_tram_line_9%2C_Warsaw%2C_2009.jpg",
+    "경전철": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Madrid_-_Metro_Ligero_%28l%C3%ADnea_3%29_-_Colonia_Jard%C3%ADn_-_20070804a.jpg/500px-Madrid_-_Metro_Ligero_%28l%C3%ADnea_3%29_-_Colonia_Jard%C3%ADn_-_20070804a.jpg",
+    "관광": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Delphi_BW_2017-10-08_11-38-38.jpg/500px-Delphi_BW_2017-10-08_11-38-38.jpg"
+   }
   },
   {
    "word": "굴착기",
@@ -2178,7 +3110,11 @@
     "땅",
     "발명",
     "포클랭"
-   ]
+   ],
+   "photos": {
+    "암석": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/DirkvdM_rocks.jpg/500px-DirkvdM_rocks.jpg",
+    "땅": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/AYool_topography_15min.png/500px-AYool_topography_15min.png"
+   }
   },
   {
    "word": "해바라기",
@@ -2190,7 +3126,12 @@
     "돼지감자",
     "성인병",
     "굴광성"
-   ]
+   ],
+   "photos": {
+    "태양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/500px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+    "돼지감자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Helianthus_tuberosus_1.JPG/500px-Helianthus_tuberosus_1.JPG",
+    "굴광성": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Arabidopsis_thaliana.jpg"
+   }
   },
   {
    "word": "장미",
@@ -2203,7 +3144,13 @@
     "한대",
     "북반구",
     "단형"
-   ]
+   ],
+   "photos": {
+    "온대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Four_seasons.jpg/500px-Four_seasons.jpg",
+    "원예": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Horticulturist_Amy_Boul_by_Lance_Cheung.jpg/500px-Horticulturist_Amy_Boul_by_Lance_Cheung.jpg",
+    "한대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Koppen_classification_worldmap_E.png/500px-Koppen_classification_worldmap_E.png",
+    "북반구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Northern_Hemisphere_LamAz.png/500px-Northern_Hemisphere_LamAz.png"
+   }
   },
   {
    "word": "튤립",
@@ -2216,7 +3163,14 @@
     "고양시",
     "경기도",
     "알뿌리"
-   ]
+   ],
+   "photos": {
+    "꽃": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Flores.gif",
+    "중앙아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Central_Asia_%28orthographic_projection%29.svg/500px-Central_Asia_%28orthographic_projection%29.svg.png",
+    "고양시": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/ILSAN%2CGOYANGCITY.jpg/500px-ILSAN%2CGOYANGCITY.jpg",
+    "경기도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/South_Korea-Gyeonggi.svg/500px-South_Korea-Gyeonggi.svg.png",
+    "알뿌리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Shallots_-_sliced_and_whole.jpg/500px-Shallots_-_sliced_and_whole.jpg"
+   }
   },
   {
    "word": "벚꽃",
@@ -2229,7 +3183,12 @@
     "하나미",
     "쿠마린",
     "왕벚나무"
-   ]
+   ],
+   "photos": {
+    "바닐라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Vanilla_6beans.JPG/500px-Vanilla_6beans.JPG",
+    "복숭아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Peaches_at_Applecrest_Farm_Orchards_-_20108457519.jpg/500px-Peaches_at_Applecrest_Farm_Orchards_-_20108457519.jpg",
+    "쿠마린": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Coumarin_acsv.svg/500px-Coumarin_acsv.svg.png"
+   }
   },
   {
    "word": "연꽃",
@@ -2242,7 +3201,14 @@
     "경상남도",
     "연밥",
     "연근"
-   ]
+   ],
+   "photos": {
+    "여러해살이풀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Rosmarinus_officinalis133095382.jpg/500px-Rosmarinus_officinalis133095382.jpg",
+    "함안군": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Map_Haman-gun.png/500px-Map_Haman-gun.png",
+    "경상남도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/South_Korea-South_Gyeongsang.svg/500px-South_Korea-South_Gyeongsang.svg.png",
+    "연밥": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/DriedLotusSeeds.jpg/500px-DriedLotusSeeds.jpg",
+    "연근": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Lotus_root.jpg/500px-Lotus_root.jpg"
+   }
   },
   {
    "word": "소나무",
@@ -2255,7 +3221,12 @@
     "상록수",
     "겨울",
     "구과목"
-   ]
+   ],
+   "photos": {
+    "봄": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Four_seasons.jpg/500px-Four_seasons.jpg",
+    "거북이": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Tortoise_Fred.jpg/500px-Tortoise_Fred.jpg",
+    "구과목": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Pinus_koraiensis_01.jpg/500px-Pinus_koraiensis_01.jpg"
+   }
   },
   {
    "word": "무지개",
@@ -2268,7 +3239,14 @@
     "색",
     "물방울",
     "달빛"
-   ]
+   ],
+   "photos": {
+    "하늘": "https://upload.wikimedia.org/wikipedia/commons/9/95/Skyshot.jpg",
+    "햇빛": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Soleil_couchant_sur_le_Vercors.jpg/500px-Soleil_couchant_sur_le_Vercors.jpg",
+    "색": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/64_365_Color_Macro_%285498808099%29.jpg/500px-64_365_Color_Macro_%285498808099%29.jpg",
+    "물방울": "https://upload.wikimedia.org/wikipedia/commons/6/65/Bouncing_droplets_compact_size.gif",
+    "달빛": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Dovedale_by_Moonlight_-_Oberlin.jpg/500px-Dovedale_by_Moonlight_-_Oberlin.jpg"
+   }
   },
   {
    "word": "번개",
@@ -2281,7 +3259,12 @@
     "전하",
     "방전",
     "구름"
-   ]
+   ],
+   "photos": {
+    "도체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Electrical_wires_near_Putim.jpg/500px-Electrical_wires_near_Putim.jpg",
+    "전하": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/VFPt_charges_plus_minus_thumb.svg/500px-VFPt_charges_plus_minus_thumb.svg.png",
+    "구름": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Wolkenwandel.webm/500px--Wolkenwandel.webm.jpg"
+   }
   },
   {
    "word": "화산",
@@ -2294,7 +3277,12 @@
     "발산 경계",
     "판 목록",
     "판 구조론"
-   ]
+   ],
+   "photos": {
+    "해령": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/World_Distribution_of_Mid-Oceanic_Ridges.gif/500px-World_Distribution_of_Mid-Oceanic_Ridges.gif",
+    "발산 경계": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Continental-continental_constructive_plate_boundary.svg/500px-Continental-continental_constructive_plate_boundary.svg.png",
+    "판 목록": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Tectonic_plates_%282022%29.svg/500px-Tectonic_plates_%282022%29.svg.png"
+   }
   },
   {
    "word": "폭포",
@@ -2307,7 +3295,14 @@
     "빙붕",
     "빙산",
     "급류"
-   ]
+   ],
+   "photos": {
+    "강": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/MariaValeriaBridge.jpg/500px-MariaValeriaBridge.jpg",
+    "호수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG/500px-Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG",
+    "빙붕": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Ross_Ice_Shelf_1997.jpg/500px-Ross_Ice_Shelf_1997.jpg",
+    "빙산": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Glaciers_and_Icebergs_at_Cape_York.jpg/500px-Glaciers_and_Icebergs_at_Cape_York.jpg",
+    "급류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Violent_water_below_Niagara_Falls.jpg/500px-Violent_water_below_Niagara_Falls.jpg"
+   }
   },
   {
    "word": "빙하",
@@ -2320,7 +3315,12 @@
     "피오르",
     "크레바스",
     "만년설"
-   ]
+   ],
+   "photos": {
+    "빙붕": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Ross_Ice_Shelf_1997.jpg/500px-Ross_Ice_Shelf_1997.jpg",
+    "피오르": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Geirangerfjord_from_%C3%98rnesvingen%2C_2013_June.jpg/500px-Geirangerfjord_from_%C3%98rnesvingen%2C_2013_June.jpg",
+    "크레바스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Langj%C3%B6kull_Abyss.jpg/500px-Langj%C3%B6kull_Abyss.jpg"
+   }
   },
   {
    "word": "오로라",
@@ -2333,7 +3333,14 @@
     "양성자",
     "전자",
     "플라즈마"
-   ]
+   ],
+   "photos": {
+    "태양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/500px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+    "지구 대기권": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Endeavour_silhouette_STS-130.jpg/500px-Endeavour_silhouette_STS-130.jpg",
+    "양성자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Proton_quark_structure.svg/500px-Proton_quark_structure.svg.png",
+    "전자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Atomic-orbital-clouds_spd_m0.png/500px-Atomic-orbital-clouds_spd_m0.png",
+    "플라즈마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Energy_Arc_%28central_electrode_of_a_Plasma_Lamp%29.jpg/500px-Energy_Arc_%28central_electrode_of_a_Plasma_Lamp%29.jpg"
+   }
   },
   {
    "word": "구름",
@@ -2346,7 +3353,12 @@
     "행성",
     "기상학",
     "위성"
-   ]
+   ],
+   "photos": {
+    "지구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/500px-The_Blue_Marble_%28remastered%29.jpg",
+    "대기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Meteotek08_atmosfera06.jpg/500px-Meteotek08_atmosfera06.jpg",
+    "위성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Moons_of_solar_system-ko.svg/500px-Moons_of_solar_system-ko.svg.png"
+   }
   },
   {
    "word": "달",
@@ -2359,7 +3371,13 @@
     "태양계",
     "위성",
     "부피"
-   ]
+   ],
+   "photos": {
+    "태양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/500px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+    "지구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/500px-The_Blue_Marble_%28remastered%29.jpg",
+    "태양계": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Solar_System_True_Color_KO.png/500px-Solar_System_True_Color_KO.png",
+    "부피": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Simple_Measuring_Cup.jpg/500px-Simple_Measuring_Cup.jpg"
+   }
   },
   {
    "word": "지구",
@@ -2372,7 +3390,12 @@
     "테이아",
     "용암",
     "대기층"
-   ]
+   ],
+   "photos": {
+    "태양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/500px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+    "용암": "https://upload.wikimedia.org/wikipedia/commons/9/91/%E4%BC%8A%E8%B1%86%E5%A4%A7%E5%B3%B6_1986%E5%B9%B4.png",
+    "대기층": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Meteotek08_atmosfera06.jpg/500px-Meteotek08_atmosfera06.jpg"
+   }
   },
   {
    "word": "파도",
@@ -2385,7 +3408,12 @@
     "호수",
     "표면파",
     "유체역학"
-   ]
+   ],
+   "photos": {
+    "강": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/MariaValeriaBridge.jpg/500px-MariaValeriaBridge.jpg",
+    "바다": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Atlantic_near_Faroe_Islands.jpg/500px-Atlantic_near_Faroe_Islands.jpg",
+    "호수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG/500px-Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG"
+   }
   },
   {
    "word": "섬",
@@ -2398,7 +3426,11 @@
     "무인도",
     "암초",
     "대륙"
-   ]
+   ],
+   "photos": {
+    "땅": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/AYool_topography_15min.png/500px-AYool_topography_15min.png",
+    "대륙": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Continental_models.gif/500px-Continental_models.gif"
+   }
   },
   {
    "word": "호수",
@@ -2411,7 +3443,10 @@
     "화산호",
     "염호",
     "못"
-   ]
+   ],
+   "photos": {
+    "못": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Nail.agr.jpg/500px-Nail.agr.jpg"
+   }
   },
   {
    "word": "해변",
@@ -2424,7 +3459,13 @@
     "침식",
     "해류",
     "파도"
-   ]
+   ],
+   "photos": {
+    "모래": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/00065_sand_collage.jpg/500px-00065_sand_collage.jpg",
+    "침식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Erosion.jpg/500px-Erosion.jpg",
+    "해류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Corrientes-oceanicas.png/500px-Corrientes-oceanicas.png",
+    "파도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Waves_in_pacifica_1.jpg/500px-Waves_in_pacifica_1.jpg"
+   }
   },
   {
    "word": "모래",
@@ -2437,7 +3478,13 @@
     "퇴적물",
     "알갱이",
     "광물"
-   ]
+   ],
+   "photos": {
+    "미사": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/StJohnsAshfield_StainedGlass_GoodShepherd_Portrait.jpg/500px-StJohnsAshfield_StainedGlass_GoodShepherd_Portrait.jpg",
+    "자갈": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Gravel_on_a_beach_in_Thirasia%2C_Santorini%2C_Greece.jpg/500px-Gravel_on_a_beach_in_Thirasia%2C_Santorini%2C_Greece.jpg",
+    "퇴적물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Leman_img_0573.jpg/500px-Leman_img_0573.jpg",
+    "광물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/S%C3%A9randite%2C_natrolite%2C_analcime%2C_aegirine_300-4-2112.JPG/500px-S%C3%A9randite%2C_natrolite%2C_analcime%2C_aegirine_300-4-2112.JPG"
+   }
   },
   {
    "word": "조개",
@@ -2450,7 +3497,11 @@
     "몸",
     "이매패류",
     "껍데기"
-   ]
+   ],
+   "photos": {
+    "연체동물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Common_snail.jpg/500px-Common_snail.jpg",
+    "몸": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Human_body_features-en.svg/500px-Human_body_features-en.svg.png"
+   }
   },
   {
    "word": "고사리",
@@ -2463,7 +3514,13 @@
     "포자",
     "난자",
     "양치류"
-   ]
+   ],
+   "photos": {
+    "식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/500px-Diversity_of_plants_%28Streptophyta%29_version_2.png",
+    "무성생식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Binary_Fission.png/500px-Binary_Fission.png",
+    "포자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Sporic_meiosis.svg/500px-Sporic_meiosis.svg.png",
+    "난자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Mice_X_Y_chromosomes.jpg/500px-Mice_X_Y_chromosomes.jpg"
+   }
   },
   {
    "word": "해초",
@@ -2476,7 +3533,12 @@
     "이산화탄소",
     "대륙붕",
     "종자식물"
-   ]
+   ],
+   "photos": {
+    "남극": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Antarctica_%28orthographic_projection%29.svg/500px-Antarctica_%28orthographic_projection%29.svg.png",
+    "이산화탄소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Carbon-dioxide-2D-dimensions.svg/500px-Carbon-dioxide-2D-dimensions.svg.png",
+    "대륙붕": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Elevation.jpg/500px-Elevation.jpg"
+   }
   },
   {
    "word": "산호",
@@ -2489,7 +3551,12 @@
     "히드로충류",
     "군체",
     "자포동물"
-   ]
+   ],
+   "photos": {
+    "해양 산성화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Estimated_change_in_annual_mean_sea_surface_pH_from_1770s-1990s_%28GLODAP%29.png/500px-Estimated_change_in_annual_mean_sea_surface_pH_from_1770s-1990s_%28GLODAP%29.png",
+    "폭파 낚시": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/%E0%B4%A4%E0%B5%8B%E0%B4%9F%E0%B5%8D%E0%B4%9F%E0%B4%AF%E0%B4%BF%E0%B5%BD_%E0%B4%A4%E0%B4%BF%E0%B4%B0%E0%B4%BF%E0%B4%B5%E0%B4%AF%E0%B5%8D%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B5%81%E0%B4%A8%E0%B5%8D%E0%B4%A8%E0%B5%81_01.jpg/500px-%E0%B4%A4%E0%B5%8B%E0%B4%9F%E0%B5%8D%E0%B4%9F%E0%B4%AF%E0%B4%BF%E0%B5%BD_%E0%B4%A4%E0%B4%BF%E0%B4%B0%E0%B4%BF%E0%B4%B5%E0%B4%AF%E0%B5%8D%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B5%81%E0%B4%A8%E0%B5%8D%E0%B4%A8%E0%B5%81_01.jpg",
+    "자포동물": "https://upload.wikimedia.org/wikipedia/commons/3/36/Sea_nettles.jpg"
+   }
   },
   {
    "word": "낙엽",
@@ -2504,7 +3571,13 @@
     "냉대",
     "서리",
     "기후대"
-   ]
+   ],
+   "photos": {
+    "온대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Four_seasons.jpg/500px-Four_seasons.jpg",
+    "잎": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Lisc_lipy.jpg/500px-Lisc_lipy.jpg",
+    "냉대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Larix_laricina.jpg/500px-Larix_laricina.jpg",
+    "서리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Frost_on_black_pipes.jpg/500px-Frost_on_black_pipes.jpg"
+   }
   },
   {
    "word": "도토리",
@@ -2517,7 +3590,13 @@
     "참나무",
     "갈참나무",
     "떡갈나무"
-   ]
+   ],
+   "photos": {
+    "녹말": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Cornstarch_mixed_with_water.jpg/500px-Cornstarch_mixed_with_water.jpg",
+    "참나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Quercus_dentata1.jpg/500px-Quercus_dentata1.jpg",
+    "갈참나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Quercus_aliena2.jpg/500px-Quercus_aliena2.jpg",
+    "떡갈나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Quercus_dentata.JPG/500px-Quercus_dentata.JPG"
+   }
   },
   {
    "word": "솔방울",
@@ -2530,7 +3609,13 @@
     "원뿔",
     "비늘",
     "난형선"
-   ]
+   ],
+   "photos": {
+    "나선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Helix.svg/500px-Helix.svg.png",
+    "원뿔": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Cone_%28geometry%29.png",
+    "비늘": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/AB_Keeled_Scales.jpg/500px-AB_Keeled_Scales.jpg",
+    "난형선": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Oval1.svg/500px-Oval1.svg.png"
+   }
   },
   {
    "word": "무궁화",
@@ -2543,7 +3628,11 @@
     "약",
     "국화",
     "관습헌법"
-   ]
+   ],
+   "photos": {
+    "종이": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Paper_450x450.jpg",
+    "약": "https://upload.wikimedia.org/wikipedia/commons/8/84/Psychoactive_Drugs.jpg"
+   }
   },
   {
    "word": "고드름",
@@ -2556,7 +3645,13 @@
     "섭씨",
     "어는점",
     "처마"
-   ]
+   ],
+   "photos": {
+    "중력": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/UGC_1810_and_UGC_1813_in_Arp_273_%28captured_by_the_Hubble_Space_Telescope%29.jpg/500px-UGC_1810_and_UGC_1813_in_Arp_273_%28captured_by_the_Hubble_Space_Telescope%29.jpg",
+    "섭씨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Countries_that_use_Fahrenheit.svg/500px-Countries_that_use_Fahrenheit.svg.png",
+    "어는점": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Carboxylic.Acids.Melting.%26.Boiling.Points.svg/500px-Carboxylic.Acids.Melting.%26.Boiling.Points.svg.png",
+    "처마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Seoul_history_-_panoramio.jpg/500px-Seoul_history_-_panoramio.jpg"
+   }
   },
   {
    "word": "갯벌",
@@ -2569,7 +3664,13 @@
     "해안 침식",
     "석호",
     "만"
-   ]
+   ],
+   "photos": {
+    "해수면 상승": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Trends_in_global_average_absolute_sea_level%2C_1880-2013.png/500px-Trends_in_global_average_absolute_sea_level%2C_1880-2013.png",
+    "해안 침식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Coastal_Erosion_Hunstanton_Cliffs.jpg/500px-Coastal_Erosion_Hunstanton_Cliffs.jpg",
+    "석호": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/GlenrockLagoonFromLeichhardtLookout.JPG/500px-GlenrockLagoonFromLeichhardtLookout.JPG",
+    "만": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/GulfofMexico3D.jpg/500px-GulfofMexico3D.jpg"
+   }
   },
   {
    "word": "계곡",
@@ -2584,7 +3685,13 @@
     "길",
     "지형",
     "절벽"
-   ]
+   ],
+   "photos": {
+    "산": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/500px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg",
+    "길": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Lush_greenery_of_the_Kangla_Fort_%28Kangla_Palace%29%2C_the_ancient_capital_of_Kangleipak_%E2%80%94_Early_modern_era_street_lamps_%E2%80%94_Old_Footpath.jpg/500px-Lush_greenery_of_the_Kangla_Fort_%28Kangla_Palace%29%2C_the_ancient_capital_of_Kangleipak_%E2%80%94_Early_modern_era_street_lamps_%E2%80%94_Old_Footpath.jpg",
+    "지형": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Cono_de_Arita%2C_Salta._%28Argentina%29.jpg/500px-Cono_de_Arita%2C_Salta._%28Argentina%29.jpg",
+    "절벽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Trango_Towers_2.jpg/500px-Trango_Towers_2.jpg"
+   }
   },
   {
    "word": "빙산",
@@ -2597,7 +3704,12 @@
     "빙붕",
     "빙하",
     "민물"
-   ]
+   ],
+   "photos": {
+    "바다": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Atlantic_near_Faroe_Islands.jpg/500px-Atlantic_near_Faroe_Islands.jpg",
+    "얼음": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Tree_branch_after_ice_storm.JPG/500px-Tree_branch_after_ice_storm.JPG",
+    "민물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Water_salinity_diagram.png/500px-Water_salinity_diagram.png"
+   }
   },
   {
    "word": "단풍",
@@ -2610,7 +3722,12 @@
     "잎",
     "빨강",
     "엽록소"
-   ]
+   ],
+   "photos": {
+    "나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/SV100408.JPG/500px-SV100408.JPG",
+    "잎": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Lisc_lipy.jpg/500px-Lisc_lipy.jpg",
+    "엽록소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/M%C3%A9lisse_Feuilles_FR_2013b.jpg/500px-M%C3%A9lisse_Feuilles_FR_2013b.jpg"
+   }
   },
   {
    "word": "수국",
@@ -2625,7 +3742,13 @@
     "낙엽성",
     "덩굴나무",
     "자생"
-   ]
+   ],
+   "photos": {
+    "나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/SV100408.JPG/500px-SV100408.JPG",
+    "상록식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Abies_alba_02.jpg/500px-Abies_alba_02.jpg",
+    "낙엽성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Autumn_leaf.jpg/500px-Autumn_leaf.jpg",
+    "덩굴나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Lianas.jpg/500px-Lianas.jpg"
+   }
   },
   {
    "word": "도서관",
@@ -2638,7 +3761,12 @@
     "마이크로필름",
     "잡지",
     "책"
-   ]
+   ],
+   "photos": {
+    "디지털화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Internet_Archive_book_scanner_1.jpg/500px-Internet_Archive_book_scanner_1.jpg",
+    "서점": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Libraria_Carturesti_Carusel_-_Interior_ziua.jpg/500px-Libraria_Carturesti_Carusel_-_Interior_ziua.jpg",
+    "마이크로필름": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Microform_scanner.JPG/500px-Microform_scanner.JPG"
+   }
   },
   {
    "word": "김치찌개",
@@ -2651,7 +3779,12 @@
     "고추",
     "순두부찌개",
     "된장찌개"
-   ]
+   ],
+   "photos": {
+    "반찬": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/%ED%99%8D%EC%B2%9C%EA%B5%B0_%EB%93%A4%EA%BD%83%EC%8C%88%EB%B0%A5_%EC%82%AC%EA%B3%A8%EC%9A%B0%EA%B1%B0%EC%A7%80%EA%B5%AD_%EB%B0%98%EC%B0%AC_%EB%B0%A5_Wild_Flower_Ssambap_Banchan_IMG_0150.jpg/500px-%ED%99%8D%EC%B2%9C%EA%B5%B0_%EB%93%A4%EA%BD%83%EC%8C%88%EB%B0%A5_%EC%82%AC%EA%B3%A8%EC%9A%B0%EA%B1%B0%EC%A7%80%EA%B5%AD_%EB%B0%98%EC%B0%AC_%EB%B0%A5_Wild_Flower_Ssambap_Banchan_IMG_0150.jpg",
+    "한국 요리": "https://upload.wikimedia.org/wikipedia/commons/b/b2/KOCIS_Korean_meal_table_%284553953910%29.jpg",
+    "고추": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Go_choo.jpg/500px-Go_choo.jpg"
+   }
   },
   {
    "word": "사과나무",
@@ -2664,7 +3797,14 @@
     "루마니아",
     "동남유럽",
     "활엽수"
-   ]
+   ],
+   "photos": {
+    "그리스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/500px-Flag_of_Greece.svg.png",
+    "낙엽성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Autumn_leaf.jpg/500px-Autumn_leaf.jpg",
+    "루마니아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/500px-Flag_of_Romania.svg.png",
+    "동남유럽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Balkan_topo_en.jpg/500px-Balkan_topo_en.jpg",
+    "활엽수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Quercus_mongolica_leaves_and_immature_acorn%2C_Hokkaido.jpg/500px-Quercus_mongolica_leaves_and_immature_acorn%2C_Hokkaido.jpg"
+   }
   },
   {
    "word": "텔레비전",
@@ -2677,7 +3817,13 @@
     "뉴스",
     "단색",
     "대중 매체"
-   ]
+   ],
+   "photos": {
+    "원거리 통신": "https://upload.wikimedia.org/wikipedia/commons/4/47/Amfm3.gif",
+    "동영상": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/WikiNYC-picnic-mystery-videographer.jpg/500px-WikiNYC-picnic-mystery-videographer.jpg",
+    "단색": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Eiffel_tower_at_Exposition_Universelle%2C_Paris%2C_1889.jpg/500px-Eiffel_tower_at_Exposition_Universelle%2C_Paris%2C_1889.jpg",
+    "대중 매체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Diarioeluniverso.JPG/500px-Diarioeluniverso.JPG"
+   }
   },
   {
    "word": "컴퓨터",
@@ -2690,7 +3836,12 @@
     "계산기",
     "일렉트로닉스",
     "데이터"
-   ]
+   ],
+   "photos": {
+    "계산기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Casio_calculator_JS-20WK_in_201901_002.jpg/500px-Casio_calculator_JS-20WK_in_201901_002.jpg",
+    "일렉트로닉스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Arduino_ftdi_chip-1.jpg/500px-Arduino_ftdi_chip-1.jpg",
+    "데이터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Data_types_-_en.svg/500px-Data_types_-_en.svg.png"
+   }
   },
   {
    "word": "핸드폰",
@@ -2705,7 +3856,12 @@
     "유선전화",
     "전화 통화",
     "무선주파수"
-   ]
+   ],
+   "photos": {
+    "음성 통화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/CandlestickTelephoneGal.jpg/500px-CandlestickTelephoneGal.jpg",
+    "유선전화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Siemens_Euroset_805.jpg/500px-Siemens_Euroset_805.jpg",
+    "무선주파수": "https://upload.wikimedia.org/wikipedia/commons/0/02/F-Stecker_und_Kabel.jpg"
+   }
   },
   {
    "word": "자동차",
@@ -2718,7 +3874,13 @@
     "화물",
     "승객",
     "동력"
-   ]
+   ],
+   "photos": {
+    "바퀴": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Wheel_Iran.jpg",
+    "엔진": "https://upload.wikimedia.org/wikipedia/commons/d/dc/4StrokeEngine_Ortho_3D_Small.gif",
+    "화물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Discharging_frozen_mutton_and_lamb_from_Australia_on_the_Clan_Macdougall_%286105964558%29.jpg/500px-Discharging_frozen_mutton_and_lamb_from_Australia_on_the_Clan_Macdougall_%286105964558%29.jpg",
+    "승객": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/A_passenger.JPG/500px-A_passenger.JPG"
+   }
   },
   {
    "word": "경찰서",
@@ -2731,7 +3893,11 @@
     "오피스",
     "기초자치단체",
     "관청"
-   ]
+   ],
+   "photos": {
+    "유치장": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Cela.jpg/500px-Cela.jpg",
+    "오피스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/West_side_of_Manhattan_from_Hudson_Commons_%2895103p%29.jpg/500px-West_side_of_Manhattan_from_Hudson_Commons_%2895103p%29.jpg"
+   }
   },
   {
    "word": "소방서",
@@ -2744,7 +3910,13 @@
     "응급 전화번호",
     "교통 신호",
     "광역자치단체"
-   ]
+   ],
+   "photos": {
+    "소방관": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/FiremenFightBurningBarn.jpg/500px-FiremenFightBurningBarn.jpg",
+    "소방차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Dublin_Fire_Brigade_Pump_Ladder_D32.jpg/500px-Dublin_Fire_Brigade_Pump_Ladder_D32.jpg",
+    "응급 전화번호": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Emergency_telephone_numbers_in_the_world.svg/500px-Emergency_telephone_numbers_in_the_world.svg.png",
+    "교통 신호": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Semaforoencendido.jpg/500px-Semaforoencendido.jpg"
+   }
   },
   {
    "word": "병원",
@@ -2757,7 +3929,11 @@
     "노인학",
     "응급실",
     "의료 과학"
-   ]
+   ],
+   "photos": {
+    "전공의": "https://upload.wikimedia.org/wikipedia/commons/3/39/Anesthesia_patient_simulator.jpg",
+    "의료 과학": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Asklepios.3.jpg"
+   }
   },
   {
    "word": "학교",
@@ -2770,7 +3946,11 @@
     "교사",
     "시설",
     "교실"
-   ]
+   ],
+   "photos": {
+    "교육": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/FBE_CTU_lecture.jpg/500px-FBE_CTU_lecture.jpg",
+    "교실": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Elementary_classroom_in_Alaska.jpg/500px-Elementary_classroom_in_Alaska.jpg"
+   }
   },
   {
    "word": "교실",
@@ -2783,7 +3963,12 @@
     "특수교육",
     "대학",
     "유치원"
-   ]
+   ],
+   "photos": {
+    "고등학교": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Hibbing_High_School_2014.jpg/500px-Hibbing_High_School_2014.jpg",
+    "대학": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/College_graduate_students.jpg/500px-College_graduate_students.jpg",
+    "유치원": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Kindergarten_is_fun_%282908834379%29.jpg/500px-Kindergarten_is_fun_%282908834379%29.jpg"
+   }
   },
   {
    "word": "기타",
@@ -2796,7 +3981,14 @@
     "찰현악기",
     "클래식 음악",
     "발현악기"
-   ]
+   ],
+   "photos": {
+    "스페인": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Flag_of_the_Kingdom_of_Spain.svg/500px-Flag_of_the_Kingdom_of_Spain.svg.png",
+    "재즈": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Slave_dance_to_banjo%2C_1780s.jpg/500px-Slave_dance_to_banjo%2C_1780s.jpg",
+    "찰현악기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Viola_Profonda_comparison.jpg/500px-Viola_Profonda_comparison.jpg",
+    "클래식 음악": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/BJO_Konzert_Phil_MR_098.jpg/500px-BJO_Konzert_Phil_MR_098.jpg",
+    "발현악기": "https://upload.wikimedia.org/wikipedia/commons/7/77/Plucked_instrument%2C_French_Psalter%2C_9th_century.jpg"
+   }
   },
   {
    "word": "노래방",
@@ -2808,7 +4000,10 @@
     "식품위생법",
     "바",
     "가라오케"
-   ]
+   ],
+   "photos": {
+    "가라오케": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/%E5%8D%A1%E6%8B%89OK.jpg/500px-%E5%8D%A1%E6%8B%89OK.jpg"
+   }
   },
   {
    "word": "영화관",
@@ -2821,7 +4016,14 @@
     "호광등",
     "라임라이트",
     "환등기"
-   ]
+   ],
+   "photos": {
+    "토머스 에디슨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Thomas_Edison2.jpg/500px-Thomas_Edison2.jpg",
+    "그레뱅 박물관": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Grevin_musee_facade.jpg/500px-Grevin_musee_facade.jpg",
+    "호광등": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Xenon_short_arc_1.jpg/500px-Xenon_short_arc_1.jpg",
+    "라임라이트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Limelight_%281952%29_-_original_theatrical_poster.jpeg/500px-Limelight_%281952%29_-_original_theatrical_poster.jpeg",
+    "환등기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Wymondham_magic_lantern.jpg/500px-Wymondham_magic_lantern.jpg"
+   }
   },
   {
    "word": "박물관",
@@ -2834,7 +4036,13 @@
     "과학",
     "역사",
     "미술"
-   ]
+   ],
+   "photos": {
+    "영화": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Le_Voyage_dans_la_Lune_%281902%29.webm/500px--Le_Voyage_dans_la_Lune_%281902%29.webm.jpg",
+    "과학": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/CMB_Timeline_No_Labels_or_WMAP.jpg/500px-CMB_Timeline_No_Labels_or_WMAP.jpg",
+    "역사": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Marble_bust_of_Herodotos_MET_DT11742_%28cropped%29.jpg/500px-Marble_bust_of_Herodotos_MET_DT11742_%28cropped%29.jpg",
+    "미술": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Rembrandt_Self-portrait_%28Kenwood%29.jpg/500px-Rembrandt_Self-portrait_%28Kenwood%29.jpg"
+   }
   },
   {
    "word": "놀이공원",
@@ -2847,7 +4055,14 @@
     "정기시",
     "놀이터",
     "도시 공원"
-   ]
+   ],
+   "photos": {
+    "레크리에이션": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Luge_Schlucht.jpg/500px-Luge_Schlucht.jpg",
+    "유람지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Rotunda_at_Ranleigh_T_Bowles_1754.jpg/500px-Rotunda_at_Ranleigh_T_Bowles_1754.jpg",
+    "정기시": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/1590_Mostaert_Dorfkirmes_anagoria.JPG/500px-1590_Mostaert_Dorfkirmes_anagoria.JPG",
+    "놀이터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Hotel_Playground_Yachthafenresidenz_Hohe_D%C3%BCne_Rostock_2.jpg/500px-Hotel_Playground_Yachthafenresidenz_Hohe_D%C3%BCne_Rostock_2.jpg",
+    "도시 공원": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Adda_Heights_Park.jpg/500px-Adda_Heights_Park.jpg"
+   }
   },
   {
    "word": "떡볶이",
@@ -2860,7 +4075,14 @@
     "한국 요리",
     "가래떡",
     "떡면"
-   ]
+   ],
+   "photos": {
+    "채소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Vegetables_2.jpg/500px-Vegetables_2.jpg",
+    "어묵": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Assorted_Eomuk.jpg/500px-Assorted_Eomuk.jpg",
+    "한국 요리": "https://upload.wikimedia.org/wikipedia/commons/b/b2/KOCIS_Korean_meal_table_%284553953910%29.jpg",
+    "가래떡": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Korean.food-teok-01.jpg/500px-Korean.food-teok-01.jpg",
+    "떡면": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Tteokmyeon.jpg/500px-Tteokmyeon.jpg"
+   }
   },
   {
    "word": "순대",
@@ -2873,7 +4095,14 @@
     "당면",
     "창자",
     "한국의 음식"
-   ]
+   ],
+   "photos": {
+    "채소": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Vegetables_2.jpg/500px-Vegetables_2.jpg",
+    "선지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Goat_blood_for_Christmas_Lunch.jpg/500px-Goat_blood_for_Christmas_Lunch.jpg",
+    "당면": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Dongfen.JPG/500px-Dongfen.JPG",
+    "창자": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Stomach_colon_rectum_diagram-en.svg/500px-Stomach_colon_rectum_diagram-en.svg.png",
+    "한국의 음식": "https://upload.wikimedia.org/wikipedia/commons/b/b2/KOCIS_Korean_meal_table_%284553953910%29.jpg"
+   }
   },
   {
    "word": "호떡",
@@ -2886,7 +4115,13 @@
     "흑설탕",
     "계피",
     "찹쌀"
-   ]
+   ],
+   "photos": {
+    "땅콩": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg/500px-Arachis_hypogaea_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-163.jpg",
+    "흑설탕": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Brown_sugar_examples.JPG/500px-Brown_sugar_examples.JPG",
+    "계피": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Cinnamomum_verum_vs_Cinnamomum_burmanni.jpg/500px-Cinnamomum_verum_vs_Cinnamomum_burmanni.jpg",
+    "찹쌀": "https://upload.wikimedia.org/wikipedia/commons/0/04/%EC%B0%B9%EC%8C%80.JPG"
+   }
   },
   {
    "word": "붕어빵",
@@ -2899,7 +4134,12 @@
     "팥",
     "잉어빵",
     "풀빵"
-   ]
+   ],
+   "photos": {
+    "노점상": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Street_Craftsman_in_Olinda.jpg/500px-Street_Craftsman_in_Olinda.jpg",
+    "팥": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/W_azuki2111.jpg/500px-W_azuki2111.jpg",
+    "풀빵": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Hodu_Cake_Burning_Frame.jpg/500px-Hodu_Cake_Burning_Frame.jpg"
+   }
   },
   {
    "word": "계란빵",
@@ -2912,7 +4152,13 @@
     "길거리 음식",
     "베이킹 파우더",
     "인하대학교"
-   ]
+   ],
+   "photos": {
+    "우유": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Milk_glass.jpg/500px-Milk_glass.jpg",
+    "길거리 음식": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/StreetfoodNY.jpg/500px-StreetfoodNY.jpg",
+    "베이킹 파우더": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Backpulver.jpg/500px-Backpulver.jpg",
+    "인하대학교": "https://upload.wikimedia.org/wikipedia/commons/6/67/InhaUniversity_Emblem.jpg"
+   }
   },
   {
    "word": "수박",
@@ -2925,7 +4171,14 @@
     "타원형",
     "마름모꼴",
     "덩굴"
-   ]
+   ],
+   "photos": {
+    "열매": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Fruit_Basket.jpg/500px-Fruit_Basket.jpg",
+    "씨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/%D0%A0%D0%B0%D0%B7%D0%BD%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B8%D0%B5_%D1%81%D0%B5%D0%BC%D1%8F%D0%BD.jpg/500px-%D0%A0%D0%B0%D0%B7%D0%BD%D0%BE%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B8%D0%B5_%D1%81%D0%B5%D0%BC%D1%8F%D0%BD.jpg",
+    "타원형": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Elipse.svg/500px-Elipse.svg.png",
+    "마름모꼴": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Rhombus_definition2.svg/500px-Rhombus_definition2.svg.png",
+    "덩굴": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Vine.jpg/500px-Vine.jpg"
+   }
   },
   {
    "word": "참외",
@@ -2938,7 +4191,13 @@
     "피토케미컬",
     "사하라",
     "멜론"
-   ]
+   ],
+   "photos": {
+    "아프리카": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Africa_%28orthographic_projection%29.svg/500px-Africa_%28orthographic_projection%29.svg.png",
+    "러시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/500px-Flag_of_Russia.svg.png",
+    "피토케미컬": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Flowers_2013-08-10_19-21.jpg/500px-Flowers_2013-08-10_19-21.jpg",
+    "사하라": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Sahara_satellite_hires.jpg/500px-Sahara_satellite_hires.jpg"
+   }
   },
   {
    "word": "포도",
@@ -2951,7 +4210,14 @@
     "서아시아",
     "젤리",
     "주스"
-   ]
+   ],
+   "photos": {
+    "열매": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Fruit_Basket.jpg/500px-Fruit_Basket.jpg",
+    "식물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Diversity_of_plants_%28Streptophyta%29_version_2.png/500px-Diversity_of_plants_%28Streptophyta%29_version_2.png",
+    "서아시아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Western_Asia_%28orthographic_projection%29.svg/500px-Western_Asia_%28orthographic_projection%29.svg.png",
+    "젤리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Rainbow-Jello-Cut-2004-Jul-30.jpg/500px-Rainbow-Jello-Cut-2004-Jul-30.jpg",
+    "주스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Orange_juice_1.jpg/500px-Orange_juice_1.jpg"
+   }
   },
   {
    "word": "오렌지",
@@ -2964,7 +4230,10 @@
     "페르시아어",
     "귤열매",
     "당귤나무"
-   ]
+   ],
+   "photos": {
+    "페르시아어": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Farsi.svg/500px-Farsi.svg.png"
+   }
   },
   {
    "word": "스케이트",
@@ -2977,7 +4246,13 @@
     "북유럽",
     "제철",
     "석기시대"
-   ]
+   ],
+   "photos": {
+    "얼음": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Tree_branch_after_ice_storm.JPG/500px-Tree_branch_after_ice_storm.JPG",
+    "네덜란드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/500px-Flag_of_the_Netherlands.svg.png",
+    "북유럽": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Satellite_image_of_Northern_Europe2.jpg/500px-Satellite_image_of_Northern_Europe2.jpg",
+    "석기시대": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Watt%27s_condensing_engine_%28New_Catechism_of_the_Steam_Engine%2C_1904%29.jpg/500px-Watt%27s_condensing_engine_%28New_Catechism_of_the_Steam_Engine%2C_1904%29.jpg"
+   }
   },
   {
    "word": "스키장",
@@ -2990,7 +4265,12 @@
     "리프트",
     "슬로프",
     "스노보드"
-   ]
+   ],
+   "photos": {
+    "강원도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Gangwon_Province_%28June_22%2C_1895%29.png/500px-Gangwon_Province_%28June_22%2C_1895%29.png",
+    "호남 지방": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Map_of_Jeolla-Honam%2C_South_Korea.svg/500px-Map_of_Jeolla-Honam%2C_South_Korea.svg.png",
+    "스노보드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Shakedown_2008_Figure_1a.jpg/500px-Shakedown_2008_Figure_1a.jpg"
+   }
   },
   {
    "word": "모래성",
@@ -3005,7 +4285,13 @@
     "사장",
     "건축물",
     "모래사장"
-   ]
+   ],
+   "photos": {
+    "점토": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Gay_head_cliffs_MV.JPG/500px-Gay_head_cliffs_MV.JPG",
+    "미사": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/StJohnsAshfield_StainedGlass_GoodShepherd_Portrait.jpg/500px-StJohnsAshfield_StainedGlass_GoodShepherd_Portrait.jpg",
+    "건축물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bank_of_china_night.jpg/500px-Bank_of_china_night.jpg",
+    "모래사장": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/WayaWayasewa.jpg/500px-WayaWayasewa.jpg"
+   }
   },
   {
    "word": "낚시",
@@ -3018,7 +4304,13 @@
     "호수",
     "저수지",
     "어업"
-   ]
+   ],
+   "photos": {
+    "강": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/MariaValeriaBridge.jpg/500px-MariaValeriaBridge.jpg",
+    "물고기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Georgia_Aquarium_-_Giant_Grouper_edit.jpg/500px-Georgia_Aquarium_-_Giant_Grouper_edit.jpg",
+    "호수": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG/500px-Lac_du_Milieu_de_Bastan_Hautes_Pyr%C3%A9n%C3%A9es_02_BLS.JPG",
+    "저수지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/%EA%B2%A8%EC%9A%B8%EB%B0%A4_%EA%B8%B0%ED%9D%A5%ED%98%B8%EC%88%98%28AMJ%29.jpg/500px-%EA%B2%A8%EC%9A%B8%EB%B0%A4_%EA%B8%B0%ED%9D%A5%ED%98%B8%EC%88%98%28AMJ%29.jpg"
+   }
   },
   {
    "word": "캠핑",
@@ -3033,7 +4325,12 @@
     "텐트",
     "자연",
     "도시"
-   ]
+   ],
+   "photos": {
+    "레크리에이션": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Luge_Schlucht.jpg/500px-Luge_Schlucht.jpg",
+    "자연": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Hopetoun_falls.jpg/500px-Hopetoun_falls.jpg",
+    "도시": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Hong_Kong_Harbour_Night_2019-06-11.jpg/500px-Hong_Kong_Harbour_Night_2019-06-11.jpg"
+   }
   },
   {
    "word": "별자리",
@@ -3046,7 +4343,10 @@
     "봄의 삼각형",
     "북두칠성",
     "항성"
-   ]
+   ],
+   "photos": {
+    "바빌로니아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Babylone_1.PNG/500px-Babylone_1.PNG"
+   }
   },
   {
    "word": "달빛",
@@ -3059,7 +4359,14 @@
     "햇빛",
     "늑대인간",
     "전설"
-   ]
+   ],
+   "photos": {
+    "지구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/500px-The_Blue_Marble_%28remastered%29.jpg",
+    "서양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Western_World_Latin_America_torn_countries.png/500px-Western_World_Latin_America_torn_countries.png",
+    "햇빛": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Soleil_couchant_sur_le_Vercors.jpg/500px-Soleil_couchant_sur_le_Vercors.jpg",
+    "늑대인간": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Loup-garou.jpg",
+    "전설": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Reynard-the-fox.jpg/500px-Reynard-the-fox.jpg"
+   }
   },
   {
    "word": "해돋이",
@@ -3072,7 +4379,13 @@
     "계절",
     "시각",
     "해넘이"
-   ]
+   ],
+   "photos": {
+    "지구": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/500px-The_Blue_Marble_%28remastered%29.jpg",
+    "태양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/500px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+    "계절": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Four_seasons.jpg/500px-Four_seasons.jpg",
+    "시각": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Menschliches_Auge.jpg/500px-Menschliches_Auge.jpg"
+   }
   },
   {
    "word": "노을",
@@ -3085,7 +4398,13 @@
     "대기",
     "산란",
     "파란색"
-   ]
+   ],
+   "photos": {
+    "태양": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/500px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
+    "파장": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Sine_wavelength.svg/500px-Sine_wavelength.svg.png",
+    "대기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Meteotek08_atmosfera06.jpg/500px-Meteotek08_atmosfera06.jpg",
+    "파란색": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Color_icon_blue.png/500px-Color_icon_blue.png"
+   }
   },
   {
    "word": "민들레",
@@ -3098,7 +4417,14 @@
     "기관지염",
     "인후염",
     "감기"
-   ]
+   ],
+   "photos": {
+    "열매": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Fruit_Basket.jpg/500px-Fruit_Basket.jpg",
+    "이눌린": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Inulin_strukturformel.png/500px-Inulin_strukturformel.png",
+    "기관지염": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Acute-bronchitis.jpg",
+    "인후염": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Pharyngitis.jpg/500px-Pharyngitis.jpg",
+    "감기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Rhinovirus.PNG/500px-Rhinovirus.PNG"
+   }
   },
   {
    "word": "벌집",
@@ -3111,7 +4437,11 @@
     "벌통",
     "밀랍",
     "곰팡이"
-   ]
+   ],
+   "photos": {
+    "가축화": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Shepherd_Dog.jpg",
+    "곰팡이": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Mold_on_a_strawberry.jpg/500px-Mold_on_a_strawberry.jpg"
+   }
   },
   {
    "word": "뱀",
@@ -3123,7 +4453,12 @@
     "파충류",
     "보습코기관",
     "아일랜드섬"
-   ]
+   ],
+   "photos": {
+    "남극": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Antarctica_%28orthographic_projection%29.svg/500px-Antarctica_%28orthographic_projection%29.svg.png",
+    "파충류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Reptiles.jpg/500px-Reptiles.jpg",
+    "아일랜드섬": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Ireland.NASA.jpg/500px-Ireland.NASA.jpg"
+   }
   },
   {
    "word": "로봇",
@@ -3136,7 +4471,12 @@
     "안드로이드",
     "컴퓨터 프로그램",
     "태스크"
-   ]
+   ],
+   "photos": {
+    "자동차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/VW_K%C3%A4fer_blue_1956_vr_TCE.jpg/500px-VW_K%C3%A4fer_blue_1956_vr_TCE.jpg",
+    "컴퓨터 프로그램": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/JavaScript_code.png/500px-JavaScript_code.png",
+    "태스크": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Thread_pool.svg/500px-Thread_pool.svg.png"
+   }
   },
   {
    "word": "우주선",
@@ -3149,7 +4489,12 @@
     "기상 위성",
     "전기 통신",
     "우주 공간"
-   ]
+   ],
+   "photos": {
+    "비행": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Juvenile_pelecanus_occidentalis_in_flight.jpg/500px-Juvenile_pelecanus_occidentalis_in_flight.jpg",
+    "항법": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Table_of_Geography_and_Hydrography%2C_Cyclopaedia%2C_Volume_1.jpg/500px-Table_of_Geography_and_Hydrography%2C_Cyclopaedia%2C_Volume_1.jpg",
+    "전기 통신": "https://upload.wikimedia.org/wikipedia/commons/4/47/Amfm3.gif"
+   }
   },
   {
    "word": "위성",
@@ -3162,7 +4507,13 @@
     "행성",
     "태양계 소천체",
     "왜행성"
-   ]
+   ],
+   "photos": {
+    "태양계": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Solar_System_True_Color_KO.png/500px-Solar_System_True_Color_KO.png",
+    "천체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/243_ida.jpg/500px-243_ida.jpg",
+    "태양계 소천체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Euler_diagram_of_solar_system_bodies-ko.svg/500px-Euler_diagram_of_solar_system_bodies-ko.svg.png",
+    "왜행성": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Eris_and_dysnomia2.jpg"
+   }
   },
   {
    "word": "별똥별",
@@ -3177,7 +4528,13 @@
     "국제천문연맹",
     "별똥만발",
     "혜성"
-   ]
+   ],
+   "photos": {
+    "대류권": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Earth_Atmosphere.svg/500px-Earth_Atmosphere.svg.png",
+    "천정": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Zenith-Nadir-Horizon.svg/500px-Zenith-Nadir-Horizon.svg.png",
+    "국제천문연맹": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/IAU_logo.svg/500px-IAU_logo.svg.png",
+    "혜성": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Deep_Impact_HRI.jpeg/500px-Deep_Impact_HRI.jpeg"
+   }
   },
   {
    "word": "은하수",
@@ -3190,7 +4547,12 @@
     "안드로메다 은하",
     "국부은하군",
     "우리 은하"
-   ]
+   ],
+   "photos": {
+    "초대질량 블랙홀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Black_hole_-_Messier_87.jpg/500px-Black_hole_-_Messier_87.jpg",
+    "광년": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/1e16m_comparison_10_light_years_sirius.png/500px-1e16m_comparison_10_light_years_sirius.png",
+    "국부은하군": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/LokaleGruppe_Diagramm_750px.png/500px-LokaleGruppe_Diagramm_750px.png"
+   }
   },
   {
    "word": "시계탑",
@@ -3203,7 +4565,12 @@
     "엘리자베스 타워",
     "손목시계",
     "랜드마크"
-   ]
+   ],
+   "photos": {
+    "런던": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/London_Montage_A.jpg/500px-London_Montage_A.jpg",
+    "베른": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Bern_Federal_Palace_Central_Dome_with_Eiger_2019-10-16_18-28_%28cropped%29.jpg/500px-Bern_Federal_Palace_Central_Dome_with_Eiger_2019-10-16_18-28_%28cropped%29.jpg",
+    "손목시계": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Swatch_Irony_Charcoal_Suit.jpg/500px-Swatch_Irony_Charcoal_Suit.jpg"
+   }
   },
   {
    "word": "터널",
@@ -3216,7 +4583,14 @@
     "강",
     "도로",
     "산"
-   ]
+   ],
+   "photos": {
+    "철도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg/500px-D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg",
+    "바다": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Atlantic_near_Faroe_Islands.jpg/500px-Atlantic_near_Faroe_Islands.jpg",
+    "강": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/MariaValeriaBridge.jpg/500px-MariaValeriaBridge.jpg",
+    "도로": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Erlangen_Bundesautobahn_73_Auffahrt_Luftbild-20230422-RM-165734.jpg/500px-Erlangen_Bundesautobahn_73_Auffahrt_Luftbild-20230422-RM-165734.jpg",
+    "산": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/500px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg"
+   }
   },
   {
    "word": "고속도로",
@@ -3229,7 +4603,13 @@
     "지방",
     "자동차 전용도로",
     "신호등"
-   ]
+   ],
+   "photos": {
+    "자동차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/VW_K%C3%A4fer_blue_1956_vr_TCE.jpg/500px-VW_K%C3%A4fer_blue_1956_vr_TCE.jpg",
+    "이탈리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/500px-Flag_of_Italy.svg.png",
+    "지방": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Trimyristin-3D-vdW.png/500px-Trimyristin-3D-vdW.png",
+    "신호등": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Semaforoencendido.jpg/500px-Semaforoencendido.jpg"
+   }
   },
   {
    "word": "주차장",
@@ -3242,7 +4622,14 @@
     "도심지",
     "서울특별시",
     "대도시"
-   ]
+   ],
+   "photos": {
+    "자동차": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/VW_K%C3%A4fer_blue_1956_vr_TCE.jpg/500px-VW_K%C3%A4fer_blue_1956_vr_TCE.jpg",
+    "교통": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg/500px-Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg",
+    "도심지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Downtown_Seoul_and_Seoul_City_Wall.jpg/500px-Downtown_Seoul_and_Seoul_City_Wall.jpg",
+    "서울특별시": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/%EA%B2%BD%EB%B3%B5%EA%B6%81_%EA%B4%91%ED%99%94%EB%AC%B8_%28cropped%29.jpg/500px-%EA%B2%BD%EB%B3%B5%EA%B6%81_%EA%B4%91%ED%99%94%EB%AC%B8_%28cropped%29.jpg",
+    "대도시": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Hong_Kong_Harbour_Night_2019-06-11.jpg/500px-Hong_Kong_Harbour_Night_2019-06-11.jpg"
+   }
   },
   {
    "word": "신호등",
@@ -3255,7 +4642,14 @@
     "뉴질랜드",
     "교통",
     "도로"
-   ]
+   ],
+   "photos": {
+    "오스트레일리아": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/500px-Flag_of_Australia_%28converted%29.svg.png",
+    "철도": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg/500px-D%C3%BClmen%2C_B%C3%B6rnste%2C_Eisenbahnlinie_Dortmund-Enschede_--_2015_--_9918.jpg",
+    "뉴질랜드": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Flag_of_New_Zealand.svg/500px-Flag_of_New_Zealand.svg.png",
+    "교통": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg/500px-Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg",
+    "도로": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Erlangen_Bundesautobahn_73_Auffahrt_Luftbild-20230422-RM-165734.jpg/500px-Erlangen_Bundesautobahn_73_Auffahrt_Luftbild-20230422-RM-165734.jpg"
+   }
   },
   {
    "word": "우체통",
@@ -3267,7 +4661,13 @@
     "우정총국",
     "우편함",
     "우체국"
-   ]
+   ],
+   "photos": {
+    "일제강점기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_Japan_%281870%E2%80%931999%29.svg/500px-Flag_of_Japan_%281870%E2%80%931999%29.svg.png",
+    "우정총국": "https://thumb.wikimedia.org/wikipedia/ko/thumb/2/2d/Ujeongchongguk.jpg/500px-Ujeongchongguk.jpg",
+    "우편함": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/%E8%A3%8F%E5%BA%AD%E3%83%98%E3%83%84%E3%83%85%E3%82%AF%E9%81%93_%2827973510431%29.jpg/500px-%E8%A3%8F%E5%BA%AD%E3%83%98%E3%83%84%E3%83%85%E3%82%AF%E9%81%93_%2827973510431%29.jpg",
+    "우체국": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/%EC%9D%B8%EC%B2%9C%EC%98%A5%EB%A0%A8%EB%8F%99%EC%9A%B0%EC%B2%B4%EA%B5%AD_2024.jpg/500px-%EC%9D%B8%EC%B2%9C%EC%98%A5%EB%A0%A8%EB%8F%99%EC%9A%B0%EC%B2%B4%EA%B5%AD_2024.jpg"
+   }
   },
   {
    "word": "초인종",
@@ -3280,7 +4680,13 @@
     "윌리엄 머독",
     "인터폰",
     "주택"
-   ]
+   ],
+   "photos": {
+    "문": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/L-door.png/500px-L-door.png",
+    "현관": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Apartment_building_lobby.jpg/500px-Apartment_building_lobby.jpg",
+    "윌리엄 머독": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/William_Murdoch_%281754-1839%29.jpg/500px-William_Murdoch_%281754-1839%29.jpg",
+    "주택": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Katsura_Imperial_Villa_in_Spring.jpg/500px-Katsura_Imperial_Villa_in_Spring.jpg"
+   }
   },
   {
    "word": "커튼",
@@ -3292,7 +4698,13 @@
     "바람",
     "방",
     "채광"
-   ]
+   ],
+   "photos": {
+    "빛": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Total_internal_reflection.jpg/500px-Total_internal_reflection.jpg",
+    "바람": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Pieter_Kluyver_-_Boom_in_stormwind.jpg/500px-Pieter_Kluyver_-_Boom_in_stormwind.jpg",
+    "방": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Ateneul_Rom%C3%A2n_-_Sala.jpg/500px-Ateneul_Rom%C3%A2n_-_Sala.jpg",
+    "채광": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Chuquicamata-002.jpg/500px-Chuquicamata-002.jpg"
+   }
   },
   {
    "word": "베개",
@@ -3305,7 +4717,14 @@
     "솜",
     "머리",
     "잠"
-   ]
+   ],
+   "photos": {
+    "목재": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/16_wood_samples.jpg/500px-16_wood_samples.jpg",
+    "메밀": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/%EB%A9%94%EB%B0%80.JPG/500px-%EB%A9%94%EB%B0%80.JPG",
+    "솜": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/CottonPlant.JPG/500px-CottonPlant.JPG",
+    "머리": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Proportions_of_the_Head.jpg/500px-Proportions_of_the_Head.jpg",
+    "잠": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Domenico_Fetti_-_Sleeping_Girl_-_WGA7863.jpg/500px-Domenico_Fetti_-_Sleeping_Girl_-_WGA7863.jpg"
+   }
   },
   {
    "word": "거울",
@@ -3318,7 +4737,12 @@
     "삼종신기",
     "아말감",
     "물체"
-   ]
+   ],
+   "photos": {
+    "유리": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Glass-Ball.jpg",
+    "아말감": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Amalgam-200675.jpg/500px-Amalgam-200675.jpg",
+    "물체": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Bubble_of_exhaled_gas_from_scuba_diver_P8040877.jpg/500px-Bubble_of_exhaled_gas_from_scuba_diver_P8040877.jpg"
+   }
   },
   {
    "word": "치약",
@@ -3331,7 +4755,13 @@
     "칫솔",
     "화학 물질",
     "치아"
-   ]
+   ],
+   "photos": {
+    "고대 그리스": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Parthenon_from_west.jpg/500px-Parthenon_from_west.jpg",
+    "고대 로마": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Roman_Republic_Empire_map.gif/500px-Roman_Republic_Empire_map.gif",
+    "칫솔": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Toothbrush-20060209.JPG/500px-Toothbrush-20060209.JPG",
+    "화학 물질": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Kochendes_wasser02.jpg/500px-Kochendes_wasser02.jpg"
+   }
   },
   {
    "word": "샴푸",
@@ -3344,7 +4774,14 @@
     "세정제",
     "두피",
     "머리카락"
-   ]
+   ],
+   "photos": {
+    "계면활성제": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Micelle.png",
+    "피지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Fiji.svg/500px-Flag_of_Fiji.svg.png",
+    "세정제": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Vacuum_Clean.jpg/500px-Vacuum_Clean.jpg",
+    "두피": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Double_cowlick.jpg/500px-Double_cowlick.jpg",
+    "머리카락": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Menschenhaar_200_fach.jpg/500px-Menschenhaar_200_fach.jpg"
+   }
   },
   {
    "word": "향수",
@@ -3357,7 +4794,12 @@
     "오드콜로뉴",
     "오드투알레트",
     "화장품"
-   ]
+   ],
+   "photos": {
+    "힌두교": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Rigveda_MS2097.jpg/500px-Rigveda_MS2097.jpg",
+    "향나무": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Juniperus_chinensis.JPG/500px-Juniperus_chinensis.JPG",
+    "화장품": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Cosmetics.JPG/500px-Cosmetics.JPG"
+   }
   },
   {
    "word": "충전기",
@@ -3369,7 +4811,12 @@
     "직류",
     "축전지",
     "이차 전지"
-   ]
+   ],
+   "photos": {
+    "선풍기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Ventilatore_a_piantana_3.jpg/500px-Ventilatore_a_piantana_3.jpg",
+    "직류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Types_of_current.svg/500px-Types_of_current.svg.png",
+    "축전지": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Charger.jpg/500px-Charger.jpg"
+   }
   },
   {
    "word": "칠판",
@@ -3382,7 +4829,13 @@
     "글씨",
     "분필",
     "페인트"
-   ]
+   ],
+   "photos": {
+    "펜": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Different_types_of_pens.jpg/500px-Different_types_of_pens.jpg",
+    "그림": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Rembrandt-A-Lion-Lying-Down-207063_detail.jpg/500px-Rembrandt-A-Lion-Lying-Down-207063_detail.jpg",
+    "글씨": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Writing_systems_worldwide.png/500px-Writing_systems_worldwide.png",
+    "분필": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Chalk.jpg/500px-Chalk.jpg"
+   }
   },
   {
    "word": "분필",
@@ -3395,7 +4848,13 @@
     "보도",
     "시멘트",
     "도로 포장"
-   ]
+   ],
+   "photos": {
+    "백악": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Needles.jpg/500px-The_Needles.jpg",
+    "칠판": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Chalkandboard.jpg/500px-Chalkandboard.jpg",
+    "시멘트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/K%C3%B6ping_terminal.jpg/500px-K%C3%B6ping_terminal.jpg",
+    "도로 포장": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/K-L532.jpg/500px-K-L532.jpg"
+   }
   },
   {
    "word": "책상",
@@ -3408,7 +4867,13 @@
     "사무실",
     "읽기",
     "컴퓨터"
-   ]
+   ],
+   "photos": {
+    "쓰기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Rosetta_Stone.JPG/500px-Rosetta_Stone.JPG",
+    "사무실": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/West_side_of_Manhattan_from_Hudson_Commons_%2895103p%29.jpg/500px-West_side_of_Manhattan_from_Hudson_Commons_%2895103p%29.jpg",
+    "읽기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/03282012Casa_hogar_ni%C3%B1as_tlahuac30_%28cropped%29.JPG/500px-03282012Casa_hogar_ni%C3%B1as_tlahuac30_%28cropped%29.JPG",
+    "컴퓨터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/ENIAC-changing_a_tube.jpg/500px-ENIAC-changing_a_tube.jpg"
+   }
   },
   {
    "word": "사물함",
@@ -3421,7 +4886,13 @@
     "물건",
     "지하철",
     "백화점"
-   ]
+   ],
+   "photos": {
+    "학교": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/First_primary_school_building_in_Nigeria_in_Badagry%2C_Nigeria.jpg/500px-First_primary_school_building_in_Nigeria_in_Badagry%2C_Nigeria.jpg",
+    "군대": "https://upload.wikimedia.org/wikipedia/commons/5/51/Zhan_zhuanshu.png",
+    "지하철": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/20180526_%E4%B8%8A%E6%B5%B7%E5%9C%B0%E9%93%8101A06%E5%9E%8B%E5%88%97%E8%BD%A6%E4%B8%8B%E8%A1%8C%E6%8E%A5%E8%BF%91%E5%A4%96%E7%8E%AF%E8%B7%AF%E7%AB%99.jpg/500px-20180526_%E4%B8%8A%E6%B5%B7%E5%9C%B0%E9%93%8101A06%E5%9E%8B%E5%88%97%E8%BD%A6%E4%B8%8B%E8%A1%8C%E6%8E%A5%E8%BF%91%E5%A4%96%E7%8E%AF%E8%B7%AF%E7%AB%99.jpg",
+    "백화점": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Bon_March%C3%A9%2C_Paris_-_interior_view.JPG/500px-Bon_March%C3%A9%2C_Paris_-_interior_view.JPG"
+   }
   },
   {
    "word": "복도",
@@ -3433,7 +4904,12 @@
     "회랑",
     "객실",
     "통로"
-   ]
+   ],
+   "photos": {
+    "건물": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Bank_of_china_night.jpg/500px-Bank_of_china_night.jpg",
+    "객실": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Ateneul_Rom%C3%A2n_-_Sala.jpg/500px-Ateneul_Rom%C3%A2n_-_Sala.jpg",
+    "통로": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Malbork_kruzganki_parter.jpg/500px-Malbork_kruzganki_parter.jpg"
+   }
   },
   {
    "word": "계단",
@@ -3446,7 +4922,12 @@
     "걷기",
     "휠체어 리프트",
     "에스컬레이터"
-   ]
+   ],
+   "photos": {
+    "엘리베이터": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Spalding_Building%2C_Portland%2C_Oregon_%282012%29_-_15.JPG/500px-Spalding_Building%2C_Portland%2C_Oregon_%282012%29_-_15.JPG",
+    "걷기": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Women_walking_in_Hyderabad_street.jpg/500px-Women_walking_in_Hyderabad_street.jpg",
+    "휠체어 리프트": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/1992_Flxible_Metro_bus_with_wheelchair_lift_fully_raised.jpg/500px-1992_Flxible_Metro_bus_with_wheelchair_lift_fully_raised.jpg"
+   }
   },
   {
    "word": "엘리베이터",
@@ -3459,7 +4940,12 @@
     "교류",
     "균형추",
     "호이스트"
-   ]
+   ],
+   "photos": {
+    "광산": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Sasaune_kodo07s3200.jpg/500px-Sasaune_kodo07s3200.jpg",
+    "교류": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Types_of_current.svg/500px-Types_of_current.svg.png",
+    "균형추": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Simple_Crane_diagram..png"
+   }
   },
   {
    "word": "에스컬레이터",
@@ -3472,7 +4958,13 @@
     "프로토타입",
     "패널",
     "수송"
-   ]
+   ],
+   "photos": {
+    "무빙워크": "https://upload.wikimedia.org/wikipedia/commons/6/60/Moving_sidewalk.jpg",
+    "프로토타입": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Prototypes.jpg/500px-Prototypes.jpg",
+    "수송": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg/500px-Larousse_universel_en_2_volumes%3B_nouveau_dictionnaire_encyclop%C3%A9dique_publi%C3%A9_sous_la_direction_de_Claude_Aug%C3%A9_%281922%29_%2814596082918%29.jpg"
+   }
   }
- ]
+ ],
+ "photosAt": 1794594991650
 }
