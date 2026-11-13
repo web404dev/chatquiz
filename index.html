@@ -179,6 +179,11 @@
                     <span class="format-card-name">넌센스</span>
                     <span class="format-card-desc">말장난 문제 맞히기</span>
                   </button>
+                  <button type="button" class="seg-btn format-card" data-format="assoc" aria-pressed="false">
+                    <span class="format-card-art" aria-hidden="true">🔗</span>
+                    <span class="format-card-name">연상</span>
+                    <span class="format-card-desc">힌트 단어로 맞히기</span>
+                  </button>
                 </div>
                 <div class="format-sub" id="scrambleUnitAxis" hidden>
                   <span class="axis-label">섞기</span>
@@ -319,6 +324,7 @@
                       <button type="button" class="listen-answer-opt" data-listen-answer="title" role="option">노래 제목</button>
                       <button type="button" class="listen-answer-opt" data-listen-answer="both" role="option">가수 + 노래 제목</button>
                       <button type="button" class="listen-answer-opt" data-listen-answer="triple" role="option">세 곡 동시 (제목)</button>
+                      <button type="button" class="listen-answer-opt" data-listen-answer="reverse" role="option">거꾸로 (제목)</button>
                     </div>
                   </div>
                 </div>
@@ -949,6 +955,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=332"></script>
+  <script type="module" src="./boot.js?v=334"></script>
 </body>
 </html>

@@ -37,6 +37,7 @@ import { filterTriviaEntries, loadTriviaPool, pickTriviaEntries, TRIVIA_PICK_GEN
 import { GENERAL_TRIVIA_GENRE, generalTriviaSourceLine } from "./general-trivia.js?v=1";
 import { buildMemePool, filterMemeEntries, MEME_GENRES, pickMemeEntries } from "./meme-bank.js?v=2";
 import { buildNonsensePool, nonsenseSourceLine, pickNonsenseEntries } from "./nonsense-bank.js?v=1";
+import { assocSourceLine, assocVisibleCount, loadAssocPool, pickAssocEntries } from "./assoc-bank.js?v=1";
 import {
   pickClueEntries,
   filterClueItems,
@@ -91,7 +92,12 @@ import {
   listenAnswerStatus,
   normalizeListenAnswerMode,
   pickListenAnswerMode,
-} from "./song-quiz.js?v=10";
+  REVERSE_HINT_AT,
+  REVERSE_HINT_SECONDS,
+  reverseHintLine,
+  reverseHintRange,
+  reversedSamples,
+} from "./song-quiz.js?v=11";
 
 const params = new URLSearchParams(location.search);
 const isDev = params.get("dev") === "1";
@@ -427,6 +433,9 @@ const memePool = buildMemePool();
 let selectedMemeGenres = ["all"];
 /** 넌센스도 코드 속 목록이라 바로 만든다. 갈래는 없다. */
 const nonsensePool = buildNonsensePool();
+/** 연상은 assoc.json(위키백과 링크 힌트)을 처음 고를 때 받는다. 갈래는 없다. */
+let assocPool = null;
+let assocPoolLoading = null;
 const SENTENCE_GENRE_TREE = [
   { id: "속담", label: "속담", icon: "📜" },
   {
@@ -2373,7 +2382,7 @@ function hintsAllowed() {
   // 레시피는 재료 → 설명 → 초성 순으로 스스로 열어서 글자 힌트를 따로 주지 않는다.
   if (isRecipeFormat() || current.mode === "recipe") return false;
   // 상식도 글자 수 → 초성 힌트를 스스로 연다.
-  if (isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || current.mode === "trivia") return false;
+  if (isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || isAssocFormat() || current.mode === "trivia") return false;
   return els.hintEnabled?.getAttribute("aria-pressed") === "true";
 }
 
@@ -3322,6 +3331,140 @@ function listenExtraAudio(i) {
 function applyListenAudioVolume() {
   if (els.listenAudio) els.listenAudio.volume = listenVol;
   for (const el of listenExtraAudios) el.volume = listenVol;
+  if (listenRev?.gain) listenRev.gain.gain.value = listenVol;
+}
+
+/**
+ * 거꾸로 듣기: 미리듣기를 받아(iTunes 미리듣기는 CORS 허용) Web Audio로 뒤집어 튼다. 뒤집은 소리를 파일로 남기지 않는다.
+ * 시간이 반쯤 지나면 방금 거꾸로 들은 부분을 원래 방향으로 REVERSE_HINT_SECONDS초 들려주고 다시 거꾸로 이어 튼다.
+ */
+let listenAudioCtx = null;
+let listenRev = null;
+
+function listenAudioContext() {
+  if (!listenAudioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    listenAudioCtx = new Ctx();
+  }
+  return listenAudioCtx;
+}
+
+function stopListenReverse() {
+  const rev = listenRev;
+  listenRev = null;
+  if (!rev) return;
+  clearTimeout(rev.hintTimer);
+  for (const node of [rev.source, rev.hintSource]) {
+    if (!node) continue;
+    try {
+      node.stop();
+    } catch {
+      // ignore
+    }
+    try {
+      node.disconnect();
+    } catch {
+      // ignore
+    }
+  }
+  try {
+    rev.gain.disconnect();
+  } catch {
+    // ignore
+  }
+  if (els.listenLine && current.listenAnswerMode === "reverse") els.listenLine.textContent = listenAnswerPrompt("reverse");
+}
+
+function reverseAudioBuffer(ctx, buffer) {
+  const out = ctx.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+  for (let c = 0; c < buffer.numberOfChannels; c += 1) out.copyToChannel(reversedSamples(buffer.getChannelData(c)), c);
+  return out;
+}
+
+/** 거꾸로 소리에서 지금까지 들은 길이(초). 반복이 아니면 끝에서 멈춘다. */
+function listenReversePosition(rev = listenRev) {
+  if (!rev || !listenAudioCtx) return 0;
+  const total = rev.reversed.duration;
+  const heard = rev.offset + Math.max(0, listenAudioCtx.currentTime - rev.startedAt);
+  return rev.loop ? heard % total : Math.min(heard, total);
+}
+
+function startListenReverseFrom(offset) {
+  const rev = listenRev;
+  const ctx = listenAudioCtx;
+  if (!rev || !ctx) return;
+  const total = rev.reversed.duration;
+  const at = rev.loop ? Math.max(0, offset) % total : Math.max(0, offset);
+  if (at >= total) return;
+  const node = ctx.createBufferSource();
+  node.buffer = rev.reversed;
+  node.loop = rev.loop;
+  node.connect(rev.gain);
+  node.start(0, at);
+  rev.source = node;
+  rev.startedAt = ctx.currentTime;
+  rev.offset = at;
+}
+
+async function playListenReverse(url, token, loop) {
+  const ctx = listenAudioContext();
+  if (!ctx) {
+    setStatus("이 브라우저는 거꾸로 듣기를 틀 수 없습니다");
+    return;
+  }
+  try {
+    await ctx.resume();
+  } catch {
+    // ignore
+  }
+  let forward;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(String(res.status));
+    forward = await ctx.decodeAudioData(await res.arrayBuffer());
+  } catch {
+    if (token === listenPlayToken) setStatus("미리듣기 주소가 만료됐습니다. 관리에서 노래를 다시 출제해 주세요");
+    return;
+  }
+  if (token !== listenPlayToken) return;
+  const gain = ctx.createGain();
+  gain.gain.value = listenVol;
+  gain.connect(ctx.destination);
+  listenRev = { forward, reversed: reverseAudioBuffer(ctx, forward), gain, loop: Boolean(loop), source: null, hintSource: null, startedAt: 0, offset: 0, hinted: false, hintTimer: 0 };
+  startListenReverseFrom(0);
+  if (ctx.state !== "running") setStatus("브라우저가 소리를 막았습니다. 방송 화면을 한 번 눌러 주세요");
+}
+
+/** 반쯤 지나면 한 번: 방금 거꾸로 들은 부분을 원래 방향으로 들려준다. */
+function playListenReverseHint() {
+  const rev = listenRev;
+  const ctx = listenAudioCtx;
+  if (!rev || !ctx || rev.hinted) return;
+  rev.hinted = true;
+  const pos = listenReversePosition(rev);
+  const { start, length } = reverseHintRange(rev.forward.duration, pos, REVERSE_HINT_SECONDS);
+  if (rev.source) {
+    try {
+      rev.source.stop();
+    } catch {
+      // ignore
+    }
+    rev.source = null;
+  }
+  if (length <= 0) return;
+  const hint = ctx.createBufferSource();
+  hint.buffer = rev.forward;
+  hint.connect(rev.gain);
+  hint.start(0, start, length);
+  rev.hintSource = hint;
+  if (els.listenLine) els.listenLine.textContent = reverseHintLine(REVERSE_HINT_SECONDS);
+  rev.hintTimer = setTimeout(() => {
+    if (listenRev !== rev) return;
+    rev.hintSource = null;
+    if (els.listenLine) els.listenLine.textContent = listenAnswerPrompt("reverse");
+    startListenReverseFrom(pos);
+  }, length * 1000);
 }
 
 function setListenVolume(raw) {
@@ -3393,6 +3536,7 @@ async function resolveYoutubeMvId(song) {
 function stopListenAudio() {
   listenSampleOn = false;
   listenPlayToken += 1;
+  stopListenReverse();
   for (const el of [els.listenAudio, ...listenExtraAudios]) {
     if (!el) continue;
     el.onerror = null;
@@ -3423,8 +3567,8 @@ function syncListenPreviewBtn(on = listenSampleOn) {
   setOnoffBtn(els.deskListenPreviewBtn, on);
 }
 
-/** extra: 세 곡 동시 모드에서 같이 틀 둘째·셋째 곡 주소. */
-function playListenPreview(url, { loop = false, sample = false, extra = [] } = {}) {
+/** extra: 세 곡 동시 모드에서 같이 틀 둘째·셋째 곡 주소. reverse: 거꾸로 듣기(Web Audio로 뒤집어 튼다). */
+function playListenPreview(url, { loop = false, sample = false, extra = [], reverse = false } = {}) {
   if (isDeskMode) return;
   stopListenAudio();
   const el = els.listenAudio;
@@ -3434,6 +3578,10 @@ function playListenPreview(url, { loop = false, sample = false, extra = [] } = {
   syncListenPreviewBtn();
   hushQuizBed(true);
   applyListenAudioVolume();
+  if (reverse) {
+    void playListenReverse(url, token, loop);
+    return;
+  }
   el.loop = Boolean(loop);
   el.src = url;
   try {
@@ -3853,11 +4001,15 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
   els.prompt?.classList.add("is-trivia");
   els.triviaStage.hidden = false;
   const stage = triviaStage(remainingRatio);
-  const key = reveal ? "reveal" : `${stage.length}:${stage.chosung}`;
+  // 연상: 힌트 단어가 시간에 따라 하나씩 열리고, 다 열리면 글자 수만 더한다(초성은 안 줌).
+  const hints = Array.isArray(t.hints) ? t.hints : null;
+  const shown = hints ? (reveal ? hints.length : assocVisibleCount(remainingRatio, hints.length)) : 0;
+  const key = reveal ? "reveal" : hints ? `h${shown}` : `${stage.length}:${stage.chosung}`;
   if (triviaShownFor === current && triviaShownKey === key) return;
   if (triviaShownFor !== current) {
     // 밈 갈래(「2025 밈」)는 앞의 「😂 밈」과 겹치지 않게 「2025」만 붙인다.
-    const genre = t.label ? String(current.genre || "").replace(/ 밈$/, "") : current.genre;
+    // 연상은 갈래(동물·음식…)가 큰 힌트라 배지에 넣지 않는다(「장르 공개」를 켜면 그쪽에서 보인다).
+    const genre = Array.isArray(t.hints) ? "" : t.label ? String(current.genre || "").replace(/ 밈$/, "") : current.genre;
     if (els.triviaBadge) els.triviaBadge.textContent = [t.label || "🧠 상식", genre, t.level].filter(Boolean).join(" · ");
     if (els.triviaQuestion) els.triviaQuestion.textContent = t.question;
     if (t.image) {
@@ -3869,6 +4021,7 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
   }
   triviaShownFor = current;
   triviaShownKey = key;
+  if (hints && els.triviaQuestion) els.triviaQuestion.textContent = hints.slice(0, shown).join(" · ");
   const photo = (reveal || !!t.photoFirst) && !!t.image;
   els.triviaStage.classList.toggle("with-photo", photo && !reveal);
   if (els.triviaCard) els.triviaCard.hidden = photo && reveal;
@@ -3885,8 +4038,12 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
   }
   if (els.triviaHint) {
     const parts = [];
-    if (!reveal && stage.length) parts.push(`글자 수 · ${triviaLengthHint(current.answer)}`);
-    if (!reveal && stage.chosung) parts.push(`초성 · ${formatChosungDisplay(current.answer)}`);
+    if (hints) {
+      if (!reveal && shown >= hints.length) parts.push(`글자 수 · ${triviaLengthHint(current.answer)}`);
+    } else {
+      if (!reveal && stage.length) parts.push(`글자 수 · ${triviaLengthHint(current.answer)}`);
+      if (!reveal && stage.chosung) parts.push(`초성 · ${formatChosungDisplay(current.answer)}`);
+    }
     els.triviaHint.textContent = parts.join("   ");
     els.triviaHint.hidden = !parts.length;
   }
@@ -4061,6 +4218,11 @@ function isNonsenseFormat(format = quizFormat) {
   return format === "nonsense";
 }
 
+/** 연상: 상식과 같은 문제 카드(mode "trivia")에 힌트 단어가 하나씩 열린다. 문제는 assoc.json(위키백과 링크). */
+function isAssocFormat(format = quizFormat) {
+  return format === "assoc";
+}
+
 function isScrambleFormat(format = quizFormat) {
   return format === "scramble";
 }
@@ -4070,7 +4232,7 @@ function isTypedWordFormat(format = quizFormat) {
 }
 
 function isKnownQuizFormat(format) {
-  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense";
+  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense" || format === "assoc";
 }
 
 function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
@@ -4831,6 +4993,7 @@ const FORMAT_DESC = {
   trivia: "수도·화폐·원소 기호·명화·문학·일반 상식 문제가 나와요 · 글자 수 → 초성 힌트 (위키데이터 · 상식 퀴즈 모음)",
   meme: "밈 짤을 보고 무슨 밈인지 맞혀요 · 글자 수 → 초성 힌트 (마추기 밈 퀴즈에서 옮김)",
   nonsense: "말장난 문제를 보고 답을 맞혀요 · 글자 수 → 초성 힌트 (나무위키 등 넌센스 모음에서 옮김)",
+  assoc: "힌트 단어가 하나씩 열려요 · 떠오르는 단어를 맞혀요 (한국어 위키백과 문서의 링크 단어)",
 };
 
 function syncAxisButtons() {
@@ -4843,7 +5006,7 @@ function syncAxisButtons() {
     const on = format === quizFormat;
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense");
+    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense" || format === "assoc");
   });
   els.topicSeg?.querySelectorAll("[data-topic]").forEach((btn) => {
     const topic = btn.dataset.topic;
@@ -4865,7 +5028,7 @@ function isStreamerJoinEnabled() {
 
 /** 스트리머 참여(조작창 정답 입력칸·정답 가리기)를 쓰는 유형. 확대·레시피·상식도 넣음(사용자 2026-10-25: "확대에 스트리머 참여에 컨트롤러에 그게 맞출수 있게 하는게 없어"). */
 function streamerJoinFormat() {
-  return isTypedWordFormat() || isClueFormat() || isListenFormat() || isZoomFormat() || isRecipeFormat() || isTriviaFormat() || isMemeFormat() || isNonsenseFormat();
+  return isTypedWordFormat() || isClueFormat() || isListenFormat() || isZoomFormat() || isRecipeFormat() || isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || isAssocFormat();
 }
 
 function streamerDeskToolsOn() {
@@ -5800,6 +5963,22 @@ function ensureRecipePool() {
   return recipePoolLoading;
 }
 
+function ensureAssocPool() {
+  if (assocPool) return Promise.resolve(assocPool);
+  if (!assocPoolLoading) {
+    assocPoolLoading = loadAssocPool().then((pool) => {
+      assocPool = pool;
+      assocPoolLoading = null;
+      if (isAssocFormat()) {
+        if (pool.items.length) reportWordPickStats();
+        else setStatus("연상 문제를 불러오지 못했습니다");
+      }
+      return pool;
+    });
+  }
+  return assocPoolLoading;
+}
+
 function ensureTriviaPool() {
   if (triviaPool) return Promise.resolve(triviaPool);
   if (!triviaPoolLoading) {
@@ -5822,6 +6001,10 @@ function manualScrambleProblem() {
 }
 
 function reportWordPickStats() {
+  if (isAssocFormat()) {
+    setStatus(assocPool ? `연상 문제 후보 ${assocPool.items.length}개` : "연상 문제를 불러오는 중입니다");
+    return;
+  }
   if (isNonsenseFormat()) {
     setStatus(`넌센스 문제 후보 ${nonsensePool.items.length}개`);
     return;
@@ -6021,14 +6204,15 @@ function syncModeUi() {
   const isTrivia = isTriviaFormat();
   const isMeme = isMemeFormat();
   const isNonsense = isNonsenseFormat();
-  const isAuto = posing ? false : isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense ? true : isAutoTopic();
+  const isAssoc = isAssocFormat();
+  const isAuto = posing ? false : isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc ? true : isAutoTopic();
   const needsAnswer = !isAuto;
-  if (!posing && (isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense) && quizTopic !== "auto") {
+  if (!posing && (isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc) && quizTopic !== "auto") {
     quizTopic = "auto";
   }
   syncAxisButtons();
-  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense);
-  const showTimeHint = !isClue && !isListen && !isZoom && !isRecipe && !isTrivia && !isMeme && !isNonsense;
+  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc);
+  const showTimeHint = !isClue && !isListen && !isZoom && !isRecipe && !isTrivia && !isMeme && !isNonsense && !isAssoc;
   const showGenreReveal = isAuto && !isClue;
   if (els.timeHintOpt) setHidden(els.timeHintOpt, !showTimeHint);
   if (els.genreRevealOpt) setHidden(els.genreRevealOpt, !showGenreReveal);
@@ -6052,11 +6236,11 @@ function syncModeUi() {
     els.autoWordFields.classList.toggle("is-clue", isClue);
     els.autoWordFields.classList.toggle("is-listen", isListen);
     // 글자 수 칸이 없는 유형(문장 뒤죽박죽·확대·레시피·상식·밈)은 「고를 문제」가 좁은 둘째 칸으로 밀려 넘치지 않게 칸을 바꾼다.
-    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense);
-    // 넌센스는 갈래가 없어 장르 칸을 숨기고 「고를 문제」만 둔다.
-    els.autoWordFields.classList.toggle("is-nonsense", isNonsense);
+    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc);
+    // 넌센스·연상은 갈래가 없어 장르 칸을 숨기고 「고를 문제」만 둔다.
+    els.autoWordFields.classList.toggle("is-nonsense", isNonsense || isAssoc);
   }
-  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense);
+  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc);
   if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
   if (els.wordGenreToggle) {
     els.wordGenreToggle.setAttribute(
@@ -6096,6 +6280,7 @@ function syncModeUi() {
   if (isRecipe) void ensureRecipePool();
   if (isTrivia) void ensureTriviaPool();
   if (isMeme || isNonsense) reportWordPickStats();
+  if (isAssoc) void ensureAssocPool();
   if (isAuto && !isClue) {
     requestAnimationFrame(() => syncLenUi());
     reportWordPickStats();
@@ -6218,6 +6403,7 @@ function tick() {
   if (current.mode === "zoom" && phase === "accepting") applyZoom(remainingRatio);
   if (current.mode === "recipe" && phase === "accepting") showRecipeStage({ remainingRatio });
   if (current.mode === "trivia" && phase === "accepting") showTriviaStage({ remainingRatio });
+  if (current.mode === "listen" && current.listenAnswerMode === "reverse" && phase === "accepting" && remainingRatio <= REVERSE_HINT_AT) playListenReverseHint();
   applyTimeHints(remainingRatio);
   if (left <= 0) finishQuestion(null);
 }
@@ -7004,6 +7190,18 @@ function canStartQuestion() {
     }
     return true;
   }
+  if (isAssocFormat()) {
+    if (!assocPool) {
+      void ensureAssocPool();
+      setStatus("연상 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      return false;
+    }
+    if (!assocPool.items.length) {
+      setStatus("낼 연상 문제가 없습니다");
+      return false;
+    }
+    return true;
+  }
   if (isNonsenseFormat()) {
     if (!nonsensePool.items.length) {
       setStatus("낼 넌센스 문제가 없습니다");
@@ -7100,7 +7298,8 @@ function beginQuestion() {
   const recipe = format === "recipe";
   const meme = format === "meme";
   const nonsense = format === "nonsense";
-  const trivia = format === "trivia" || meme || nonsense;
+  const assoc = format === "assoc";
+  const trivia = format === "trivia" || meme || nonsense || assoc;
   const posing = isGuestPosing();
   const topicKey = posing ? "manual" : clue || listen || zoom || recipe || trivia ? "auto" : topic;
   const streamerJoin = (isTypedWordFormat(format) || clue || listen || zoom || recipe || trivia) && topicKey === "auto" && isStreamerJoinEnabled();
@@ -7141,7 +7340,11 @@ function beginQuestion() {
         void ensureZoomPool();
         throw new Error("확대 사진을 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       }
-      if (trivia && !meme && !nonsense && !triviaPool) {
+      if (assoc && !assocPool) {
+        void ensureAssocPool();
+        throw new Error("연상 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      }
+      if (trivia && !meme && !nonsense && !assoc && !triviaPool) {
         void ensureTriviaPool();
         throw new Error("상식 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       }
@@ -7164,7 +7367,9 @@ function beginQuestion() {
             ? takeWarmedZoomChoices() || pickZoomEntries(zoomPool, { exclude: usedWordKeys, genres: activeZoomGenres() }, liveAutoPickCount())
             : recipe
               ? pickRecipeEntries(recipePool, { exclude: usedWordKeys, genres: activeRecipeGenres() }, liveAutoPickCount())
-              : nonsense
+              : assoc
+                ? pickAssocEntries(assocPool, { exclude: usedWordKeys }, liveAutoPickCount())
+                : nonsense
                 ? pickNonsenseEntries(nonsensePool, { exclude: usedWordKeys }, liveAutoPickCount())
                 : meme
                 ? pickMemeEntries(memePool, { exclude: usedWordKeys, genres: activeMemeGenres() }, liveAutoPickCount())
@@ -7203,7 +7408,9 @@ function beginQuestion() {
       aliases = Array.isArray(entry.aliases) ? entry.aliases.map((name) => String(name || "").trim()).filter(Boolean) : [];
       if (recipe) recipeInfo = { ingredients: entry.ingredients.slice(), lines: entry.lines.slice(), image: entry.image, page: entry.page };
       if (trivia) {
-        triviaInfo = nonsense
+        triviaInfo = assoc
+          ? { question: entry.hints.join(" · "), hints: entry.hints.slice(), image: "", level: "", label: "🔗 연상", source: assocSourceLine(entry.page) }
+          : nonsense
           ? { question: entry.question, image: "", level: "", label: "🤪 넌센스", source: nonsenseSourceLine(entry.source) }
           : meme
           ? { question: entry.question, image: entry.image || "", photoFirst: true, level: "", label: "😂 밈", source: "출처 · 마추기 아이오 밈 퀴즈" }
@@ -7299,7 +7506,7 @@ function beginQuestion() {
   els.winner.textContent = "";
   if (format === "draw") redraw();
   renderQuestionView();
-  if (listen) playListenPreview(previewUrl, { extra: songs ? songs.slice(1).map((item) => item.previewUrl) : [] });
+  if (listen) playListenPreview(previewUrl, { extra: songs ? songs.slice(1).map((item) => item.previewUrl) : [], reverse: listenRoundMode === "reverse" });
   syncGuestAuthorTag();
   clearManualAnswerLock();
   pushGuestHostMode(format);
@@ -7329,7 +7536,7 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, f
   } else if (current.mode === "zoom") {
     setStatus(isDev && !streamerJoin ? `확대 · ${genre} · 정답 [${answer}]` : "확대 · 채팅 정답 대기");
   } else if (current.mode === "trivia") {
-    const label = current.format === "meme" ? "밈" : current.format === "nonsense" ? "넌센스" : "상식";
+    const label = current.format === "meme" ? "밈" : current.format === "nonsense" ? "넌센스" : current.format === "assoc" ? "연상" : "상식";
     setStatus(isDev && !streamerJoin ? `${[label, genre, current.trivia?.level].filter(Boolean).join(" · ")} · 정답 [${answer}]` : `${label} · 채팅 정답 대기`);
   } else if (current.mode === "recipe") {
     setStatus(isDev && !streamerJoin ? `레시피 · ${genre} · 정답 [${answer}]` : "레시피 · 채팅 정답 대기");
@@ -8148,7 +8355,7 @@ function bind() {
     const btn = event.target.closest("[data-format]");
     if (!btn) return;
     if (!isKnownQuizFormat(btn.dataset.format)) return;
-    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom" || btn.dataset.format === "recipe" || btn.dataset.format === "trivia" || btn.dataset.format === "meme" || btn.dataset.format === "nonsense")) return;
+    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom" || btn.dataset.format === "recipe" || btn.dataset.format === "trivia" || btn.dataset.format === "meme" || btn.dataset.format === "nonsense" || btn.dataset.format === "assoc")) return;
     if (quizFormat === "listen" && btn.dataset.format !== "listen") stopListenAudio();
     quizFormat = btn.dataset.format;
     if (isGuestPosing()) quizTopic = "manual";

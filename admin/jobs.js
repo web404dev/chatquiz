@@ -71,8 +71,9 @@ function live(id, label, hint) {
   };
 }
 
-export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia"];
-export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia"];
+export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia", "assoc"];
+/** 연상(assoc)은 확대(zoom) 단어를 정답으로 쓰므로 zoom 뒤(사용자 2026-11-14 "넣기"). */
+export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia", "assoc"];
 export const SCHEDULE_DAYS = 20;
 
 export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
@@ -159,6 +160,16 @@ export const PACKS = {
     hint: "위키데이터 질의(키 없음)로 수도·화폐(잘 알려진 나라 110개)·원소 기호(잘 알려진 것)·명화(그린 화가, 그림 주소)·문학(쓴 작가, 한국 소설 포함) 문제. 수도·화폐가 둘 이상이거나 답이 문제와 같은 것, 공저·같은 제목은 뺌. trivia-exclude.json 의 titles·questions·keys 는 뺌.",
     group: "text",
     file: "trivia.json",
+    summarize: summarizeBank,
+  },
+  assoc: {
+    id: "assoc",
+    label: "연상",
+    script: "admin/refresh-assoc.mjs",
+    args: [],
+    hint: "정답(확대 사진 단어·단어 은행)마다 한국어 위키백과 문서 앞부분의 링크 단어를 힌트로 모은다(키 없음). 언어 이름·분류학 이름·정답 글자가 든 것·너무 흔한 것은 빼고 힌트 4개 이상만. 확대(zoom-pics.json)를 먼저 갱신. 빼기: assoc-exclude.json.",
+    group: "text",
+    file: "assoc.json",
     summarize: summarizeBank,
   },
   "all-games": {

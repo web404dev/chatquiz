@@ -71,12 +71,24 @@ export function songNeedles(song = {}) {
 }
 
 /** triple: 세 곡을 동시에 틀고 세 제목을 한 줄에 다 친 사람이 정답(사용자 2026-10-31 "음악에서 동시에 3개 틀어서 맞추기", "응, 만들어줘"). 「전체」 무작위에는 넣지 않는다. */
-export const LISTEN_ANSWER_MODES = ["all", "artist", "title", "both", "triple"];
+/**
+ * reverse: 미리듣기를 거꾸로 틀고 노래 제목을 맞힌다(사용자 2026-11-14 "거꾸로 듣기 괜찮네 듣기에 추가하면 좋겠다", "만들어봐").
+ * 「맞출 것」에 한 칸, 「전체」 무작위에는 넣지 않는다. 시간이 반쯤 지나면 방금 거꾸로 들은 부분을 원래 방향으로 3초 들려준다.
+ */
+export const LISTEN_ANSWER_MODES = ["all", "artist", "title", "both", "triple", "reverse"];
 export const LISTEN_ANSWER_ROUNDS = ["artist", "title", "both"];
 export const TRIPLE_SONG_COUNT = 3;
+export const REVERSE_HINT_SECONDS = 3;
+/** 남은 시간 비율이 이 값 이하가 되면(= 반쯤 지나면) 원래 방향 힌트를 튼다. */
+export const REVERSE_HINT_AT = 0.5;
 
 export function normalizeListenAnswerMode(mode) {
   return LISTEN_ANSWER_MODES.includes(mode) ? mode : "title";
+}
+
+/** 채점·정답 표시에 쓰는 맞출 것. 거꾸로 듣기는 노래 제목을 맞힌다. */
+export function listenJudgeMode(mode) {
+  return mode === "reverse" ? "title" : mode;
 }
 
 export function listenAnswerModeLabel(mode) {
@@ -84,7 +96,32 @@ export function listenAnswerModeLabel(mode) {
   if (mode === "both") return "가수 + 노래 제목";
   if (mode === "all") return "전체";
   if (mode === "triple") return "세 곡 동시 (제목)";
+  if (mode === "reverse") return "거꾸로 (제목)";
   return "노래 제목";
+}
+
+export function reverseHintLine(seconds = REVERSE_HINT_SECONDS) {
+  return `방금 들은 부분을 원래대로 ${seconds}초 들려줘요`;
+}
+
+/** 소리 표본을 뒤집은 새 배열(원본은 그대로). */
+export function reversedSamples(samples) {
+  const src = samples || [];
+  const out = new Float32Array(src.length);
+  for (let i = 0, j = src.length - 1; j >= 0; i += 1, j -= 1) out[i] = src[j];
+  return out;
+}
+
+/**
+ * 거꾸로 틀던 자리(reversedPos초)에서 방금 들은 부분을 원래 방향으로 들려줄 구간.
+ * 거꾸로 p초 지점은 원래 (duration − p)초 지점이라, 방금 들은 [p − s, p] 는 원래 [duration − p, duration − p + s] 다.
+ */
+export function reverseHintRange(duration, reversedPos, seconds = REVERSE_HINT_SECONDS) {
+  const total = Math.max(0, Number(duration) || 0);
+  const length = Math.min(Math.max(0, Number(seconds) || 0), total);
+  const pos = Math.min(Math.max(0, Number(reversedPos) || 0), total);
+  const start = Math.min(Math.max(0, total - pos), total - length);
+  return { start, length };
 }
 
 export function pickListenAnswerMode(selected = "title", rng = Math.random) {
@@ -97,6 +134,7 @@ export function listenAnswerPrompt(mode) {
   if (mode === "artist") return "노래를 듣고 가수를 치세요";
   if (mode === "both") return "노래를 듣고 가수와 제목을 치세요";
   if (mode === "triple") return "세 곡이 동시에 나와요! 세 노래 제목을 한 줄에 다 쳐 주세요";
+  if (mode === "reverse") return "노래가 거꾸로 나와요! 노래 제목을 치세요";
   return "노래를 듣고 노래 제목을 치세요";
 }
 
@@ -104,6 +142,7 @@ export function listenAnswerStatus(mode) {
   if (mode === "artist") return "듣기 · 가수를 채팅으로";
   if (mode === "both") return "듣기 · 가수와 제목을 채팅으로";
   if (mode === "triple") return "듣기 · 세 곡 제목을 한 줄에";
+  if (mode === "reverse") return "듣기 · 거꾸로 · 노래 제목을 채팅으로";
   return "듣기 · 노래 제목을 채팅으로";
 }
 
@@ -172,7 +211,8 @@ export function isTripleSongCorrect(guess, songs = [], others = []) {
   return !others.some((song) => !playing.has(song.id) && stuffingNeedles(song).some((item) => rest.includes(item)));
 }
 
-export function isSongCorrect(guess, song, mode = "both") {
+export function isSongCorrect(guess, song, rawMode = "both") {
+  const mode = listenJudgeMode(rawMode);
   const g = foldSong(guess);
   if (!g) return false;
   const { artists, titles } = songNeedles(song);
@@ -203,7 +243,8 @@ export function youtubeEmbedUrl(videoId, origin = "") {
   return `https://www.youtube.com/embed/${id}?${query}`;
 }
 
-export function songDisplayAnswer(song = {}, mode = "both") {
+export function songDisplayAnswer(song = {}, rawMode = "both") {
+  const mode = listenJudgeMode(rawMode);
   const artist = String(song.artistKo || "").trim();
   const title = String(song.titleKo || "").trim();
   if (mode === "artist") return artist;
