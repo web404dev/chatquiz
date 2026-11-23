@@ -6710,6 +6710,139 @@ body.mode-desk .host-tutorial {
   word-break: keep-all;
 }
 
+/* 낱말 뜻풀이: 30자가 넘는 뜻풀이는 글자를 줄여 카드가 정답 띠·힌트와 겹치지 않게 하고, 정답 공개 때는 정답이 먼저 보이게 더 줄인다. */
+.trivia-stage.is-compact .trivia-question {
+  font-size: clamp(18px, 3cqw, 40px);
+}
+
+.caption.is-trivia.hit .trivia-stage.is-compact .trivia-question,
+.caption.is-trivia.miss .trivia-stage.is-compact .trivia-question {
+  font-size: clamp(14px, 2.2cqw, 28px);
+}
+
+/* 낱말 꼬들: 자모 칸 판. 칸 크기는 칸 수(--n)와 방송 영역에 맞춰 줄어든다. 정답 공개 때는 최근 3줄만 남겨 정답 띠 자리를 둔다. */
+.kordle-board {
+  --n: 5;
+  /* cqh 는 자막 상자의 안쪽(위아래 96px 뺀 높이) 기준이라 6줄 + 머리줄이 들어가는 12cqh 까지. */
+  --cell: min(6.2cqw, calc(62cqw / var(--n)), 12cqh, 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8cqh;
+  margin: 1.2cqh 0 0;
+}
+
+.kordle-board[hidden] {
+  display: none !important;
+}
+
+.kordle-row {
+  position: relative;
+  display: flex;
+  gap: calc(var(--cell) * 0.12);
+}
+
+.kordle-cell {
+  display: grid;
+  place-items: center;
+  width: var(--cell);
+  height: var(--cell);
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 2px solid #1b1b1b;
+  color: #fff;
+  font-size: calc(var(--cell) * 0.62);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.kordle-cell.is-hit { background: #2fb36a; border-color: #2fb36a; }
+.kordle-cell.is-near { background: #e6b422; border-color: #e6b422; }
+.kordle-cell.is-miss { background: #7a7a7a; border-color: #7a7a7a; }
+.kordle-cell.is-empty { background: transparent; border-style: dashed; border-color: #b9ab8f; }
+/* 십자말풀이: 낱말 칸만 보이는 판(빈 자리는 투명). 지금 칸은 노랑, 맞힌 칸은 글자, 정답 공개(스킵) 칸은 회색 글자.
+   칸 크기는 줄·칸 수와 방송 영역에 맞춰 줄어든다. 단서(가로·세로 번호와 뜻풀이)는 위 문제 줄. */
+.cross-board {
+  --rows: 9;
+  --cols: 9;
+  --cell: min(5.4cqw, calc(56cqw / var(--cols)), calc(80cqh / var(--rows)), 60px);
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  grid-auto-rows: var(--cell);
+  justify-content: center;
+  margin: 1cqh auto 0;
+}
+
+.cross-board[hidden] {
+  display: none !important;
+}
+
+.cross-cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: 2px solid #1b1b1b;
+  margin: -1px 0 0 -1px;
+  background: #fff;
+  color: #141414;
+  font-size: calc(var(--cell) * 0.56);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.cross-cell.is-void {
+  border: 0;
+  background: transparent;
+}
+
+.cross-cell.is-active { background: #ffe14a; }
+.cross-cell.is-solved { color: #141414; }
+.cross-cell.is-revealed { color: #8a8a8a; }
+
+.cross-cell i {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  color: #6b5a3a;
+  font-size: calc(var(--cell) * 0.26);
+  font-style: normal;
+  font-weight: 800;
+}
+
+/* 십자말풀이 판이 들어갈 자리: 정답 공개 때 판을 줄여 정답 띠 자리를 둔다. */
+.caption.is-trivia.hit .cross-board,
+.caption.is-trivia.miss .cross-board {
+  --cell: min(3.6cqw, calc(40cqw / var(--cols)), calc(40cqh / var(--rows)), 40px);
+}
+
+/* 빈칸 모드: 열린 칸은 진한 칸(꼬들 색과 헷갈리지 않게 색 없이). */
+.kordle-cell.is-open { background: #1b1b1b; border-color: #1b1b1b; color: #ffe14a; }
+
+.kordle-nick {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 14cqw;
+  overflow: hidden;
+  color: #6b5a3a;
+  font-size: clamp(12px, 1.5cqw, 20px);
+  font-weight: 800;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.caption.is-trivia.hit .kordle-row:nth-last-child(n + 4),
+.caption.is-trivia.miss .kordle-row:nth-last-child(n + 4) {
+  display: none;
+}
+
+.caption.is-trivia.hit .kordle-board,
+.caption.is-trivia.miss .kordle-board {
+  --cell: min(5cqw, calc(50cqw / var(--n)), 7.5cqh, 52px);
+}
+
 .trivia-hint {
   margin: 2cqh 0 0;
   color: #141414;

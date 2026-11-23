@@ -1,9 +1,10 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ASSOC_MIN_HINTS, buildAssocPool, chooseAssocHints, isDisambiguationHtml, isUsableHintPhoto, linkTitlesFromHtml, pageTitleFromHtml } from "../assoc-bank.js";
+import { ASSOC_MIN_EASY_HINTS, ASSOC_MIN_HINTS, buildAssocPool, chooseAssocHints, isDisambiguationHtml, isUsableHintPhoto, linkTitlesFromHtml, pageTitleFromHtml } from "../assoc-bank.js";
 
-// 연상 퀴즈: 정답 단어마다 한국어 위키백과 문서 앞부분의 링크 단어를 힌트로 모은다(키 없음). 문서는 저장하지 않고 링크 제목만 남긴다.
+// 연상 퀴즈: 정답 단어마다 한국어 위키백과 문서 본문의 링크 단어를 힌트로 모은다(키 없음). 문서는 저장하지 않고 링크 제목만 남긴다.
+// 힌트는 위키낱말사전 「부록:자주 쓰이는 한국어 낱말 5800」에 든 쉬운 말을 먼저 쓰고, 모자라면 문서 앞부분 링크로 채운다(사용자 2026-11-15).
 // 정답 후보: zoom-pics.json 의 사물 단어(연예인 제외, 위키데이터 → 한국어 문서) + words.json 단어 은행(같은 제목 문서가 있을 때).
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const outPath = join(root, "assoc.json");
@@ -11,6 +12,10 @@ const excludePath = join(root, "assoc-exclude.json");
 const WIKIDATA = "https://www.wikidata.org/w/api.php";
 const PAGE_HTML = "https://ko.wikipedia.org/api/rest_v1/page/html/";
 const KOWIKI_API = "https://ko.wikipedia.org/w/api.php";
+const KOWIKT_API = "https://ko.wiktionary.org/w/api.php";
+/** 쉬운 낱말 목록 문서(위키낱말사전, CC BY-SA). 문서의 낱말 링크만 읽는다. */
+const EASY_WORDS_PAGE = "부록:자주 쓰이는 한국어 낱말 5800";
+const MIN_EASY_WORDS = 3000;
 const UA = "chatquiz-assoc/1.0 (https://web404dev.github.io/chatquiz/)";
 const MIN_ITEMS = 60;
 const GAP_MS = 1100;
@@ -98,9 +103,19 @@ async function fetchRows(rows) {
     pages.add(page);
     const aliases = [...row.aliases];
     if (page !== row.word && /^[가-힣]+( [가-힣]+)?$/.test(page)) aliases.push(page);
-    fetched.push({ word: row.word, genre: row.genre, aliases, page, links: linkTitlesFromHtml(html) });
+    // links: 본문 링크 전체(나온 순서), leadCount: 그중 앞부분 묶음(예전 힌트 자리, 쉬운 힌트가 모자랄 때 채움).
+    fetched.push({ word: row.word, genre: row.genre, aliases, page, links: linkTitlesFromHtml(html, Infinity), leadCount: linkTitlesFromHtml(html).length });
   }
   return fetched;
+}
+
+/** 위키낱말사전 쉬운 낱말 목록 → Set. 너무 적게 받히면 멈춘다(예전 자료를 그대로 둔다). */
+async function fetchEasyWords() {
+  const params = new URLSearchParams({ action: "parse", page: EASY_WORDS_PAGE, prop: "links", format: "json", formatversion: "2" });
+  const data = await (await fetchRetry(`${KOWIKT_API}?${params}`)).json();
+  const words = new Set((data?.parse?.links || []).filter((link) => link.ns === 0).map((link) => String(link.title || "").trim()).filter(Boolean));
+  if (words.size < MIN_EASY_WORDS) throw new Error(`쉬운 낱말 목록이 ${words.size}개뿐이라 멈춥니다`);
+  return words;
 }
 
 /** 위키백과 문서 제목들 → Map(원래 제목 → { file, url, en }). 넘겨주기·표기 정리를 따라간 뒤 원래 제목으로 돌려 놓는다. en: 영어판 문서 제목. */
@@ -194,17 +209,27 @@ async function main() {
     fetched = await fetchRows(rows);
     if (cache) await writeFile(cache, JSON.stringify(fetched));
   }
+  // hints: 「힌트」는 모든 문제에서, 「정답|힌트」는 그 정답 문제에서만 뺀다. 앞부분 묶음 수(leadCount)도 뺀 만큼 줄인다.
   fetched = fetched
     .filter((row) => !dropWords.has(row.word))
-    .map((row) => ({ ...row, links: row.links.filter((link) => !dropHints.has(link)) }));
-  const chosen = chooseAssocHints(fetched);
+    .map((row) => {
+      const keep = (link) => !dropHints.has(link) && !dropHints.has(`${row.word}|${link}`);
+      const leadCount = Number.isFinite(row.leadCount) ? row.links.slice(0, row.leadCount).filter(keep).length : undefined;
+      return { ...row, links: row.links.filter(keep), leadCount };
+    });
+  // 쉬운 말: 위키낱말사전 목록 + assoc-exclude.json 의 easy(목록에 없지만 누구나 아는 말: 남극·치타·텐트 등).
+  const easyWords = new Set([...(await fetchEasyWords()), ...(exclude.easy || [])]);
+  const chosen = chooseAssocHints(fetched, { easyWords });
+  console.log(`쉬운 힌트 ${ASSOC_MIN_EASY_HINTS}개가 안 돼 뺀 문제 ${chosen.filter((row) => !row.hints.length).length}개`);
   const pool = buildAssocPool({ items: chosen });
   const keep = new Set(pool.items.map((row) => row.word));
   const items = chosen.filter((row) => keep.has(row.word)).map(({ word, genre, aliases, page, hints }) => ({ word, genre, aliases, page, hints }));
-  console.log(`정답 후보 ${rows.length} · 문서 ${fetched.length} · 힌트 ${ASSOC_MIN_HINTS}개 이상 ${items.length}`);
+  const easyHints = items.reduce((n, row) => n + row.hints.filter((hint) => easyWords.has(hint)).length, 0);
+  const allHints = items.reduce((n, row) => n + row.hints.length, 0);
+  console.log(`정답 후보 ${rows.length} · 문서 ${fetched.length} · 힌트 ${ASSOC_MIN_HINTS}개 이상 ${items.length} · 쉬운 낱말 ${easyWords.size}개 중 힌트로 쓴 것 ${easyHints}/${allHints}`);
   if (items.length < MIN_ITEMS) throw new Error(`연상 문제가 ${items.length}개뿐이라 저장하지 않습니다`);
   const withPhotos = await addHintPhotos(items, exclude.photos || []);
-  await writeFile(outPath, `${JSON.stringify({ fetchedAt: Date.now(), photosAt: Date.now(), source: "ko.wikipedia.org (CC BY-SA 4.0)", items: withPhotos }, null, 1)}\n`);
+  await writeFile(outPath, `${JSON.stringify({ fetchedAt: Date.now(), photosAt: Date.now(), source: "ko.wikipedia.org (CC BY-SA 4.0) · 쉬운 낱말: ko.wiktionary.org 부록:자주 쓰이는 한국어 낱말 5800", items: withPhotos }, null, 1)}\n`);
   console.log(`assoc.json 저장: ${items.length}개`);
 }
 

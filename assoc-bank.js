@@ -3,8 +3,8 @@ export const ASSOC_URL = "./assoc.json";
 /**
  * 연상 퀴즈: 힌트 단어가 하나씩 열리고, 떠오르는 단어를 채팅으로 맞힌다(사용자 2026-11-14: "연상되는 단어들을 줘서 맞추는거",
  * "api이용해서 할 수 있는방향으로", "응, 위키백과로").
- * 정답은 확대 사진 단어(동물·음식·물건·탈것·자연, 위키데이터에서 고른 것)와 단어 은행, 힌트는 그 단어의 한국어 위키백과 문서 앞부분에
- * 나오는 링크 단어다(키 없음, `admin/refresh-assoc.mjs` → `assoc.json`).
+ * 정답은 확대 사진 단어(동물·음식·물건·탈것·자연, 위키데이터에서 고른 것)와 단어 은행, 힌트는 그 단어의 한국어 위키백과 문서에
+ * 나오는 링크 단어다(키 없음, `admin/refresh-assoc.mjs` → `assoc.json`). 쉬운 낱말 목록에 든 링크를 먼저 쓴다(chooseAssocHints).
  */
 export const ASSOC_MIN_HINTS = 4;
 export const ASSOC_MAX_HINTS = 5;
@@ -105,21 +105,68 @@ export function isDisambiguationHtml(html) {
 }
 
 /**
- * 정답마다 쓸 힌트 고르기: 쓸 수 있는 링크 중 너무 흔한 것(ASSOC_COMMON_LIMIT 넘게 여러 정답에 나옴)은 빼고,
- * 문서 앞쪽에 나온 것부터 ASSOC_MAX_HINTS 개. 보여 줄 때는 흔한(막연한) 것부터 → 드문(콕 집는) 것 순.
- * rows: [{ word, aliases, links }] → [{ ...row, hints }]
+ * 쉬운 힌트(사용자 2026-11-15 "연상 퀴즈 단어가 너무 어렵데", 「쉬운 힌트 우선」·「모두 쉽게 바꾸기」):
+ * 위키낱말사전 「부록:자주 쓰이는 한국어 낱말 5800」(국립국어연구원 한국어 학습용 어휘 바탕)에 든 링크 단어를 먼저 쓰고,
+ * 모자라면 예전처럼 문서 앞부분 링크로 채운다. 목록에 있어도 힌트가 안 되는 단위·막연한 말은 뺀다.
  */
-export function chooseAssocHints(rows = [], { max = ASSOC_MAX_HINTS, commonLimit = ASSOC_COMMON_LIMIT } = {}) {
-  const usable = rows.map((row) => (row.links || []).filter((link) => isUsableHint(link, [row.word, ...(row.aliases || [])])));
-  const df = new Map();
-  for (const list of usable) for (const hint of new Set(list)) df.set(hint, (df.get(hint) || 0) + 1);
-  return rows.map((row, i) => {
-    const kept = usable[i].filter((hint) => df.get(hint) <= commonLimit).slice(0, max);
-    const hints = kept
-      .map((hint, pos) => ({ hint, pos, df: df.get(hint) }))
+const EASY_SKIP = new Set([
+  "미터", "센티미터", "밀리미터", "킬로미터", "킬로그램", "그램", "리터", "퍼센트", "세기", "년", "개", "번", "각", "도",
+  "인간", "인류", "상태", "형태", "제품", "공간", "경우", "부분", "종류", "방법", "과정", "정도", "시대", "지역", "사용", "이용",
+]);
+/** 쉬운 힌트를 찾을 때 보는 문서 링크 수(뒤쪽 링크일수록 정답과 멀어진다). */
+export const ASSOC_EASY_SCAN = 80;
+/** 쉬운 힌트도 이만큼 많은 정답에 같이 나오면(인도·물·설탕) 뺀다. 열매·과일·음식 같은 막연한 말은 남겨 첫 힌트로 쓴다. */
+export const ASSOC_EASY_COMMON_LIMIT = 12;
+/** 쉬운 힌트가 이만큼 안 되는 문제는 내지 않는다(사용자 2026-11-15 「남은 것도 손봐줘」). */
+export const ASSOC_MIN_EASY_HINTS = 3;
+
+/**
+ * 정답마다 쓸 힌트 고르기. rows: [{ word, aliases, links, leadCount }] → [{ ...row, hints }]
+ * links 는 문서 본문 링크 전체(나온 순서), leadCount 는 그중 앞부분 묶음 수(없으면 전부 앞부분으로 본다).
+ * 1) easyWords 에 든 링크(앞쪽 ASSOC_EASY_SCAN 개 안, 너무 흔한 것 뺌)를 문서 앞쪽 것부터 ASSOC_MAX_HINTS 개까지.
+ * 2) 모자라면 앞부분 링크 중 너무 흔한 것(ASSOC_COMMON_LIMIT 넘게 여러 정답에 나옴)을 뺀 것으로 채운다.
+ * 보여 줄 때는 쉬운 힌트를 먼저, 각 묶음 안에서는 흔한(막연한) 것부터 → 드문(콕 집는) 것 순.
+ * easyWords 가 있을 때 쉬운 힌트가 minEasy 개보다 적은 문제는 hints 를 비운다(문제에서 빠짐).
+ * easyWords 에 「정답|힌트」로 적은 말은 그 문제에서만 쉬운 말로 치고, 흔한 말 기준도 보지 않는다(캥거루|오스트레일리아).
+ */
+export function chooseAssocHints(
+  rows = [],
+  {
+    max = ASSOC_MAX_HINTS,
+    commonLimit = ASSOC_COMMON_LIMIT,
+    easyWords = null,
+    easyCommonLimit = ASSOC_EASY_COMMON_LIMIT,
+    easyScan = ASSOC_EASY_SCAN,
+    minEasy = ASSOC_MIN_EASY_HINTS,
+  } = {},
+) {
+  const easySet = easyWords instanceof Set ? easyWords : new Set(easyWords || []);
+  const usableOf = (row, list) => list.filter((link) => isUsableHint(link, [row.word, ...(row.aliases || [])]));
+  const leadOf = (row) => (row.links || []).slice(0, Number.isFinite(row.leadCount) ? row.leadCount : undefined);
+  const lead = rows.map((row) => usableOf(row, leadOf(row)));
+  const scoped = (row, hint) => easySet.has(`${row.word}|${hint}`);
+  const easy = rows.map((row) =>
+    easySet.size
+      ? usableOf(row, (row.links || []).slice(0, easyScan)).filter((hint) => scoped(row, hint) || (easySet.has(hint) && !EASY_SKIP.has(hint)))
+      : [],
+  );
+  const countDf = (lists) => {
+    const df = new Map();
+    for (const list of lists) for (const hint of new Set(list)) df.set(hint, (df.get(hint) || 0) + 1);
+    return df;
+  };
+  const df = countDf(lead);
+  const dfEasy = countDf(easy);
+  const vagueFirst = (list, dfMap) =>
+    list
+      .map((hint, pos) => ({ hint, pos, df: dfMap.get(hint) }))
       .sort((a, b) => b.df - a.df || b.pos - a.pos)
       .map((x) => x.hint);
-    return { ...row, hints };
+  return rows.map((row, i) => {
+    const easyKept = easy[i].filter((hint) => scoped(row, hint) || dfEasy.get(hint) <= easyCommonLimit).slice(0, max);
+    if (easySet.size && easyKept.length < minEasy) return { ...row, hints: [] };
+    const fill = lead[i].filter((hint) => df.get(hint) <= commonLimit && !easyKept.includes(hint)).slice(0, max - easyKept.length);
+    return { ...row, hints: [...vagueFirst(easyKept, dfEasy), ...vagueFirst(fill, df)] };
   });
 }
 

@@ -71,9 +71,9 @@ function live(id, label, hint) {
   };
 }
 
-export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia", "assoc"];
-/** 연상(assoc)은 확대(zoom) 단어를 정답으로 쓰므로 zoom 뒤(사용자 2026-11-14 "넣기"). */
-export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia", "assoc"];
+export const ALL_ORDER = ["movie", "anime", "all-games", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia", "assoc", "dict"];
+/** 연상(assoc)은 확대(zoom) 단어를 정답으로 쓰므로 zoom 뒤(사용자 2026-11-14 "넣기"). 낱말(dict)도 20일 자동에 넣음(사용자 2026-11-23 "넣기"). */
+export const SCHEDULE_ORDER = ["movie", "anime", "webtoon", "songs", "sentences", "zoom", "recipes", "trivia", "assoc", "dict"];
 export const SCHEDULE_DAYS = 20;
 
 export function isStale(fetchedAt, days = SCHEDULE_DAYS, now = Date.now()) {
@@ -167,9 +167,19 @@ export const PACKS = {
     label: "연상",
     script: "admin/refresh-assoc.mjs",
     args: [],
-    hint: "정답(확대 사진 단어·단어 은행)마다 한국어 위키백과 문서 앞부분의 링크 단어를 힌트로 모은다(키 없음). 언어 이름·분류학 이름·정답 글자가 든 것·너무 흔한 것은 빼고 힌트 4개 이상만. 힌트 단어 문서 대표 사진 주소도 받는다(사진 힌트, 정답이 보일 만한 사진 뺌). 확대(zoom-pics.json)를 먼저 갱신. 빼기: assoc-exclude.json.",
+    hint: "정답(확대 사진 단어·단어 은행)마다 한국어 위키백과 문서의 링크 단어를 힌트로 모은다(키 없음). 위키낱말사전 「자주 쓰이는 한국어 낱말 5800」에 든 쉬운 말을 먼저 쓰고 모자라면 문서 앞부분 링크로 채운다. 언어 이름·분류학 이름·정답 글자가 든 것·너무 흔한 것은 빼고 힌트 4개 이상만. 힌트 단어 문서 대표 사진 주소도 받는다(사진 힌트, 정답이 보일 만한 사진 뺌). 확대(zoom-pics.json)를 먼저 갱신. 빼기: assoc-exclude.json.",
     group: "text",
     file: "assoc.json",
+    summarize: summarizeBank,
+  },
+  dict: {
+    id: "dict",
+    label: "낱말",
+    script: "admin/refresh-dict.mjs",
+    args: [],
+    hint: "위키낱말사전(키 없음) 한국어 명사 뜻풀이. 낱말은 초성 단어 은행 + 「자주 쓰이는 한국어 낱말 5800」의 명사. 첫 번째로 쓸 수 있는 뜻풀이 한 줄만 남기고 정답 글자는 ○로 가림. 준말·옛말처럼 다른 말로 넘기는 뜻풀이, 8글자 미만·90글자 초과는 뺌. 빼기: dict-exclude.json. 출처 CC BY-SA.",
+    group: "text",
+    file: "dict.json",
     summarize: summarizeBank,
   },
   "all-games": {

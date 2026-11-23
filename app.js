@@ -38,6 +38,7 @@ import { GENERAL_TRIVIA_GENRE, generalTriviaSourceLine } from "./general-trivia.
 import { buildMemePool, filterMemeEntries, MEME_GENRES, pickMemeEntries } from "./meme-bank.js?v=2";
 import { buildNonsensePool, nonsenseSourceLine, pickNonsenseEntries } from "./nonsense-bank.js?v=1";
 import { assocPhotoSourceLine, assocPoolFor, assocSourceLine, assocVisibleCount, loadAssocPool, normalizeAssocHintUnit, pickAssocEntries } from "./assoc-bank.js?v=2";
+import { blankOpenCount, blankOpenOrder, buildCrossword, crossCells, crossNextSlot, crossSlotSeconds, dictSourceLine, KORDLE_VISIBLE_ROWS, kordleRow, loadDictPool, normalizeDictMode, pickDictEntries, splitJamo } from "./dict-bank.js?v=5";
 import {
   pickClueEntries,
   filterClueItems,
@@ -150,6 +151,10 @@ const els = {
   scrambleUnitSeg: document.getElementById("scrambleUnitSeg"),
   assocHintAxis: document.getElementById("assocHintAxis"),
   assocHintSeg: document.getElementById("assocHintSeg"),
+  dictModeAxis: document.getElementById("dictModeAxis"),
+  dictModeSeg: document.getElementById("dictModeSeg"),
+  kordleBoard: document.getElementById("kordleBoard"),
+  crossBoard: document.getElementById("crossBoard"),
   formatDesc: document.getElementById("formatDesc"),
   sentenceGenreModal: document.getElementById("sentenceGenreModal"),
   sentenceGenrePanel: document.getElementById("sentenceGenrePanel"),
@@ -440,6 +445,9 @@ const nonsensePool = buildNonsensePool();
 /** 연상은 assoc.json(위키백과 링크 힌트)을 처음 고를 때 받는다. 갈래는 없다. */
 let assocPool = null;
 let assocPoolLoading = null;
+/** 낱말은 dict.json(위키낱말사전 뜻풀이)을 처음 고를 때 받는다. 갈래는 없다. */
+let dictPool = null;
+let dictPoolLoading = null;
 const SENTENCE_GENRE_TREE = [
   { id: "속담", label: "속담", icon: "📜" },
   {
@@ -533,6 +541,12 @@ let quizTopic = "auto";
 let scrambleUnit = "word";
 /** 연상 힌트: 단어 / 사진(힌트 단어의 위키백과 사진만, 사용자 2026-11-14). */
 let assocHintUnit = "word";
+/** 낱말 모드: 뜻풀이 / 꼬들(사용자 2026-11-23, 한 모드씩 더함). */
+let dictMode = "define";
+/** 꼬들: 이번 문제에 판에 올라온 추측 줄(최근 KORDLE_VISIBLE_ROWS 줄만 보인다). */
+let kordleRows = [];
+/** 십자말풀이: 이번 퍼즐 진행(지금 칸·채운 칸·맞힌 사람). 퍼즐 하나가 문제 하나다. */
+let crossState = null;
 let nearMissSeen = new Set();
 let manualAnswerLocked = "";
 const QUIZ_MODE_PREF_KEY = "quizModePrefs:v1";
@@ -2388,7 +2402,7 @@ function hintsAllowed() {
   // 레시피는 재료 → 설명 → 초성 순으로 스스로 열어서 글자 힌트를 따로 주지 않는다.
   if (isRecipeFormat() || current.mode === "recipe") return false;
   // 상식도 글자 수 → 초성 힌트를 스스로 연다.
-  if (isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || isAssocFormat() || current.mode === "trivia") return false;
+  if (isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || isAssocFormat() || isDictFormat() || current.mode === "trivia") return false;
   return els.hintEnabled?.getAttribute("aria-pressed") === "true";
 }
 
@@ -4045,12 +4059,14 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
   // 연상: 힌트 단어가 시간에 따라 하나씩 열리고, 다 열리면 글자 수만 더한다(초성은 안 줌).
   const hints = Array.isArray(t.hints) ? t.hints : null;
   const shown = hints ? (reveal ? hints.length : assocVisibleCount(remainingRatio, hints.length)) : 0;
-  const key = reveal ? "reveal" : hints ? `h${shown}` : `${stage.length}:${stage.chosung}`;
+  // 낱말 빈칸: 열린 자모 칸 수(정답 공개 때는 모두).
+  const opened = t.blank ? (reveal ? t.blank.cells.length : blankOpenCount(remainingRatio, t.blank.cells.length)) : 0;
+  const key = reveal ? "reveal" : hints ? `h${shown}` : t.blank ? `b${opened}` : t.cross ? `c${crossState?.version || 0}` : `${stage.length}:${stage.chosung}`;
   if (triviaShownFor === current && triviaShownKey === key) return;
   if (triviaShownFor !== current) {
     // 밈 갈래(「2025 밈」)는 앞의 「😂 밈」과 겹치지 않게 「2025」만 붙인다.
-    // 연상은 갈래(동물·음식…)가 큰 힌트라 배지에 넣지 않는다(「장르 공개」를 켜면 그쪽에서 보인다).
-    const genre = Array.isArray(t.hints) ? "" : t.label ? String(current.genre || "").replace(/ 밈$/, "") : current.genre;
+    // 연상·낱말은 갈래(동물·벌레…)가 큰 힌트라 배지에 넣지 않는다(「장르 공개」를 켜면 그쪽에서 보인다).
+    const genre = Array.isArray(t.hints) || t.hideGenre ? "" : t.label ? String(current.genre || "").replace(/ 밈$/, "") : current.genre;
     if (els.triviaBadge) els.triviaBadge.textContent = [t.label || "🧠 상식", genre, t.level].filter(Boolean).join(" · ");
     if (els.triviaQuestion) els.triviaQuestion.textContent = t.question;
     if (t.image) {
@@ -4060,21 +4076,37 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
       triviaPreload.src = t.image;
     }
     buildAssocPhotos(t);
+    if (els.kordleBoard) els.kordleBoard.hidden = !t.kordle && !t.blank;
+    if (els.crossBoard) els.crossBoard.hidden = !t.cross;
+    if (t.kordle) {
+      kordleRows = [];
+      renderKordleBoard();
+    }
   }
   triviaShownFor = current;
   triviaShownKey = key;
+  if (t.blank) renderBlankRow(opened);
+  if (t.cross) renderCross(reveal);
   const photoHints = Array.isArray(t.photos) && t.photos.length > 0;
-  if (els.triviaQuestion) els.triviaQuestion.hidden = photoHints;
+  if (els.triviaQuestion) els.triviaQuestion.hidden = photoHints || !!t.kordle || !!t.blank || (!!t.cross && reveal);
   if (hints && !photoHints && els.triviaQuestion) els.triviaQuestion.textContent = hints.slice(0, shown).join(" · ");
   if (photoHints) showAssocPhotos(shown, reveal);
   const photo = (reveal || !!t.photoFirst) && !!t.image;
   els.triviaStage.classList.toggle("with-photo", photo && !reveal);
+  // 긴 뜻풀이(낱말)는 글자를 줄여 정답 띠·힌트와 겹치지 않게 한다(styles.css .is-compact). 십자말풀이는 판이 커서 늘 줄인다.
+  els.triviaStage.classList.toggle("is-compact", Boolean(t.compact || t.cross));
+  els.triviaStage.classList.toggle("is-cross", Boolean(t.cross));
   if (els.triviaCard) els.triviaCard.hidden = photo && reveal;
   if (els.triviaPhoto) els.triviaPhoto.hidden = !photo;
   if (els.triviaAsk) {
     // 사진 없는 카드(넌센스·일반 상식)는 정답 공개 때 「정답을 채팅에 쳐 주세요」 자리에 출처를 단다(아래 정답 띠에 가리지 않게).
     const showSource = reveal && !photo && !!t.source;
-    els.triviaAsk.textContent = showSource ? t.source : "정답을 채팅에 쳐 주세요";
+    const jamoCells = (t.kordle || t.blank)?.cells;
+    const crossLeft = t.cross && crossState ? crossState.done.filter((d) => !d).length : 0;
+    // 십자말풀이: 방금 맞힌 사람(+1)·정답 공개를 머리줄에(아래 힌트 줄은 판에 밀려 잘린다).
+    const crossAsk = crossState?.note ? `${crossState.note} · 남은 ${crossLeft}개` : `노란 칸 낱말을 채팅에 · 남은 ${crossLeft}개`;
+    const ask = jamoCells ? `자모 ${jamoCells.length}칸 낱말을 채팅에 쳐 주세요` : t.cross ? crossAsk : "정답을 채팅에 쳐 주세요";
+    els.triviaAsk.textContent = showSource ? t.source : ask;
     els.triviaAsk.classList.toggle("is-source", showSource);
   }
   if (photo) {
@@ -4083,7 +4115,9 @@ function showTriviaStage({ reveal = false, remainingRatio = 1 } = {}) {
   }
   if (els.triviaHint) {
     const parts = [];
-    if (hints) {
+    if (t.kordle || t.blank || t.cross) {
+      // 꼬들은 힌트 없음(사용자 "힌트 없음") — 칸 색이 곧 힌트. 빈칸은 열리는 칸이 곧 힌트("빈칸만").
+    } else if (hints) {
       if (!reveal && shown >= hints.length) parts.push(`글자 수 · ${triviaLengthHint(current.answer)}`);
     } else {
       if (!reveal && stage.length) parts.push(`글자 수 · ${triviaLengthHint(current.answer)}`);
@@ -4143,8 +4177,207 @@ function hideTriviaStage({ forget = false } = {}) {
       els.triviaPhotos.replaceChildren();
       els.triviaPhotos.hidden = true;
     }
+    kordleRows = [];
+    crossState = null;
+    if (els.crossBoard) {
+      els.crossBoard.replaceChildren();
+      els.crossBoard.hidden = true;
+    }
+    if (els.kordleBoard) {
+      els.kordleBoard.replaceChildren();
+      els.kordleBoard.hidden = true;
+    }
     triviaShownFor = null;
   }
+}
+
+/** 꼬들 판: 최근 KORDLE_VISIBLE_ROWS 줄(초록 hit · 노랑 near · 회색 miss)과 친 사람. 아직 추측이 없으면 빈 칸 한 줄로 칸 수를 보여 준다. */
+function renderKordleBoard() {
+  const board = els.kordleBoard;
+  const cells = current.trivia?.kordle?.cells;
+  if (!board || !cells) return;
+  board.style.setProperty("--n", String(cells.length));
+  const rows = kordleRows.length ? kordleRows.slice(-KORDLE_VISIBLE_ROWS) : [{ cells: cells.map(() => ""), marks: cells.map(() => "empty"), nick: "" }];
+  board.replaceChildren(
+    ...rows.map((row) => {
+      const line = document.createElement("div");
+      line.className = "kordle-row";
+      row.cells.forEach((cell, i) => {
+        const span = document.createElement("span");
+        span.className = `kordle-cell is-${row.marks[i]}`;
+        span.textContent = cell;
+        line.append(span);
+      });
+      const nick = document.createElement("span");
+      nick.className = "kordle-nick";
+      nick.textContent = row.nick || "";
+      line.append(nick);
+      return line;
+    }),
+  );
+}
+
+/** 십자말풀이 퍼즐 하나를 문제 하나로 낸다. 낱말은 dict.json 에서 엮고, 못 엮으면 문제를 시작하지 않는다. */
+function makeCrossEntry() {
+  const puzzle = buildCrossword(dictPool?.items || []);
+  if (!puzzle) throw new Error("십자말풀이 퍼즐을 만들지 못했습니다. 다시 시작해 주세요");
+  return { key: `cross:${puzzle.slots.map((s) => s.word).join("|")}`, word: puzzle.slots[0].word, genre: "", aliases: [], cross: puzzle };
+}
+
+function crossSlotLabel(slot) {
+  return `${slot.dir === "across" ? "가로" : "세로"} ${slot.n}`;
+}
+
+/** 지금 칸을 i 로 옮기고 칸 시간을 다시 잰다. 조작창 「이번 정답」은 지금 칸 낱말. */
+function crossActivate(i) {
+  const st = crossState;
+  st.active = i;
+  st.version += 1;
+  current.answer = st.puzzle.slots[i].word;
+  startTimer(st.slotSec);
+  showTriviaStage({ remainingRatio: 1 });
+  if (isDev) setStatus(`십자말풀이 · ${crossSlotLabel(st.puzzle.slots[i])} · 정답 [${current.answer}]`);
+  syncManualAnswerUi();
+  publishDeskState();
+}
+
+function startCross(totalSec, excludeUserId = "") {
+  const puzzle = current.trivia?.cross;
+  if (!puzzle) return;
+  crossState = { puzzle, active: 0, done: puzzle.slots.map(() => false), solver: puzzle.slots.map(() => ""), revealed: puzzle.slots.map(() => false), slotSec: crossSlotSeconds(totalSec, puzzle.slots.length), version: 0, note: "", excludeUserId };
+  crossActivate(0);
+}
+
+/** 칸 시간이 끝남: 지금 칸은 비워 두고 다음 빈 칸으로(한 바퀴 돌면 다시 돌아온다). */
+function crossMove() {
+  const st = crossState;
+  if (!st) return;
+  const next = crossNextSlot(st.done, st.active);
+  if (next < 0) {
+    finishQuestion(null);
+    return;
+  }
+  crossActivate(next);
+}
+
+/** 스킵: 지금 칸만 정답을 채워 공개(점수 없음)하고 다음 칸으로. 다 채워지면 퍼즐 끝. */
+function crossSkip() {
+  const st = crossState;
+  if (!st) return;
+  st.done[st.active] = true;
+  st.revealed[st.active] = true;
+  st.note = `${crossSlotLabel(st.puzzle.slots[st.active])} 정답 공개 · ${st.puzzle.slots[st.active].word}`;
+  const next = crossNextSlot(st.done, st.active);
+  if (next < 0) {
+    finishQuestion(null);
+    return;
+  }
+  crossActivate(next);
+}
+
+/** 채팅이 지금 칸 낱말과 같으면(띄어쓰기 무시) 그 사람 1점, 칸을 채우고 다음 칸으로. 마지막 칸이면 퍼즐 끝. */
+function crossJudgeChat(chat) {
+  const st = crossState;
+  if (!st || phase !== "accepting") return;
+  // 스트리머 참여가 꺼져 있으면 스트리머 채팅은 채점하지 않는다(다른 유형의 judge 와 같음).
+  if (st.excludeUserId && String(chat?.userId || "") === st.excludeUserId) return;
+  const slot = st.puzzle.slots[st.active];
+  const text = String(chat?.text || "").replace(/\s+/g, "");
+  if (text !== slot.word) return;
+  const nickname = String(chat?.nickname || "").trim() || "익명";
+  st.done[st.active] = true;
+  st.solver[st.active] = nickname;
+  const next = crossNextSlot(st.done, st.active);
+  if (next < 0) {
+    // 마지막 칸은 기존 정답 처리(점수·축하)로 퍼즐을 끝낸다.
+    current.answer = slot.word;
+    finishQuestion({ nickname, userId: chat?.userId || "" });
+    return;
+  }
+  addScore(nickname);
+  playQuizSfx("hit");
+  st.note = `${nickname} +1 · ${slot.word}`;
+  crossActivate(next);
+}
+
+/** 십자말 판: 낱말 칸만 그린다. 채운 칸은 글자, 지금 칸은 노랑, 정답 공개(스킵) 칸은 회색 글자. 단서는 문제 줄에. */
+function renderCross(reveal = false) {
+  const board = els.crossBoard;
+  const st = crossState;
+  const puzzle = current.trivia?.cross;
+  if (!board || !puzzle) return;
+  const cells = crossCells(puzzle);
+  const shown = new Map();
+  const active = new Set();
+  const starts = new Map();
+  puzzle.slots.forEach((s, i) => {
+    starts.set(`${s.r},${s.c}`, s.n);
+    [...s.word].forEach((ch, k) => {
+      const key = s.dir === "across" ? `${s.r},${s.c + k}` : `${s.r + k},${s.c}`;
+      if (!reveal && st && i === st.active) active.add(key);
+      if (reveal || st?.done[i]) {
+        const kind = reveal && !st?.done[i] ? "is-revealed" : st?.revealed[i] ? "is-revealed" : "is-solved";
+        if (!shown.has(key) || kind === "is-solved") shown.set(key, kind);
+      }
+    });
+  });
+  board.style.setProperty("--rows", String(puzzle.rows));
+  board.style.setProperty("--cols", String(puzzle.cols));
+  const nodes = [];
+  for (let r = 0; r < puzzle.rows; r += 1) {
+    for (let c = 0; c < puzzle.cols; c += 1) {
+      const key = `${r},${c}`;
+      const cell = document.createElement("span");
+      if (!cells.has(key)) {
+        cell.className = "cross-cell is-void";
+      } else {
+        const kind = shown.get(key) || "";
+        cell.className = ["cross-cell", kind, active.has(key) ? "is-active" : ""].filter(Boolean).join(" ");
+        cell.textContent = kind ? cells.get(key) : "";
+        if (starts.has(key)) {
+          const num = document.createElement("i");
+          num.textContent = String(starts.get(key));
+          cell.append(num);
+        }
+      }
+      nodes.push(cell);
+    }
+  }
+  board.replaceChildren(...nodes);
+  if (els.triviaQuestion) {
+    const slot = st && !reveal ? puzzle.slots[st.active] : null;
+    els.triviaQuestion.textContent = slot ? `${crossSlotLabel(slot)} · ${slot.def}` : "";
+    // 정답 공개 때는 단서 줄을 빼서 판과 정답 띠가 겹치지 않게 한다.
+    els.triviaQuestion.hidden = !slot;
+  }
+}
+
+/** 빈칸: 자모 칸 한 줄. t.blank.order 앞에서부터 opened 칸만 글자를 보인다. */
+function renderBlankRow(opened) {
+  const board = els.kordleBoard;
+  const blank = current.trivia?.blank;
+  if (!board || !blank) return;
+  const open = new Set(blank.order.slice(0, opened));
+  board.style.setProperty("--n", String(blank.cells.length));
+  const line = document.createElement("div");
+  line.className = "kordle-row";
+  blank.cells.forEach((cell, i) => {
+    const span = document.createElement("span");
+    span.className = `kordle-cell ${open.has(i) ? "is-open" : "is-empty"}`;
+    span.textContent = open.has(i) ? cell : "";
+    line.append(span);
+  });
+  board.replaceChildren(line);
+}
+
+/** 꼬들: 칸 수가 맞는 한글 채팅은 모두 판에 올린다(사용자 "길이만 맞으면 모두", 줄 수 제한 없음). */
+function noteKordleGuess(chat) {
+  const cells = current.trivia?.kordle?.cells;
+  if (!cells || (phase !== "accepting" && phase !== "holding")) return;
+  const row = kordleRow(chat?.text, cells);
+  if (!row) return;
+  kordleRows.push({ ...row, nick: String(chat?.nickname || chat?.nick || "").trim() });
+  renderKordleBoard();
 }
 
 function takeWarmedZoomChoices() {
@@ -4311,6 +4544,11 @@ function isAssocFormat(format = quizFormat) {
   return format === "assoc";
 }
 
+/** 낱말: 상식과 같은 문제 카드(mode "trivia")에 위키낱말사전 뜻풀이를 띄운다. 문제는 dict.json, 갈래 없음. */
+function isDictFormat(format = quizFormat) {
+  return format === "dict";
+}
+
 function isScrambleFormat(format = quizFormat) {
   return format === "scramble";
 }
@@ -4320,7 +4558,7 @@ function isTypedWordFormat(format = quizFormat) {
 }
 
 function isKnownQuizFormat(format) {
-  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense" || format === "assoc";
+  return format === "chosung" || format === "draw" || format === "clue" || format === "listen" || format === "scramble" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense" || format === "assoc" || format === "dict";
 }
 
 function makeQuestionJudge({ answer, aliases = [], excludeUserId = "" } = {}) {
@@ -5082,19 +5320,23 @@ const FORMAT_DESC = {
   meme: "밈 짤을 보고 무슨 밈인지 맞혀요 · 글자 수 → 초성 힌트 (마추기 밈 퀴즈에서 옮김)",
   nonsense: "말장난 문제를 보고 답을 맞혀요 · 글자 수 → 초성 힌트 (나무위키 등 넌센스 모음에서 옮김)",
   assoc: "힌트 단어(또는 사진)가 하나씩 열려요 · 떠오르는 단어를 맞혀요 (한국어 위키백과 문서의 링크 단어와 그 문서 사진)",
+  dict: "사전 뜻풀이를 보고 낱말을 맞혀요 · 글자 수 → 초성 힌트 (위키낱말사전)",
+  dictKordle: "채팅 추측마다 자모 칸 색이 판에 쌓여요 · 초록 자리까지 맞음 · 노랑 다른 자리 · 회색 없음 (위키낱말사전 낱말)",
+  dictBlank: "자모 빈칸이 무작위 자리부터 하나씩 열려요 · 칸의 절반까지만 열려요 (위키낱말사전 낱말)",
+  dictCross: "낱말 8개 십자말풀이 · 노란 칸 뜻풀이를 보고 맞힌 사람이 낱말마다 1점 · 시간(제한시간 ÷ 8)이 지나면 다음 칸, 못 맞힌 칸은 다시 돌아와요 · 스킵하면 정답 공개",
 };
 
 function syncAxisButtons() {
   const posing = isGuestPosing();
   if (els.formatDesc) {
-    els.formatDesc.textContent = FORMAT_DESC[isSentenceScramble() ? "scrambleSentence" : quizFormat] || "";
+    els.formatDesc.textContent = FORMAT_DESC[isSentenceScramble() ? "scrambleSentence" : isDictFormat() && dictMode === "kordle" ? "dictKordle" : isDictFormat() && dictMode === "blank" ? "dictBlank" : isDictFormat() && dictMode === "cross" ? "dictCross" : quizFormat] || "";
   }
   els.formatSeg?.querySelectorAll("[data-format]").forEach((btn) => {
     const format = btn.dataset.format;
     const on = format === quizFormat;
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense" || format === "assoc");
+    btn.disabled = posing && (format === "clue" || format === "listen" || format === "zoom" || format === "recipe" || format === "trivia" || format === "meme" || format === "nonsense" || format === "assoc" || format === "dict");
   });
   els.topicSeg?.querySelectorAll("[data-topic]").forEach((btn) => {
     const topic = btn.dataset.topic;
@@ -5113,6 +5355,11 @@ function syncAxisButtons() {
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
   });
+  els.dictModeSeg?.querySelectorAll("[data-dict-mode]").forEach((btn) => {
+    const on = btn.dataset.dictMode === dictMode;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+  });
 }
 
 function isStreamerJoinEnabled() {
@@ -5121,7 +5368,7 @@ function isStreamerJoinEnabled() {
 
 /** 스트리머 참여(조작창 정답 입력칸·정답 가리기)를 쓰는 유형. 확대·레시피·상식도 넣음(사용자 2026-10-25: "확대에 스트리머 참여에 컨트롤러에 그게 맞출수 있게 하는게 없어"). */
 function streamerJoinFormat() {
-  return isTypedWordFormat() || isClueFormat() || isListenFormat() || isZoomFormat() || isRecipeFormat() || isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || isAssocFormat();
+  return isTypedWordFormat() || isClueFormat() || isListenFormat() || isZoomFormat() || isRecipeFormat() || isTriviaFormat() || isMemeFormat() || isNonsenseFormat() || isAssocFormat() || isDictFormat();
 }
 
 function streamerDeskToolsOn() {
@@ -5176,6 +5423,7 @@ function saveQuizModePrefs() {
       topic: quizTopic,
       scrambleUnit,
       assocHintUnit,
+      dictMode,
       sentenceGenres: selectedSentenceGenres,
       zoomGenres: selectedZoomGenres,
       recipeGenres: selectedRecipeGenres,
@@ -5194,6 +5442,7 @@ function restoreQuizModePrefs() {
     if (prefs.topic === "auto" || prefs.topic === "manual") quizTopic = prefs.topic;
     if (prefs.scrambleUnit === "word" || prefs.scrambleUnit === "sentence") scrambleUnit = prefs.scrambleUnit;
     assocHintUnit = normalizeAssocHintUnit(prefs.assocHintUnit);
+    dictMode = normalizeDictMode(prefs.dictMode);
     if (Array.isArray(prefs.sentenceGenres)) selectedSentenceGenres = normalizeSentenceGenres(prefs.sentenceGenres);
     if (Array.isArray(prefs.zoomGenres)) selectedZoomGenres = normalizeZoomGenres(prefs.zoomGenres);
     if (Array.isArray(prefs.recipeGenres)) selectedRecipeGenres = normalizeRecipeGenres(prefs.recipeGenres);
@@ -6074,6 +6323,22 @@ function ensureAssocPool() {
   return assocPoolLoading;
 }
 
+function ensureDictPool() {
+  if (dictPool) return Promise.resolve(dictPool);
+  if (!dictPoolLoading) {
+    dictPoolLoading = loadDictPool().then((pool) => {
+      dictPool = pool;
+      dictPoolLoading = null;
+      if (isDictFormat()) {
+        if (pool.items.length) reportWordPickStats();
+        else setStatus("낱말 문제를 불러오지 못했습니다");
+      }
+      return pool;
+    });
+  }
+  return dictPoolLoading;
+}
+
 function ensureTriviaPool() {
   if (triviaPool) return Promise.resolve(triviaPool);
   if (!triviaPoolLoading) {
@@ -6103,6 +6368,11 @@ function reportWordPickStats() {
   }
   if (isNonsenseFormat()) {
     setStatus(`넌센스 문제 후보 ${nonsensePool.items.length}개`);
+    return;
+  }
+  if (isDictFormat()) {
+    const label = dictMode === "kordle" ? "꼬들" : dictMode === "blank" ? "빈칸" : dictMode === "cross" ? "십자말풀이" : "뜻풀이";
+    setStatus(dictPool ? `낱말 ${label} 문제 후보 ${dictPool.items.length}개` : "낱말 문제를 불러오는 중입니다");
     return;
   }
   if (isMemeFormat()) {
@@ -6301,14 +6571,15 @@ function syncModeUi() {
   const isMeme = isMemeFormat();
   const isNonsense = isNonsenseFormat();
   const isAssoc = isAssocFormat();
-  const isAuto = posing ? false : isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc ? true : isAutoTopic();
+  const isDict = isDictFormat();
+  const isAuto = posing ? false : isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc || isDict ? true : isAutoTopic();
   const needsAnswer = !isAuto;
-  if (!posing && (isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc) && quizTopic !== "auto") {
+  if (!posing && (isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc || isDict) && quizTopic !== "auto") {
     quizTopic = "auto";
   }
   syncAxisButtons();
-  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc);
-  const showTimeHint = !isClue && !isListen && !isZoom && !isRecipe && !isTrivia && !isMeme && !isNonsense && !isAssoc;
+  if (els.topicAxis) setHidden(els.topicAxis, isClue || isListen || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc || isDict);
+  const showTimeHint = !isClue && !isListen && !isZoom && !isRecipe && !isTrivia && !isMeme && !isNonsense && !isAssoc && !isDict;
   const showGenreReveal = isAuto && !isClue;
   if (els.timeHintOpt) setHidden(els.timeHintOpt, !showTimeHint);
   if (els.genreRevealOpt) setHidden(els.genreRevealOpt, !showGenreReveal);
@@ -6332,13 +6603,14 @@ function syncModeUi() {
     els.autoWordFields.classList.toggle("is-clue", isClue);
     els.autoWordFields.classList.toggle("is-listen", isListen);
     // 글자 수 칸이 없는 유형(문장 뒤죽박죽·확대·레시피·상식·밈)은 「고를 문제」가 좁은 둘째 칸으로 밀려 넘치지 않게 칸을 바꾼다.
-    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc);
-    // 넌센스·연상은 갈래가 없어 장르 칸을 숨기고 「고를 문제」만 둔다.
-    els.autoWordFields.classList.toggle("is-nonsense", isNonsense || isAssoc);
+    els.autoWordFields.classList.toggle("no-len", isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc || isDict);
+    // 넌센스·연상·낱말은 갈래가 없어 장르 칸을 숨기고 「고를 문제」만 둔다.
+    els.autoWordFields.classList.toggle("is-nonsense", isNonsense || isAssoc || isDict);
   }
-  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc);
+  if (els.autoWordLen) setHidden(els.autoWordLen, isListen || isSentence || isZoom || isRecipe || isTrivia || isMeme || isNonsense || isAssoc || isDict);
   if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
   if (els.assocHintAxis) setHidden(els.assocHintAxis, !isAssoc);
+  if (els.dictModeAxis) setHidden(els.dictModeAxis, !isDict);
   if (els.wordGenreToggle) {
     els.wordGenreToggle.setAttribute(
       "aria-controls",
@@ -6378,6 +6650,7 @@ function syncModeUi() {
   if (isTrivia) void ensureTriviaPool();
   if (isMeme || isNonsense) reportWordPickStats();
   if (isAssoc) void ensureAssocPool();
+  if (isDict) void ensureDictPool();
   if (isAuto && !isClue) {
     requestAnimationFrame(() => syncLenUi());
     reportWordPickStats();
@@ -6502,7 +6775,11 @@ function tick() {
   if (current.mode === "trivia" && phase === "accepting") showTriviaStage({ remainingRatio });
   if (current.mode === "listen" && current.listenAnswerMode === "reverse" && phase === "accepting" && remainingRatio <= REVERSE_HINT_AT) playListenReverseHint();
   applyTimeHints(remainingRatio);
-  if (left <= 0) finishQuestion(null);
+  if (left <= 0) {
+    // 십자말풀이는 칸 시간이 끝나면 문제를 끝내지 않고 다음 칸으로(못 맞힌 칸은 비워 둔다).
+    if (current.trivia?.cross && phase === "accepting") crossMove();
+    else finishQuestion(null);
+  }
 }
 
 function startTimer(seconds) {
@@ -6859,7 +7136,9 @@ function finishQuestion(winner) {
   } else {
     els.winner.textContent = "";
     els.prompt.classList.add("miss");
-    setPromptText(`정답 ${revealText}`);
+    // 십자말풀이는 퍼즐 하나가 끝난 것이라 마지막 칸 낱말 대신 맞힌 수를 띄운다(정답 글자는 판에 다 보인다).
+    const crossDone = wasTrivia && current.trivia?.cross && crossState;
+    setPromptText(crossDone ? `퍼즐 끝 · 맞힌 낱말 ${crossState.solver.filter(Boolean).length}/${crossState.solver.length}` : `정답 ${revealText}`);
     if (wasClue) scheduleCluePromptFit();
     if (wasScramble) requestAnimationFrame(fitScramblePrompt);
     setStatus(`정답 ${answerText}`);
@@ -7088,14 +7367,20 @@ function judgeIncomingChat(chat) {
   if (chat?.type && chat.type !== "chat") return;
   if (chat?.hidden) return;
   if (guestHost?.shouldExcludeFromJudge(chat?.userId)) return;
+  if (current.trivia?.cross) {
+    crossJudgeChat(chat);
+    return;
+  }
   const result = judge(chat);
+  // 꼬들은 맞힌 줄까지 판에 올린 뒤 끝낸다(틀린 추측은 초성 칩 대신 판에).
+  if (current.trivia?.kordle) noteKordleGuess(chat);
   if (result.hit) {
     if (phase === "holding") {
       cancelHolds();
       phase = "accepting";
     }
     finishQuestion(result.winner);
-  } else {
+  } else if (!current.trivia?.kordle) {
     noteChosungMiss(chat);
   }
 }
@@ -7306,6 +7591,18 @@ function canStartQuestion() {
     }
     return true;
   }
+  if (isDictFormat()) {
+    if (!dictPool) {
+      void ensureDictPool();
+      setStatus("낱말 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      return false;
+    }
+    if (!dictPool.items.length) {
+      setStatus("낼 낱말 문제가 없습니다");
+      return false;
+    }
+    return true;
+  }
   if (isMemeFormat()) {
     if (!filterMemeEntries(memePool, activeMemeGenres()).length) {
       setStatus("고른 갈래에 낼 밈 문제가 없습니다");
@@ -7396,7 +7693,8 @@ function beginQuestion() {
   const meme = format === "meme";
   const nonsense = format === "nonsense";
   const assoc = format === "assoc";
-  const trivia = format === "trivia" || meme || nonsense || assoc;
+  const dict = format === "dict";
+  const trivia = format === "trivia" || meme || nonsense || assoc || dict;
   const posing = isGuestPosing();
   const topicKey = posing ? "manual" : clue || listen || zoom || recipe || trivia ? "auto" : topic;
   const streamerJoin = (isTypedWordFormat(format) || clue || listen || zoom || recipe || trivia) && topicKey === "auto" && isStreamerJoinEnabled();
@@ -7441,7 +7739,11 @@ function beginQuestion() {
         void ensureAssocPool();
         throw new Error("연상 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       }
-      if (trivia && !meme && !nonsense && !assoc && !triviaPool) {
+      if (dict && !dictPool) {
+        void ensureDictPool();
+        throw new Error("낱말 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
+      }
+      if (trivia && !meme && !nonsense && !assoc && !dict && !triviaPool) {
         void ensureTriviaPool();
         throw new Error("상식 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       }
@@ -7468,6 +7770,10 @@ function beginQuestion() {
                 ? pickAssocEntries(assocPool, { exclude: usedWordKeys, unit: assocHintUnit }, liveAutoPickCount())
                 : nonsense
                 ? pickNonsenseEntries(nonsensePool, { exclude: usedWordKeys }, liveAutoPickCount())
+                : dict
+                ? dictMode === "cross"
+                  ? [makeCrossEntry()]
+                  : pickDictEntries(dictPool, { exclude: usedWordKeys }, liveAutoPickCount())
                 : meme
                 ? pickMemeEntries(memePool, { exclude: usedWordKeys, genres: activeMemeGenres() }, liveAutoPickCount())
                 : trivia
@@ -7520,6 +7826,17 @@ function beginQuestion() {
           ? { question: entry.hints.join(" · "), hints: entry.hints.slice(), image: "", level: "", label: "🔗 연상", source: assocSourceLine(entry.page) }
           : nonsense
           ? { question: entry.question, image: "", level: "", label: "🤪 넌센스", source: nonsenseSourceLine(entry.source) }
+          : dict
+          ? dictMode === "kordle"
+            ? { question: "", image: "", level: "", label: "📖 낱말 · 꼬들", source: dictSourceLine(entry.word), hideGenre: true, kordle: { cells: splitJamo(entry.word) } }
+            : dictMode === "blank"
+            ? (() => {
+              const cells = splitJamo(entry.word);
+              return { question: "", image: "", level: "", label: "📖 낱말 · 빈칸", source: dictSourceLine(entry.word), hideGenre: true, blank: { cells, order: blankOpenOrder(cells.length) } };
+            })()
+            : entry.cross
+            ? { question: "", image: "", level: "", label: "📖 십자말", source: "출처 · 위키낱말사전 (CC BY-SA 4.0)", hideGenre: true, cross: entry.cross }
+            : { question: entry.def, image: "", level: "", label: "📖 낱말 · 뜻풀이", source: dictSourceLine(entry.word), hideGenre: true, compact: [...entry.def].length > 30 }
           : meme
           ? { question: entry.question, image: entry.image || "", photoFirst: true, level: "", label: "😂 밈", source: "출처 · 마추기 아이오 밈 퀴즈" }
           : {
@@ -7635,6 +7952,7 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, f
   phase = "accepting";
   renderQuestionView();
   startTimer(seconds);
+  if (current.trivia?.cross) startCross(seconds, excludeUserId);
   if (replayVoice) speakQuestion();
   syncDeskFlow();
   updateHintUi();
@@ -7645,7 +7963,7 @@ function startAcceptingAnswers({ seconds, answer, excludeUserId, clue, listen, f
   } else if (current.mode === "zoom") {
     setStatus(isDev && !streamerJoin ? `확대 · ${genre} · 정답 [${answer}]` : "확대 · 채팅 정답 대기");
   } else if (current.mode === "trivia") {
-    const label = current.format === "meme" ? "밈" : current.format === "nonsense" ? "넌센스" : current.format === "assoc" ? "연상" : "상식";
+    const label = current.format === "meme" ? "밈" : current.format === "nonsense" ? "넌센스" : current.format === "assoc" ? "연상" : current.format === "dict" ? "낱말" : "상식";
     setStatus(isDev && !streamerJoin ? `${[label, genre, current.trivia?.level].filter(Boolean).join(" · ")} · 정답 [${answer}]` : `${label} · 채팅 정답 대기`);
   } else if (current.mode === "recipe") {
     setStatus(isDev && !streamerJoin ? `레시피 · ${genre} · 정답 [${answer}]` : "레시피 · 채팅 정답 대기");
@@ -8464,7 +8782,7 @@ function bind() {
     const btn = event.target.closest("[data-format]");
     if (!btn) return;
     if (!isKnownQuizFormat(btn.dataset.format)) return;
-    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom" || btn.dataset.format === "recipe" || btn.dataset.format === "trivia" || btn.dataset.format === "meme" || btn.dataset.format === "nonsense" || btn.dataset.format === "assoc")) return;
+    if (isGuestPosing() && (btn.dataset.format === "clue" || btn.dataset.format === "listen" || btn.dataset.format === "zoom" || btn.dataset.format === "recipe" || btn.dataset.format === "trivia" || btn.dataset.format === "meme" || btn.dataset.format === "nonsense" || btn.dataset.format === "assoc" || btn.dataset.format === "dict")) return;
     if (quizFormat === "listen" && btn.dataset.format !== "listen") stopListenAudio();
     quizFormat = btn.dataset.format;
     if (isGuestPosing()) quizTopic = "manual";
@@ -8472,6 +8790,15 @@ function bind() {
     syncModeUi();
     syncDeskFlow();
     if (isGuestPosing()) pushGuestHostMode();
+  });
+  els.dictModeSeg?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-dict-mode]");
+    if (!btn) return;
+    dictMode = normalizeDictMode(btn.dataset.dictMode);
+    saveQuizModePrefs();
+    syncModeUi();
+    syncDeskFlow();
+    if (dictPool) reportWordPickStats();
   });
   els.assocHintSeg?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-assoc-hint]");
@@ -8567,6 +8894,11 @@ function bind() {
   });
   els.skipBtn.addEventListener("click", () => {
     if (phase !== "accepting") return;
+    // 십자말풀이: 스킵은 지금 칸만 정답 공개하고 다음 칸으로(사용자 "방장이 현재문제 넘기기 하면 정답 공개되고 넘어가").
+    if (current.trivia?.cross) {
+      crossSkip();
+      return;
+    }
     finishQuestion(null);
   });
   const onContinue = () => {
