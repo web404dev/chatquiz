@@ -212,6 +212,14 @@
                     <button type="button" class="seg-btn" data-dict-mode="cross" aria-pressed="false">십자말</button>
                   </div>
                 </div>
+                <div class="format-sub" id="dictLevelAxis" hidden>
+                  <span class="axis-label">난이도</span>
+                  <div class="seg" id="dictLevelSeg" role="group" aria-label="낱말 난이도">
+                    <button type="button" class="seg-btn" data-dict-level="easy" aria-pressed="false">쉬움</button>
+                    <button type="button" class="seg-btn active" data-dict-level="normal" aria-pressed="true">보통</button>
+                    <button type="button" class="seg-btn" data-dict-level="hard" aria-pressed="false">어려움</button>
+                  </div>
+                </div>
                 <p id="formatDesc" class="format-desc"></p>
               </div>
               <div class="axis" id="topicAxis">
@@ -984,6 +992,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
-  <script type="module" src="./boot.js?v=343"></script>
+  <script type="module" src="./boot.js?v=344"></script>
 </body>
 </html>

@@ -98,9 +98,39 @@ export function buildDictPool(raw = {}) {
     const def = maskAnswer(plain, word, aliases);
     if (!isUsableDef(def)) continue;
     seen.add(word);
-    items.push({ key: `dict:${word}`, word, aliases, def, genre: String(row.genre || ""), from: String(row.from || "") });
+    const rank = Number(row.rank) || 0;
+    items.push({ key: `dict:${word}`, word, aliases, def, genre: String(row.genre || ""), from: String(row.from || ""), rank, level: "" });
   }
+  assignDictLevels(items);
   return { fetchedAt: Number(raw?.fetchedAt) || 0, items };
+}
+
+/**
+ * 난이도(사용자 2026-11-23: 기준 "낱말 출처", "쉬움·보통·어려움", "5800을 자주 쓰는 순서로 나눔", 세 모드 모두).
+ * 쉬움 = 초성 단어 은행(사물 낱말), 보통·어려움 = 「자주 쓰이는 한국어 낱말 5800」 명사를 목록 순서(자주 쓰는 순)로 앞 절반·뒤 절반.
+ * 순서(rank)가 없는 5800 낱말(예전 자료)은 어려움 쪽 끝에 둔다.
+ */
+export const DICT_LEVELS = ["easy", "normal", "hard"];
+export const DICT_LEVEL_LABELS = { easy: "쉬움", normal: "보통", hard: "어려움" };
+
+export function assignDictLevels(items) {
+  const list = items.filter((row) => row.from !== "bank").sort((a, b) => (a.rank || Infinity) - (b.rank || Infinity));
+  const half = Math.ceil(list.length / 2);
+  list.forEach((row, i) => {
+    row.level = i < half ? "normal" : "hard";
+  });
+  for (const row of items) if (row.from === "bank") row.level = "easy";
+  return items;
+}
+
+export function normalizeDictLevel(level) {
+  return DICT_LEVELS.includes(level) ? level : "normal";
+}
+
+/** 고른 난이도 문제만. */
+export function dictLevelItems(pool, level) {
+  const want = normalizeDictLevel(level);
+  return (pool?.items || []).filter((row) => row.level === want);
 }
 
 /** 모드: 뜻풀이(define) · 꼬들(kordle) · 십자말풀이(cross). 빈칸 모드는 사용자 2026-11-23 "빈칸은 빼는게 맞아 보이고"로 뺐다. */
@@ -322,9 +352,9 @@ export function normalizeDictMode(mode) {
   return DICT_MODES.includes(mode) ? mode : DICT_MODES[0];
 }
 
-export function pickDictEntries(pool, { exclude } = {}, count = 1) {
+export function pickDictEntries(pool, { exclude, level } = {}, count = 1) {
   const n = Math.max(1, Math.min(3, Math.floor(Number(count) || 1)));
-  const all = (pool?.items || []).slice();
+  const all = level ? dictLevelItems(pool, level) : (pool?.items || []).slice();
   let left = exclude instanceof Set ? all.filter((row) => !exclude.has(row.key)) : all.slice();
   if (!left.length && all.length && exclude instanceof Set) {
     for (const row of all) exclude.delete(row.key);

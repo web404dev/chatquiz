@@ -38,7 +38,7 @@ import { GENERAL_TRIVIA_GENRE, generalTriviaSourceLine } from "./general-trivia.
 import { buildMemePool, filterMemeEntries, MEME_GENRES, pickMemeEntries } from "./meme-bank.js?v=2";
 import { buildNonsensePool, nonsenseSourceLine, pickNonsenseEntries } from "./nonsense-bank.js?v=1";
 import { assocPhotoSourceLine, assocPoolFor, assocSourceLine, assocVisibleCount, loadAssocPool, normalizeAssocHintUnit, pickAssocEntries } from "./assoc-bank.js?v=2";
-import { buildCrossword, crossCells, crossNextSlot, DICT_QUESTION_SEC, CROSS_SLOT_SEC, dictSourceLine, KORDLE_VISIBLE_ROWS, kordleRow, loadDictPool, normalizeCrossSlotSec, normalizeDictMode, normalizeDictQuestionSec, pickDictEntries, splitJamo } from "./dict-bank.js?v=6";
+import { buildCrossword, crossCells, crossNextSlot, DICT_QUESTION_SEC, CROSS_SLOT_SEC, dictSourceLine, KORDLE_VISIBLE_ROWS, kordleRow, loadDictPool, DICT_LEVEL_LABELS, dictLevelItems, normalizeCrossSlotSec, normalizeDictLevel, normalizeDictMode, normalizeDictQuestionSec, pickDictEntries, splitJamo } from "./dict-bank.js?v=7";
 import {
   pickClueEntries,
   filterClueItems,
@@ -153,6 +153,8 @@ const els = {
   assocHintSeg: document.getElementById("assocHintSeg"),
   dictModeAxis: document.getElementById("dictModeAxis"),
   dictModeSeg: document.getElementById("dictModeSeg"),
+  dictLevelAxis: document.getElementById("dictLevelAxis"),
+  dictLevelSeg: document.getElementById("dictLevelSeg"),
   kordleBoard: document.getElementById("kordleBoard"),
   crossBoard: document.getElementById("crossBoard"),
   formatDesc: document.getElementById("formatDesc"),
@@ -545,6 +547,8 @@ let assocHintUnit = "word";
 let dictMode = "define";
 /** 낱말 시간: 뜻풀이·꼬들 문제 시간, 십자말 칸 시간(사용자 2026-11-23 "지금의 2배" → 60초·30초 기본). */
 let dictQuestionSec = DICT_QUESTION_SEC.base;
+/** 낱말 난이도: 쉬움(초성 단어 은행) · 보통 · 어려움(5800 목록 앞·뒤 절반). */
+let dictLevel = "normal";
 let crossSlotSec = CROSS_SLOT_SEC.base;
 /** 꼬들: 이번 문제에 판에 올라온 추측 줄(최근 KORDLE_VISIBLE_ROWS 줄만 보인다). */
 let kordleRows = [];
@@ -4243,7 +4247,7 @@ function renderKordleBoard() {
 
 /** 십자말풀이 퍼즐 하나를 문제 하나로 낸다. 낱말은 dict.json 에서 엮고, 못 엮으면 문제를 시작하지 않는다. */
 function makeCrossEntry() {
-  const puzzle = buildCrossword(dictPool?.items || []);
+  const puzzle = buildCrossword(dictLevelItems(dictPool, dictLevel));
   if (!puzzle) throw new Error("십자말풀이 퍼즐을 만들지 못했습니다. 다시 시작해 주세요");
   return { key: `cross:${puzzle.slots.map((s) => s.word).join("|")}`, word: puzzle.slots[0].word, genre: "", aliases: [], cross: puzzle };
 }
@@ -5365,6 +5369,11 @@ function syncAxisButtons() {
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", on ? "true" : "false");
   });
+  els.dictLevelSeg?.querySelectorAll("[data-dict-level]").forEach((btn) => {
+    const on = btn.dataset.dictLevel === dictLevel;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+  });
   // 낱말이면 한 판 설정의 시간 칸이 낱말 시간(문제 시간·칸 시간)을 보인다.
   syncDictTimeBox();
 }
@@ -5432,6 +5441,7 @@ function saveQuizModePrefs() {
       assocHintUnit,
       dictMode,
       dictQuestionSec,
+      dictLevel,
       crossSlotSec,
       sentenceGenres: selectedSentenceGenres,
       zoomGenres: selectedZoomGenres,
@@ -5453,6 +5463,7 @@ function restoreQuizModePrefs() {
     assocHintUnit = normalizeAssocHintUnit(prefs.assocHintUnit);
     dictMode = normalizeDictMode(prefs.dictMode);
     dictQuestionSec = normalizeDictQuestionSec(prefs.dictQuestionSec);
+    dictLevel = normalizeDictLevel(prefs.dictLevel);
     crossSlotSec = normalizeCrossSlotSec(prefs.crossSlotSec);
     if (Array.isArray(prefs.sentenceGenres)) selectedSentenceGenres = normalizeSentenceGenres(prefs.sentenceGenres);
     if (Array.isArray(prefs.zoomGenres)) selectedZoomGenres = normalizeZoomGenres(prefs.zoomGenres);
@@ -6383,7 +6394,7 @@ function reportWordPickStats() {
   }
   if (isDictFormat()) {
     const label = dictMode === "kordle" ? "꼬들" : dictMode === "cross" ? "십자말풀이" : "뜻풀이";
-    setStatus(dictPool ? `낱말 ${label} 문제 후보 ${dictPool.items.length}개` : "낱말 문제를 불러오는 중입니다");
+    setStatus(dictPool ? `낱말 ${label} · ${DICT_LEVEL_LABELS[dictLevel]} 문제 후보 ${dictLevelItems(dictPool, dictLevel).length}개` : "낱말 문제를 불러오는 중입니다");
     return;
   }
   if (isMemeFormat()) {
@@ -6622,6 +6633,7 @@ function syncModeUi() {
   if (els.scrambleUnitAxis) setHidden(els.scrambleUnitAxis, !isScramble);
   if (els.assocHintAxis) setHidden(els.assocHintAxis, !isAssoc);
   if (els.dictModeAxis) setHidden(els.dictModeAxis, !isDict);
+  if (els.dictLevelAxis) setHidden(els.dictLevelAxis, !isDict);
   if (els.wordGenreToggle) {
     els.wordGenreToggle.setAttribute(
       "aria-controls",
@@ -7608,8 +7620,8 @@ function canStartQuestion() {
       setStatus("낱말 문제를 불러오는 중입니다. 잠시 후 다시 시작해 주세요");
       return false;
     }
-    if (!dictPool.items.length) {
-      setStatus("낼 낱말 문제가 없습니다");
+    if (!dictLevelItems(dictPool, dictLevel).length) {
+      setStatus(`${DICT_LEVEL_LABELS[dictLevel]} 난이도에 낼 낱말 문제가 없습니다`);
       return false;
     }
     return true;
@@ -7785,7 +7797,7 @@ function beginQuestion() {
                 : dict
                 ? dictMode === "cross"
                   ? [makeCrossEntry()]
-                  : pickDictEntries(dictPool, { exclude: usedWordKeys }, liveAutoPickCount())
+                  : pickDictEntries(dictPool, { exclude: usedWordKeys, level: dictLevel }, liveAutoPickCount())
                 : meme
                 ? pickMemeEntries(memePool, { exclude: usedWordKeys, genres: activeMemeGenres() }, liveAutoPickCount())
                 : trivia
@@ -8797,6 +8809,15 @@ function bind() {
     syncModeUi();
     syncDeskFlow();
     if (isGuestPosing()) pushGuestHostMode();
+  });
+  els.dictLevelSeg?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-dict-level]");
+    if (!btn) return;
+    dictLevel = normalizeDictLevel(btn.dataset.dictLevel);
+    saveQuizModePrefs();
+    syncModeUi();
+    syncDeskFlow();
+    if (dictPool) reportWordPickStats();
   });
   els.dictModeSeg?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-dict-mode]");

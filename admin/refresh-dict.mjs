@@ -35,11 +35,15 @@ async function fetchRetry(url) {
   throw new Error(`요청 실패: ${url}`);
 }
 
-/** 위키낱말사전 쉬운 낱말 목록 → 낱말 배열(나온 순서). 너무 적게 받히면 멈춘다(예전 자료를 그대로 둔다). */
+/**
+ * 위키낱말사전 쉬운 낱말 목록 → 낱말 배열(문서에 나온 순서 = 자주 쓰는 순서, 문서 설명 "사용 빈도는 위에서 아래로 갈수록 낮습니다").
+ * 난이도(사용자 2026-11-23 "낱말 출처"로 "쉬움·보통·어려움", "5800을 자주 쓰는 순서로 나눔")에 이 순서(rank)를 쓴다. 너무 적게 받히면 멈춘다.
+ */
 async function fetchEasyWords() {
-  const params = new URLSearchParams({ action: "parse", page: EASY_WORDS_PAGE, prop: "links", format: "json", formatversion: "2" });
+  const params = new URLSearchParams({ action: "parse", page: EASY_WORDS_PAGE, prop: "wikitext", format: "json", formatversion: "2" });
   const data = await (await fetchRetry(`${KOWIKT_API}?${params}`)).json();
-  const words = [...new Set((data?.parse?.links || []).filter((link) => link.ns === 0).map((link) => String(link.title || "").trim()).filter(Boolean))];
+  const text = String(data?.parse?.wikitext || "");
+  const words = [...new Set([...text.matchAll(/^:\s*\[\[([^\]|#]+)/gm)].map((m) => m[1].trim()).filter(Boolean))];
   if (words.length < MIN_EASY_WORDS) throw new Error(`쉬운 낱말 목록이 ${words.length}개뿐이라 멈춥니다`);
   return words;
 }
@@ -48,15 +52,15 @@ async function fetchEasyWords() {
 function candidates(easyBank, wordList, easyWords, drop) {
   const rows = [];
   const seen = new Set();
-  const add = (word, genre, from) => {
+  const add = (word, genre, from, rank) => {
     const w = String(word || "").trim();
     if (!WORD_RE.test(w) || seen.has(w) || drop.has(w)) return;
     seen.add(w);
-    rows.push({ word: w, genre, from });
+    rows.push(from === "easy" ? { word: w, genre, from, rank } : { word: w, genre, from });
   };
   for (const row of Array.isArray(easyBank?.words) ? easyBank.words : []) add(row?.word, String(row?.genre || ""), "bank");
   for (const word of Array.isArray(wordList) ? wordList : []) add(word, "", "bank");
-  for (const word of easyWords) add(word, "", "easy");
+  easyWords.forEach((word, i) => add(word, "", "easy", i + 1));
   return rows;
 }
 
@@ -108,7 +112,7 @@ async function main() {
   const fetched = await fetchDefs(rows);
   const pool = buildDictPool({ items: fetched });
   const keep = new Set(pool.items.map((row) => row.word));
-  const items = fetched.filter((row) => keep.has(row.word)).map(({ word, genre, from, aliases, def }) => ({ word, genre, from, aliases, def }));
+  const items = fetched.filter((row) => keep.has(row.word)).map(({ word, genre, from, rank, aliases, def }) => ({ word, genre, from, ...(rank ? { rank } : {}), aliases, def }));
   console.log(`명사 뜻풀이를 찾은 낱말 ${fetched.length} · 문제로 쓰는 것 ${items.length} (은행 ${items.filter((r) => r.from === "bank").length} · 쉬운 낱말 ${items.filter((r) => r.from === "easy").length})`);
   if (items.length < MIN_ITEMS) throw new Error(`낱말 문제가 ${items.length}개뿐이라 저장하지 않습니다`);
   await writeFile(outPath, `${JSON.stringify({ fetchedAt: Date.now(), source: `ko.wiktionary.org (CC BY-SA 4.0) · 낱말: 초성 단어 은행 + ${EASY_WORDS_PAGE}`, items }, null, 1)}\n`);
