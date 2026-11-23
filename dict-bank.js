@@ -1,6 +1,8 @@
 import { triviaLengthHint, triviaStage } from "./trivia-bank.js?v=3";
 
 export const DICT_URL = "./dict.json";
+/** AI 난이도 판정(쉬움·어려움 목록, 빼기 목록). 갱신 때 덮어쓰지 않는 손 편집 파일. */
+export const DICT_LEVELS_URL = "./dict-levels.json";
 
 /**
  * 낱말 퀴즈(사용자 2026-11-23: "치지직 퀴즈에 낱말 맞추기 게임 넣자", 모드 뜻풀이·꼬들·빈칸·십자말풀이를 한 모드씩).
@@ -86,12 +88,13 @@ export function pickDef(rawDefs = [], word = "", aliases = []) {
 }
 
 /** dict.json → 문제 목록. 정답 꼴·뜻풀이가 맞지 않거나 같은 낱말이면 뺀다. */
-export function buildDictPool(raw = {}) {
+export function buildDictPool(raw = {}, levels = {}) {
+  const drop = new Set(Array.isArray(levels?.drop) ? levels.drop : []);
   const seen = new Set();
   const items = [];
   for (const row of Array.isArray(raw?.items) ? raw.items : []) {
     const word = String(row?.word || "").trim();
-    if (!ANSWER_RE.test(word) || seen.has(word)) continue;
+    if (!ANSWER_RE.test(word) || seen.has(word) || drop.has(word)) continue;
     const aliases = (Array.isArray(row.aliases) ? row.aliases : []).map((a) => String(a || "").trim()).filter((a) => a !== word && /^[가-힣]{2,8}$/.test(a));
     // 영문이 든 괄호(학명: Canis lupus)는 방송 카드에서 읽기 어려워 뺀다.
     const plain = String(row?.def || "").replace(/\s*\([^()]*[A-Za-z][^()]*\)/g, "").replace(/\s+/g, " ").trim();
@@ -101,25 +104,30 @@ export function buildDictPool(raw = {}) {
     const rank = Number(row.rank) || 0;
     items.push({ key: `dict:${word}`, word, aliases, def, genre: String(row.genre || ""), from: String(row.from || ""), rank, level: "" });
   }
-  assignDictLevels(items);
+  assignDictLevels(items, levels);
   return { fetchedAt: Number(raw?.fetchedAt) || 0, items };
 }
 
 /**
- * 난이도(사용자 2026-11-23: 기준 "낱말 출처", "쉬움·보통·어려움", "5800을 자주 쓰는 순서로 나눔", 세 모드 모두).
- * 쉬움 = 초성 단어 은행(사물 낱말), 보통·어려움 = 「자주 쓰이는 한국어 낱말 5800」 명사를 목록 순서(자주 쓰는 순)로 앞 절반·뒤 절반.
- * 순서(rank)가 없는 5800 낱말(예전 자료)은 어려움 쪽 끝에 둔다.
+ * 난이도(사용자 2026-11-23: 처음엔 "낱말 출처"·5800 목록 순서로 나눴으나 "생선과 야채를 튀긴 음식이 튀김이래 이게 어려운 문제도 아니고",
+ * "섭씨 0도 이하의 온도가 영하야 이게 어려움이래" → 기준 "AI가 문제마다 판정", 글자 노출 "무조건 쉬움").
+ * 1) 뜻풀이에 정답 글자가 하나라도 보이면 쉬움. 2) 아니면 dict-levels.json 의 easy·hard 목록. 3) 목록에 없으면 보통.
  */
 export const DICT_LEVELS = ["easy", "normal", "hard"];
 export const DICT_LEVEL_LABELS = { easy: "쉬움", normal: "보통", hard: "어려움" };
 
-export function assignDictLevels(items) {
-  const list = items.filter((row) => row.from !== "bank").sort((a, b) => (a.rank || Infinity) - (b.rank || Infinity));
-  const half = Math.ceil(list.length / 2);
-  list.forEach((row, i) => {
-    row.level = i < half ? "normal" : "hard";
-  });
-  for (const row of items) if (row.from === "bank") row.level = "easy";
+/** 뜻풀이에 정답 글자(음절)가 하나라도 보이는지. ○로 가린 정답 전체는 보이지 않는 것으로 친다. */
+export function defShowsAnswer(word, def) {
+  const text = String(def || "");
+  return [...new Set(String(word || ""))].some((ch) => text.includes(ch));
+}
+
+export function assignDictLevels(items, levels = {}) {
+  const easy = new Set(Array.isArray(levels?.easy) ? levels.easy : []);
+  const hard = new Set(Array.isArray(levels?.hard) ? levels.hard : []);
+  for (const row of items) {
+    row.level = defShowsAnswer(row.word, row.def) || easy.has(row.word) ? "easy" : hard.has(row.word) ? "hard" : "normal";
+  }
   return items;
 }
 
@@ -375,12 +383,17 @@ export function dictSourceLine(word) {
   return `출처 · 위키낱말사전 「${word}」 (CC BY-SA 4.0)`;
 }
 
-export async function loadDictPool(fetchImpl = fetch) {
+async function fetchJson(fetchImpl, url) {
   try {
-    const res = await fetchImpl(DICT_URL, { cache: "no-cache" });
-    if (!res.ok) throw new Error(`dict ${res.status}`);
-    return buildDictPool(await res.json());
+    const res = await fetchImpl(url, { cache: "no-cache" });
+    return res.ok ? await res.json() : null;
   } catch {
-    return buildDictPool({});
+    return null;
   }
+}
+
+/** 낱말 자료와 난이도 판정을 같이 받는다. 판정 파일이 없으면 글자 노출만 쉬움, 나머지는 보통. */
+export async function loadDictPool(fetchImpl = fetch) {
+  const [raw, levels] = await Promise.all([fetchJson(fetchImpl, DICT_URL), fetchJson(fetchImpl, DICT_LEVELS_URL)]);
+  return buildDictPool(raw || {}, levels || {});
 }

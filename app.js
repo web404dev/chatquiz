@@ -38,7 +38,7 @@ import { GENERAL_TRIVIA_GENRE, generalTriviaSourceLine } from "./general-trivia.
 import { buildMemePool, filterMemeEntries, MEME_GENRES, pickMemeEntries } from "./meme-bank.js?v=2";
 import { buildNonsensePool, nonsenseSourceLine, pickNonsenseEntries } from "./nonsense-bank.js?v=1";
 import { assocPhotoSourceLine, assocPoolFor, assocSourceLine, assocVisibleCount, loadAssocPool, normalizeAssocHintUnit, pickAssocEntries } from "./assoc-bank.js?v=2";
-import { buildCrossword, crossCells, crossNextSlot, DICT_QUESTION_SEC, CROSS_SLOT_SEC, dictSourceLine, KORDLE_VISIBLE_ROWS, kordleRow, loadDictPool, DICT_LEVEL_LABELS, dictLevelItems, normalizeCrossSlotSec, normalizeDictLevel, normalizeDictMode, normalizeDictQuestionSec, pickDictEntries, splitJamo } from "./dict-bank.js?v=7";
+import { buildCrossword, crossCells, crossNextSlot, DICT_QUESTION_SEC, CROSS_SLOT_SEC, dictSourceLine, KORDLE_VISIBLE_ROWS, kordleRow, loadDictPool, DICT_LEVEL_LABELS, dictLevelItems, normalizeCrossSlotSec, normalizeDictLevel, normalizeDictMode, normalizeDictQuestionSec, pickDictEntries, splitJamo } from "./dict-bank.js?v=8";
 import {
   pickClueEntries,
   filterClueItems,
