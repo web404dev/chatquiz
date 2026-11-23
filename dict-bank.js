@@ -103,11 +103,11 @@ export function buildDictPool(raw = {}) {
   return { fetchedAt: Number(raw?.fetchedAt) || 0, items };
 }
 
-/** 모드: 뜻풀이(define) · 꼬들(kordle) · 빈칸(blank) · 십자말풀이(cross). */
-export const DICT_MODES = ["define", "kordle", "blank", "cross"];
+/** 모드: 뜻풀이(define) · 꼬들(kordle) · 십자말풀이(cross). 빈칸 모드는 사용자 2026-11-23 "빈칸은 빼는게 맞아 보이고"로 뺐다. */
+export const DICT_MODES = ["define", "kordle", "cross"];
 
 /**
- * 십자말풀이(사용자 2026-11-23: 단서 "뜻풀이", 낱말 "8개", 시간 "제한시간을 퍼즐 전체에",
+ * 십자말풀이(사용자 2026-11-23: 단서 "뜻풀이", 낱말 "8개", 칸 시간은 로비 「칸 시간」(처음엔 "제한시간을 퍼즐 전체에" → 칸 시간 따로 정하기로 바꿈),
  * 못 맞힌 칸 "비워두고 이동한다음 나중에 다시 되돌아 와서 맞추고 정 못 맞추는건 방장이 현재문제 넘기기 하면 정답 공개되고 넘어가",
  * 앞서 "시간이 지나면 칸이 이동함 … 시간안에 치는 사람이 점수를 하나씩 먹음"). 칸은 글자(음절) 하나.
  * 낱말끼리 같은 글자에서 가로·세로로 만나게 놓고, 만나는 곳 말고는 서로 붙지 않게 한다.
@@ -237,9 +237,26 @@ export function crossCells(puzzle) {
   return out;
 }
 
-/** 칸 하나에 주는 초: 로비 제한시간을 퍼즐 전체로 보고 낱말 수로 나눈다(최소 5초). */
-export function crossSlotSeconds(totalSec, count = CROSS_WORDS) {
-  return Math.max(5, Math.round((Number(totalSec) || 0) / Math.max(1, count)));
+/**
+ * 낱말 시간(사용자 2026-11-23 "문제 시간도 정할 수 있게" → 「십자말 칸 하나 시간」, "낱말 퀴즈는 시간이 너무 빨라" → 둘 다 "지금의 2배").
+ * 십자말 칸 시간: 5~60초, 5초 단위, 기본 30초. 뜻풀이·꼬들 문제 시간: 20~180초, 10초 단위, 기본 60초(로비 기본 30초의 2배).
+ */
+export const CROSS_SLOT_SEC = { min: 5, max: 60, step: 5, base: 30 };
+export const DICT_QUESTION_SEC = { min: 20, max: 180, step: 10, base: 60 };
+
+function normalizeSec(value, range) {
+  const v = Number(value);
+  if (value == null || !Number.isFinite(v)) return range.base;
+  const n = Math.round(v / range.step) * range.step;
+  return Math.min(range.max, Math.max(range.min, n));
+}
+
+export function normalizeCrossSlotSec(value) {
+  return normalizeSec(value, CROSS_SLOT_SEC);
+}
+
+export function normalizeDictQuestionSec(value) {
+  return normalizeSec(value, DICT_QUESTION_SEC);
 }
 
 /** 다음에 풀 칸: from 다음부터 한 바퀴 돌며 아직 안 채운 칸(못 맞힌 칸은 다시 돌아온다). 없으면 -1. */
@@ -250,27 +267,6 @@ export function crossNextSlot(done, from) {
     if (!done[i]) return i;
   }
   return -1;
-}
-
-/**
- * 빈칸(사용자 2026-11-23: "자모 하나씩", "무작위", "절반까지만", "빈칸만").
- * 자모 칸을 무작위 자리부터 열고, 시간을 똑같이 나눠 칸 수의 절반(내림)까지만 연다. 처음엔 모두 빈칸.
- */
-export function blankOpenOrder(n, rand = Math.random) {
-  const order = Array.from({ length: Math.max(0, Math.floor(Number(n) || 0)) }, (_, i) => i);
-  for (let i = order.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(rand() * (i + 1));
-    [order[i], order[j]] = [order[j], order[i]];
-  }
-  return order;
-}
-
-/** 남은 시간 비율(1 → 0)에 따라 열린 칸 수. 절반(내림)까지를 시간에 똑같이 나눠 연다. */
-export function blankOpenCount(remainingRatio, n) {
-  const half = Math.floor(Math.max(0, Number(n) || 0) / 2);
-  const r = Math.min(1, Math.max(0, Number(remainingRatio)));
-  const elapsed = Number.isFinite(r) ? 1 - r : 0;
-  return Math.min(half, Math.floor(elapsed * (half + 1) + 1e-9));
 }
 
 /**

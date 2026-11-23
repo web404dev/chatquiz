@@ -6816,8 +6816,6 @@ body.mode-desk .host-tutorial {
   --cell: min(3.6cqw, calc(40cqw / var(--cols)), calc(40cqh / var(--rows)), 40px);
 }
 
-/* 빈칸 모드: 열린 칸은 진한 칸(꼬들 색과 헷갈리지 않게 색 없이). */
-.kordle-cell.is-open { background: #1b1b1b; border-color: #1b1b1b; color: #ffe14a; }
 
 .kordle-nick {
   position: absolute;
@@ -6932,3 +6930,4 @@ body.mode-desk .host-tutorial {
   line-height: 1.2;
   text-shadow: 0 1px 2px #000;
 }
+
